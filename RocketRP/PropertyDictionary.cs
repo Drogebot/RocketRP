@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP
 {
-	public class PropertyDictionary : Dictionary<string, object>
+	public class PropertyDictionary : Dictionary<string, Property>
 	{
 		public static PropertyDictionary Deserialize(BinaryReader br)
 		{
