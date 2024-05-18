@@ -27,6 +27,7 @@
 
 		private int _MaxChannels;
 		public int MaxChannels { get => _MaxChannels = _MaxChannels > 0 ? _MaxChannels : (int?)Properties["MaxChannels"]?.Value ?? 1023; }
+		public Dictionary<string, ClassNetCache> ClassNetCacheByName;
 
 		public static Replay Deserialize(string filePath)
 		{
@@ -142,7 +143,23 @@
 				Console.WriteLine("Warning: Part2Length is not equal to the current position!");
 			}
 
+			replay.DeserializeNetStream();
+
 			return replay;
+		}
+
+		public void DeserializeNetStream()
+		{
+			if(ClassNetCacheByName == null) ClassNetCacheByName = ClassNetCaches.ToDictionary(c => Objects[c.ObjectIndex], c => c);
+
+			Frames = new List<Frame>();
+			var br = new BitReader(NetStreamData);
+
+			while (br.Position < br.Length - 64)
+			{
+				var frame = Frame.Deserialize(br, this);
+				Frames.Add(frame);
+			}
 		}
 	}
 }

@@ -8,7 +8,7 @@ namespace RocketRP
 {
 	public class ClassNetCache
 	{
-		public uint ObjectIndex { get; set; }
+		public int ObjectIndex { get; set; }
 		public uint MinPropertyId { get; set; }
 		public uint MaxPropertyId { get; set; }
 		public List<ClassNetCacheProperty> Properties { get; set; }
@@ -17,7 +17,7 @@ namespace RocketRP
 		{
 			var classNetCache = new ClassNetCache();
 
-			classNetCache.ObjectIndex = br.ReadUInt32();
+			classNetCache.ObjectIndex = br.ReadInt32();
 			classNetCache.MinPropertyId = br.ReadUInt32();
 			classNetCache.MaxPropertyId = br.ReadUInt32();
 
@@ -34,14 +34,14 @@ namespace RocketRP
 
 	public class ClassNetCacheProperty
 	{
-		public uint ObjectIndex { get; set; }
+		public int ObjectIndex { get; set; }
 		public uint PropertyId { get; set; }
 
 		public static ClassNetCacheProperty Deserialize(BinaryReader br)
 		{
 			var classNetCacheProperty = new ClassNetCacheProperty();
 
-			classNetCacheProperty.ObjectIndex = br.ReadUInt32();
+			classNetCacheProperty.ObjectIndex = br.ReadInt32();
 			classNetCacheProperty.PropertyId = br.ReadUInt32();
 
 			return classNetCacheProperty;
