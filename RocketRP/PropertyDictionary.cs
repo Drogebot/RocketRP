@@ -63,10 +63,11 @@ namespace RocketRP
 					prop.Value = br.ReadString2() + "." + br.ReadString2();
 					break;
 				case "ArrayProperty":
-					var propArray = new PropertyDictionary[br.ReadInt32()];
-					for(int i = 0; i < propArray.Length; i++)
+					var arrayLength = br.ReadInt32();
+					var propArray = new List<PropertyDictionary>(arrayLength);
+					for(int i = 0; i < arrayLength; i++)
 					{
-						propArray[i] = PropertyDictionary.Deserialize(br);
+						propArray.Add(PropertyDictionary.Deserialize(br));
 					}
 					prop.Value = propArray;
 					break;
