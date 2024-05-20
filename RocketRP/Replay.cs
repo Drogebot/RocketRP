@@ -27,6 +27,8 @@
 
 		private int _MaxChannels;
 		public int MaxChannels { get => _MaxChannels = _MaxChannels > 0 ? _MaxChannels : (int?)Properties["MaxChannels"]?.Value ?? 1023; }
+		private int _Changelist;
+		public int Changelist { get => _Changelist = _Changelist > 0 ? _Changelist : (int?)Properties["Changelist"]?.Value ?? 0; }
 		public Dictionary<string, ClassNetCache> ClassNetCacheByName;
 
 		public static Replay Deserialize(string filePath)

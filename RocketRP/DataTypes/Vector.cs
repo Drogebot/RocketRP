@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
-	public class Vector
+	public struct Vector
 	{
 		public int X { get; set; }
 		public int Y { get; set; }
@@ -19,9 +19,11 @@ namespace RocketRP.DataTypes
 			Z = z;
 		}
 
-		public static Vector Decode(BitReader br)
+		public static Vector Deserialize(BitReader br, Replay replay)
 		{
-			var numBits = br.ReadUInt32Max(22);
+			uint maxValuePerComponent = replay.NetVersion >= 7 ? 22U : 20U;
+
+			var numBits = br.ReadUInt32Max(maxValuePerComponent);
 			var bias = 1 << ((int)numBits + 1);
 			var max = (int)numBits + 2;
 
@@ -32,16 +34,16 @@ namespace RocketRP.DataTypes
 			return new Vector(x, y, z);
 		}
 
-		public void Encode(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
+			uint maxValuePerComponent = replay.NetVersion >= 7 ? 22U : 20U;
+
 			Int32 maxValue = Math.Max(Math.Max(Math.Abs(X), Math.Abs(Y)), Math.Abs(Z));
 			int numBitsForValue = (int)Math.Ceiling(Math.Log10(maxValue + 1) / Math.Log10(2));
 
-			uint maxBitsPerComponent = 22u;
+			UInt32 Bits = (UInt32)Math.Min(Math.Max(1, numBitsForValue), maxValuePerComponent) - 1;
 
-			UInt32 Bits = (UInt32)Math.Min(Math.Max(1, numBitsForValue), maxBitsPerComponent) - 1;
-
-			bw.Write(Bits, maxBitsPerComponent);
+			bw.Write(Bits, maxValuePerComponent);
 
 			Int32 Bias = 1 << (int)(Bits + 1);
 			UInt32 Max = (UInt32)(1 << (int)(Bits + 2));

@@ -6,7 +6,6 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace RocketRP
 {
@@ -51,6 +50,7 @@ namespace RocketRP
 					actorUpdate.ClassNetCache = TypeNameToClassNetCache(actorUpdate.TypeName, replay);
 					actorUpdate.ObjectId = actorUpdate.ClassNetCache.ObjectIndex;
 					actorUpdate.ObjectName = replay.Objects[actorUpdate.ObjectId];
+					actorUpdate.Type = System.Type.GetType($"RocketRP.Actors.{actorUpdate.ObjectName}");
 
 					if(actorUpdate.Type == null)
 					{
@@ -265,7 +265,7 @@ namespace RocketRP
 		}
 	}
 
-	public enum ChannelState
+	public enum ChannelState : byte
 	{
 		Close,
 		Update,

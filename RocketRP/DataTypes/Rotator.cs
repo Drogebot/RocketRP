@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
-	public class Rotator
+	public struct Rotator
 	{
 		public float Pitch { get; set; }
 		public float Yaw { get; set; }
@@ -24,7 +24,7 @@ namespace RocketRP.DataTypes
 			return b / 256f * 360f;
 		}
 
-		public static Rotator Decode(BitReader br)
+		public static Rotator Deserialize(BitReader br)
 		{
 			float pitch = 0, yaw = 0, roll = 0;
 			if (br.ReadBit())
@@ -49,7 +49,7 @@ namespace RocketRP.DataTypes
 			return (byte)(Normalize(axis) / 360f * 256f);
 		}
 
-		public void Encode(BitWriter bw)
+		public void Serialize(BitWriter bw)
 		{
 			byte b = AxisToByte(Pitch);
 			bw.Write(b != 0);

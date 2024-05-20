@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP
 {
-    public class ObjectTarget
+    public struct ObjectTarget
     {
         public bool IsActor { get; set; }
         public int TargetIndex { get; set; }
@@ -20,5 +20,11 @@ namespace RocketRP
 
             return objectTarget;
         }
-    }
+
+        public void Serialize(BitWriter bw)
+		{
+			bw.Write(IsActor);
+			bw.Write(TargetIndex);
+		}
+	}
 }
