@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP.Actors.Core
 {
-	public abstract class UEObject
+	public abstract class Object
 	{
 	}
 }

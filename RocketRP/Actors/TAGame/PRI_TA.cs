@@ -31,7 +31,7 @@ namespace RocketRP.Actors.TAGame
 		public UniqueNetId PartyLeader { get; set; }
 		public SeverityType QuitSeverity { get; set; }
 		public ConnectionQualityState ReplicatedWorstNetQualityBeyondLatency { get; set; }
-		public List<byte> PlayerHistoryKey { get; set; } = new List<byte>(0x40);
+		public HistoryKey PlayerHistoryKey { get; set; }   // In the original code, this is a byte[0x40]
 		public PawnType PawnType { get; set; }
 		public ObjectTarget PersistentCamera { get; set; }
 		public ClientLoadoutOnlineDatas ClientLoadoutsOnline { get; set; }

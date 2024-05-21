@@ -1,12 +1,13 @@
-﻿using System;
+﻿using RocketRP.Actors.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RocketRP.DataTypes.ProductAttributes
+namespace RocketRP.DataTypes.TAGame
 {
-    public abstract class ProductAttribute_TA
+    public abstract class ProductAttribute_TA : Actors.Core.Object
     {
         public ObjectTarget ObjectTarget { get; set; }
         public string ClassName { get; set; }
@@ -14,9 +15,9 @@ namespace RocketRP.DataTypes.ProductAttributes
         public static ProductAttribute_TA Deserialize(BitReader br, Replay replay)
         {
             var objectTarget = ObjectTarget.Deserialize(br);
-            var className = replay.Objects[br.ReadInt32()];
+            var className = replay.Objects[objectTarget.TargetIndex];
 
-            var type = Type.GetType($"RocketRP.Actors.{className}");
+            var type = Type.GetType($"RocketRP.DataTypes.{className}");
             var attribute = (ProductAttribute_TA)type.GetMethod("Deserialize").Invoke(null, [br, replay]);
 
             attribute.ObjectTarget = objectTarget;

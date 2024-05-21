@@ -10,6 +10,8 @@ namespace RocketRP.Actors.TAGame
 {
 	public class BreakOutActor_Platform_TA : Actor
 	{
+		public override bool HasInitialPosition => false;
+
 		public BreakoutDamageState DamageState { get; set; }
 	}
 }

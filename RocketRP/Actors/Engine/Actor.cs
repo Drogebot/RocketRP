@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RocketRP.Actors.Engine
 {
-	public class Actor : UEObject
+	public class Actor : Core.Object
 	{
 		public virtual bool HasInitialPosition { get => true; }
 		public virtual bool HasInitialRotation { get => false; }
@@ -38,5 +39,104 @@ namespace RocketRP.Actors.Engine
 		public float DrawScale { get; set; }
 		public Rotator Rotation { get; set; }
 		public Vector Location { get; set; }
+
+		public void Deserialize(BitReader br, Replay replay)
+		{
+			if (!HasInitialPosition) return;
+			InitialPosition = Vector.Deserialize(br, replay);
+
+			if (!HasInitialRotation) return;
+			InitialRotation = Rotator.Deserialize(br);
+		}
+
+		public void DeserializeProperty(BitReader br, Replay replay, int propObjectIndex)
+		{
+			var propName = replay.Objects[propObjectIndex].Split(":").Last();
+
+			var propertyInfo = GetType().GetProperty(propName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
+			if (propertyInfo == null) throw new Exception($"Field {propName} not found in {GetType().Name}");
+
+			if (propertyInfo.PropertyType == typeof(bool)) propertyInfo.SetValue(this, br.ReadBit());
+			else if (propertyInfo.PropertyType == typeof(byte)) propertyInfo.SetValue(this, br.ReadByte());
+			else if (propertyInfo.PropertyType == typeof(int)) propertyInfo.SetValue(this, br.ReadInt32());
+			else if (propertyInfo.PropertyType == typeof(uint)) propertyInfo.SetValue(this, br.ReadUInt32());
+			else if (propertyInfo.PropertyType == typeof(long)) propertyInfo.SetValue(this, br.ReadInt64());
+			else if (propertyInfo.PropertyType == typeof(ulong)) propertyInfo.SetValue(this, br.ReadUInt64());
+			else if (propertyInfo.PropertyType == typeof(float)) propertyInfo.SetValue(this, br.ReadSingle());
+			else if (propertyInfo.PropertyType == typeof(string)) propertyInfo.SetValue(this, br.ReadString());
+
+			else if (propertyInfo.PropertyType.IsEnum)
+			{
+				var enumType = propertyInfo.PropertyType.GetEnumUnderlyingType();
+
+				if (enumType == typeof(byte)) propertyInfo.SetValue(this, Convert.ChangeType(br.ReadByte(), enumType));
+				else if (enumType == typeof(int)) propertyInfo.SetValue(this, Convert.ChangeType(br.ReadInt32(), enumType));
+				else if (enumType == typeof(uint)) propertyInfo.SetValue(this, Convert.ChangeType(br.ReadUInt32(), enumType));
+				else if (enumType == typeof(long)) propertyInfo.SetValue(this, Convert.ChangeType(br.ReadInt64(), enumType));
+				else if (enumType == typeof(ulong)) propertyInfo.SetValue(this, Convert.ChangeType(br.ReadUInt64(), enumType));
+			}
+
+			else if (propertyInfo.PropertyType.GetInterface("IArrayProperty") == typeof(IArrayProperty))
+			{
+				((IArrayProperty)propertyInfo.GetValue(this)).Deserialize(br, replay);
+			}
+
+			else
+			{
+				var methodInfo = propertyInfo.PropertyType.GetMethod("Deserialize");
+				if (methodInfo.GetParameters().Length == 1) propertyInfo.SetValue(this, methodInfo.Invoke(null, [br]));
+				if (methodInfo.GetParameters().Length == 2) propertyInfo.SetValue(this, methodInfo.Invoke(null, [br, replay]));
+			}
+		}
+
+		public void Serialize(BitWriter bw, Replay replay)
+		{
+			if (!HasInitialPosition) return;
+			InitialPosition.Serialize(bw, replay);
+
+			if (!HasInitialRotation) return;
+			InitialRotation.Serialize(bw);
+		}
+
+		public void SerializeProperty(BitWriter bw, Replay replay, int propObjectIndex)
+		{
+			var propName = replay.Objects[propObjectIndex].Split(":").Last();
+
+			var propertyInfo = GetType().GetProperty(propName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
+			if (propertyInfo == null) throw new Exception($"Field {propName} not found in {GetType().Name}");
+
+			if (propertyInfo.PropertyType == typeof(bool)) bw.Write((bool)propertyInfo.GetValue(this));
+			else if (propertyInfo.PropertyType == typeof(byte)) bw.Write((byte)propertyInfo.GetValue(this));
+			else if (propertyInfo.PropertyType == typeof(int)) bw.Write((int)propertyInfo.GetValue(this));
+			else if (propertyInfo.PropertyType == typeof(uint)) bw.Write((uint)propertyInfo.GetValue(this));
+			else if (propertyInfo.PropertyType == typeof(long)) bw.Write((long)propertyInfo.GetValue(this));
+			else if (propertyInfo.PropertyType == typeof(ulong)) bw.Write((ulong)propertyInfo.GetValue(this));
+			else if (propertyInfo.PropertyType == typeof(float)) bw.Write((float)propertyInfo.GetValue(this));
+			else if (propertyInfo.PropertyType == typeof(string)) bw.Write((string)propertyInfo.GetValue(this));
+
+			else if (propertyInfo.PropertyType.IsEnum)
+			{
+				var enumType = propertyInfo.PropertyType.GetEnumUnderlyingType();
+
+				if (enumType == typeof(byte)) bw.Write((byte)propertyInfo.GetValue(this));
+				else if (enumType == typeof(int)) bw.Write((int)propertyInfo.GetValue(this));
+				else if (enumType == typeof(uint)) bw.Write((uint)propertyInfo.GetValue(this));
+				else if (enumType == typeof(long)) bw.Write((long)propertyInfo.GetValue(this));
+				else if (enumType == typeof(ulong)) bw.Write((ulong)propertyInfo.GetValue(this));
+			}
+
+			else if (propertyInfo.PropertyType.GetInterface("IArrayProperty") == typeof(IArrayProperty))
+			{
+				var classNetCache = replay.ClassNetCacheByName[GetType().FullName.Replace("RocketRP.Actors.", "")];
+				((IArrayProperty)propertyInfo.GetValue(this)).Serialize(bw, replay, classNetCache.NumProperties, propObjectIndex);
+			}
+
+			else
+			{
+				var methodInfo = propertyInfo.PropertyType.GetMethod("Serialize");
+				if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(propertyInfo.GetValue(this), [bw]);
+				if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(propertyInfo.GetValue(this), [bw, replay]);
+			}
+		}
 	}
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RocketRP.DataTypes.ProductAttributes
+namespace RocketRP.DataTypes.TAGame
 {
 	public class ProductAttribute_TitleID_TA : ProductAttribute_TA
 	{

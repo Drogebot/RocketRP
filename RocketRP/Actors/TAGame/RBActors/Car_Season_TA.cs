@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP.Actors.TAGame
 {
-	public class HauntedBallTrapTrigger_TA : DynamicMeshActor_TA
+	public class Car_Season_TA : Car_TA
 	{
-		public override bool HasInitialPosition => false;
 	}
 }

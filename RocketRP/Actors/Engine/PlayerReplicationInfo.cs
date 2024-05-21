@@ -11,7 +11,7 @@ namespace RocketRP.Actors.Engine
 	public class PlayerReplicationInfo : ReplicationInfo
 	{
 		public string RemoteUserData { get; set; }
-		public UniqueNetId UniqueNetId { get; set; }
+		public UniqueNetId UniqueId { get; set; }
 		public bool bTimedOut { get; set; }
 		public bool bFromPreviousLevel { get; set; }
 		public bool bIsInactive { get; set; }
