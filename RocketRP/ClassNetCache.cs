@@ -9,23 +9,58 @@ namespace RocketRP
 	public class ClassNetCache
 	{
 		public int ObjectIndex { get; set; }
-		public uint MinPropertyId { get; set; }
-		public uint MaxPropertyId { get; set; }
+		public int MinPropertyId { get; set; }
+		public int MaxPropertyId { get; set; }
 		public List<ClassNetCacheProperty> Properties { get; set; }
+		public int NumProperties => Properties.Count > 0 ? Properties.Max(p => p.PropertyId) + 1 : Parent != null ? Parent.NumProperties : 0;
+		public ClassNetCache Parent;
 
-		public static ClassNetCache Deserialize(BinaryReader br)
+		public int GetPropertyObjectIndex(int propId)
+		{
+			foreach (var property in Properties)
+			{
+				if (property.PropertyId == propId)
+				{
+					return property.ObjectIndex;
+				}
+			}
+
+			return Parent.GetPropertyObjectIndex(propId);
+		}
+
+		public int GetPropertyPropertyId(int objectIndex)
+		{
+			foreach (var property in Properties)
+			{
+				if (property.ObjectIndex == objectIndex)
+				{
+					return property.PropertyId;
+				}
+			}
+
+			return Parent.GetPropertyPropertyId(objectIndex);
+		}
+
+		public static ClassNetCache Deserialize(BinaryReader br, Replay replay)
 		{
 			var classNetCache = new ClassNetCache();
 
 			classNetCache.ObjectIndex = br.ReadInt32();
-			classNetCache.MinPropertyId = br.ReadUInt32();
-			classNetCache.MaxPropertyId = br.ReadUInt32();
+			classNetCache.MinPropertyId = br.ReadInt32();
+			classNetCache.MaxPropertyId = br.ReadInt32();
 
 			var numProperties = br.ReadInt32();
 			classNetCache.Properties = new List<ClassNetCacheProperty>(numProperties);
 			for (int i = 0; i < numProperties; i++)
 			{
 				classNetCache.Properties.Add(ClassNetCacheProperty.Deserialize(br));
+			}
+
+			var type = System.Type.GetType($"RocketRP.Actors.{replay.Objects[classNetCache.ObjectIndex]}");
+			if (type.BaseType != typeof(object))
+			{
+				var baseObjectIndex = replay.Objects.IndexOf(type.BaseType.FullName.Replace("RocketRP.Actors.", ""));
+				classNetCache.Parent = replay.ClassNetCaches.First(c => c.ObjectIndex == baseObjectIndex);
 			}
 
 			return classNetCache;
@@ -35,14 +70,14 @@ namespace RocketRP
 	public class ClassNetCacheProperty
 	{
 		public int ObjectIndex { get; set; }
-		public uint PropertyId { get; set; }
+		public int PropertyId { get; set; }
 
 		public static ClassNetCacheProperty Deserialize(BinaryReader br)
 		{
 			var classNetCacheProperty = new ClassNetCacheProperty();
 
 			classNetCacheProperty.ObjectIndex = br.ReadInt32();
-			classNetCacheProperty.PropertyId = br.ReadUInt32();
+			classNetCacheProperty.PropertyId = br.ReadInt32();
 
 			return classNetCacheProperty;
 		}

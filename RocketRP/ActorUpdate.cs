@@ -22,8 +22,9 @@ namespace RocketRP
 		public Actor Actor { get; set; }
 
 		private ClassNetCache ClassNetCache;
+		public List<int> SetPropertyObjectIndexes;
 
-		public static ActorUpdate Deserialize(BitReader br, Replay replay)
+		public static ActorUpdate Deserialize(BitReader br, Replay replay, Dictionary<int, ActorUpdate> openChannels)
 		{
 			var actorUpdate = new ActorUpdate();
 
@@ -57,18 +58,47 @@ namespace RocketRP
 						throw new Exception($"Unknown actor type: {actorUpdate.ObjectName}");
 					}
 
-					throw new NotImplementedException("ActorUpdate.Deserialize: Implement ActorUpdate.Open");
+					actorUpdate.Actor = (Actor)Activator.CreateInstance(actorUpdate.Type);
+					actorUpdate.Actor.Deserialize(br, replay);
 				}
 				else
 				{
 					actorUpdate.State = ChannelState.Update;
-					throw new NotImplementedException("ActorUpdate.Deserialize: Implement ActorUpdate.Update");
+
+					var activeActor = openChannels[actorUpdate.ChannelId];
+					actorUpdate.NameId = activeActor.NameId;
+					actorUpdate.TypeId = activeActor.TypeId;
+					actorUpdate.TypeName = activeActor.TypeName;
+					actorUpdate.ClassNetCache = activeActor.ClassNetCache;
+					actorUpdate.ObjectId = activeActor.ObjectId;
+					actorUpdate.ObjectName = activeActor.ObjectName;
+					actorUpdate.Type = activeActor.Type;
+					actorUpdate.Actor = (Actor)Activator.CreateInstance(actorUpdate.Type);
+					actorUpdate.SetPropertyObjectIndexes = new List<int>();
+
+					while (br.ReadBit())
+					{
+						var maxPropId = actorUpdate.ClassNetCache.NumProperties;
+						var propId = br.ReadInt32Max(maxPropId);
+						var propObjectIndex = actorUpdate.ClassNetCache.GetPropertyObjectIndex(propId);
+						actorUpdate.SetPropertyObjectIndexes.Add(propObjectIndex);
+
+						actorUpdate.Actor.DeserializeProperty(br, replay, propObjectIndex);
+					}
 				}
 			}
 			else
 			{
 				actorUpdate.State = ChannelState.Close;
-				throw new NotImplementedException("ActorUpdate.Deserialize: Implement ActorUpdate.Close");
+
+				var activeActor = openChannels[actorUpdate.ChannelId];
+				activeActor.NameId = activeActor.NameId;
+				activeActor.TypeId = activeActor.TypeId;
+				activeActor.TypeName = activeActor.TypeName;
+				actorUpdate.ClassNetCache = activeActor.ClassNetCache;
+				activeActor.ObjectId = activeActor.ObjectId;
+				activeActor.ObjectName = activeActor.ObjectName;
+				activeActor.Type = activeActor.Type;
 			}
 
 			return actorUpdate;

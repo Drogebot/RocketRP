@@ -10,9 +10,9 @@ namespace RocketRP
 	{
 		public float Time { get; set; }
 		public float Delta { get; set; }
-		public List<ActorUpdate> ActorUpdates { get; set; }
+		public List<ActorUpdate> ActorUpdates { get; set; } = new List<ActorUpdate>();
 
-		public static Frame Deserialize(BitReader br, Replay replay)
+		public static Frame Deserialize(BitReader br, Replay replay, Dictionary<int, ActorUpdate> openChannels)
 		{
 			var frame = new Frame();
 
@@ -21,7 +21,11 @@ namespace RocketRP
 
 			while(br.ReadBit())
 			{
-				ActorUpdate.Deserialize(br, replay);
+				var actorUpdate = ActorUpdate.Deserialize(br, replay, openChannels);
+				frame.ActorUpdates.Add(actorUpdate);
+
+				if (actorUpdate.State == ChannelState.Open) openChannels.TryAdd(actorUpdate.ChannelId, actorUpdate);
+				else if (actorUpdate.State == ChannelState.Close) openChannels.Remove(actorUpdate.ChannelId);
 			}
 
 			return frame;

@@ -6,18 +6,31 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
-	public struct ArrayProperty<T>
+	public interface IArrayProperty
+	{
+		void Deserialize(BitReader br, Replay replay);
+		void Serialize(BitWriter bw, Replay replay, int propId, int maxPropertyId);
+	}
+
+	public struct ArrayProperty<T> : IArrayProperty
 	{
 		public T[] Values { get; set; }
+		public int Length => Values.Length;
 
 		public ArrayProperty(int capacity)
 		{
 			Values = new T[capacity];
 		}
 
+		public T this[int index]
+		{
+			get => Values[index];
+			set => Values[index] = value;
+		}
+
 		public void Deserialize(BitReader br, Replay replay)
 		{
-			var index = br.ReadInt32Max(Values.Length);
+			var index = br.ReadInt32Max(Length);
 			T value;
 
 			if (typeof(T) == typeof(byte)) value = (T)(object)br.ReadByte();
@@ -32,11 +45,16 @@ namespace RocketRP.DataTypes
 			Values[index] = value;
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public void Serialize(BitWriter bw, Replay replay, int propId, int maxPropertyId)
 		{
-			for(byte i = 0; i < Values.Length; i++)
+			for (int i = 0; i < Length; i++)
 			{
-				bw.Write(i);
+				if(i > 0)
+				{
+					bw.Write(true);
+					bw.Write(propId, maxPropertyId);
+				}
+				bw.Write(i, Length);
 				typeof(T).GetMethod("Serialize").Invoke(Values[i], [bw, replay]);
 			}
 		}

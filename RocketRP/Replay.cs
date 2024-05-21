@@ -1,4 +1,6 @@
-﻿namespace RocketRP
+﻿using RocketRP.DataTypes.Enums;
+
+namespace RocketRP
 {
 	public class Replay
 	{
@@ -132,7 +134,7 @@
 			replay.ClassNetCaches = new List<ClassNetCache>(numClassNetCaches);
 			for (int i = 0; i < numClassNetCaches; i++)
 			{
-				replay.ClassNetCaches.Add(ClassNetCache.Deserialize(br));
+				replay.ClassNetCaches.Add(ClassNetCache.Deserialize(br, replay));
 			}
 
 			if(replay.NetVersion >= 10)
@@ -153,13 +155,14 @@
 		public void DeserializeNetStream()
 		{
 			if(ClassNetCacheByName == null) ClassNetCacheByName = ClassNetCaches.ToDictionary(c => Objects[c.ObjectIndex], c => c);
+			Dictionary<int, ActorUpdate> openChannels = new Dictionary<int, ActorUpdate>();
 
 			Frames = new List<Frame>();
 			var br = new BitReader(NetStreamData);
 
 			while (br.Position < br.Length - 64)
 			{
-				var frame = Frame.Deserialize(br, this);
+				var frame = Frame.Deserialize(br, this, openChannels);
 				Frames.Add(frame);
 			}
 		}

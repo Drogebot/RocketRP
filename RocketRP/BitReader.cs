@@ -133,7 +133,7 @@ namespace RocketRP
 			int length = ReadInt32();
 			if(length > 0)
 			{
-				return Encoding.GetEncoding(1252).GetString(ReadBytes(length), 0, length - 1);
+				return CodePagesEncodingProvider.Instance.GetEncoding(1252).GetString(ReadBytes(length), 0, length - 1);
 			}
 			else if(length < 0)
 			{
