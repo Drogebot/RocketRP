@@ -36,6 +36,7 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
+			/// This code was taken from https://github.com/jjbott/RocketLeagueReplayParser
 			uint maxValuePerComponent = replay.NetVersion >= 7 ? 22U : 20U;
 
 			Int32 maxValue = Math.Max(Math.Max(Math.Abs(X), Math.Abs(Y)), Math.Abs(Z));

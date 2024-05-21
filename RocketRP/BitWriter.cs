@@ -133,8 +133,25 @@ namespace RocketRP
 
 		public void Write(string value)
 		{
-			Write(value.Length + 1);
-			Write(CodePagesEncodingProvider.Instance.GetEncoding(1252).GetBytes(value));
+			var length = value.Length + 1;
+			bool isUnicode = value.Any(c => c > 255);
+			if (isUnicode)
+			{
+				length *= -1;
+			}
+			Write(length);
+
+			if (!isUnicode)
+			{
+				Write(CodePagesEncodingProvider.Instance.GetEncoding(1252).GetBytes(value));
+				Write((byte)0);
+			}
+			else
+			{
+				Write(Encoding.Unicode.GetBytes(value));
+				Write((byte)0);
+				Write((byte)0);
+			}
 		}
 
 		public byte[] GetAllBytes()

@@ -20,26 +20,34 @@ namespace RocketRP
 
 			return properties;
 		}
+
+		public void Serialize(BinaryWriter bw)
+		{
+			foreach (var prop in this)
+			{
+				prop.Value.Serialize(bw);
+			}
+			"None".Serialize(bw);
+		}
 	}
 
 	public class Property
 	{
 		public string Name;
 		public string Type;
-		public uint ValueLength;
+		public long ValueLength;
 		public object Value { get; set; }
 
 
 		public static Property Deserialize(BinaryReader br)
 		{
 			var prop = new Property();
-			prop.Name = br.ReadString2();
+			prop.Name = "".Deserialize(br);
 			
 			if(prop.Name == "None") return prop;
 
-			prop.Type = br.ReadString2();
-			prop.ValueLength = br.ReadUInt32();
-			br.ReadUInt32(); // Unknown
+			prop.Type = "".Deserialize(br);
+			prop.ValueLength = br.ReadInt64();
 
 			switch (prop.Type)
 			{
@@ -57,10 +65,10 @@ namespace RocketRP
 					break;
 				case "StrProperty":
 				case "NameProperty":
-					prop.Value = br.ReadString2();
+					prop.Value = "".Deserialize(br);
 					break;
 				case "ByteProperty":
-					prop.Value = br.ReadString2() + "." + br.ReadString2();
+					prop.Value = "".Deserialize(br) + "." + "".Deserialize(br);
 					break;
 				case "ArrayProperty":
 					var arrayLength = br.ReadInt32();
@@ -76,6 +84,58 @@ namespace RocketRP
 			}
 
 			return prop;
+		}
+
+		public void Serialize(BinaryWriter bw)
+		{
+			Name.Serialize(bw);
+			if (Name == "None") return;
+
+			Type.Serialize(bw);
+
+			// These will be overwritten once we know their values
+			bw.Write(0U);   // ValueLength
+			var valuePos = bw.BaseStream.Position;
+
+			switch (Type)
+			{
+				case "BoolProperty":
+					bw.Write((bool)Value);
+					break;
+				case "IntProperty":
+					bw.Write((int)Value);
+					break;
+				case "QWordProperty":
+					bw.Write((long)Value);
+					break;
+				case "FloatProperty":
+					bw.Write((float)Value);
+					break;
+				case "StrProperty":
+				case "NameProperty":
+					((string)Value).Serialize(bw);
+					break;
+				case "ByteProperty":
+					var split = ((string)Value).Split('.');
+					split[0].Serialize(bw);
+					split[1].Serialize(bw);
+					break;
+				case "ArrayProperty":
+					var array = (List<PropertyDictionary>)Value;
+					bw.Write(array.Count);
+					foreach (var prop in array)
+					{
+						prop.Serialize(bw);
+					}
+					break;
+				default:
+					throw new Exception("Unknown property type: " + Type);
+			}
+
+			ValueLength = bw.BaseStream.Position - valuePos;
+			bw.BaseStream.Seek(valuePos - sizeof(long), SeekOrigin.Begin);
+			bw.Write(ValueLength);
+			bw.BaseStream.Seek(ValueLength, SeekOrigin.Current);
 		}
 	}
 }

@@ -65,6 +65,18 @@ namespace RocketRP
 
 			return classNetCache;
 		}
+
+		public void Serialize(BinaryWriter bw)
+		{
+			bw.Write(ObjectIndex);
+			bw.Write(MinPropertyId);
+			bw.Write(MaxPropertyId);
+			bw.Write(Properties.Count);
+			foreach (var property in Properties)
+			{
+				property.Serialize(bw);
+			}
+		}
 	}
 
 	public class ClassNetCacheProperty
@@ -80,6 +92,12 @@ namespace RocketRP
 			classNetCacheProperty.PropertyId = br.ReadInt32();
 
 			return classNetCacheProperty;
+		}
+
+		public void Serialize(BinaryWriter bw)
+		{
+			bw.Write(ObjectIndex);
+			bw.Write(PropertyId);
 		}
 	}
 }

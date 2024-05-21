@@ -21,5 +21,12 @@ namespace RocketRP
 
 			return keyFrame;
 		}
+
+		public void Serialize(BinaryWriter bw)
+		{
+			bw.Write(Time);
+			bw.Write(Frame);
+			bw.Write(FilePosition);
+		}
 	}
 }

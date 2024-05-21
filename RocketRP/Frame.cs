@@ -19,7 +19,7 @@ namespace RocketRP
 			frame.Time = br.ReadSingle();
 			frame.Delta = br.ReadSingle();
 
-			while(br.ReadBit())
+			while (br.ReadBit())
 			{
 				var actorUpdate = ActorUpdate.Deserialize(br, replay, openChannels);
 				frame.ActorUpdates.Add(actorUpdate);
@@ -29,6 +29,19 @@ namespace RocketRP
 			}
 
 			return frame;
+		}
+
+		public void Serialize(BitWriter bw, Replay replay, Dictionary<int, ActorUpdate> openChannels)
+		{
+			bw.Write(Time);
+			bw.Write(Delta);
+
+			foreach (var actorUpdate in ActorUpdates)
+			{
+				bw.Write(true);
+				actorUpdate.Serialize(bw, replay, openChannels);
+			}
+			bw.Write(false);
 		}
 	}
 }

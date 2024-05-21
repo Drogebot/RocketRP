@@ -22,7 +22,8 @@ namespace RocketRP
 		public Actor Actor { get; set; }
 
 		private ClassNetCache ClassNetCache;
-		public List<int> SetPropertyObjectIndexes;
+		public HashSet<int> SetPropertyObjectIndexes;
+		public HashSet<string> SetPropertyNames;
 
 		public static ActorUpdate Deserialize(BitReader br, Replay replay, Dictionary<int, ActorUpdate> openChannels)
 		{
@@ -74,14 +75,15 @@ namespace RocketRP
 					actorUpdate.ObjectName = activeActor.ObjectName;
 					actorUpdate.Type = activeActor.Type;
 					actorUpdate.Actor = (Actor)Activator.CreateInstance(actorUpdate.Type);
-					actorUpdate.SetPropertyObjectIndexes = new List<int>();
+					actorUpdate.SetPropertyObjectIndexes = new HashSet<int>();
+					actorUpdate.SetPropertyNames = new HashSet<string>();
 
 					while (br.ReadBit())
 					{
-						var maxPropId = actorUpdate.ClassNetCache.NumProperties;
-						var propId = br.ReadInt32Max(maxPropId);
+						var propId = br.ReadInt32Max(actorUpdate.ClassNetCache.NumProperties);
 						var propObjectIndex = actorUpdate.ClassNetCache.GetPropertyObjectIndex(propId);
 						actorUpdate.SetPropertyObjectIndexes.Add(propObjectIndex);
+						actorUpdate.SetPropertyNames.Add(replay.Objects[propObjectIndex]);
 
 						actorUpdate.Actor.DeserializeProperty(br, replay, propObjectIndex);
 					}
@@ -102,6 +104,48 @@ namespace RocketRP
 			}
 
 			return actorUpdate;
+		}
+
+		public void Serialize(BitWriter bw, Replay replay, Dictionary<int, ActorUpdate> openChannels)
+		{
+			bw.Write(ChannelId, replay.MaxChannels);
+
+			if (State == ChannelState.Open)
+			{
+				bw.Write(true);
+				bw.Write(true);
+
+				if (replay.EngineVersion > 868 || (replay.EngineVersion == 868 && replay.LicenseeVersion >= 14))
+				{
+					bw.Write(NameId);
+				}
+
+				TypeId.Serialize(bw);
+				Actor.Serialize(bw, replay);
+				return;
+			}
+			else if(State == ChannelState.Update)
+			{
+				bw.Write(true);
+				bw.Write(false);
+
+				foreach (var propObjectIndex in SetPropertyObjectIndexes)
+				{
+					bw.Write(true);
+					var propId = ClassNetCache.GetPropertyPropertyId(propObjectIndex);
+					bw.Write(propId, ClassNetCache.NumProperties);
+					Actor.SerializeProperty(bw, replay, propObjectIndex);
+				}
+				bw.Write(false);
+				return;
+			}
+			else if(State == ChannelState.Close)
+			{
+				bw.Write(true);
+				return;
+			}
+
+			throw new Exception($"Unknown channel state: {State}");
 		}
 
 		public static ClassNetCache TypeNameToClassNetCache(string typeName, Replay replay)

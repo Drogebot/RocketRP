@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
+	/// This code was taken from https://github.com/jjbott/RocketLeagueReplayParser
 	public struct Quat
 	{
 		public float X { get; set; }
@@ -39,12 +40,12 @@ namespace RocketRP.DataTypes
 			return rangedValue * MAX_QUAT_VALUE;
 		}
 
-		private static UInt32 CompressComponent(float value)
+		private static uint CompressComponent(float value)
 		{
 			const int MaxValue = (1 << NUM_BITS) - 1;
 			float rangedValue = value / MAX_QUAT_VALUE;
 			float positiveRangedValue = (rangedValue / 2f) + .5f;
-			return (UInt32)Math.Round(MaxValue * positiveRangedValue);
+			return (uint)Math.Round(MaxValue * positiveRangedValue);
 		}
 
 		public static Quat Deserialize(BitReader br)
@@ -115,7 +116,7 @@ namespace RocketRP.DataTypes
 
 		private void Write(BitWriter bw, Component largest, float a, float b, float c)
 		{
-			bw.WriteFixedBits((UInt32)largest, 2);
+			bw.WriteFixedBits((uint)largest, 2);
 			bw.WriteFixedBits(CompressComponent(a), NUM_BITS);
 			bw.WriteFixedBits(CompressComponent(b), NUM_BITS);
 			bw.WriteFixedBits(CompressComponent(c), NUM_BITS);
