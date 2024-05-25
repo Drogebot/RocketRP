@@ -1,7 +1,8 @@
 {
   "profiles": {
     "RocketRP.CLI": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "-r \"C:\\Users\\Tim\\Documents\\My Games\\Rocket League\\TAGame\\Demos\\78A62E4B49971785181585A7E6302047.replay\""
     },
     "WSL": {
       "commandName": "WSL2",

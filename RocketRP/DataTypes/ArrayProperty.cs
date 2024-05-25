@@ -8,6 +8,7 @@ namespace RocketRP.DataTypes
 {
 	public interface IArrayProperty
 	{
+		object GetValues();
 		void Deserialize(BitReader br, Replay replay);
 		void Serialize(BitWriter bw, Replay replay, int propId, int maxPropertyId);
 	}
@@ -27,6 +28,8 @@ namespace RocketRP.DataTypes
 			get => Values[index];
 			set => Values[index] = value;
 		}
+
+		public object GetValues() => Values;
 
 		public void Deserialize(BitReader br, Replay replay)
 		{

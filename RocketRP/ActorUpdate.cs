@@ -13,7 +13,8 @@ namespace RocketRP
 	{
 		public int ChannelId { get; set; }
 		public ChannelState State { get; set; }
-		public int NameId { get; set; }
+		public int? NameId { get; set; }
+		public string? Name { get; set; }
 		public ObjectTarget TypeId { get; set; }
 		public string TypeName { get; set; }
 		public int ObjectId { get; set; }
@@ -40,6 +41,7 @@ namespace RocketRP
 					if (replay.EngineVersion > 868 || (replay.EngineVersion == 868 && replay.LicenseeVersion >= 14))
 					{
 						actorUpdate.NameId = br.ReadInt32();
+						actorUpdate.Name = replay.Names[actorUpdate.NameId.Value];
 					}
 
 					actorUpdate.TypeId = ObjectTarget.Deserialize(br);
@@ -68,6 +70,7 @@ namespace RocketRP
 
 					var activeActor = openChannels[actorUpdate.ChannelId];
 					actorUpdate.NameId = activeActor.NameId;
+					actorUpdate.Name = activeActor.Name;
 					actorUpdate.TypeId = activeActor.TypeId;
 					actorUpdate.TypeName = activeActor.TypeName;
 					actorUpdate.ClassNetCache = activeActor.ClassNetCache;
@@ -95,6 +98,7 @@ namespace RocketRP
 
 				var activeActor = openChannels[actorUpdate.ChannelId];
 				activeActor.NameId = activeActor.NameId;
+				actorUpdate.Name = activeActor.Name;
 				activeActor.TypeId = activeActor.TypeId;
 				activeActor.TypeName = activeActor.TypeName;
 				actorUpdate.ClassNetCache = activeActor.ClassNetCache;
@@ -117,7 +121,7 @@ namespace RocketRP
 
 				if (replay.EngineVersion > 868 || (replay.EngineVersion == 868 && replay.LicenseeVersion >= 14))
 				{
-					bw.Write(NameId);
+					bw.Write(NameId.Value);
 				}
 
 				TypeId.Serialize(bw);

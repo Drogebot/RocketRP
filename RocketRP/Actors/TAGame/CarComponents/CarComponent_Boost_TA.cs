@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.DataTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,6 @@ namespace RocketRP.Actors.TAGame
 
 		// These are old properties that were removed
 		public bool bUnlimitedBoost { get; set; }
-		public int ReplicatedBoost { get; set; }
+		public ReplicatedBoostData ReplicatedBoost { get; set; }
 	}
 }

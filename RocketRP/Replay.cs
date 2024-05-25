@@ -34,17 +34,17 @@ namespace RocketRP
 		public int Changelist { get => _Changelist = _Changelist > 0 ? _Changelist : (int?)Properties["Changelist"]?.Value ?? 0; }
 		public Dictionary<string, ClassNetCache> ClassNetCacheByName;
 
-		public static Replay Deserialize(string filePath)
+		public static Replay Deserialize(string filePath, bool parseNetstream = false, bool enforeCRC = false)
 		{
-			return Deserialize(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read));
+			return Deserialize(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read), parseNetstream, enforeCRC);
 		}
 
-		public static Replay Deserialize(FileStream stream)
+		public static Replay Deserialize(FileStream stream, bool parseNetstream = false, bool enforeCRC = false)
 		{
-			return Deserialize(new BinaryReader(stream));
+			return Deserialize(new BinaryReader(stream), parseNetstream, enforeCRC);
 		}
 
-		public static Replay Deserialize(BinaryReader br)
+		public static Replay Deserialize(BinaryReader br, bool parseNetstream = false, bool enforeCRC = false)
 		{
 			var replay = new Replay();
 
@@ -64,13 +64,19 @@ namespace RocketRP
 
 			if(part1Pos + replay.Part1Length != br.BaseStream.Position)
 			{
-				Console.WriteLine($"Warning: Part1Length({replay.Part1Length}) is not equal to the current position({br.BaseStream.Position})!");
+				var message = $"Part1Length({replay.Part1Length}) is not equal to the current position({br.BaseStream.Position})";
+				if (enforeCRC) throw new Exception(message);
+				Console.WriteLine($"Warning: {message}!");
 			}
 			var calculatedPart1CRC = CalculateCRC(br, part1Pos, part1Pos + replay.Part1Length);
 			if (replay.Part1CRC != calculatedPart1CRC)
 			{
-				Console.WriteLine($"Warning: Part1CRC({replay.Part1CRC:X8}) does not match data({calculatedPart1CRC:X8})!");
+				var message = $"Part1CRC({replay.Part1CRC:X8}) does not match data({calculatedPart1CRC:X8})";
+				if (enforeCRC) throw new Exception(message);
+				Console.WriteLine($"Warning: {message}!");
 			}
+
+			if (!parseNetstream) return replay;
 
 			replay.Part2Length = br.ReadUInt32();
 			replay.Part2CRC = br.ReadUInt32();
@@ -150,12 +156,16 @@ namespace RocketRP
 
 			if (part2Pos + replay.Part2Length != br.BaseStream.Position)
 			{
-				Console.WriteLine($"Warning: Part2Length({replay.Part2Length}) is not equal to the current position({br.BaseStream.Position})!");
+				var message = $"Part2Length({replay.Part2Length}) is not equal to the current position({br.BaseStream.Position})";
+				if (enforeCRC) throw new Exception(message);
+				Console.WriteLine($"Warning: {message}!");
 			}
 			var calculatedPart2CRC = CalculateCRC(br, part2Pos, part2Pos + replay.Part2Length);
 			if (replay.Part2CRC != calculatedPart2CRC)
 			{
-				Console.WriteLine($"Warning: Part2CRC({replay.Part2CRC:X8}) does not match data({calculatedPart2CRC:X8})!");
+				var message = $"Part2CRC({replay.Part2CRC:X8}) does not match data({calculatedPart2CRC:X8})";
+				if (enforeCRC) throw new Exception(message);
+				Console.WriteLine($"Warning: {message}!");
 			}
 
 			replay.DeserializeNetStream();

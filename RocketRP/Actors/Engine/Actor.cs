@@ -16,8 +16,8 @@ namespace RocketRP.Actors.Engine
 		public virtual bool HasInitialPosition { get => true; }
 		public virtual bool HasInitialRotation { get => false; }
 
-		public Vector InitialPosition { get; set; }
-		public Rotator InitialRotation { get; set; }
+		public Vector? InitialPosition { get; set; }
+		public Rotator? InitialRotation { get; set; }
 
 		public Rotator RelativeRotation { get; set; }
 		public Vector RelativeLocation { get; set; }
@@ -40,6 +40,9 @@ namespace RocketRP.Actors.Engine
 		public Rotator Rotation { get; set; }
 		public Vector Location { get; set; }
 
+		public HashSet<int> SetPropertyObjectIndexes = new HashSet<int>();
+		public HashSet<string> SetPropertyNames = new HashSet<string>();
+
 		public void Deserialize(BitReader br, Replay replay)
 		{
 			if (!HasInitialPosition) return;
@@ -51,7 +54,10 @@ namespace RocketRP.Actors.Engine
 
 		public void DeserializeProperty(BitReader br, Replay replay, int propObjectIndex)
 		{
+			SetPropertyObjectIndexes.Add(propObjectIndex);
+
 			var propName = replay.Objects[propObjectIndex].Split(":").Last();
+			SetPropertyNames.Add(propName);
 
 			var propertyInfo = GetType().GetProperty(propName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
 			if (propertyInfo == null) throw new Exception($"Field {propName} not found in {GetType().Name}");
@@ -66,7 +72,7 @@ namespace RocketRP.Actors.Engine
 			else if (propertyInfo.PropertyType == typeof(string)) propertyInfo.SetValue(this, br.ReadString());
 
 			else if (propertyInfo.PropertyType.IsEnum)
-			{
+			{   // I've never tested this, but it should work
 				var enumType = propertyInfo.PropertyType.GetEnumUnderlyingType();
 
 				if (enumType == typeof(byte)) propertyInfo.SetValue(this, Convert.ChangeType(br.ReadByte(), enumType));
@@ -91,11 +97,11 @@ namespace RocketRP.Actors.Engine
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			if (!HasInitialPosition) return;
-			InitialPosition.Serialize(bw, replay);
+			if (!InitialPosition.HasValue) return;
+			InitialPosition.Value.Serialize(bw, replay);
 
-			if (!HasInitialRotation) return;
-			InitialRotation.Serialize(bw);
+			if (!InitialRotation.HasValue) return;
+			InitialRotation.Value.Serialize(bw);
 		}
 
 		public void SerializeProperty(BitWriter bw, Replay replay, int propObjectIndex)
@@ -115,7 +121,7 @@ namespace RocketRP.Actors.Engine
 			else if (propertyInfo.PropertyType == typeof(string)) bw.Write((string)propertyInfo.GetValue(this));
 
 			else if (propertyInfo.PropertyType.IsEnum)
-			{
+			{   // I've never tested this, but it should work
 				var enumType = propertyInfo.PropertyType.GetEnumUnderlyingType();
 
 				if (enumType == typeof(byte)) bw.Write((byte)propertyInfo.GetValue(this));
