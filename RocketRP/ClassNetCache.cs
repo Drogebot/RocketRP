@@ -41,7 +41,17 @@ namespace RocketRP
 			return Parent.GetPropertyPropertyId(objectIndex);
 		}
 
-		public static ClassNetCache Deserialize(BinaryReader br, Replay replay)
+		public void CalculateParent(Replay replay)
+		{
+			var type = System.Type.GetType($"RocketRP.Actors.{replay.Objects[ObjectIndex]}");
+			if (type.BaseType != typeof(object))
+			{
+				var baseObjectIndex = replay.Objects.IndexOf(type.BaseType.FullName.Replace("RocketRP.Actors.", ""));
+				Parent = replay.ClassNetCaches.First(c => c.ObjectIndex == baseObjectIndex);
+			}
+		}
+
+		public static ClassNetCache Deserialize(BinaryReader br)
 		{
 			var classNetCache = new ClassNetCache();
 
@@ -54,13 +64,6 @@ namespace RocketRP
 			for (int i = 0; i < numProperties; i++)
 			{
 				classNetCache.Properties.Add(ClassNetCacheProperty.Deserialize(br));
-			}
-
-			var type = System.Type.GetType($"RocketRP.Actors.{replay.Objects[classNetCache.ObjectIndex]}");
-			if (type.BaseType != typeof(object))
-			{
-				var baseObjectIndex = replay.Objects.IndexOf(type.BaseType.FullName.Replace("RocketRP.Actors.", ""));
-				classNetCache.Parent = replay.ClassNetCaches.First(c => c.ObjectIndex == baseObjectIndex);
 			}
 
 			return classNetCache;

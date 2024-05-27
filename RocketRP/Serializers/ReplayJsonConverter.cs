@@ -16,7 +16,74 @@ namespace RocketRP.Serializers
 
 		public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
 		{
-			throw new NotImplementedException();
+			if(reader.TokenType != JsonToken.StartObject) throw new JsonReaderException("Expected StartObject token!");
+			reader.Read();
+
+			var replay = (Replay)existingValue ?? new Replay();
+
+			while (reader.TokenType == JsonToken.PropertyName)
+			{
+				object value = null;
+				var propertyName = (string)reader.Value;
+				reader.Read();
+				switch (propertyName)
+				{
+					case "Part1Length":
+					case "Part1CRC":
+					case "EngineVersion":
+					case "LicenseeVersion":
+					case "NetVersion":
+					case "Part2Length":
+					case "Part2CRC":
+						value = serializer.Deserialize<uint>(reader);
+						break;
+					case "ReplayClass":
+						value = serializer.Deserialize<string>(reader);
+						break;
+					case "Properties":
+						value = serializer.Deserialize<PropertyDictionary>(reader);
+						break;
+					case "Levels":
+						value = serializer.Deserialize<List<string>>(reader);
+						break;
+					case "KeyFrames":
+						value = serializer.Deserialize<List<KeyFrame>>(reader);
+						break;
+					case "Frames":
+						value = serializer.Deserialize<List<Frame>>(reader);
+						break;
+					case "DebugStrings":
+						value = serializer.Deserialize<List<DebugString>>(reader);
+						break;
+					case "Tickmarks":
+						value = serializer.Deserialize<List<Tickmark>>(reader);
+						break;
+					case "Packages":
+						value = serializer.Deserialize<List<string>>(reader);
+						break;
+					case "Objects":
+						value = serializer.Deserialize<List<string>>(reader);
+						break;
+					case "Names":
+						value = serializer.Deserialize<List<string>>(reader);
+						break;
+					case "ClassIndexes":
+						value = serializer.Deserialize<Dictionary<string, int>>(reader);
+						break;
+					case "ClassNetCaches":
+						value = serializer.Deserialize<List<ClassNetCache>>(reader);
+						break;
+					default:
+						throw new JsonReaderException($"Unexpected property {propertyName}!");
+				}
+
+				replay.GetType().GetProperty(propertyName)?.SetValue(replay, value);
+				reader.Read();
+			}
+
+			if (reader.TokenType != JsonToken.EndObject) throw new JsonReaderException("Expected EndObject token!");
+
+			return replay;
 		}
 
 		public override void WriteJson(JsonWriter writer, object? value, Newtonsoft.Json.JsonSerializer serializer)

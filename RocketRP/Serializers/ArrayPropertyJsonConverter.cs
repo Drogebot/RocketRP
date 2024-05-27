@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using RocketRP.Actors.Engine;
 using RocketRP.DataTypes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +19,14 @@ namespace RocketRP.Serializers
 
 		public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
 		{
-			throw new NotImplementedException();
+			if (reader.TokenType != JsonToken.StartArray) throw new JsonReaderException("Expected StartArray token!");
+
+			var type = typeof(List<>).MakeGenericType(objectType.GenericTypeArguments[0]);
+			var values = (IList)serializer.Deserialize(reader, type);
+
+			var arrayProperty = (IArrayProperty)existingValue ?? (IArrayProperty)Activator.CreateInstance(objectType, [values]);
+
+			return arrayProperty;
 		}
 
 		public override void WriteJson(JsonWriter writer, object? value, Newtonsoft.Json.JsonSerializer serializer)

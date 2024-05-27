@@ -47,7 +47,7 @@ namespace RocketRP.DataTypes
 			bw.Write(Sleeping);
 			Position.Serialize(bw, replay);
 
-			if (replay.NetVersion >= 7) ((Rotator)Rotation).Serialize(bw);
+			if (replay.NetVersion >= 7) ((Quat)Rotation).Serialize(bw);
 			else ((Vector)Rotation).Serialize(bw, replay);
 
 			if (!Sleeping)

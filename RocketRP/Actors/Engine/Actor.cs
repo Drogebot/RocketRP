@@ -43,6 +43,17 @@ namespace RocketRP.Actors.Engine
 		public HashSet<int> SetPropertyObjectIndexes = new HashSet<int>();
 		public HashSet<string> SetPropertyNames = new HashSet<string>();
 
+		public void CalculatePropertyObjectIndexes(Replay replay)
+		{
+			foreach (var propName in SetPropertyNames)
+			{
+				var test = GetType().GetProperty(propName);
+				var propObjectIndex = replay.Objects.IndexOf($"{GetType().GetProperty(propName).DeclaringType.FullName.Replace("RocketRP.Actors.", "")}:{propName}");
+				if (propObjectIndex == -1) throw new Exception($"Property {propName} not found in {GetType().Name}");
+				SetPropertyObjectIndexes.Add(propObjectIndex);
+			}
+		}
+
 		public void Deserialize(BitReader br, Replay replay)
 		{
 			if (!HasInitialPosition) return;

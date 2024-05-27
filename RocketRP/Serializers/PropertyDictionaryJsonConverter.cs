@@ -16,7 +16,40 @@ namespace RocketRP.Serializers
 
 		public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
 		{
-			throw new NotImplementedException();
+			if (objectType == typeof(Property))
+			{
+				return serializer.Deserialize(reader);
+			}
+
+			if (reader.TokenType != JsonToken.StartObject) throw new JsonReaderException("Expected StartObject token!");
+			reader.Read();
+
+			var propertyDictionary = (PropertyDictionary)existingValue ?? new PropertyDictionary();
+
+			while (reader.TokenType == JsonToken.PropertyName)
+			{
+				object value = null;
+				var propertyName = (string)reader.Value;
+				reader.Read();
+				var property = new Property();
+				property.Name = propertyName;
+				switch (reader.TokenType)
+				{
+					case JsonToken.StartArray:
+						property.Value = serializer.Deserialize<List<PropertyDictionary>>(reader);
+						break;
+					default:
+						property.Value = serializer.Deserialize(reader);
+						break;
+				}
+				property.SetValueTypeFromObject(property.Value);
+				propertyDictionary.Add(propertyName, property);
+				reader.Read();
+			}
+
+			if (reader.TokenType != JsonToken.EndObject) throw new JsonReaderException("Expected EndObject token!");
+
+			return propertyDictionary;
 		}
 
 		public override void WriteJson(JsonWriter writer, object? value, Newtonsoft.Json.JsonSerializer serializer)

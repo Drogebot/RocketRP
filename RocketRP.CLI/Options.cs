@@ -26,5 +26,14 @@ namespace RocketRP.CLI
 
 		[Option('p', "pretty", Default = true, HelpText = "Output JSON pretty-printed")]
 		public bool PrettyPrint { get; set; }
+
+		[Option('m', "mode", Default = SerializationMode.Deserialize, HelpText = $"{"Deserialize"} to JSON or {"Serialize"} from JSON")]
+		public SerializationMode Mode { get; set; }
+	}
+
+	public enum SerializationMode
+	{
+		Deserialize,
+		Serialize,
 	}
 }

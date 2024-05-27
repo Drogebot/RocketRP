@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,6 +39,45 @@ namespace RocketRP
 		public long ValueLength;
 		public object Value { get; set; }
 
+		public void SetValueTypeFromObject(object obj)
+		{
+			var objType = obj.GetType();
+			if (objType == typeof(bool))
+			{
+				Type = "BoolProperty";
+			}
+			else if (objType == typeof(int))
+			{
+				Type = "IntProperty";
+			}
+			else if (objType == typeof(long))
+			{
+				if ((long)obj <= int.MaxValue)
+				{
+					Type = "IntProperty";
+					Value = Convert.ToInt32(obj);
+					return;
+				}
+				Type = "QWordProperty";
+			}
+			else if (objType == typeof(float) || objType == typeof(double))
+			{
+				Type = "FloatProperty";
+				Value = Convert.ToSingle(obj);
+			}
+			else if (objType == typeof(string))
+			{
+				Type = "StrProperty";
+			}
+			else if (objType.GetInterface("IList") == typeof(IList))
+			{
+				Type = "ArrayProperty";
+			}
+			else
+			{
+				throw new Exception("Unknown property type: " + objType);
+			}
+		}
 
 		public static Property Deserialize(BinaryReader br)
 		{
@@ -94,7 +134,7 @@ namespace RocketRP
 			Type.Serialize(bw);
 
 			// These will be overwritten once we know their values
-			bw.Write(0U);   // ValueLength
+			bw.Write(0UL);   // ValueLength
 			var valuePos = bw.BaseStream.Position;
 
 			switch (Type)

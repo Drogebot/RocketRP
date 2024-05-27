@@ -36,7 +36,10 @@ namespace RocketRP
 
 		public static Replay Deserialize(string filePath, bool parseNetstream = false, bool enforeCRC = false)
 		{
-			return Deserialize(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read), parseNetstream, enforeCRC);
+			var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+			var replay = Deserialize(fs, parseNetstream, enforeCRC);
+			fs.Close();
+			return replay;
 		}
 
 		public static Replay Deserialize(FileStream stream, bool parseNetstream = false, bool enforeCRC = false)
@@ -146,7 +149,9 @@ namespace RocketRP
 			replay.ClassNetCaches = new List<ClassNetCache>(numClassNetCaches);
 			for (int i = 0; i < numClassNetCaches; i++)
 			{
-				replay.ClassNetCaches.Add(ClassNetCache.Deserialize(br, replay));
+				var classNetCache = ClassNetCache.Deserialize(br);
+				classNetCache.CalculateParent(replay);
+				replay.ClassNetCaches.Add(classNetCache);
 			}
 
 			if(replay.NetVersion >= 10)
@@ -187,11 +192,30 @@ namespace RocketRP
 				Frames.Add(frame);
 			}
 		}
+		public void Serialize(string filePath)
+		{
+			var stream = new MemoryStream();
+			Serialize(stream);
+			var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+			fs.Write(stream.ToArray());
+			fs.Close();
+		}
+
+		public void Serialize(MemoryStream stream)
+		{
+			Serialize(new BinaryWriter(stream));
+		}
 
 		public void Serialize(BinaryWriter bw)
 		{
+			if (ClassNetCacheByName == null) ClassNetCacheByName = ClassNetCaches.ToDictionary(c => Objects[c.ObjectIndex], c => c);
+			foreach (var classNetCache in ClassNetCaches)
+			{
+				classNetCache.CalculateParent(this);
+			}
+
 			// These will be overwritten once we know their values
-			bw.Write(0U);	// Part1Length
+			bw.Write(0U);   // Part1Length
 			bw.Write(0U);   // Part1CRC
 			var part1Pos = (uint)bw.BaseStream.Position;
 

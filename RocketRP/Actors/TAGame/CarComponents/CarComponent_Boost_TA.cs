@@ -10,6 +10,7 @@ namespace RocketRP.Actors.TAGame
 	public class CarComponent_Boost_TA : CarComponent_AirActivate_TA
 	{
 		public byte ReplicatedBoostAmount { get; set; }
+		public ReplicatedBoostData ReplicatedBoost { get; set; }
 		public int UnlimitedBoostRefCount { get; set; }
 		public float RechargeDelay { get; set; }
 		public float RechargeRate { get; set; }
@@ -22,6 +23,5 @@ namespace RocketRP.Actors.TAGame
 
 		// These are old properties that were removed
 		public bool bUnlimitedBoost { get; set; }
-		public ReplicatedBoostData ReplicatedBoost { get; set; }
 	}
 }

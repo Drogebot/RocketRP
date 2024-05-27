@@ -23,7 +23,7 @@ Parser.Default.ParseArguments<Options>(args)
 
 	if (!opts.DirectoryMode)
 	{
-		ParseReplay(opts.ReplayPath, opts.OutputPath, opts.ParseNetstream, opts.EnforceCRC, opts.PrettyPrint);
+		ParseReplay(opts.ReplayPath, opts.OutputPath, opts.ParseNetstream, opts.EnforceCRC, opts.PrettyPrint, opts.Mode);
 	}
 	else
 	{
@@ -37,31 +37,59 @@ Parser.Default.ParseArguments<Options>(args)
 
 		foreach (var replayFile in replayFiles)
 		{
-			ParseReplay(replayFile.FullName, opts.OutputPath, opts.ParseNetstream, opts.EnforceCRC, opts.PrettyPrint);
+			ParseReplay(replayFile.FullName, opts.OutputPath, opts.ParseNetstream, opts.EnforceCRC, opts.PrettyPrint, opts.Mode);
 		}
 	}
 });
 
-static void ParseReplay(string replayPath, string outputPath, bool parseNetstream, bool enforceCRC, bool prettyPrint)
+static void ParseReplay(string replayPath, string outputPath, bool parseNetstream, bool enforceCRC, bool prettyPrint, SerializationMode mode)
 {
-	Console.WriteLine($"Parsing replay {replayPath}...");
-	try
+	var serializer = new JsonSerializer();
+
+	if (mode == SerializationMode.Deserialize)
 	{
-		var replay = Replay.Deserialize(replayPath, parseNetstream, enforceCRC);
+		try
+		{
+			Console.WriteLine($"Parsing replay: {replayPath}...");
+			var replay = Replay.Deserialize(replayPath, parseNetstream, enforceCRC);
 
-		Console.WriteLine($"Converting to JSON...");
-		var serializer = new JsonSerializer();
-		var outputData = serializer.Serialize(replay, prettyPrint);
+			var outputFilePath = Path.Combine(outputPath, Path.GetFileNameWithoutExtension(replayPath) + ".json");
 
-		var outputFilePath = Path.Combine(outputPath, Path.GetFileNameWithoutExtension(replayPath) + ".json");
+			Console.WriteLine($"Converting to JSON...");
+			var jsonData = serializer.Serialize(replay, prettyPrint);
+			File.WriteAllText(outputFilePath, jsonData);
 
-		File.WriteAllText(outputFilePath, outputData);
-
-		Console.WriteLine($"Parsed replay {replayPath}!");
+			Console.WriteLine($"Parsed replay: {outputFilePath}!");
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine($"Failed to parse replay: {e.Message}");
+			return;
+		}
 	}
-	catch (Exception e)
+	else if(mode == SerializationMode.Serialize)
 	{
-		Console.WriteLine($"Failed to parse replay: {e.Message}");
-		return;
+		try
+		{
+			Console.WriteLine($"Parsing JSON: {replayPath}...");
+			var jsonData = File.ReadAllText(replayPath);
+			var replay = (Replay)serializer.Deserialize(jsonData);
+
+			var outputFilePath = Path.Combine(outputPath, Path.GetFileNameWithoutExtension(replayPath) + "_RocketRP.replay");
+
+			Console.WriteLine($"Converting to replay...");
+			replay.Serialize(outputFilePath);
+
+			Console.WriteLine($"Converted to replay: {outputFilePath}!");
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine($"Failed to serialize replay: {e.Message}");
+			return;
+		}
+	}
+	else
+	{
+		Console.WriteLine("Invalid mode!");
 	}
 }

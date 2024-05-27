@@ -97,14 +97,14 @@ namespace RocketRP
 				actorUpdate.State = ChannelState.Close;
 
 				var activeActor = openChannels[actorUpdate.ChannelId];
-				activeActor.NameId = activeActor.NameId;
+				actorUpdate.NameId = activeActor.NameId;
 				actorUpdate.Name = activeActor.Name;
-				activeActor.TypeId = activeActor.TypeId;
-				activeActor.TypeName = activeActor.TypeName;
+				actorUpdate.TypeId = activeActor.TypeId;
+				actorUpdate.TypeName = activeActor.TypeName;
 				actorUpdate.ClassNetCache = activeActor.ClassNetCache;
-				activeActor.ObjectId = activeActor.ObjectId;
-				activeActor.ObjectName = activeActor.ObjectName;
-				activeActor.Type = activeActor.Type;
+				actorUpdate.ObjectId = activeActor.ObjectId;
+				actorUpdate.ObjectName = activeActor.ObjectName;
+				actorUpdate.Type = activeActor.Type;
 			}
 
 			return actorUpdate;
@@ -133,7 +133,11 @@ namespace RocketRP
 				bw.Write(true);
 				bw.Write(false);
 
-				foreach (var propObjectIndex in SetPropertyObjectIndexes)
+				// We need to calulate the property object indexes if they haven't been set yet, and we need to get the ClassNetCache if it hasn't been set yet
+				if (Actor.SetPropertyObjectIndexes.Count != Actor.SetPropertyNames.Count) Actor.CalculatePropertyObjectIndexes(replay);
+				if(ClassNetCache == null) ClassNetCache = TypeNameToClassNetCache(TypeName, replay);
+
+				foreach (var propObjectIndex in Actor.SetPropertyObjectIndexes)
 				{
 					bw.Write(true);
 					var propId = ClassNetCache.GetPropertyPropertyId(propObjectIndex);
@@ -145,7 +149,7 @@ namespace RocketRP
 			}
 			else if(State == ChannelState.Close)
 			{
-				bw.Write(true);
+				bw.Write(false);
 				return;
 			}
 

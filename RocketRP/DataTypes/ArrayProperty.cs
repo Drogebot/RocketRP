@@ -23,6 +23,16 @@ namespace RocketRP.DataTypes
 			Values = new T[capacity];
 		}
 
+		public ArrayProperty(T[] values)
+		{
+			Values = values;
+		}
+
+		public ArrayProperty(List<T> values)
+		{
+			Values = values.ToArray();
+		}
+
 		public T this[int index]
 		{
 			get => Values[index];
@@ -50,15 +60,18 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw, Replay replay, int propId, int maxPropertyId)
 		{
+			bool firstEntry = true;
 			for (int i = 0; i < Length; i++)
 			{
-				if(i > 0)
+				if (Values[i].Equals(default(T))) continue;
+				if(!firstEntry)
 				{
 					bw.Write(true);
 					bw.Write(propId, maxPropertyId);
 				}
 				bw.Write(i, Length);
 				typeof(T).GetMethod("Serialize").Invoke(Values[i], [bw, replay]);
+				firstEntry = false;
 			}
 		}
 	}

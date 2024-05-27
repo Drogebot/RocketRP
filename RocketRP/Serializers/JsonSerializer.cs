@@ -23,7 +23,23 @@ namespace RocketRP.Serializers
 			};
 
 			return JsonConvert.SerializeObject(replay, prettyPrint ? Formatting.Indented : Formatting.None, converters);
-			
+		}
+
+		public Replay Deserialize(string replayJson)
+		{
+			var converters = new JsonConverter[]{
+				new ReplayJsonConverter(),
+				new PropertyDictionaryJsonConverter(),
+				new KeyFrameJsonConverter(),
+				new ActorUpdateJsonConverter(),
+				new ActorJsonConverter(),
+				new ArrayPropertyJsonConverter(),
+				new DataTypesJsonConverter(),
+				new ClassNetCacheJsonConverter(),
+			};
+
+			return JsonConvert.DeserializeObject<Replay>(replayJson, converters);
+
 		}
 	}
 }
