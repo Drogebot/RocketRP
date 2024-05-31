@@ -34,16 +34,20 @@ namespace RocketRP.DataTypes
 			this.Id = Id;
 			this.PlayerNumber = playerNumber;
 		}
-
 		public static UniqueNetId Deserialize(BitReader br, Replay replay)
+		{
+			return Deserialize2(br, replay, false);
+		}
+
+		public static UniqueNetId Deserialize2(BitReader br, Replay replay, bool isPartyLeaderProperty = false)
 		{
 			var type = (PlatformId)br.ReadByte();
 			string id;
 			switch (type)
 			{
 				case PlatformId.Unknown:
-					if (replay.LicenseeVersion >= 10 && replay.NetVersion == 0) return new UniqueNetId(PlatformId.Unknown, "", 0);
-					else id = br.ReadUInt32FromBits(24).ToString();
+					if (replay.LicenseeVersion >= 18 && replay.NetVersion == 0 || isPartyLeaderProperty) return new UniqueNetId(PlatformId.Unknown, "", 0);
+					else id = Convert.ToHexString(br.ReadBytes(3));
 					break;
 				case PlatformId.Steam:
 				case PlatformId.XboxOne:
@@ -73,12 +77,17 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
+			Serialize2(bw, replay, false);
+		}
+
+		public void Serialize2(BitWriter bw, Replay replay, bool isPartyLeaderProperty = false)
+		{
 			bw.Write((byte)Type);
 			switch (Type)
 			{
 				case PlatformId.Unknown:
-					if (replay.LicenseeVersion >= 10 && replay.NetVersion == 0) return;
-					else bw.WriteFixedBits(UInt32.Parse(Id), 24);
+					if (replay.LicenseeVersion >= 18 && replay.NetVersion == 0 || isPartyLeaderProperty) return;
+					else bw.Write(Convert.FromHexString(Id));
 					break;
 				case PlatformId.Steam:
 				case PlatformId.XboxOne:

@@ -24,10 +24,19 @@ namespace RocketRP.DataTypes
 			var playerId = UniqueNetId.Deserialize(br, replay);
 
 			string playerName = "";
-			if(playerId.Type != PlatformId.Unknown) playerName = br.ReadString();
+			if (playerId.Type != PlatformId.Unknown) playerName = br.ReadString();
+			else
+			{
+				// I've made this to match UniqueNetId.Deserialize()
+				// But it could instead be (replay.LicenseeVersion >= 18 && replay.LicenseeVersion <= 19) or just (replay.LicenseeVersion == 18)
+				if (replay.LicenseeVersion >= 18 && replay.NetVersion == 0)
+				{
+					playerName = br.ReadString();
+				}
+			}
 
 			ReservationStatus status;
-			if (replay.EngineVersion >= 868 || replay.LicenseeVersion >= 12) status = (ReservationStatus)br.ReadByte();
+			if (replay.EngineVersion >= 868 && replay.LicenseeVersion >= 12) status = (ReservationStatus)br.ReadByte();
 			else status = (ReservationStatus)br.ReadUInt32Max((uint)ReservationStatus.END);
 
 			return new Reservation(playerId, playerName, status);
@@ -38,8 +47,17 @@ namespace RocketRP.DataTypes
 			PlayerId.Serialize(bw, replay);
 
 			if (PlayerId.Type != PlatformId.Unknown) bw.Write(PlayerName);
+			else
+			{
+				// I've made this to match UniqueNetId.Deserialize()
+				// But it could instead be (replay.LicenseeVersion >= 18 && replay.LicenseeVersion <= 19) or just (replay.LicenseeVersion == 18)
+				if (replay.LicenseeVersion >= 18 && replay.NetVersion == 0)
+				{
+					bw.Write(PlayerName);
+				}
+			}
 
-			if (replay.EngineVersion >= 868 || replay.LicenseeVersion >= 12) bw.Write((byte)Status);
+			if (replay.EngineVersion >= 868 && replay.LicenseeVersion >= 12) bw.Write((byte)Status);
 			else bw.Write((uint)Status, (uint)ReservationStatus.END);
 		}
 	}

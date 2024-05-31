@@ -5,6 +5,7 @@ using RocketRP.DataTypes.TAGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace RocketRP.Serializers
 	{
 		public override bool CanConvert(Type objectType)
 		{
-			return objectType == typeof(GameServerID) || objectType == typeof(GameMode) || objectType == typeof(ReplicatedRBState) || objectType == typeof(ProductAttribute_TA) || objectType.IsSubclassOf(typeof(ProductAttribute_TA));
+			return objectType == typeof(GameServerID) || objectType == typeof(GameMode) || objectType == typeof(PartyLeader) || objectType == typeof(ReplicatedRBState) || objectType == typeof(ProductAttribute_TA) || objectType.IsSubclassOf(typeof(ProductAttribute_TA));
 		}
 
 		public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
@@ -43,6 +44,14 @@ namespace RocketRP.Serializers
 
 				gameMode.Value = serializer.Deserialize<byte>(reader);
 				return gameMode;
+			}
+
+			if (objectType == typeof(PartyLeader))
+			{
+				var partyLeader = (PartyLeader)(existingValue ?? new PartyLeader());
+
+				partyLeader.UniqueId = serializer.Deserialize<UniqueNetId>(reader);
+				return partyLeader;
 			}
 
 			if (objectType == typeof(ReplicatedRBState))
@@ -171,6 +180,14 @@ namespace RocketRP.Serializers
 				var gameMode = (GameMode)value;
 
 				serializer.Serialize(writer, gameMode.Value);
+				return;
+			}
+
+			if (value.GetType() == typeof(PartyLeader))
+			{
+				var partyLeader = (PartyLeader)value;
+
+				serializer.Serialize(writer, partyLeader.UniqueId);
 				return;
 			}
 

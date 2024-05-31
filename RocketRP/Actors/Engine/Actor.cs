@@ -102,7 +102,8 @@ namespace RocketRP.Actors.Engine
 			{
 				var methodInfo = propertyInfo.PropertyType.GetMethod("Deserialize");
 				if (methodInfo.GetParameters().Length == 1) propertyInfo.SetValue(this, methodInfo.Invoke(null, [br]));
-				if (methodInfo.GetParameters().Length == 2) propertyInfo.SetValue(this, methodInfo.Invoke(null, [br, replay]));
+				else if (methodInfo.GetParameters().Length == 2) propertyInfo.SetValue(this, methodInfo.Invoke(null, [br, replay]));
+				else throw new MethodAccessException($"Deserialize method in {propertyInfo.PropertyType.Name} must have 1 or 2 parameters");
 			}
 		}
 

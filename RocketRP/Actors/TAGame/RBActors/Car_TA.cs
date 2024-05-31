@@ -18,7 +18,7 @@ namespace RocketRP.Actors.TAGame
 		public DemolishDataGoalExplosion ReplicatedDemolishGoalExplosion { get; set; }
 		public DemolishData ReplicatedDemolish { get; set; }
 		public float ReplicatedCarScale { get; set; }
-		public ClubColorSet ClubColor { get; set; }
+		public ClubColorSet ClubColors { get; set; }
 		public LoadoutTeamPaint TeamPaint { get; set; }
 		public bool bOverrideBoostOn { get; set; }
 		public bool bOverrideHandbrakeOn { get; set; }

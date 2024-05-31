@@ -21,15 +21,15 @@ namespace RocketRP.DataTypes
 
 		public static Vector Deserialize(BitReader br, Replay replay)
 		{
-			uint maxValuePerComponent = replay.NetVersion >= 7 ? 22U : 20U;
+			var maxValuePerComponent = replay.NetVersion >= 7 ? 22 : 20;
 
-			var numBits = br.ReadUInt32Max(maxValuePerComponent);
-			var bias = 1 << ((int)numBits + 1);
-			var max = (int)numBits + 2;
+			var numBits = br.ReadInt32Max(maxValuePerComponent);
+			var bias = 1 << (numBits + 1);
+			var max = numBits + 2;
 
-			int x = (int)br.ReadUInt32FromBits(max) - bias;
-			int y = (int)br.ReadUInt32FromBits(max) - bias;
-			int z = (int)br.ReadUInt32FromBits(max) - bias;
+			var x = (int)br.ReadUInt32FromBits(max) - bias;
+			var y = (int)br.ReadUInt32FromBits(max) - bias;
+			var z = (int)br.ReadUInt32FromBits(max) - bias;
 
 			return new Vector(x, y, z);
 		}
@@ -59,6 +59,28 @@ namespace RocketRP.DataTypes
 			bw.Write(DX, Max);
 			bw.Write(DY, Max);
 			bw.Write(DZ, Max);
+		}
+
+		public static Vector DeserializeFixed(BitReader br)
+		{
+			var numBits = 16;
+			var bias = 1 << (numBits - 1);
+
+			var x = (int)br.ReadUInt32FromBits(numBits) - bias;
+			var y = (int)br.ReadUInt32FromBits(numBits) - bias;
+			var z = (int)br.ReadUInt32FromBits(numBits) - bias;
+
+			return new Vector(x, y, z);
+		}
+
+		public void SerializeFixed(BitWriter bw)
+		{
+			var numBits = 16;
+			var bias = 1 << (numBits - 1);
+
+			bw.WriteFixedBits(X + bias, numBits);
+			bw.WriteFixedBits(Y + bias, numBits);
+			bw.WriteFixedBits(Z + bias, numBits);
 		}
 	}
 }

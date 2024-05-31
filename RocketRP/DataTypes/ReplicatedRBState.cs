@@ -30,7 +30,7 @@ namespace RocketRP.DataTypes
 
 			object rotation;
 			if(replay.NetVersion >= 7) rotation = Quat.Deserialize(br);
-			else rotation = Vector.Deserialize(br, replay);
+			else rotation = Vector.DeserializeFixed(br);
 
 			Vector linearVelocity = default, angularVelocity = default;
 			if (!sleeping)
@@ -48,7 +48,7 @@ namespace RocketRP.DataTypes
 			Position.Serialize(bw, replay);
 
 			if (replay.NetVersion >= 7) ((Quat)Rotation).Serialize(bw);
-			else ((Vector)Rotation).Serialize(bw, replay);
+			else ((Vector)Rotation).SerializeFixed(bw);
 
 			if (!Sleeping)
 			{

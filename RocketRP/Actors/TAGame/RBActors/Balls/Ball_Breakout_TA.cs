@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RocketRP.Actors.TAGame.RBActors.Balls
+namespace RocketRP.Actors.TAGame
 {
 	public class Ball_Breakout_TA : Ball_TA
 	{

@@ -19,6 +19,12 @@ namespace RocketRP
 			frame.Time = br.ReadSingle();
 			frame.Delta = br.ReadSingle();
 
+			var lastFrame = replay.Frames.LastOrDefault();
+			if (replay.Frames.Count > 0 && (frame.Time < lastFrame?.Time && frame.Time != 0 || frame.Delta < 0))
+			{
+				throw new Exception("Unexpected Frame Time or Delta, Reader is most likely lost");
+			}
+
 			while (br.ReadBit())
 			{
 				var actorUpdate = ActorUpdate.Deserialize(br, replay, openChannels);

@@ -28,7 +28,7 @@ namespace RocketRP.Actors.TAGame
 		public float SteeringSensitivity { get; set; }
 		public SkillTierData SkillTier { get; set; }
 		public Name Title { get; set; }
-		public UniqueNetId PartyLeader { get; set; }
+		public PartyLeader PartyLeader { get; set; }    // This is normally a UniqueNetId but works differently in this context...
 		public SeverityType QuitSeverity { get; set; }
 		public ConnectionQualityState ReplicatedWorstNetQualityBeyondLatency { get; set; }
 		public HistoryKey PlayerHistoryKey { get; set; }   // In the original code, this is a byte[0x40]
@@ -60,6 +60,7 @@ namespace RocketRP.Actors.TAGame
 
 		// These are old properties that were removed
 		public bool bUsingBehindView { get; set; }
+		public bool bUsingSecondaryCamera { get; set; }
 		public int RespawnTimeRemaining { get; set; }
 		public uint TotalXP { get; set; }
 		public int MaxTimeTillItem { get; set; }

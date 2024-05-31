@@ -28,10 +28,10 @@ namespace RocketRP
 		public List<ClassNetCache> ClassNetCaches { get; set; }
 		public uint Unknown { get; set; }
 
-		private int _MaxChannels;
-		public int MaxChannels { get => _MaxChannels = _MaxChannels > 0 ? _MaxChannels : (int?)Properties["MaxChannels"]?.Value ?? 1023; }
-		private int _Changelist;
-		public int Changelist { get => _Changelist = _Changelist > 0 ? _Changelist : (int?)Properties["Changelist"]?.Value ?? 0; }
+		private int? _MaxChannels;
+		public int MaxChannels { get => (int)(_MaxChannels = _MaxChannels > 0 ? _MaxChannels.Value : Properties.ContainsKey("MaxChannels") ? (int)Properties["MaxChannels"].Value : 1023); }
+		private int? _Changelist;
+		public int Changelist { get => (int)(_Changelist = _Changelist.HasValue ? _Changelist.Value : Properties.ContainsKey("Changelist") ? (int)Properties["Changelist"].Value : 0); }
 		public Dictionary<string, ClassNetCache> ClassNetCacheByName;
 
 		public static Replay Deserialize(string filePath, bool parseNetstream = false, bool enforeCRC = false)
@@ -67,7 +67,7 @@ namespace RocketRP
 
 			if(part1Pos + replay.Part1Length != br.BaseStream.Position)
 			{
-				var message = $"Part1Length({replay.Part1Length}) is not equal to the current position({br.BaseStream.Position})";
+				var message = $"Part1Length({replay.Part1Length}) is not equal to the current position({br.BaseStream.Position - part1Pos})";
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
@@ -161,7 +161,7 @@ namespace RocketRP
 
 			if (part2Pos + replay.Part2Length != br.BaseStream.Position)
 			{
-				var message = $"Part2Length({replay.Part2Length}) is not equal to the current position({br.BaseStream.Position})";
+				var message = $"Part2Length({replay.Part2Length}) is not equal to the current position({br.BaseStream.Position - part2Pos})";
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
@@ -196,6 +196,7 @@ namespace RocketRP
 		{
 			var stream = new MemoryStream();
 			Serialize(stream);
+			Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 			var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
 			fs.Write(stream.ToArray());
 			fs.Close();

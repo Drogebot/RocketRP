@@ -18,8 +18,14 @@ namespace RocketRP.DataTypes.TAGame
 		public static new ProductAttribute_UserColor_TA Deserialize(BitReader br, Replay replay)
 		{
 			uint color = 0;
-			if (replay.LicenseeVersion >= 23) color = br.ReadUInt32();
-			else color = br.ReadUInt32FromBits(31);
+			if (replay.LicenseeVersion >= 23)
+			{
+				color = br.ReadUInt32();
+			}
+			else
+			{
+				color = br.ReadBit() ? (1U << 31) & br.ReadUInt32FromBits(31) : 0;
+			}
 
 			return new ProductAttribute_UserColor_TA(color);
 		}
@@ -28,8 +34,15 @@ namespace RocketRP.DataTypes.TAGame
 		{
 			base.Serialize(bw, replay);
 
-			if (replay.LicenseeVersion >= 23) bw.Write(Color);
-			else bw.WriteFixedBits(Color, 31);
+			if (replay.LicenseeVersion >= 23)
+			{
+				bw.Write(Color);
+			}
+			else
+			{
+				if (Color >> 31 == 1) bw.Write(Color);
+				else bw.Write(false);
+			}
 		}
-	}	
+	}
 }

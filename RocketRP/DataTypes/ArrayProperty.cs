@@ -53,7 +53,14 @@ namespace RocketRP.DataTypes
 			else if (typeof(T) == typeof(ulong)) value = (T)(object)br.ReadUInt64();
 			else if (typeof(T) == typeof(float)) value = (T)(object)br.ReadSingle();
 			else if (typeof(T) == typeof(string)) value = (T)(object)br.ReadString();
-			else value = (T)typeof(T).GetMethod("Deserialize").Invoke(null, [br, replay]);
+			else
+			{
+
+				var methodInfo = typeof(T).GetMethod("Deserialize");
+				if (methodInfo.GetParameters().Length == 1) value = (T)methodInfo.Invoke(null, [br]);
+				else if (methodInfo.GetParameters().Length == 2) value = (T)methodInfo.Invoke(null, [br, replay]);
+				else throw new MethodAccessException($"Deserialize method in {typeof(T).Name} must have 1 or 2 parameters");
+			}
 
 			Values[index] = value;
 		}

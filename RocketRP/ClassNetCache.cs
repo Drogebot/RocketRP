@@ -44,11 +44,16 @@ namespace RocketRP
 		public void CalculateParent(Replay replay)
 		{
 			var type = System.Type.GetType($"RocketRP.Actors.{replay.Objects[ObjectIndex]}");
-			if (type.BaseType != typeof(object))
+			var baseType = type;
+			var baseObjectIndex = -1;
+			while (baseObjectIndex == -1)
 			{
-				var baseObjectIndex = replay.Objects.IndexOf(type.BaseType.FullName.Replace("RocketRP.Actors.", ""));
-				Parent = replay.ClassNetCaches.First(c => c.ObjectIndex == baseObjectIndex);
+				if (baseType.BaseType == typeof(object)) break;
+				baseType = baseType.BaseType;
+				baseObjectIndex = replay.Objects.IndexOf(baseType.FullName.Replace("RocketRP.Actors.", ""));
 			}
+
+			if (baseObjectIndex != -1) Parent = replay.ClassNetCaches.First(c => c.ObjectIndex == baseObjectIndex);
 		}
 
 		public static ClassNetCache Deserialize(BinaryReader br)
