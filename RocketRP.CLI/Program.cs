@@ -23,7 +23,7 @@ Parser.Default.ParseArguments<Options>(args)
 
 	if (!opts.DirectoryMode)
 	{
-		ParseReplay(opts.ReplayPath, opts.OutputPath, opts.ParseNetstream, opts.EnforceCRC, opts.PrettyPrint, opts.Mode);
+		ParseReplay(opts.ReplayPath, opts.OutputPath, !opts.Fast, opts.EnforceCRC, opts.PrettyPrint, opts.Mode);
 	}
 	else
 	{
@@ -38,7 +38,7 @@ Parser.Default.ParseArguments<Options>(args)
 
 		foreach (var replayFile in replayFiles)
 		{
-			ParseReplay(replayFile.FullName, opts.OutputPath, opts.ParseNetstream, opts.EnforceCRC, opts.PrettyPrint, opts.Mode);
+			ParseReplay(replayFile.FullName, opts.OutputPath, !opts.Fast, opts.EnforceCRC, opts.PrettyPrint, opts.Mode);
 		}
 	}
 });

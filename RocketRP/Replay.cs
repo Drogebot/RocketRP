@@ -34,7 +34,7 @@ namespace RocketRP
 		public int Changelist { get => (int)(_Changelist = _Changelist.HasValue ? _Changelist.Value : Properties.ContainsKey("Changelist") ? (int)Properties["Changelist"].Value : 0); }
 		public Dictionary<string, ClassNetCache> ClassNetCacheByName;
 
-		public static Replay Deserialize(string filePath, bool parseNetstream = false, bool enforeCRC = false)
+		public static Replay Deserialize(string filePath, bool parseNetstream = true, bool enforeCRC = false)
 		{
 			var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 			var replay = Deserialize(fs, parseNetstream, enforeCRC);
@@ -42,12 +42,12 @@ namespace RocketRP
 			return replay;
 		}
 
-		public static Replay Deserialize(FileStream stream, bool parseNetstream = false, bool enforeCRC = false)
+		public static Replay Deserialize(FileStream stream, bool parseNetstream = true, bool enforeCRC = false)
 		{
 			return Deserialize(new BinaryReader(stream), parseNetstream, enforeCRC);
 		}
 
-		public static Replay Deserialize(BinaryReader br, bool parseNetstream = false, bool enforeCRC = false)
+		public static Replay Deserialize(BinaryReader br, bool parseNetstream = true, bool enforeCRC = false)
 		{
 			var replay = new Replay();
 

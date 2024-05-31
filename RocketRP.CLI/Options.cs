@@ -18,13 +18,13 @@ namespace RocketRP.CLI
 		[Option('d', "directory", Default = false, HelpText = "Process entire Directory")]
 		public bool DirectoryMode { get; set; }
 
-		[Option('n', "netstream", Default = true, HelpText = "Process the Netstream")]
-		public bool ParseNetstream { get; set; }
+		[Option('f', "fast", Default = false, HelpText = "Skips the Netstream")]
+		public bool Fast { get; set; }
 
-		[Option("enforce-crc", Default = false, HelpText = "Fail if CRCs don't match the data")]
+		[Option('c', "enforce-crc", Default = false, HelpText = "Fail if CRCs don't match the data")]
 		public bool EnforceCRC { get; set; }
 
-		[Option('p', "pretty", Default = true, HelpText = "Output JSON pretty-printed")]
+		[Option('p', "pretty", Default = false, HelpText = "Output JSON pretty-printed")]
 		public bool PrettyPrint { get; set; }
 
 		[Option('m', "mode", Default = SerializationMode.Deserialize, HelpText = $"{"Deserialize"} to JSON or {"Serialize"} from JSON")]
