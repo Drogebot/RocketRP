@@ -20,6 +20,7 @@ FLAGS:
  -r, --replay       Required. Path to the Replay File/Directory
  -o, --output       (Default: ReplayPath) Path to the output Directory
  -d, --directory    (Default: false) Process entire Directory
+ -t, --threads      (Default: 10) Number of Threads to run in Directory Mode
  -f, --fast         (Default: false) Skips the Netstream
  -c, --enforce-crc  (Default: false) Fail if CRCs don't match the data
  -p, --pretty       (Default: false) Output JSON pretty-printed

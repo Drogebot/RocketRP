@@ -43,7 +43,7 @@ Parser.Default.ParseArguments<Options>(args)
 			thread.Start();
 			threads.Add(thread);
 
-			if (threads.Count >= 10)
+			if (threads.Count >= opts.Threads)
 			{
 				bool waiting = true;
 				while (waiting)

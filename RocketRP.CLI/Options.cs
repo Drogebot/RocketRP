@@ -18,6 +18,9 @@ namespace RocketRP.CLI
 		[Option('d', "directory", Default = false, HelpText = "Process entire Directory")]
 		public bool DirectoryMode { get; set; }
 
+		[Option('t', "threads", Default = 10, HelpText = "Number of Threads to run in Directory Mode")]
+		public int Threads { get; set; }
+
 		[Option('f', "fast", Default = false, HelpText = "Skips the Netstream")]
 		public bool Fast { get; set; }
 
