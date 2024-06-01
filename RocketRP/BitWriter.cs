@@ -156,8 +156,7 @@ namespace RocketRP
 
 		public byte[] GetAllBytes()
 		{
-
-			var bytes = new byte[((Position - 1) >> 3) + ((Position & 7) > 0 ? 1 : 0)];
+			var bytes = new byte[((Position - 1) >> 3) + (((Position - 1) & 7) > 0 ? 1 : 0)];
 			if (Length < (bytes.Length << 3)) Bits.Length = bytes.Length << 3;
 
 			for (var byteIndex = 0; byteIndex < bytes.Length; byteIndex++)

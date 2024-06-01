@@ -52,7 +52,7 @@ namespace RocketRP
 			}
 			else if (objType == typeof(long))
 			{
-				if ((long)obj <= int.MaxValue)
+				if (Math.Abs((long)obj) <= int.MaxValue)
 				{
 					Type = "IntProperty";
 					Value = Convert.ToInt32(obj);

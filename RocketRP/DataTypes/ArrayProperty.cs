@@ -77,7 +77,12 @@ namespace RocketRP.DataTypes
 					bw.Write(propId, maxPropertyId);
 				}
 				bw.Write(i, Length);
-				typeof(T).GetMethod("Serialize").Invoke(Values[i], [bw, replay]);
+
+				var methodInfo = typeof(T).GetMethod("Serialize");
+				if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(Values[i], [bw]);
+				else if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(Values[i], [bw, replay]);
+				else throw new MethodAccessException($"Serialize method in {typeof(T).Name} must have 1 or 2 parameters");
+				
 				firstEntry = false;
 			}
 		}

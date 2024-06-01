@@ -49,7 +49,7 @@ namespace RocketRP.DataTypes
 			if (PlayerId.Type != PlatformId.Unknown) bw.Write(PlayerName);
 			else
 			{
-				// I've made this to match UniqueNetId.Deserialize()
+				// I've made this to match UniqueNetId.Serialize()
 				// But it could instead be (replay.LicenseeVersion >= 18 && replay.LicenseeVersion <= 19) or just (replay.LicenseeVersion == 18)
 				if (replay.LicenseeVersion >= 18 && replay.NetVersion == 0)
 				{

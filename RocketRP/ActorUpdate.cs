@@ -142,7 +142,7 @@ namespace RocketRP
 					bw.Write(true);
 					var propId = ClassNetCache.GetPropertyPropertyId(propObjectIndex);
 					bw.Write(propId, ClassNetCache.NumProperties);
-					Actor.SerializeProperty(bw, replay, propObjectIndex);
+					Actor.SerializeProperty(bw, replay, propId, propObjectIndex);
 				}
 				bw.Write(false);
 				return;

@@ -116,7 +116,7 @@ namespace RocketRP.Actors.Engine
 			InitialRotation.Value.Serialize(bw);
 		}
 
-		public void SerializeProperty(BitWriter bw, Replay replay, int propObjectIndex)
+		public void SerializeProperty(BitWriter bw, Replay replay, int propId, int propObjectIndex)
 		{
 			var propName = replay.Objects[propObjectIndex].Split(":").Last();
 
@@ -146,7 +146,7 @@ namespace RocketRP.Actors.Engine
 			else if (propertyInfo.PropertyType.GetInterface("IArrayProperty") == typeof(IArrayProperty))
 			{
 				var classNetCache = replay.ClassNetCacheByName[GetType().FullName.Replace("RocketRP.Actors.", "")];
-				((IArrayProperty)propertyInfo.GetValue(this)).Serialize(bw, replay, classNetCache.NumProperties, propObjectIndex);
+				((IArrayProperty)propertyInfo.GetValue(this)).Serialize(bw, replay, propId, classNetCache.NumProperties);
 			}
 
 			else

@@ -33,12 +33,33 @@ Parser.Default.ParseArguments<Options>(args)
 			return;
 		}
 
-		var replayFiles = replayFileInfo.Directory.GetFiles("*.replay", SearchOption.TopDirectoryOnly);
+		var replayFiles = opts.Mode == SerializationMode.Deserialize ? replayFileInfo.Directory.GetFiles("*.replay", SearchOption.TopDirectoryOnly) : replayFileInfo.Directory.GetFiles("*.json", SearchOption.TopDirectoryOnly);
 		replayFiles = replayFiles.OrderByDescending(f => f.LastWriteTime).ToArray();
 
+		var threads = new List<Thread>();
 		foreach (var replayFile in replayFiles)
 		{
-			ParseReplay(replayFile.FullName, opts.OutputPath, !opts.Fast, opts.EnforceCRC, opts.PrettyPrint, opts.Mode);
+			var thread = new Thread(() => ParseReplay(replayFile.FullName, opts.OutputPath, !opts.Fast, opts.EnforceCRC, opts.PrettyPrint, opts.Mode));
+			thread.Start();
+			threads.Add(thread);
+
+			if (threads.Count >= 10)
+			{
+				bool waiting = true;
+				while (waiting)
+				{
+					foreach (var th in threads)
+					{
+						if (th.ThreadState == ThreadState.Stopped)
+						{
+							th.Join();
+							threads.Remove(th);
+							waiting = false;
+							break;
+						}
+					}
+				}
+			}
 		}
 	}
 });
@@ -61,12 +82,13 @@ static void ParseReplay(string replayPath, string outputPath, bool parseNetstrea
 			Directory.CreateDirectory(Path.GetDirectoryName(outputFilePath));
 			File.WriteAllText(outputFilePath, jsonData);
 
-			Console.WriteLine($"Parsed replay: {outputFilePath}!");
+			Console.WriteLine($"Parsed replay: {replayPath}: {outputFilePath}!");
 		}
 		catch (Exception e)
 		{
 			Console.WriteLine($"Failed to parse replay: {e.Message}");
 			//var replayOutputPath = Path.Combine(outputPath + "\\failedReplays", Path.GetFileName(replayPath));
+			//Directory.CreateDirectory(Path.GetDirectoryName(replayOutputPath));
 			//if (File.Exists(replayOutputPath)) return;
 			//File.Copy(replayPath, replayOutputPath, false);
 			return;
@@ -77,6 +99,7 @@ static void ParseReplay(string replayPath, string outputPath, bool parseNetstrea
 		var outputFilePath = Path.Combine(outputPath, Path.GetFileNameWithoutExtension(replayPath) + "_RocketRP.replay");
 		try
 		{
+			//if (File.Exists(outputFilePath)) return;
 			Console.WriteLine($"Parsing JSON: {replayPath}...");
 			var jsonData = File.ReadAllText(replayPath);
 			var replay = (Replay)serializer.Deserialize(jsonData);
@@ -88,7 +111,7 @@ static void ParseReplay(string replayPath, string outputPath, bool parseNetstrea
 		}
 		catch (Exception e)
 		{
-			Console.WriteLine($"Failed to serialize replay: {e.Message}");
+			Console.WriteLine($"Failed to serialize replay: {replayPath}: {e.Message}");
 			return;
 		}
 	}
