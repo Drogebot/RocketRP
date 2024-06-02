@@ -101,8 +101,8 @@ namespace RocketRP.Actors.Engine
 			else
 			{
 				var methodInfo = propertyInfo.PropertyType.GetMethod("Deserialize");
-				if (methodInfo.GetParameters().Length == 1) propertyInfo.SetValue(this, methodInfo.Invoke(null, [br]));
-				else if (methodInfo.GetParameters().Length == 2) propertyInfo.SetValue(this, methodInfo.Invoke(null, [br, replay]));
+				if (methodInfo.GetParameters().Length == 1) propertyInfo.SetValue(this, methodInfo.Invoke(null, new object[] { br }));
+				else if (methodInfo.GetParameters().Length == 2) propertyInfo.SetValue(this, methodInfo.Invoke(null, new object[] { br, replay }));
 				else throw new MethodAccessException($"Deserialize method in {propertyInfo.PropertyType.Name} must have 1 or 2 parameters");
 			}
 		}
@@ -152,8 +152,8 @@ namespace RocketRP.Actors.Engine
 			else
 			{
 				var methodInfo = propertyInfo.PropertyType.GetMethod("Serialize");
-				if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(propertyInfo.GetValue(this), [bw]);
-				if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(propertyInfo.GetValue(this), [bw, replay]);
+				if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(propertyInfo.GetValue(this), new object[] { bw });
+				if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(propertyInfo.GetValue(this), new object[] { bw, replay });
 			}
 		}
 	}

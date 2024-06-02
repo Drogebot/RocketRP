@@ -102,7 +102,7 @@ static void ParseReplay(string replayPath, string outputPath, bool parseNetstrea
 			//if (File.Exists(outputFilePath)) return;
 			Console.WriteLine($"Parsing JSON: {replayPath}...");
 			var jsonData = File.ReadAllText(replayPath);
-			var replay = (Replay)serializer.Deserialize(jsonData);
+			var replay = serializer.Deserialize(jsonData);
 
 			Console.WriteLine($"Converting to replay...");
 			replay.Serialize(outputFilePath);

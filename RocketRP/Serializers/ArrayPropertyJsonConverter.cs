@@ -24,7 +24,7 @@ namespace RocketRP.Serializers
 			var type = typeof(List<>).MakeGenericType(objectType.GenericTypeArguments[0]);
 			var values = (IList)serializer.Deserialize(reader, type);
 
-			var arrayProperty = (IArrayProperty)existingValue ?? (IArrayProperty)Activator.CreateInstance(objectType, [values]);
+			var arrayProperty = (IArrayProperty)existingValue ?? (IArrayProperty)Activator.CreateInstance(objectType, values);
 
 			return arrayProperty;
 		}

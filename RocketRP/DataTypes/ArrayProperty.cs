@@ -57,8 +57,8 @@ namespace RocketRP.DataTypes
 			{
 
 				var methodInfo = typeof(T).GetMethod("Deserialize");
-				if (methodInfo.GetParameters().Length == 1) value = (T)methodInfo.Invoke(null, [br]);
-				else if (methodInfo.GetParameters().Length == 2) value = (T)methodInfo.Invoke(null, [br, replay]);
+				if (methodInfo.GetParameters().Length == 1) value = (T)methodInfo.Invoke(null, new object[] { br });
+				else if (methodInfo.GetParameters().Length == 2) value = (T)methodInfo.Invoke(null, new object[] { br, replay });
 				else throw new MethodAccessException($"Deserialize method in {typeof(T).Name} must have 1 or 2 parameters");
 			}
 
@@ -79,8 +79,8 @@ namespace RocketRP.DataTypes
 				bw.Write(i, Length);
 
 				var methodInfo = typeof(T).GetMethod("Serialize");
-				if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(Values[i], [bw]);
-				else if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(Values[i], [bw, replay]);
+				if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(Values[i], new object[] { bw });
+				else if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(Values[i], new object[] { bw, replay });
 				else throw new MethodAccessException($"Serialize method in {typeof(T).Name} must have 1 or 2 parameters");
 				
 				firstEntry = false;

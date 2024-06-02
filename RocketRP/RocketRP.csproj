@@ -1,10 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <TargetFramework>net5.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Title>RocketRP</Title>
+    <Authors>Drogings</Authors>
+    <Description>A Rocket League Replay Parser</Description>
+    <PackageProjectUrl>https://github.com/Drogebot/RocketRP</PackageProjectUrl>
+    <Copyright>© 2024</Copyright>
+    <RepositoryUrl>https://github.com/Drogebot/RocketRP.git</RepositoryUrl>
+    <PackageTags>rocket league,rocket,league,replay,parser</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile></PackageReadmeFile>
+    <SignAssembly>False</SignAssembly>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
