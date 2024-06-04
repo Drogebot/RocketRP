@@ -12,7 +12,7 @@ namespace RocketRP.Actors.TAGame
 	public class GameEvent_TA : Actor
 	{
 		public int ReplicatedRoundCountDownNumber { get; set; }
-		public CustomMatchSettings MatchSettings { get; set; }  // This property hasn't been encountered in any replays yet, so the type it's code might not be entirely accurate
+		public CustomMatchSettings MatchSettings { get; set; }
 		public ObjectTarget GameOwner { get; set; }
 		public int ReplicatedGameStateTimeRemaining { get; set; }
 		public Name ReplicatedStateName { get; set; }

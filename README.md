@@ -1,3 +1,4 @@
+[![NuGet version (RocketRP)](https://img.shields.io/nuget/v/RocketRP.svg?style=flat-square)](https://www.nuget.org/packages/RocketRP/)
 # [RocketRP](https://github.com/Drogebot/RocketRP)
 A Rocket League Replay parser written in C#. Replay files are converted to an object which can be exported as JSON.
 

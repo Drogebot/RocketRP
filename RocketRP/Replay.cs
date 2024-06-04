@@ -154,6 +154,19 @@ namespace RocketRP
 			for (int i = 0; i < numClassNetCaches; i++)
 			{
 				var classNetCache = ClassNetCache.Deserialize(br);
+
+				// Check and fix for duplicate Objects, rare occurance but it can happen it seems. Somehow ClassIndexes does have the correct value but Objects doesn't (see `128ed.replay`)
+				var dupe = replay.ClassNetCaches.Find(c => replay.Objects[c.ObjectIndex] == replay.Objects[classNetCache.ObjectIndex]);
+				if (dupe != null)
+				{
+					var realObjectName = replay.ClassIndexes.Where(kvp => kvp.Value == classNetCache.ObjectIndex).First().Key;
+					replay.Objects[classNetCache.ObjectIndex] = realObjectName;
+					foreach(var prop in classNetCache.Properties)
+					{
+						replay.Objects[prop.ObjectIndex] = $"{realObjectName}:{replay.Objects[prop.ObjectIndex].Split(":").Last()}";
+					}
+				}
+
 				classNetCache.CalculateParent(replay);
 				replay.ClassNetCaches.Add(classNetCache);
 			}

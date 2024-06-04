@@ -38,7 +38,8 @@ namespace RocketRP
 				{
 					actorUpdate.State = ChannelState.Open;
 
-					if (replay.EngineVersion > 868 || (replay.EngineVersion == 868 && replay.LicenseeVersion >= 14))
+					if ((replay.EngineVersion >= 868 && replay.LicenseeVersion >= 15) ||
+						(replay.EngineVersion == 868 && replay.LicenseeVersion == 14 && (string)replay.Properties["MatchType"].Value != "Lan"))	// Fixes RLCS 2 replays
 					{
 						actorUpdate.NameId = br.ReadInt32();
 						actorUpdate.Name = replay.Names[actorUpdate.NameId.Value];
@@ -119,7 +120,8 @@ namespace RocketRP
 				bw.Write(true);
 				bw.Write(true);
 
-				if (replay.EngineVersion > 868 || (replay.EngineVersion == 868 && replay.LicenseeVersion >= 14))
+				if ((replay.EngineVersion >= 868 && replay.LicenseeVersion >= 15) ||
+					(replay.EngineVersion == 868 && replay.LicenseeVersion == 14 && (string)replay.Properties["MatchType"].Value != "Lan"))	// Fixes RLCS 2 replays
 				{
 					bw.Write(NameId.Value);
 				}
@@ -179,13 +181,16 @@ namespace RocketRP
 				case "TAGame.Default__PRI_KnockOut_TA":
 					return replay.ClassNetCacheByName["TAGame.PRI_KnockOut_TA"];
 
+				case "TAGame.Default__Car_TA":
 				case "Archetypes.Car.Car_Default":
-				case "Archetypes.GameEvent.GameEvent_Season:CarArchetype":
-				case "Archetypes.Car.Car_PostGameLobby":
-				case "Mutators.Mutators.Mutators.FreePlay:CarArchetype":
 					return replay.ClassNetCacheByName["TAGame.Car_TA"];
 				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype":
 					return replay.ClassNetCacheByName["TAGame.Car_KnockOut_TA"];
+				case "Archetypes.Car.Car_PostGameLobby":
+				case "Mutators.Mutators.Mutators.FreePlay:CarArchetype":
+					return replay.ClassNetCacheByName["TAGame.Car_Freeplay_TA"];
+				case "Archetypes.GameEvent.GameEvent_Season:CarArchetype":
+					return replay.ClassNetCacheByName["TAGame.Car_Season_TA"];
 
 				case "Archetypes.Ball.Ball_Default":
 				case "Archetypes.Ball.Ball_Basketball":
@@ -204,6 +209,11 @@ namespace RocketRP
 					return replay.ClassNetCacheByName["TAGame.Ball_Haunted_TA"];
 				case "Archetypes.Ball.Ball_God":
 					return replay.ClassNetCacheByName["TAGame.Ball_God_TA"];
+				case "Archetypes.Ball.Ball_Training":
+				case "Archetypes.Ball.Ball_Tutorial":
+					return replay.ClassNetCacheByName["TAGame.Ball_Tutorial_TA"];
+				case "Archetypes.Ball.Ball_Trajectory":
+					return replay.ClassNetCacheByName["TAGame.Ball_Trajectory_TA"];
 
 				case "Archetypes.CarComponents.CarComponent_Boost":
 					return replay.ClassNetCacheByName["TAGame.CarComponent_Boost_TA"];
@@ -236,9 +246,10 @@ namespace RocketRP
 
 				case "Archetypes.Teams.Team0":
 				case "Archetypes.Teams.Team1":
+					return replay.ClassNetCacheByName["TAGame.Team_Soccar_TA"];
 				case "Archetypes.Teams.TeamWhite0":
 				case "Archetypes.Teams.TeamWhite1":
-					return replay.ClassNetCacheByName["TAGame.Team_Soccar_TA"];
+					return replay.ClassNetCacheByName["TAGame.Team_Freeplay_TA"];
 
 
 				case "Archetypes.GameEvent.GameEvent_Basketball":
@@ -268,6 +279,19 @@ namespace RocketRP
 					return replay.ClassNetCacheByName["TAGame.GameEvent_GodBall_TA"];
 				case "GameInfo_FootBall.GameInfo.GameInfo_FootBall:Archetype":
 					return replay.ClassNetCacheByName["TAGame.GameEvent_Football_TA"];
+				/* These events shouldn't ever occur but there was at least 1 replay that had "GameInfo_Tutorial.GameEvent.GameEvent_Tutorial_Aerial" */
+				case "Archetypes.GameEvent.GameEvent_Tutorial_Advanced":
+					return replay.ClassNetCacheByName["TAGame.GameEvent_Tutorial_Advanced_TA"];
+				case "Archetypes.GameEvent.GameEvent_Tutorial_Basic":
+					return replay.ClassNetCacheByName["TAGame.GameEvent_Tutorial_Basic_TA"];
+				case "Archetypes.GameEvent.GameEvent_Tutorial_FreePlay":
+					return replay.ClassNetCacheByName["TAGame.GameEvent_Tutorial_FreePlay_TA"];
+				case "GameInfo_Tutorial.GameEvent.GameEvent_Tutorial_Aerial":
+					return replay.ClassNetCacheByName["TAGame.GameEvent_Training_Aerial_TA"];
+				case "GameInfo_Tutorial.GameEvent.GameEvent_Tutorial_Goalie":
+					return replay.ClassNetCacheByName["TAGame.GameEvent_Training_Goalie_TA"];
+				case "GameInfo_Tutorial.GameEvent.GameEvent_Tutorial_Striker":
+					return replay.ClassNetCacheByName["TAGame.GameEvent_Training_Striker_TA"];
 
 				case "Archetypes.SpecialPickups.SpecialPickup_GravityWell":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallGravity_TA"];
@@ -310,7 +334,11 @@ namespace RocketRP
 				case "GameInfo_FootBall.GameInfo.GameInfo_FootBall:GameReplicationInfoArchetype":
 				case "GameInfo_FTE.GameInfo.GameInfo_FTE:GameReplicationInfoArchetype":
 				case "GameInfo_KnockOut.KnockOut.GameInfo_KnockOut:GameReplicationInfoArchetype":
+				case "GameInfo_Tutorial.GameInfo.GameInfo_Tutorial:GameReplicationInfoArchetype":
 					return replay.ClassNetCacheByName["TAGame.GRI_TA"];
+
+				case "Archetypes.Tutorial.Cannon":
+					return replay.ClassNetCacheByName["TAGame.Cannon_TA"];
 			}
 
 			// These are map specific objects

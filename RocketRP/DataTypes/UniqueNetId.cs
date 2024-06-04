@@ -51,6 +51,7 @@ namespace RocketRP.DataTypes
 					break;
 				case PlatformId.Steam:
 				case PlatformId.XboxOne:
+				case PlatformId.QQ:
 					id = br.ReadUInt64().ToString();
 					break;
 				case PlatformId.PS4:
@@ -91,6 +92,7 @@ namespace RocketRP.DataTypes
 					break;
 				case PlatformId.Steam:
 				case PlatformId.XboxOne:
+				case PlatformId.QQ:
 					bw.Write(UInt64.Parse(Id));
 					break;
 				case PlatformId.PS4:

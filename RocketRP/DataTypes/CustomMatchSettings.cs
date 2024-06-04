@@ -7,7 +7,6 @@ using System.Xml.Linq;
 
 namespace RocketRP.DataTypes
 {
-	/// This class hasn't been encountered in any replays yet, so I'm sure it's entirely accurate
 	public struct CustomMatchSettings
 	{
 		public string GameTags { get; set; }
@@ -35,14 +34,25 @@ namespace RocketRP.DataTypes
 		{
 			var gameTags = br.ReadString();
 			var mapName = Name.Deserialize(br, replay);
-			var gameMode = br.ReadByte();
+			var gameMode = (byte)0;
+			//	This property hasn't been encountered in any replays yet, so I'm not sure where the cutoff is. Probably when `GameEvent_SoccarPrivate_TA` was removed as well
+			//	The following table should return false for the condition, but I'm not sure what the correct condition is
+			//	EngineVersion | licenseeVersion | NetVersion | Changelist
+			//	     868      |       10        |     0      |     0     
+			if (false)	// Find the correct condition
+			{
+				gameMode = br.ReadByte();
+			}
 			var maxPlayerCount = br.ReadInt32();
 			var serverName = br.ReadString();
 			var password = br.ReadString();
 			var bPublic = br.ReadBit();
 			var teamSettings = new CustomMatchTeamSettings[2];
-			teamSettings[0] = CustomMatchTeamSettings.Deserialize(br);
-			teamSettings[1] = CustomMatchTeamSettings.Deserialize(br);
+			if (false)	// Find the correct condition
+			{
+				teamSettings[0] = CustomMatchTeamSettings.Deserialize(br);
+				teamSettings[1] = CustomMatchTeamSettings.Deserialize(br);
+			}
 
 			return new CustomMatchSettings(gameTags, mapName, gameMode, maxPlayerCount, serverName, password, bPublic, teamSettings);
 		}
@@ -51,13 +61,19 @@ namespace RocketRP.DataTypes
 		{
 			bw.Write(GameTags);
 			MapName.Serialize(bw);
-			bw.Write(GameMode);
+			if (false)	// Find the correct condition
+			{
+				bw.Write(GameMode);
+			}
 			bw.Write(MaxPlayerCount);
 			bw.Write(ServerName);
 			bw.Write(Password);
 			bw.Write(bPublic);
-			TeamSettings[0].Serialize(bw);
-			TeamSettings[1].Serialize(bw);
+			if (false)	// Find the correct condition
+			{
+				TeamSettings[0].Serialize(bw);
+				TeamSettings[1].Serialize(bw);
+			}
 		}
 	}
 }
