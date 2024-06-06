@@ -26,11 +26,14 @@ namespace RocketRP.DataTypes
 		public static ReplicatedRBState Deserialize(BitReader br, Replay replay)
 		{
 			var sleeping = br.ReadBit();
-			var position = Vector.Deserialize(br, replay);
+			
+			Vector position;
+			if(replay.NetVersion >= 5) position = Vector.DeserializeFixedPoint(br, replay);
+			else position = Vector.Deserialize(br, replay);
 
 			object rotation;
 			if(replay.NetVersion >= 7) rotation = Quat.Deserialize(br);
-			else rotation = Vector.DeserializeFixed(br);
+			else rotation = Vector.DeserializeFixed(br, 16);
 
 			Vector linearVelocity = default, angularVelocity = default;
 			if (!sleeping)
@@ -45,10 +48,12 @@ namespace RocketRP.DataTypes
 		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(Sleeping);
-			Position.Serialize(bw, replay);
+
+			if (replay.NetVersion >= 5) Position.SerializeFixedPoint(bw, replay);
+			else Position.Serialize(bw, replay);
 
 			if (replay.NetVersion >= 7) ((Quat)Rotation).Serialize(bw);
-			else ((Vector)Rotation).SerializeFixed(bw);
+			else ((Vector)Rotation).SerializeFixed(bw, 16);
 
 			if (!Sleeping)
 			{

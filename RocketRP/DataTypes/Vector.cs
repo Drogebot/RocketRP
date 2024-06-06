@@ -8,15 +8,31 @@ namespace RocketRP.DataTypes
 {
 	public struct Vector
 	{
-		public int X { get; set; }
-		public int Y { get; set; }
-		public int Z { get; set; }
+		public float X { get; set; }
+		public float Y { get; set; }
+		public float Z { get; set; }
 
-		public Vector(int x, int y, int z)
+		public Vector(float x, float y, float z)
 		{
 			X = x;
 			Y = y;
 			Z = z;
+		}
+
+		public static Vector operator *(Vector vector, int scalar)
+		{
+			vector.X *= scalar;
+			vector.Y *= scalar;
+			vector.Z *= scalar;
+			return vector;
+		}
+
+		public static Vector operator /(Vector vector, int scalar)
+		{
+			vector.X /= scalar;
+			vector.Y /= scalar;
+			vector.Z /= scalar;
+			return vector;
 		}
 
 		public static Vector Deserialize(BitReader br, Replay replay)
@@ -25,62 +41,83 @@ namespace RocketRP.DataTypes
 
 			var numBits = br.ReadInt32Max(maxValuePerComponent);
 			var bias = 1 << (numBits + 1);
-			var max = numBits + 2;
+			var maxBits = numBits + 2;
 
-			var x = (int)br.ReadUInt32FromBits(max) - bias;
-			var y = (int)br.ReadUInt32FromBits(max) - bias;
-			var z = (int)br.ReadUInt32FromBits(max) - bias;
+			var x = br.ReadInt32FromBits(maxBits) - bias;
+			var y = br.ReadInt32FromBits(maxBits) - bias;
+			var z = br.ReadInt32FromBits(maxBits) - bias;
 
 			return new Vector(x, y, z);
 		}
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			/// This code was taken from https://github.com/jjbott/RocketLeagueReplayParser
-			uint maxValuePerComponent = replay.NetVersion >= 7 ? 22U : 20U;
+			var maxValuePerComponent = replay.NetVersion >= 7 ? 22 : 20;
 
-			Int32 maxValue = Math.Max(Math.Max(Math.Abs(X), Math.Abs(Y)), Math.Abs(Z));
-			int numBitsForValue = (int)Math.Ceiling(Math.Log10(maxValue + 1) / Math.Log10(2));
+			var x = (int)Math.Round(X);
+			var y = (int)Math.Round(Y);
+			var z = (int)Math.Round(Z);
 
-			UInt32 Bits = (UInt32)Math.Min(Math.Max(1, numBitsForValue), maxValuePerComponent) - 1;
+			var maxValue = Math.Max(Math.Max(Math.Abs(x), Math.Abs(y)), Math.Abs(z));
+			var numBitsForValue = (int)Math.Ceiling(Math.Log2(maxValue + 1));
+			var numBits = Math.Min(Math.Max(1, numBitsForValue), maxValuePerComponent) - 1;
+			var bias = 1 << (numBits + 1);
+			var maxBits = numBits + 2;
+			var max = 1 << (numBits + 2);
 
-			bw.Write(Bits, maxValuePerComponent);
+			bw.Write(numBits, maxValuePerComponent);
 
-			Int32 Bias = 1 << (int)(Bits + 1);
-			UInt32 Max = (UInt32)(1 << (int)(Bits + 2));
-			UInt32 DX = (UInt32)(X + Bias);
-			UInt32 DY = (UInt32)(Y + Bias);
-			UInt32 DZ = (UInt32)(Z + Bias);
+			var dx = x + bias;
+			var dy = y + bias;
+			var dz = z + bias;
 
-			if (DX >= Max) { DX = unchecked((Int32)DX) > 0 ? Max - 1 : 0; }
-			if (DY >= Max) { DY = unchecked((Int32)DY) > 0 ? Max - 1 : 0; }
-			if (DZ >= Max) { DZ = unchecked((Int32)DZ) > 0 ? Max - 1 : 0; }
+			if (dx >= max) dx = max - 1;
+			if (dy >= max) dy = max - 1;
+			if (dz >= max) dz = max - 1;
 
-			bw.Write(DX, Max);
-			bw.Write(DY, Max);
-			bw.Write(DZ, Max);
+			bw.WriteFixedBits(dx, maxBits);
+			bw.WriteFixedBits(dy, maxBits);
+			bw.WriteFixedBits(dz, maxBits);
 		}
 
-		public static Vector DeserializeFixed(BitReader br)
+		public static Vector DeserializeFixedPoint(BitReader br, Replay replay)
 		{
-			var numBits = 16;
-			var bias = 1 << (numBits - 1);
+			var vector = Deserialize(br, replay);
+			
+			vector /= 100;
 
-			var x = (int)br.ReadUInt32FromBits(numBits) - bias;
-			var y = (int)br.ReadUInt32FromBits(numBits) - bias;
-			var z = (int)br.ReadUInt32FromBits(numBits) - bias;
-
-			return new Vector(x, y, z);
+			return vector;
 		}
 
-		public void SerializeFixed(BitWriter bw)
+		public void SerializeFixedPoint(BitWriter bw, Replay replay)
 		{
-			var numBits = 16;
+			this *= 100;
+
+			Serialize(bw, replay);
+		}
+
+		public static Vector DeserializeFixed(BitReader br, int numBits)
+		{
+			var maxBitValue = (1 << (numBits - 1)) - 1;
 			var bias = 1 << (numBits - 1);
 
-			bw.WriteFixedBits(X + bias, numBits);
-			bw.WriteFixedBits(Y + bias, numBits);
-			bw.WriteFixedBits(Z + bias, numBits);
+			var x = br.ReadInt32FromBits(numBits) - bias;
+			var y = br.ReadInt32FromBits(numBits) - bias;
+			var z = br.ReadInt32FromBits(numBits) - bias;
+
+			return new Vector(x, y, z) / maxBitValue;
+		}
+
+		public void SerializeFixed(BitWriter bw, int numBits)
+		{
+			var maxBitValue = (1 << (numBits - 1)) - 1;
+			var bias = 1 << (numBits - 1);
+
+			this *= maxBitValue;
+
+			bw.WriteFixedBits((int)X + bias, numBits);
+			bw.WriteFixedBits((int)Y + bias, numBits);
+			bw.WriteFixedBits((int)Z + bias, numBits);
 		}
 	}
 }

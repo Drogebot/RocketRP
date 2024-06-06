@@ -6,23 +6,26 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
-	/// This code was taken from https://github.com/jjbott/RocketLeagueReplayParser
+	/// This code was adapted from https://www.reddit.com/r/RocketLeague/comments/93h1f3/psyonix_help_me_please_how_are_rotations_encoded/e3g5b2s/
 	public struct Quat
 	{
-		public float X { get; set; }
-		public float Y { get; set; }
-		public float Z { get; set; }
-		public float W { get; set; }
+		public float X;
+		public float Y;
+		public float Z;
+		public float W;
 
 		private const int NUM_BITS = 18;
-		private const float MAX_QUAT_VALUE = 0.7071067811865475244f;
+		private const int MAX_VALUE = (1 << NUM_BITS) - 1;
+		private const float MAX_QUAT_VALUE = 0.7071067811865475244f;    // 1/sqrt(2)
+		private const float INV_MAX_QUAT_VALUE = 1.0f / MAX_QUAT_VALUE;
 
-		private enum Component
+		private enum Component : byte
 		{
 			X,
 			Y,
 			Z,
-			W
+			W,
+			Num
 		}
 
 		public Quat(float x, float y, float z, float w)
@@ -32,94 +35,115 @@ namespace RocketRP.DataTypes
 			Z = z;
 			W = w;
 		}
+
+		public static Quat operator /(Quat quat, float scalar)
+		{
+			quat.X /= scalar;
+			quat.Y /= scalar;
+			quat.Z /= scalar;
+			quat.W /= scalar;
+			return quat;
+		}
+
+		public void Normalize()
+		{
+			float mag = (float)Math.Sqrt(X * X + Y * Y + Z * Z + W * W);
+			this /= mag;
+		}
+
 		private static float UncompressComponent(uint iValue)
 		{
-			const int maxValue = (1 << NUM_BITS) - 1;
-			float positiveRangedValue = iValue / (float)maxValue;
+			float positiveRangedValue = iValue / (float)MAX_VALUE;
 			float rangedValue = (positiveRangedValue - 0.50f) * 2.0f;
 			return rangedValue * MAX_QUAT_VALUE;
 		}
 
-		private static uint CompressComponent(float value)
+		private static void UncompressComponents(BitReader br, ref float a, ref float b, ref float c, ref float missing)
 		{
-			const int MaxValue = (1 << NUM_BITS) - 1;
-			float rangedValue = value / MAX_QUAT_VALUE;
-			float positiveRangedValue = (rangedValue / 2f) + .5f;
-			return (uint)Math.Round(MaxValue * positiveRangedValue);
+			a = UncompressComponent(br.ReadUInt32Max(MAX_VALUE + 1));
+			b = UncompressComponent(br.ReadUInt32Max(MAX_VALUE + 1));
+			c = UncompressComponent(br.ReadUInt32Max(MAX_VALUE + 1));
+			missing = (float)Math.Sqrt(1.0f - (a * a) - (b * b) - (c * c));
 		}
 
 		public static Quat Deserialize(BitReader br)
 		{
-			var largestComponent = br.ReadInt32FromBits(2);
-			var a = UncompressComponent(br.ReadUInt32FromBits(NUM_BITS));
-			var b = UncompressComponent(br.ReadUInt32FromBits(NUM_BITS));
-			var c = UncompressComponent(br.ReadUInt32FromBits(NUM_BITS));
-			float missing = (float)Math.Sqrt(1.0f - (a * a) - (b * b) - (c * c));
+			var largestComponent = (Component)br.ReadInt32Max((byte)Component.Num);
+
+			var quat = new Quat();
 
 			switch (largestComponent)
 			{
-				case 0:
-					return new Quat(missing, a, b, c);
-				case 1:
-					return new Quat(a, missing, b, c);
-				case 2:
-					return new Quat(a, b, missing, c);
-				case 3:
-				default:
-					return new Quat(a, b, c, missing);
+				case Component.X:
+					UncompressComponents(br, ref quat.Y, ref quat.Z, ref quat.W, ref quat.X);
+					break;
+				case Component.Y:
+					UncompressComponents(br, ref quat.X, ref quat.Z, ref quat.W, ref quat.Y);
+					break;
+				case Component.Z:
+					UncompressComponents(br, ref quat.X, ref quat.Y, ref quat.W, ref quat.Z);
+					break;
+				case Component.W:
+					UncompressComponents(br, ref quat.X, ref quat.Y, ref quat.Z, ref quat.W);
+					break;
 			}
+
+			quat.Normalize();
+
+			return quat;
+		}
+
+		private static uint CompressComponent(float value)
+		{
+			float rangedValue = value * INV_MAX_QUAT_VALUE;
+			float positiveRangedValue = (rangedValue / 2.0f) + 0.50f;
+			return (uint)Math.Round(positiveRangedValue * MAX_VALUE);
+		}
+
+		private void CompressComponents(BitWriter bw, ref float a, ref float b, ref float c)
+		{
+			bw.Write(CompressComponent(a), MAX_VALUE + 1);
+			bw.Write(CompressComponent(b), MAX_VALUE + 1);
+			bw.Write(CompressComponent(c), MAX_VALUE + 1);
 		}
 
 		public void Serialize(BitWriter bw)
 		{
+			Normalize();
+
 			var components = new List<float> { X, Y, Z, W };
-			var largestComponentValue = components.Max();
-
-			// This weirdness is only to help with round trip tests. Without it, there would be minor changes to rotation values.
-			// There are cases where we want to serialize the largest value, and leave another value as the "missing" value.
-			//
-			// For example, we may have components with values like 0.707106769 (A) and 0.707106054 (B)
-			// If we treat A as the largest (since it is), we'll find that the values have swapped when deserializing
-			// The issue is that they both serialize to 262143, and 262143 deserializes to 0.707106769.
-			// If we serialize B, we'll read it as 0.707106769 due to precision lost in compression. Calculating A will give us 0.707106054.
-			//
-			// That probably doesn't make an ounce of sense.
-			// Basically, since we've calculated one component, that one component may lose a lot of precision in compression.
-			// All other components came from compressed values, so they wont lose any precision (assuming we're using data straight from RL, unedited)
-			// So we know that the component that round trips to a different value is the one we originally calculated.
-			// Use that one as the largest, as long as it's close to the actual largest.
-			//
-			// That probably still doesnt make sense. Here be dragons?            
-			var calculatedComponent = components.Cast<float?>().FirstOrDefault(c => c != UncompressComponent(CompressComponent(c.Value))) ?? largestComponentValue;
-			if (largestComponentValue != calculatedComponent && Math.Abs(largestComponentValue - calculatedComponent) < 0.00001)
+			var largestComponent = Component.X;
+			var largestComponentAbsValue = 0f;
+			for (var i = 0; i < components.Count; i++)
 			{
-				largestComponentValue = calculatedComponent;
+				var componentAbs = Math.Abs(components[i]);
+				if (componentAbs > largestComponentAbsValue)
+				{
+					largestComponent = (Component)i;
+					largestComponentAbsValue = componentAbs;
+				}
 			}
 
-			if (largestComponentValue == X)
-			{
-				Write(bw, Component.X, Y, Z, W);
-			}
-			else if (largestComponentValue == Y)
-			{
-				Write(bw, Component.Y, X, Z, W);
-			}
-			else if (largestComponentValue == Z)
-			{
-				Write(bw, Component.Z, X, Y, W);
-			}
-			else
-			{
-				Write(bw, Component.W, X, Y, Z);
-			}
-		}
+			var largestComponentValue = components[(byte)largestComponent];
+			if (largestComponentValue < 0) this /= -1;
 
-		private void Write(BitWriter bw, Component largest, float a, float b, float c)
-		{
-			bw.WriteFixedBits((uint)largest, 2);
-			bw.WriteFixedBits(CompressComponent(a), NUM_BITS);
-			bw.WriteFixedBits(CompressComponent(b), NUM_BITS);
-			bw.WriteFixedBits(CompressComponent(c), NUM_BITS);
+			bw.Write((byte)largestComponent, (byte)Component.Num);
+
+			switch (largestComponent)
+			{
+				case Component.X:
+					CompressComponents(bw, ref Y, ref Z, ref W);
+					break;
+				case Component.Y:
+					CompressComponents(bw, ref X, ref Z, ref W);
+					break;
+				case Component.Z:
+					CompressComponents(bw, ref X, ref Y, ref W);
+					break;
+				case Component.W:
+					CompressComponents(bw, ref X, ref Y, ref Z);
+					break;
+			}
 		}
 	}
 }
