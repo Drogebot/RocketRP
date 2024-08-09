@@ -18,7 +18,7 @@ namespace RocketRP.DataTypes.TAGame
             var className = replay.Objects[objectTarget.TargetIndex];
 
             var type = Type.GetType($"RocketRP.DataTypes.{className}");
-            var attribute = (ProductAttribute_TA)type.GetMethod("Deserialize").Invoke(null, new object[] { br, replay });
+            var attribute = (ProductAttribute_TA)type.GetMethod("DeserializeType").Invoke(null, new object[] { br, replay });
 
             attribute.ObjectTarget = objectTarget;
 			attribute.ClassName = className;

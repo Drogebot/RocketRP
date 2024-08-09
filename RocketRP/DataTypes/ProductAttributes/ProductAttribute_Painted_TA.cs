@@ -15,7 +15,7 @@ namespace RocketRP.DataTypes.TAGame
 			PaintId = paintId;
 		}
 
-		public static new ProductAttribute_Painted_TA Deserialize(BitReader br, Replay replay)
+		public static ProductAttribute_Painted_TA DeserializeType(BitReader br, Replay replay)
 		{
 			PaintColor paintId;
 			if (replay.EngineVersion >= 868 && replay.LicenseeVersion >= 18) paintId = (PaintColor)br.ReadUInt32FromBits(31);

@@ -15,7 +15,7 @@ namespace RocketRP.DataTypes.TAGame
 			EditionId = editionId;
 		}
 
-		public static new ProductAttribute_TeamEdition_TA Deserialize(BitReader br, Replay replay)
+		public static ProductAttribute_TeamEdition_TA DeserializeType(BitReader br, Replay replay)
 		{
 			var editionId = (TeamEdition)br.ReadUInt32FromBits(31);
 

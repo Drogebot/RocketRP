@@ -15,7 +15,7 @@ namespace RocketRP.DataTypes.TAGame
 			Color = color;
 		}
 
-		public static new ProductAttribute_UserColor_TA Deserialize(BitReader br, Replay replay)
+		public static ProductAttribute_UserColor_TA DeserializeType(BitReader br, Replay replay)
 		{
 			uint color = 0;
 			if (replay.LicenseeVersion >= 23)

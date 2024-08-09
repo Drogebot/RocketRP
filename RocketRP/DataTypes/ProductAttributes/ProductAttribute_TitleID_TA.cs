@@ -15,7 +15,7 @@ namespace RocketRP.DataTypes.TAGame
 			Title = title;
 		}
 
-		public static new ProductAttribute_TitleID_TA Deserialize(BitReader br, Replay replay)
+		public static ProductAttribute_TitleID_TA DeserializeType(BitReader br, Replay replay)
 		{
 			string title = br.ReadString();
 

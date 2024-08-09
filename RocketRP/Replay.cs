@@ -13,24 +13,24 @@ namespace RocketRP
 
 		public uint Part1Length { get; set; }
 		public uint Part1CRC { get; set; }
-		public uint EngineVersion { get; set; }
-		public uint LicenseeVersion { get; set; }
-		public uint NetVersion { get; set; }
-		public string ReplayClass { get; set; }
-		public PropertyDictionary Properties { get; set; }
+		public uint EngineVersion { get; set; } = 868;
+		public uint LicenseeVersion { get; set; } = 32;
+		public uint NetVersion { get; set; } = 10;
+		public string ReplayClass { get; set; } = "TAGame.Replay_Soccar_TA";
+		public PropertyDictionary Properties { get; set; } = new PropertyDictionary();
 		public uint Part2Length { get; set; }
 		public uint Part2CRC { get; set; }
-		public List<string> Levels { get; set; }
-		public List<Frame> Frames { get; set; }
-		public List<KeyFrame> KeyFrames { get; set; }
-		public List<DebugString> DebugStrings { get; set; }
-		public List<Tickmark> Tickmarks { get; set; }
-		public List<string> Packages { get; set; }
-		public List<string> Objects { get; set; }
-		public List<string> Names { get; set; }
-		public Dictionary<string, int> ClassIndexes { get; set; }
-		public List<ClassNetCache> ClassNetCaches { get; set; }
-		public uint Unknown { get; set; }
+		public List<string> Levels { get; set; } = new List<string>();
+		public List<Frame> Frames { get; set; } = new List<Frame>();
+		public List<KeyFrame> KeyFrames { get; set; } = new List<KeyFrame>();
+		public List<DebugString> DebugStrings { get; set; } = new List<DebugString>();
+		public List<Tickmark> Tickmarks { get; set; } = new List<Tickmark>();
+		public List<string> Packages { get; set; } = new List<string>();
+		public List<string> Objects { get; set; } = new List<string>();
+		public List<string> Names { get; set; } = new List<string>();
+		public Dictionary<string, int> ClassIndexes { get; set; } = new Dictionary<string, int>();
+		public List<ClassNetCache> ClassNetCaches { get; set; } = new List<ClassNetCache>();
+		public uint Unknown { get; set; } = 0;
 
 		private int? _MaxChannels;
 		public int MaxChannels { get => (int)(_MaxChannels = _MaxChannels > 0 ? _MaxChannels.Value : Properties.ContainsKey("MaxChannels") ? (int)Properties["MaxChannels"].Value : 1023); }
