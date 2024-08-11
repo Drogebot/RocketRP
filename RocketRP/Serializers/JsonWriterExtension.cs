@@ -11,6 +11,8 @@ namespace RocketRP.Serializers
 	{
 		public static void WriteKeyValue(this JsonWriter writer, string key, object? value, Newtonsoft.Json.JsonSerializer serializer)
 		{
+			if (serializer.NullValueHandling == NullValueHandling.Ignore && value == null) return;
+
 			writer.WritePropertyName(key);
 			serializer.Serialize(writer, value);
 		}

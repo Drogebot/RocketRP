@@ -39,7 +39,7 @@ namespace RocketRP
 					actorUpdate.State = ChannelState.Open;
 
 					if ((replay.EngineVersion >= 868 && replay.LicenseeVersion >= 15) ||
-						(replay.EngineVersion == 868 && replay.LicenseeVersion == 14 && (string)replay.Properties["MatchType"].Value != "Lan"))	// Fixes RLCS 2 replays
+						(replay.EngineVersion == 868 && replay.LicenseeVersion == 14 && replay.Properties.MatchType != "Lan"))	// Fixes RLCS 2 replays
 					{
 						actorUpdate.NameId = br.ReadInt32();
 						actorUpdate.Name = replay.Names[actorUpdate.NameId.Value];
@@ -121,7 +121,7 @@ namespace RocketRP
 				bw.Write(true);
 
 				if ((replay.EngineVersion >= 868 && replay.LicenseeVersion >= 15) ||
-					(replay.EngineVersion == 868 && replay.LicenseeVersion == 14 && (string)replay.Properties["MatchType"].Value != "Lan"))	// Fixes RLCS 2 replays
+					(replay.EngineVersion == 868 && replay.LicenseeVersion == 14 && replay.Properties.MatchType != "Lan"))	// Fixes RLCS 2 replays
 				{
 					bw.Write(NameId.Value);
 				}

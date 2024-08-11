@@ -41,7 +41,7 @@ namespace RocketRP.Serializers
 						value = serializer.Deserialize<string>(reader);
 						break;
 					case "Properties":
-						value = serializer.Deserialize<PropertyDictionary>(reader);
+						value = serializer.Deserialize(reader, Type.GetType($"RocketRP.Actors.{replay.ReplayClass}"));
 						break;
 					case "Levels":
 						value = serializer.Deserialize<List<string>>(reader);

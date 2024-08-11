@@ -55,7 +55,6 @@ namespace RocketRP.DataTypes
 			else if (typeof(T) == typeof(string)) value = (T)(object)br.ReadString();
 			else
 			{
-
 				var methodInfo = typeof(T).GetMethod("Deserialize");
 				if (methodInfo.GetParameters().Length == 1) value = (T)methodInfo.Invoke(null, new object[] { br });
 				else if (methodInfo.GetParameters().Length == 2) value = (T)methodInfo.Invoke(null, new object[] { br, replay });

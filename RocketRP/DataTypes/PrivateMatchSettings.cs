@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace RocketRP.DataTypes
 {
-	/// This type no longer exists inside Rocket League, so I have no clue what the official names are
+	/// This type no longer exists inside Rocket League, so I have no clue what the official names are. CustomMatchSettings takes its place in the current version of Rocket League.
 	public struct PrivateMatchSettings
 	{
 		public string GameTags { get; set; }

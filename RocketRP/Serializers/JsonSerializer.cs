@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace RocketRP.Serializers
 {
-	public class JsonSerializer
+	public class JsonSerializer<T>
 	{
-		public string Serialize(Replay replay, bool prettyPrint = true)
+		public string Serialize(T obj, bool prettyPrint = true)
 		{
 			var converters = new JsonConverter[]{
 				new ReplayJsonConverter(),
-				new PropertyDictionaryJsonConverter(),
+				new PropertyJsonConverter(),
 				new KeyFrameJsonConverter(),
 				new ActorUpdateJsonConverter(),
 				new ActorJsonConverter(),
@@ -22,14 +22,14 @@ namespace RocketRP.Serializers
 				new ClassNetCacheJsonConverter(),
 			};
 
-			return JsonConvert.SerializeObject(replay, prettyPrint ? Formatting.Indented : Formatting.None, converters);
+			return JsonConvert.SerializeObject(obj, prettyPrint ? Formatting.Indented : Formatting.None, converters);
 		}
 
-		public Replay Deserialize(string replayJson)
+		public T Deserialize(string json)
 		{
 			var converters = new JsonConverter[]{
 				new ReplayJsonConverter(),
-				new PropertyDictionaryJsonConverter(),
+				new PropertyJsonConverter(),
 				new KeyFrameJsonConverter(),
 				new ActorUpdateJsonConverter(),
 				new ActorJsonConverter(),
@@ -38,7 +38,7 @@ namespace RocketRP.Serializers
 				new ClassNetCacheJsonConverter(),
 			};
 
-			return JsonConvert.DeserializeObject<Replay>(replayJson, converters);
+			return JsonConvert.DeserializeObject<T>(json, converters);
 
 		}
 	}

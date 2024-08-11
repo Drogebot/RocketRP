@@ -1,8 +1,10 @@
-﻿using RocketRP.DataTypes.Enums;
+﻿using RocketRP.Actors.TAGame;
+using RocketRP.DataTypes.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace RocketRP
 {
@@ -17,7 +19,7 @@ namespace RocketRP
 		public uint LicenseeVersion { get; set; } = 32;
 		public uint NetVersion { get; set; } = 10;
 		public string ReplayClass { get; set; } = "TAGame.Replay_Soccar_TA";
-		public PropertyDictionary Properties { get; set; } = new PropertyDictionary();
+		public Replay_TA Properties { get; set; }
 		public uint Part2Length { get; set; }
 		public uint Part2CRC { get; set; }
 		public List<string> Levels { get; set; } = new List<string>();
@@ -32,10 +34,8 @@ namespace RocketRP
 		public List<ClassNetCache> ClassNetCaches { get; set; } = new List<ClassNetCache>();
 		public uint Unknown { get; set; } = 0;
 
-		private int? _MaxChannels;
-		public int MaxChannels { get => (int)(_MaxChannels = _MaxChannels > 0 ? _MaxChannels.Value : Properties.ContainsKey("MaxChannels") ? (int)Properties["MaxChannels"].Value : 1023); }
-		private int? _Changelist;
-		public int Changelist { get => (int)(_Changelist = _Changelist.HasValue ? _Changelist.Value : Properties.ContainsKey("Changelist") ? (int)Properties["Changelist"].Value : 0); }
+		public int MaxChannels { get => Properties.MaxChannels ?? 1023; }
+		public int Changelist { get => Properties.Changelist ?? 0; }
 		public Dictionary<string, ClassNetCache> ClassNetCacheByName;
 
 		public static Replay Deserialize(string filePath, bool parseNetstream = true, bool enforeCRC = false)
@@ -67,7 +67,8 @@ namespace RocketRP
 			}
 			replay.ReplayClass = "".Deserialize(br);
 
-			replay.Properties = PropertyDictionary.Deserialize(br);
+			replay.Properties = (Replay_TA)Activator.CreateInstance(Type.GetType($"RocketRP.Actors.{replay.ReplayClass}")); ;
+			Actors.Core.Object.Deserialize(replay.Properties, br);
 
 			if(part1Pos + replay.Part1Length != br.BaseStream.Position)
 			{
@@ -244,7 +245,7 @@ namespace RocketRP
 				bw.Write(NetVersion);
 			}
 			ReplayClass.Serialize(bw);
-			Properties.Serialize(bw);
+			Actors.Core.Object.Serialize(Properties, bw);
 
 			// Overwrite Part1Length and Part1CRC
 			var curPos = bw.BaseStream.Position;
