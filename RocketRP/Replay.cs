@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace RocketRP
 {
@@ -15,9 +16,11 @@ namespace RocketRP
 
 		public uint Part1Length { get; set; }
 		public uint Part1CRC { get; set; }
-		public uint EngineVersion { get; set; } = 868;
-		public uint LicenseeVersion { get; set; } = 32;
-		public uint NetVersion { get; set; } = 10;
+		[JsonIgnore]
+		public ReplayVersionInfo VersionInfo = new ReplayVersionInfo { EngineVersion = 868, LicenseeVersion = 32, NetVersion = 10 };
+		public uint EngineVersion { get => VersionInfo.EngineVersion; set => VersionInfo.EngineVersion = value; }
+		public uint LicenseeVersion { get => VersionInfo.LicenseeVersion; set => VersionInfo.LicenseeVersion = value; }
+		public uint NetVersion { get => VersionInfo.NetVersion; set => VersionInfo.NetVersion = value; }
 		public string ReplayClass { get; set; } = "TAGame.Replay_Soccar_TA";
 		public Replay_TA Properties { get; set; }
 		public uint Part2Length { get; set; }
@@ -59,16 +62,11 @@ namespace RocketRP
 			replay.Part1CRC = br.ReadUInt32();
 			var part1Pos = (uint)br.BaseStream.Position;
 
-			replay.EngineVersion = br.ReadUInt32();
-			replay.LicenseeVersion = br.ReadUInt32();
-			if(replay.EngineVersion >= 868 && replay.LicenseeVersion >= 18)
-			{
-				replay.NetVersion = br.ReadUInt32();
-			}
+			replay.VersionInfo = ReplayVersionInfo.Deserialize(br);
 			replay.ReplayClass = "".Deserialize(br);
 
-			replay.Properties = (Replay_TA)Activator.CreateInstance(Type.GetType($"RocketRP.Actors.{replay.ReplayClass}")); ;
-			Actors.Core.Object.Deserialize(replay.Properties, br);
+			replay.Properties = (Replay_TA)Activator.CreateInstance(Type.GetType($"RocketRP.Actors.{replay.ReplayClass}"));
+			Actors.Core.Object.Deserialize(replay.Properties, br, replay.VersionInfo);
 
 			if(part1Pos + replay.Part1Length != br.BaseStream.Position)
 			{
@@ -172,7 +170,7 @@ namespace RocketRP
 				replay.ClassNetCaches.Add(classNetCache);
 			}
 
-			if(replay.NetVersion >= 10)
+			if(replay.VersionInfo.NetVersion >= 10)
 			{
 				replay.Unknown = br.ReadUInt32();
 			}
@@ -238,14 +236,9 @@ namespace RocketRP
 			bw.Write(0U);   // Part1CRC
 			var part1Pos = (uint)bw.BaseStream.Position;
 
-			bw.Write(EngineVersion);
-			bw.Write(LicenseeVersion);
-			if (EngineVersion >= 868 && LicenseeVersion >= 18)
-			{
-				bw.Write(NetVersion);
-			}
+			VersionInfo.Serialize(bw);
 			ReplayClass.Serialize(bw);
-			Actors.Core.Object.Serialize(Properties, bw);
+			Actors.Core.Object.Serialize(Properties, bw, VersionInfo);
 
 			// Overwrite Part1Length and Part1CRC
 			var curPos = bw.BaseStream.Position;
@@ -320,7 +313,7 @@ namespace RocketRP
 				classNetCache.Serialize(bw);
 			}
 
-			if (NetVersion >= 10)
+			if (VersionInfo.NetVersion >= 10)
 			{
 				bw.Write(Unknown);
 			}
@@ -376,6 +369,30 @@ namespace RocketRP
 			br.BaseStream.Seek(0, SeekOrigin.Begin);
 
 			return Crc32.CalculateCRC(br.ReadBytes(size), CRC_SEED);
+		}
+	}
+
+	public struct ReplayVersionInfo : IFileVersionInfo
+	{
+		public uint EngineVersion { get; set; }
+		public uint LicenseeVersion { get; set; }
+		public uint TypeVersion { get; set; }
+		public uint NetVersion { get => TypeVersion; set => TypeVersion = value; }
+
+		public static ReplayVersionInfo Deserialize(BinaryReader br)
+		{
+			var rvi = new ReplayVersionInfo();
+			rvi.EngineVersion = br.ReadUInt32();
+			rvi.LicenseeVersion = br.ReadUInt32();
+			if (rvi.EngineVersion >= 868 && rvi.LicenseeVersion >= 18) rvi.NetVersion = br.ReadUInt32();
+			return rvi;
+		}
+
+		public void Serialize(BinaryWriter bw)
+		{
+			bw.Write(EngineVersion);
+			bw.Write(LicenseeVersion);
+			if (EngineVersion >= 868 && LicenseeVersion >= 18) bw.Write(NetVersion);
 		}
 	}
 }

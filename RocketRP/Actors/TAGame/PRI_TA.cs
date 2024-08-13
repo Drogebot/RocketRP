@@ -29,10 +29,10 @@ namespace RocketRP.Actors.TAGame
 		public SkillTierData SkillTier { get; set; }
 		public Name Title { get; set; }
 		public PartyLeader PartyLeader { get; set; }    // This is normally a UniqueNetId but works differently in this context...
-		public SeverityType QuitSeverity { get; set; }
-		public ConnectionQualityState ReplicatedWorstNetQualityBeyondLatency { get; set; }
+		public ESeverityType QuitSeverity { get; set; }
+		public EConnectionQualityState ReplicatedWorstNetQualityBeyondLatency { get; set; }
 		public HistoryKey PlayerHistoryKey { get; set; }   // In the original code, this is a byte[0x40]
-		public PawnType PawnType { get; set; }
+		public EPawnType PawnType { get; set; }
 		public ObjectTarget PersistentCamera { get; set; }
 		public ClientLoadoutOnlineDatas ClientLoadoutsOnline { get; set; }
 		public ClientLoadoutDatas ClientLoadouts { get; set; }

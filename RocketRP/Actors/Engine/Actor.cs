@@ -32,10 +32,10 @@ namespace RocketRP.Actors.Engine
 		public bool bHidden { get; set; }
 		public ObjectTarget Base { get; set; }
 		public ObjectTarget Owner { get; set; }
-		public CollisionType ReplicatedCollisionType { get; set; }
-		public Role Role { get; set; }
-		public Role RemoteRole { get; set; }
-		public Physics Physics { get; set; }
+		public ECollisionType ReplicatedCollisionType { get; set; }
+		public ENetRole Role { get; set; }
+		public ENetRole RemoteRole { get; set; }
+		public EPhysics Physics { get; set; }
 		public float DrawScale { get; set; }
 		public Rotator Rotation { get; set; }
 		public Vector Location { get; set; }
@@ -100,7 +100,7 @@ namespace RocketRP.Actors.Engine
 
 			else
 			{
-				var methodInfo = propertyInfo.PropertyType.GetMethod("Deserialize");
+				var methodInfo = propertyInfo.PropertyType.GetMethod("Deserialize", new Type[] { typeof(BitReader) }) ?? propertyInfo.PropertyType.GetMethod("Deserialize", new Type[] { typeof(BitReader), typeof(Replay) });
 				if (methodInfo.GetParameters().Length == 1) propertyInfo.SetValue(this, methodInfo.Invoke(null, new object[] { br }));
 				else if (methodInfo.GetParameters().Length == 2) propertyInfo.SetValue(this, methodInfo.Invoke(null, new object[] { br, replay }));
 				else throw new MethodAccessException($"Deserialize method in {propertyInfo.PropertyType.Name} must have 1 or 2 parameters");
@@ -151,7 +151,7 @@ namespace RocketRP.Actors.Engine
 
 			else
 			{
-				var methodInfo = propertyInfo.PropertyType.GetMethod("Serialize");
+				var methodInfo = propertyInfo.PropertyType.GetMethod("Serialize", new Type[] { typeof(BitWriter) }) ?? propertyInfo.PropertyType.GetMethod("Serialize", new Type[] { typeof(BitWriter), typeof(Replay) });
 				if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(propertyInfo.GetValue(this), new object[] { bw });
 				if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(propertyInfo.GetValue(this), new object[] { bw, replay });
 			}

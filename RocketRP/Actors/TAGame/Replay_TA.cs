@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.DataTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,40 +9,23 @@ namespace RocketRP.Actors.TAGame
 {
 	public class Replay_TA : Core.Object
 	{
-		public StrProperty? ReplayName { get; set; }
-
-		public IntProperty? ReplayVersion { get; set; }
-
-		public IntProperty? ReplayLastSaveVersion { get; set; }
-
-		public IntProperty? GameVersion { get; set; }
-
-		public IntProperty? BuildID { get; set; }
-
-		public IntProperty? Changelist { get; set; }
-
-		public StrProperty? BuildVersion { get; set; }
-
-		public IntProperty? ReserveMegabytes { get; set; }
-
-		public FloatProperty? RecordFPS { get; set; }
-
-		public FloatProperty? KeyframeDelay { get; set; }
-
-		public IntProperty? MaxChannels { get; set; }
-
-		public IntProperty? MaxReplaySizeMB { get; set; }
-
-		public StrProperty? Id { get; set; }
-
-		public NameProperty? MapName { get; set; }
-
-		public StrProperty? Date { get; set; }
-
-		public IntProperty? NumFrames { get; set; }
-
-		public NameProperty? MatchType { get; set; }
-
-		public StrProperty? PlayerName { get; set; }
+		public string? ReplayName { get; set; }
+		public int? ReplayVersion { get; set; }
+		public int? ReplayLastSaveVersion { get; set; }
+		public int? GameVersion { get; set; }
+		public int? BuildID { get; set; }
+		public int? Changelist { get; set; }
+		public string? BuildVersion { get; set; }
+		public int? ReserveMegabytes { get; set; }
+		public float? RecordFPS { get; set; }
+		public float? KeyframeDelay { get; set; }
+		public int? MaxChannels { get; set; }
+		public int? MaxReplaySizeMB { get; set; }
+		public string? Id { get; set; }
+		public Name? MapName { get; set; }
+		public string? Date { get; set; }
+		public int? NumFrames { get; set; }
+		public Name? MatchType { get; set; }
+		public string? PlayerName { get; set; }
 	}
 }

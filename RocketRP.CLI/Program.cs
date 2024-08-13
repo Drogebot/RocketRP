@@ -66,7 +66,7 @@ Parser.Default.ParseArguments<Options>(args)
 
 static void ParseReplay(string replayPath, string outputPath, bool parseNetstream, bool enforceCRC, bool prettyPrint, SerializationMode mode)
 {
-	var serializer = new JsonSerializer<Replay>();
+	var serializer = new ReplayJsonSerializer();
 
 	if (mode == SerializationMode.Deserialize)
 	{

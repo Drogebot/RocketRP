@@ -20,6 +20,7 @@ namespace RocketRP.Serializers
 			reader.Read();
 
 			var replay = (Replay)existingValue ?? new Replay();
+			replay.NetVersion = 0;
 
 			while (reader.TokenType == JsonToken.PropertyName)
 			{
@@ -111,7 +112,12 @@ namespace RocketRP.Serializers
 
 			writer.WriteKeyValue("ReplayClass", replay.ReplayClass, serializer);
 
+			var nullValueHandling = serializer.NullValueHandling;
+			serializer.NullValueHandling = NullValueHandling.Ignore;
+
 			writer.WriteKeyValue("Properties", replay.Properties, serializer);
+
+			serializer.NullValueHandling = nullValueHandling;
 
 			//writer.WriteKeyValue("Part2Length", replay.Part2Length, serializer);
 			//writer.WriteKeyValue("Part2CRC", replay.Part2CRC, serializer);

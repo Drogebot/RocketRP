@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,38 +8,38 @@ using System.Threading.Tasks;
 
 namespace RocketRP.Serializers
 {
-	public class JsonSerializer<T>
+	public class ReplayJsonSerializer
 	{
-		public string Serialize(T obj, bool prettyPrint = true)
+		public string Serialize(Replay obj, bool prettyPrint = true)
 		{
 			var converters = new JsonConverter[]{
 				new ReplayJsonConverter(),
-				new PropertyJsonConverter(),
 				new KeyFrameJsonConverter(),
 				new ActorUpdateJsonConverter(),
 				new ActorJsonConverter(),
 				new ArrayPropertyJsonConverter(),
 				new DataTypesJsonConverter(),
 				new ClassNetCacheJsonConverter(),
+				new StringEnumConverter(),
 			};
 
 			return JsonConvert.SerializeObject(obj, prettyPrint ? Formatting.Indented : Formatting.None, converters);
 		}
 
-		public T Deserialize(string json)
+		public Replay Deserialize(string json)
 		{
 			var converters = new JsonConverter[]{
 				new ReplayJsonConverter(),
-				new PropertyJsonConverter(),
 				new KeyFrameJsonConverter(),
 				new ActorUpdateJsonConverter(),
 				new ActorJsonConverter(),
 				new ArrayPropertyJsonConverter(),
 				new DataTypesJsonConverter(),
 				new ClassNetCacheJsonConverter(),
+				new StringEnumConverter(),
 			};
 
-			return JsonConvert.DeserializeObject<T>(json, converters);
+			return JsonConvert.DeserializeObject<Replay>(json, converters);
 
 		}
 	}

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes.Enums
 {
-	public enum PawnType : byte
+	public enum EConnectionQualityState : byte
 	{
-		Player,
-		Spectator,
-		Editor,
-		END,
+		CQS_Good,
+		CQS_Mediocre,
+		CQS_Bad,
+		CQS_END,
 	}
 }

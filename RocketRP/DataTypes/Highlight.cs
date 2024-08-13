@@ -8,12 +8,9 @@ namespace RocketRP.DataTypes
 {
 	public struct Highlight
 	{
-		public IntProperty? frame { get; set; }
-
-		public NameProperty? CarName { get; set; }
-
-		public NameProperty? BallName { get; set; }
-
-		public NameProperty? GoalActorName { get; set; }
+		public int? frame { get; set; }
+		public Name? CarName { get; set; }
+		public Name? BallName { get; set; }
+		public Name? GoalActorName { get; set; }
 	}
 }

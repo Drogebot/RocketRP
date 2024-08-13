@@ -8,10 +8,8 @@ namespace RocketRP.DataTypes
 {
 	public struct ScoredGoal
 	{
-		public IntProperty? frame { get; set; }
-
-		public StrProperty? PlayerName { get; set; }
-
-		public IntProperty? PlayerTeam { get; set; }
+		public int? frame { get; set; }
+		public string? PlayerName { get; set; }
+		public int? PlayerTeam { get; set; }
 	}
 }

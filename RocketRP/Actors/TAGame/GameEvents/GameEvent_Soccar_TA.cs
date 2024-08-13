@@ -14,9 +14,9 @@ namespace RocketRP.Actors.TAGame
 		public ObjectTarget SubRulesArchetype { get; set; }
 		public int RoundNum { get; set; }
 		public ObjectTarget MVP { get; set; }
-		public ConnectionQualityState ReplicatedServerPerformanceState { get; set; }
+		public EConnectionQualityState ReplicatedServerPerformanceState { get; set; }
 		public byte ReplicatedScoredOnTeam { get; set; }
-		public TieBreakDecision TieBreakDecision { get; set; }
+		public ETieBreakDecision TieBreakDecision { get; set; }
 		public ObjectTarget MatchWinner { get; set; }
 		public ObjectTarget GameWinner { get; set; }
 		public ObjectTarget ReplayDirector { get; set; }

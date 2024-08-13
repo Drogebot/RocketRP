@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes.Enums
 {
-    public enum SeverityType : byte
-    {
-        None,
-        Low,
-        Medium,
-        High,
-        END,
-    }
+	public enum EDifficulty
+	{
+		D_Easy,
+		D_Medium,
+		D_Hard,
+		D_END,
+	}
 }

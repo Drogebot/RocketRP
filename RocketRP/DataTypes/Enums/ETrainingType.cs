@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes.Enums
 {
-	public enum Role : byte
+	public enum ETrainingType : byte
 	{
-		None,
-		SimulatedProxy,
-		AutonomousProxy,
-		Authority,
-		END,
+		Training_None,
+		Training_Aerial,
+		Training_Goalie,
+		Training_Striker,
+		Training_END,
 	}
 }

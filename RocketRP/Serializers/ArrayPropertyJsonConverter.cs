@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,11 +15,13 @@ namespace RocketRP.Serializers
 	{
 		public override bool CanConvert(Type objectType)
 		{
+			if (Nullable.GetUnderlyingType(objectType) != null) objectType = objectType.GenericTypeArguments[0];
 			return objectType.GetInterface("IArrayProperty") == typeof(IArrayProperty);
 		}
 
 		public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
 		{
+			if (Nullable.GetUnderlyingType(objectType) != null) objectType = objectType.GenericTypeArguments[0];
 			if (reader.TokenType != JsonToken.StartArray) throw new JsonReaderException("Expected StartArray token!");
 
 			var type = typeof(List<>).MakeGenericType(objectType.GenericTypeArguments[0]);

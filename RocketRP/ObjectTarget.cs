@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,20 @@ namespace RocketRP
     {
         public bool IsActor { get; set; }
         public int TargetIndex { get; set; }
+
+        public static ObjectTarget Deserialize(BinaryReader br)
+        {
+            return new ObjectTarget
+            {
+                IsActor = false,
+                TargetIndex = br.ReadInt32(),
+            };
+        }
+
+        public void Serialize(BinaryWriter bw)
+        {
+            bw.Write(TargetIndex);
+        }
 
         public static ObjectTarget Deserialize(BitReader br)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.DataTypes.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace RocketRP.DataTypes
 			var playerId = UniqueNetId.Deserialize(br, replay);
 
 			string playerName = "";
-			if (playerId.Type != PlatformId.Unknown) playerName = br.ReadString();
+			if (playerId.Platform != OnlinePlatform.OnlinePlatform_Unknown) playerName = br.ReadString();
 			else
 			{
 				// I've made this to match UniqueNetId.Deserialize()
@@ -46,7 +47,7 @@ namespace RocketRP.DataTypes
 		{
 			PlayerId.Serialize(bw, replay);
 
-			if (PlayerId.Type != PlatformId.Unknown) bw.Write(PlayerName);
+			if (PlayerId.Platform != OnlinePlatform.OnlinePlatform_Unknown) bw.Write(PlayerName);
 			else
 			{
 				// I've made this to match UniqueNetId.Serialize()
