@@ -13,9 +13,10 @@ You can download [the latest release](https://github.com/Drogebot/RocketRP/relea
 If you want to include this in your project, [a NuGet package](https://www.nuget.org/packages/RocketRP) is also available.
 
 ## Usage
+### Replays
 ```
 USAGE:
- RocketRP [FLAGS]
+ RocketRP.CLI [FLAGS]
 
 FLAGS:
  -r, --replay       Required. Path to the Replay File/Directory
@@ -30,8 +31,29 @@ FLAGS:
  --version          Display version information.
 
 EXAMPLES:
- RocketRP -r example.replay -p              Convert Replay to pretty-printed JSON
- RocketRP -r "path\to\replay\files" -d -c   Convert all Replays in a directory if they pass the CRC check
- RocketRP -r example.json -m Serialize      Convert a JSON file back into a Replay
- RocketRP -r example.replay -f              Convert only the metadata of a Replay to JSON
+ RocketRP.CLI -r example.replay -p              Convert Replay to pretty-printed JSON
+ RocketRP.CLI -r "path\to\replay\files" -d -c   Convert all Replays in a directory if they pass the CRC check
+ RocketRP.CLI -r example.json -m Serialize      Convert a JSON file back into a Replay
+ RocketRP.CLI -r example.replay -f              Convert only the metadata of a Replay to JSON
+```
+### Trainings
+```
+USAGE:
+ RocketRP.TrainingCLI [FLAGS]
+
+FLAGS:
+ -f, --training     Required. Path to the Training File/Directory
+ -o, --output       (Default: TrainingPath) Path to the output Directory
+ -d, --directory    (Default: false) Process entire Directory
+ -t, --threads      (Default: 10) Number of Threads to run in Directory Mode
+ -c, --enforce-crc  (Default: false) Fail if CRCs don't match the data
+ -p, --pretty       (Default: false) Output JSON pretty-printed
+ -m, --mode         (Default: Deserialize) Deserialize to JSON or Serialize from JSON
+ --help             Display this help screen.
+ --version          Display version information.
+
+EXAMPLES:
+ RocketRP.TrainingCLI -f example.tem -p                   Convert Training to pretty-printed JSON
+ RocketRP.TrainingCLI -f "path\to\training\files" -d -c   Convert all Trainings in a directory if they pass the CRC check
+ RocketRP.TrainingCLI -f example.json -m Serialize        Convert a JSON file back into a Training
 ```
