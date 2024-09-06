@@ -11,6 +11,8 @@ namespace RocketRP.Actors.TAGame
 {
 	public class GameEvent_TA : Actor
 	{
+		public int MatchTotalSecondsPlayed { get; set; }
+		public ulong MatchStartEpoch { get; set; }
 		public int ReplicatedRoundCountDownNumber { get; set; }
 		public CustomMatchSettings MatchSettings { get; set; }
 		public ObjectTarget GameOwner { get; set; }
