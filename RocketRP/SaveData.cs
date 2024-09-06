@@ -158,12 +158,14 @@ namespace RocketRP
 			Actors.Core.Object.Serialize(Properties, bw, VersionInfo);
 
 			ObjectTypes = new List<ObjectType>(Objects.Count);
+			uint i = 0;
 			foreach (var obj in Objects)
 			{
 				ObjectTypes.Add(new ObjectType
 				{
 					Type = obj.GetType().FullName.Replace("RocketRP.Actors.", ""),
-					FilePosition = bw.BaseStream.Position - part2Pos
+					ObjectIndex = i++,
+					FilePosition = (uint)(bw.BaseStream.Position - part2Pos)
 				});
 				bw.Write(OBJHEADER);
 				Actors.Core.Object.Serialize(obj, bw, VersionInfo);

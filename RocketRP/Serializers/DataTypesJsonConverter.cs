@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RocketRP.Actors.TAGame;
 using RocketRP.DataTypes;
-using RocketRP.DataTypes.TAGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -217,19 +217,19 @@ namespace RocketRP.Serializers
 				{
 					case "TAGame.ProductAttribute_Painted_TA":
 						var painted = (ProductAttribute_Painted_TA)attribute;
-						writer.WriteKeyValue("PaintId", painted.PaintId, serializer);
+						writer.WriteKeyValue("PaintId", painted.PaintID, serializer);
 						break;
 					case "TAGame.ProductAttribute_SpecialEdition_TA":
 						var specialEdition = (ProductAttribute_SpecialEdition_TA)attribute;
-						writer.WriteKeyValue("EditionId", specialEdition.EditionId, serializer);
+						writer.WriteKeyValue("EditionId", specialEdition.EditionID, serializer);
 						break;
 					case "TAGame.ProductAttribute_TeamEdition_TA":
 						var teamEdition = (ProductAttribute_TeamEdition_TA)attribute;
-						writer.WriteKeyValue("EditionId", teamEdition.EditionId, serializer);
+						writer.WriteKeyValue("EditionId", teamEdition.Id, serializer);
 						break;
 					case "TAGame.ProductAttribute_TitleID_TA":
 						var titleID = (ProductAttribute_TitleID_TA)attribute;
-						writer.WriteKeyValue("Title", titleID.Title, serializer);
+						writer.WriteKeyValue("Title", titleID.TitleId, serializer);
 						break;
 					case "TAGame.ProductAttribute_UserColor_TA":
 						var userColor = (ProductAttribute_UserColor_TA)attribute;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.DataTypes.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace RocketRP
 			}
 			else
 			{
-				value = "";
+				value = string.Empty;
 			}
 
 			return value;
@@ -33,6 +34,12 @@ namespace RocketRP
 
 		public static void Serialize(this string value, BinaryWriter bw)
 		{
+			if(value == string.Empty)
+			{
+				bw.Write(0);
+				return;
+			}
+
 			// TODO: This is the same implementation as BitWriter's Write(string)
 			var length = value.Length + 1;
 			bool isUnicode = value.Any(c => c > 255);

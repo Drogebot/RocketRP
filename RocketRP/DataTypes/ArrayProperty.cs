@@ -52,18 +52,21 @@ namespace RocketRP.DataTypes
 			var array = new ArrayProperty<T>(br.ReadInt32());
 			for (int i = 0; i < array.Length; i++)
 			{
-				if (typeof(T) == typeof(byte)) array[i] = (T)(object)br.ReadByte();
-				else if (typeof(T) == typeof(int)) array[i] = (T)(object)br.ReadInt32();
+				if (typeof(T) == typeof(int)) array[i] = (T)(object)br.ReadInt32();
 				else if (typeof(T) == typeof(uint)) array[i] = (T)(object)br.ReadUInt32();
 				else if (typeof(T) == typeof(long)) array[i] = (T)(object)br.ReadInt64();
 				else if (typeof(T) == typeof(ulong)) array[i] = (T)(object)br.ReadUInt64();
 				else if (typeof(T) == typeof(float)) array[i] = (T)(object)br.ReadSingle();
 				else if (typeof(T) == typeof(string)) array[i] = (T)(object)"".Deserialize(br);
+				else if (typeof(T) == typeof(Name)) array[i] = (T)(object)Name.Deserialize(br);
+				else if (typeof(T) == typeof(byte)) array[i] = (T)(object)br.ReadByte();
+				else if (typeof(T).IsEnum) array[i] = (T)Enum.Parse(typeof(T), "".Deserialize(br));
+				else if (typeof(T) == typeof(ObjectTarget)) array[i] = (T)(object)ObjectTarget.Deserialize(br);
 				else
 				{
 					var propertyType = typeof(T);
 					var value = Activator.CreateInstance(propertyType);
-					if (propertyType.GetInterface("ISpecialSerialized") == typeof(ISpecialSerialized)) propertyType.GetMethod("Deserialize", new Type[] { typeof(BinaryReader), typeof(IFileVersionInfo) }).Invoke(value, new object[] { br, versionInfo });
+					if(value is ISpecialSerialized specialValue) specialValue.Deserialize(br, versionInfo);
 					else Actors.Core.Object.Deserialize(value, br, versionInfo);
 					array[i] = (T)value;
 				}
@@ -99,7 +102,7 @@ namespace RocketRP.DataTypes
 		{
 			bw.Write(Length);
 
-			foreach(var item in Values)
+			foreach (var item in Values)
 			{
 				if (item is bool boolvalue) bw.Write(boolvalue);
 				else if (item is int intvalue) bw.Write(intvalue);
@@ -108,10 +111,13 @@ namespace RocketRP.DataTypes
 				else if (item is ulong ulongvalue) bw.Write(ulongvalue);
 				else if (item is float floatvalue) bw.Write(floatvalue);
 				else if (item is string stringvalue) stringvalue.Serialize(bw);
+				else if (item is Name namevalue) namevalue.Serialize(bw);
+				else if (item is byte bytevalue) bw.Write(bytevalue);
+				else if (item is Enum enumvalue) enumvalue.ToString().Serialize(bw);
+				else if (item is ObjectTarget objectvalue) objectvalue.Serialize(bw);
 				else
 				{
-					var propertyType = item.GetType();
-					if (propertyType.GetInterface("ISpecialSerialized") == typeof(ISpecialSerialized)) propertyType.GetMethod("Serialize", new Type[] { typeof(BinaryWriter), typeof(IFileVersionInfo) }).Invoke(item, new object[] { bw, versionInfo });
+					if(item is ISpecialSerialized specialItem) specialItem.Serialize(bw, versionInfo);
 					else Actors.Core.Object.Serialize(item, bw, versionInfo);
 				}
 			}

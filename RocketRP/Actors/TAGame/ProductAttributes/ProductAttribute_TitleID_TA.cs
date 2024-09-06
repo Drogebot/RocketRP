@@ -1,18 +1,21 @@
-﻿using System;
+﻿using RocketRP.DataTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RocketRP.DataTypes.TAGame
+namespace RocketRP.Actors.TAGame
 {
 	public class ProductAttribute_TitleID_TA : ProductAttribute_TA
 	{
-		public string Title { get; set; }
+		public Name? TitleId { get; set; }
+
+		public ProductAttribute_TitleID_TA() { }
 
 		public ProductAttribute_TitleID_TA(string title)
 		{
-			Title = title;
+			TitleId = title;
 		}
 
 		public static ProductAttribute_TitleID_TA DeserializeType(BitReader br, Replay replay)
@@ -26,7 +29,7 @@ namespace RocketRP.DataTypes.TAGame
 		{
 			base.Serialize(bw, replay);
 
-			bw.Write(Title);
+			bw.Write((string)TitleId);
 		}
 	}
 }

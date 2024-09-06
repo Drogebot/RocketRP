@@ -19,11 +19,11 @@ namespace RocketRP.DataTypes
             return ToString();
         }
 
-        public static StructProperty Deserialize(BinaryReader br, long valueLength)
+        public static StructProperty Deserialize(BinaryReader br, int valueLength)
         {
             var prop = new StructProperty();
             prop.Type = "".Deserialize(br);
-            prop.Value = Convert.ToHexString(br.ReadBytes((int)valueLength));
+            prop.Value = Convert.ToHexString(br.ReadBytes(valueLength));
 
             return prop;
         }

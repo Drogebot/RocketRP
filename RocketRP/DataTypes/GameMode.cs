@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
-	/// This type only exists because GameServerID was changed from EnumMax to byte at some point
+	/// This type only exists because GameMode was changed from EnumMax to byte at some point
 	public struct GameMode
 	{
 		public byte Value { get; set; }

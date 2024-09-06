@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RocketRP.DataTypes.TAGame
+namespace RocketRP.Actors.TAGame
 {
 	public class ProductAttribute_UserColor_TA : ProductAttribute_TA
 	{
-		public uint Color { get; set; }
+		public uint? Color { get; set; }
+
+		public ProductAttribute_UserColor_TA() { }
 
 		public ProductAttribute_UserColor_TA(uint color)
 		{
@@ -36,11 +38,11 @@ namespace RocketRP.DataTypes.TAGame
 
 			if (replay.LicenseeVersion >= 23)
 			{
-				bw.Write(Color);
+				bw.Write(Color.Value);
 			}
 			else
 			{
-				if (Color >> 31 == 1) bw.Write(Color);
+				if (Color >> 31 == 1) bw.Write(Color.Value);
 				else bw.Write(false);
 			}
 		}

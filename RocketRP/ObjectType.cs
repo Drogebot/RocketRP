@@ -12,13 +12,16 @@ namespace RocketRP
 	{
 		public string Type { get; set; }
 		[JsonIgnore]
-		public long FilePosition { get; set; }
+		public uint FilePosition { get; set; }
+		[JsonIgnore]
+		public uint ObjectIndex { get; set; }
 
 		public static ObjectType Deserialize(BinaryReader br)
 		{
 			var ot = new ObjectType();
 			ot.Type = "".Deserialize(br);
-			ot.FilePosition = br.ReadInt64();
+			ot.FilePosition = br.ReadUInt32();
+			ot.ObjectIndex = br.ReadUInt32();
 			return ot;
 		}
 
@@ -26,6 +29,7 @@ namespace RocketRP
 		{
 			Type.Serialize(bw);
 			bw.Write(FilePosition);
+			bw.Write(ObjectIndex);
 		}
 	}
 }

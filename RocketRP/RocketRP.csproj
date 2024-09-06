@@ -6,11 +6,11 @@
     <Nullable>enable</Nullable>
     <Title>RocketRP</Title>
     <Authors>Drogings</Authors>
-    <Description>A Rocket League Replay Parser</Description>
+    <Description>A Rocket League Replay and Training Parser and Generator</Description>
     <PackageProjectUrl>https://github.com/Drogebot/RocketRP</PackageProjectUrl>
     <Copyright>© 2024</Copyright>
     <RepositoryUrl>https://github.com/Drogebot/RocketRP.git</RepositoryUrl>
-    <PackageTags>rocket league,rocket,league,replay,parser</PackageTags>
+    <PackageTags>rocket league,rocket,league,replay,parser,generator,training</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile></PackageReadmeFile>
     <SignAssembly>False</SignAssembly>

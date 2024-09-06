@@ -9,14 +9,14 @@ namespace RocketRP.DataTypes
 {
 	public struct CustomMatchSettings
 	{
-		public string GameTags { get; set; }
-		public Name MapName { get; set; }
-		public byte GameMode { get; set; }
-		public int MaxPlayerCount { get; set; }
-		public string ServerName { get; set; }
-		public string Password { get; set; }
-		public bool bPublic { get; set; }
-		public CustomMatchTeamSettings[] TeamSettings { get; set; }
+		public string? GameTags { get; set; }
+		public Name? MapName { get; set; }
+		public byte? GameMode { get; set; }
+		public int? MaxPlayerCount { get; set; }
+		public string? ServerName { get; set; }
+		public string? Password { get; set; }
+		public bool? bPublic { get; set; }
+		public CustomMatchTeamSettings[]? TeamSettings { get; set; }
 
 		public CustomMatchSettings(string gameTags, Name mapName, byte gameMode, int maxPlayerCount, string serverName, string password, bool bPublic, CustomMatchTeamSettings[] teamSettings)
 		{
@@ -60,15 +60,15 @@ namespace RocketRP.DataTypes
 		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(GameTags);
-			MapName.Serialize(bw);
+			MapName.Value.Serialize(bw);
 			if (false)	// Find the correct condition
 			{
-				bw.Write(GameMode);
+				bw.Write(GameMode.Value);
 			}
-			bw.Write(MaxPlayerCount);
+			bw.Write(MaxPlayerCount.Value);
 			bw.Write(ServerName);
 			bw.Write(Password);
-			bw.Write(bPublic);
+			bw.Write(bPublic.Value);
 			if (false)	// Find the correct condition
 			{
 				TeamSettings[0].Serialize(bw);

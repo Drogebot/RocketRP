@@ -4,29 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RocketRP.DataTypes.TAGame
+namespace RocketRP.Actors.TAGame
 {
 	public class ProductAttribute_TeamEdition_TA : ProductAttribute_TA
 	{
-		public TeamEdition EditionId { get; set; }
+		public TeamEdition? Id { get; set; }
 
-		public ProductAttribute_TeamEdition_TA(TeamEdition editionId)
+		public ProductAttribute_TeamEdition_TA() { }
+
+		public ProductAttribute_TeamEdition_TA(TeamEdition id)
 		{
-			EditionId = editionId;
+			Id = id;
 		}
 
 		public static ProductAttribute_TeamEdition_TA DeserializeType(BitReader br, Replay replay)
 		{
-			var editionId = (TeamEdition)br.ReadUInt32FromBits(31);
+			var id = (TeamEdition)br.ReadUInt32FromBits(31);
 
-			return new ProductAttribute_TeamEdition_TA(editionId);
+			return new ProductAttribute_TeamEdition_TA(id);
 		}
 
 		public override void Serialize(BitWriter bw, Replay replay)
 		{
 			base.Serialize(bw, replay);
 
-			bw.WriteFixedBits((uint)EditionId, 31);
+			bw.WriteFixedBits((uint)Id, 31);
 		}
 	}
 

@@ -4,32 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RocketRP.DataTypes.TAGame
+namespace RocketRP.Actors.TAGame
 {
 	public class ProductAttribute_Painted_TA : ProductAttribute_TA
 	{
-		public PaintColor PaintId { get; set; }
+		public PaintColor? PaintID { get; set; }
 
-		public ProductAttribute_Painted_TA(PaintColor paintId)
+		public ProductAttribute_Painted_TA() { }
+
+		public ProductAttribute_Painted_TA(PaintColor paintID)
 		{
-			PaintId = paintId;
+			PaintID = paintID;
 		}
 
 		public static ProductAttribute_Painted_TA DeserializeType(BitReader br, Replay replay)
 		{
-			PaintColor paintId;
-			if (replay.EngineVersion >= 868 && replay.LicenseeVersion >= 18) paintId = (PaintColor)br.ReadUInt32FromBits(31);
-			else paintId = (PaintColor)br.ReadUInt32Max((uint)PaintColor.Gold);
+			PaintColor paintID;
+			if (replay.EngineVersion >= 868 && replay.LicenseeVersion >= 18) paintID = (PaintColor)br.ReadUInt32FromBits(31);
+			else paintID = (PaintColor)br.ReadUInt32Max((uint)PaintColor.Gold);
 
-			return new ProductAttribute_Painted_TA(paintId);
+			return new ProductAttribute_Painted_TA(paintID);
 		}
 
 		public override void Serialize(BitWriter bw, Replay replay)
 		{
 			base.Serialize(bw, replay);
 
-			if (replay.EngineVersion >= 868 && replay.LicenseeVersion >= 18) bw.WriteFixedBits((uint)PaintId, 31);
-			else bw.Write((uint)PaintId, (uint)PaintColor.Gold);
+			if (replay.EngineVersion >= 868 && replay.LicenseeVersion >= 18) bw.WriteFixedBits((uint)PaintID, 31);
+			else bw.Write((uint)PaintID, (uint)PaintColor.Gold);
 		}
 	}
 
