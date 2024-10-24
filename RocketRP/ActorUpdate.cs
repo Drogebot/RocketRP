@@ -257,6 +257,7 @@ namespace RocketRP
 				case "Archetypes.GameEvent.GameEvent_Soccar":
 				case "Archetypes.GameEvent.GameEvent_Items":
 				case "Archetypes.GameEvent.GameEvent_SoccarLan":
+				case "GameInfo_Basketball.GameInfo.GameInfo_Basketball:Archetype":
 					return replay.ClassNetCacheByName["TAGame.GameEvent_Soccar_TA"];
 				case "Archetypes.GameEvent.GameEvent_SoccarPrivate":
 				case "Archetypes.GameEvent.GameEvent_BasketballPrivate":
