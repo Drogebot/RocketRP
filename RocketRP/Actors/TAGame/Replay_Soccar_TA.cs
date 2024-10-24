@@ -15,6 +15,8 @@ namespace RocketRP.Actors.TAGame
 		public int? PrimaryPlayerTeam { get; set; }
 		public int? Team0Score { get; set; }
 		public int? Team1Score { get; set; }
+		public float? TotalSecondsPlayed { get; set; }
+		public ulong? MatchStartEpoch { get; set; }
 		public ArrayProperty<ScoredGoal>? Goals { get; set; }
 		public ArrayProperty<Highlight>? Highlights { get; set; }
 		public ArrayProperty<ReplayPlayerStats>? PlayerStats { get; set; }

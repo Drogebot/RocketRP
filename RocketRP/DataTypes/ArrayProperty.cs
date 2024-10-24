@@ -13,6 +13,7 @@ namespace RocketRP.DataTypes
 	public interface IArrayProperty
 	{
 		object GetValues();
+		void DeserializeFixedSize(BinaryReader br, IFileVersionInfo versionInfo, int index);
 		void Deserialize(BitReader br, Replay replay);
 		void Serialize(BinaryWriter bw, IFileVersionInfo versionInfo);
 		void Serialize(BitWriter bw, Replay replay, int propId, int maxPropertyId);
@@ -73,6 +74,28 @@ namespace RocketRP.DataTypes
 			}
 
 			return array;
+		}
+
+		public void DeserializeFixedSize(BinaryReader br, IFileVersionInfo versionInfo, int index)
+		{
+			if (typeof(T) == typeof(int)) Values[index] = (T)(object)br.ReadInt32();
+			else if (typeof(T) == typeof(uint)) Values[index] = (T)(object)br.ReadUInt32();
+			else if (typeof(T) == typeof(long)) Values[index] = (T)(object)br.ReadInt64();
+			else if (typeof(T) == typeof(ulong)) Values[index] = (T)(object)br.ReadUInt64();
+			else if (typeof(T) == typeof(float)) Values[index] = (T)(object)br.ReadSingle();
+			else if (typeof(T) == typeof(string)) Values[index] = (T)(object)"".Deserialize(br);
+			else if (typeof(T) == typeof(Name)) Values[index] = (T)(object)Name.Deserialize(br);
+			else if (typeof(T) == typeof(byte)) { "".Deserialize(br); Values[index] = (T)(object)br.ReadByte(); }
+			else if (typeof(T).IsEnum) Values[index] = (T)Enum.Parse(typeof(T), "".Deserialize(br));
+			else if (typeof(T) == typeof(ObjectTarget)) Values[index] = (T)(object)ObjectTarget.Deserialize(br);
+			else
+			{
+				var propertyType = typeof(T);
+				var value = Activator.CreateInstance(propertyType);
+				if (value is ISpecialSerialized specialValue) specialValue.Deserialize(br, versionInfo);
+				else Actors.Core.Object.Deserialize(value, br, versionInfo);
+				Values[index] = (T)value;
+			}
 		}
 
 		public void Deserialize(BitReader br, Replay replay)

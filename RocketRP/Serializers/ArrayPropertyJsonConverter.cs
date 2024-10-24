@@ -42,7 +42,8 @@ namespace RocketRP.Serializers
 
 			var arrayProperty = (IArrayProperty)value;
 
-			serializer.Serialize(writer, arrayProperty.GetValues());
+			if (arrayProperty.GetType().GetGenericArguments()[0] == typeof(byte)) serializer.Serialize(writer, ((byte[])arrayProperty.GetValues()).Select(x => (int)x));
+			else serializer.Serialize(writer, arrayProperty.GetValues());
 		}
 	}
 }

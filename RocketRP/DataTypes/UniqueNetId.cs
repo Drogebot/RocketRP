@@ -12,7 +12,7 @@ namespace RocketRP.DataTypes
     public struct UniqueNetId
 	{
 		public ulong? Uid { get; set; }
-		public StructProperty? NpId { get; set; }
+		public SceNpId? NpId { get; set; }
 		public string? EpicAccountId { get; set; }
 		public OnlinePlatform? Platform { get; set; }
 		public byte? SplitscreenID { get; set; }

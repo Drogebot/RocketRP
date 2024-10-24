@@ -9,6 +9,7 @@ namespace RocketRP.DataTypes
 {
 	public struct ReplayPlayerStats
 	{
+		public UniqueNetId? PlayerID { get; set; }
 		public string? Name { get; set; }
 		public OnlinePlatform? Platform { get; set; }
 		public ulong? OnlineID { get; set; }

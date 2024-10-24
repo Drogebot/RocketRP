@@ -229,7 +229,7 @@ namespace RocketRP.Serializers
 						break;
 					case "TAGame.ProductAttribute_TitleID_TA":
 						var titleID = (ProductAttribute_TitleID_TA)attribute;
-						writer.WriteKeyValue("Title", titleID.TitleId, serializer);
+						writer.WriteKeyValue("Title", (string)titleID.TitleId, serializer);
 						break;
 					case "TAGame.ProductAttribute_UserColor_TA":
 						var userColor = (ProductAttribute_UserColor_TA)attribute;

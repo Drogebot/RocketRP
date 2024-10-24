@@ -110,9 +110,18 @@ namespace RocketRP.Actors.Core
 			}
 			else if (propertyType.GetInterface("IArrayProperty") == typeof(IArrayProperty))
 			{
-				if (type != "ArrayProperty") throw new InvalidDataException($"Expected type ArrayProperty for {obj.GetType().FullName}.{propName} but got {type}");
-				var array = propertyType.GetMethod("Deserialize", new Type[] { typeof(BinaryReader), typeof(IFileVersionInfo) }).Invoke(null, new object[] { br, versionInfo });
-				return array;
+				if (type == "ArrayProperty")
+				{
+					var array = propertyType.GetMethod("Deserialize", new Type[] { typeof(BinaryReader), typeof(IFileVersionInfo) }).Invoke(null, new object[] { br, versionInfo });
+					return array;
+				}
+
+				// This could mean its a fixed size array, Proceed to assume that for now
+				var prop = obj.GetType().GetProperty(propName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
+				var fixedArray = (IArrayProperty)prop.GetValue(obj);
+				fixedArray.DeserializeFixedSize(br, versionInfo, valueIndex);
+				return fixedArray;
+				//throw new InvalidDataException($"Expected type ArrayProperty for {obj.GetType().FullName}.{propName} but got {type}");
 			}
 			else
 			{

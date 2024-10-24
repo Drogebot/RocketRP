@@ -22,6 +22,7 @@ namespace RocketRP.Actors.TAGame
 		public int? MaxChannels { get; set; }
 		public int? MaxReplaySizeMB { get; set; }
 		public string? Id { get; set; }
+		public string? MatchGuid { get; set; }
 		public Name? MapName { get; set; }
 		public string? Date { get; set; }
 		public int? NumFrames { get; set; }
