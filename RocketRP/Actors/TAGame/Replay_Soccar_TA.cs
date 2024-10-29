@@ -12,6 +12,9 @@ namespace RocketRP.Actors.TAGame
 		public int? TeamSize { get; set; }
 		public int? UnfairTeamSize { get; set; }
 		public bool? bUnfairBots { get; set; }
+		public bool? bNoContest { get; set; }
+		public bool? bForfeit { get; set; }
+		public bool? bLocalPlayerAbandoned { get; set; }
 		public int? PrimaryPlayerTeam { get; set; }
 		public int? Team0Score { get; set; }
 		public int? Team1Score { get; set; }
