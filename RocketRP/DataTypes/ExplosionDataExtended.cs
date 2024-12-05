@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
-	public struct ExplosionDataExtended
+	public struct ExplosionDataExtended //class extended from ExplosionData
 	{
 		public ObjectTarget Goal { get; set; }
 		public Vector Location { get; set; }

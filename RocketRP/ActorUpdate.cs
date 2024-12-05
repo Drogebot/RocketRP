@@ -173,6 +173,10 @@ namespace RocketRP
 					return replay.ClassNetCacheByName["TAGame.RumblePickups_TA"];
 				case "TAGame.Default__PickupTimer_TA":
 					return replay.ClassNetCacheByName["TAGame.PickupTimer_TA"];
+				case "TAGame.Default__TrackerWallDynamicMeshActor_TA":
+					return replay.ClassNetCacheByName["TAGame.TrackerWallDynamicMeshActor_TA"];
+				case "TAGame.Default__FreeplayCommands_TA":
+					return replay.ClassNetCacheByName["TAGame.FreeplayCommands_TA"];
 
 				case "TAGame.Default__PRI_TA":
 					return replay.ClassNetCacheByName["TAGame.PRI_TA"];
@@ -188,6 +192,7 @@ namespace RocketRP
 					return replay.ClassNetCacheByName["TAGame.Car_KnockOut_TA"];
 				case "Archetypes.Car.Car_PostGameLobby":
 				case "Mutators.Mutators.Mutators.FreePlay:CarArchetype":
+				case "Mutators.Mutators.Mutators.OnlineFreeplay:CarArchetype":
 					return replay.ClassNetCacheByName["TAGame.Car_Freeplay_TA"];
 				case "Archetypes.GameEvent.GameEvent_Season:CarArchetype":
 					return replay.ClassNetCacheByName["TAGame.Car_Season_TA"];
@@ -243,6 +248,8 @@ namespace RocketRP
 					return replay.ClassNetCacheByName["TAGame.Stunlock_TA"];
 				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.Torque":
 					return replay.ClassNetCacheByName["TAGame.CarComponent_Torque_TA"];
+				case "Archetypes.CarComponents.CarComponent_TerritoryDemolish":
+					return replay.ClassNetCacheByName["TAGame.CarComponent_TerritoryDemolish_TA"];
 
 				case "Archetypes.Teams.Team0":
 				case "Archetypes.Teams.Team1":

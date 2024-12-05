@@ -20,20 +20,23 @@ namespace RocketRP.Actors.TAGame
 		public ObjectTarget MatchWinner { get; set; }
 		public ObjectTarget GameWinner { get; set; }
 		public ObjectTarget ReplayDirector { get; set; }
-		public bool bAllowHonorDuels { get; set; }
-		public bool bCanDropOnlineRewards { get; set; }
-		public bool bClubMatch { get; set; }
-		public bool bShowIntroScene { get; set; }
-		public bool bMatchEnded { get; set; }
-		public bool bNoContest { get; set; }
-		public bool bUnlimitedTime { get; set; }
-		public bool bOverTime { get; set; }
-		public bool bBallHasBeenHit { get; set; }
 		public int WaitTimeRemaining { get; set; }
 		public int SecondsRemaining { get; set; }
 		public int MaxScore { get; set; }
 		public int GameTime { get; set; }
 		public int SeriesLength { get; set; }
+		public bool bAllowHonorDuels { get; set; }
+		public bool bCanDropOnlineRewards { get; set; }
+		public bool bClubMatch { get; set; }
+		public bool bShowIntroScene { get; set; }
+		public bool bDisableCrowdSound { get; set; }
+		public bool bMatchEnded { get; set; }
+		public bool bNoContest { get; set; }
+		public bool bGoalsEnabled { get; set; }
+		public bool bUnlimitedTime { get; set; }
+		public bool bOverTime { get; set; }
+		public bool bBallHasBeenHit { get; set; }
+		public bool bShouldSpawnGoalIndicators { get; set; }
 
 
 		// These are old properties that were removed

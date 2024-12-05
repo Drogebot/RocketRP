@@ -6,16 +6,22 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
-	public struct DemolishDataGoalExplosion //class extended from DemolishData
+	public struct DemolishDataExtended //class extended from DemolishDataGoalExplosion
 	{
+		public ObjectTarget AttackerPRI { get; set; }
+		public ObjectTarget SelfDemoFX { get; set; }
+		public bool bSelfDemolish { get; set; }
 		public ObjectTarget GoalExplosionOwner { get; set; }
 		public ObjectTarget Attacker { get; set; }
 		public ObjectTarget Victim { get; set; }
 		public Vector AttackerVelocity { get; set; }
 		public Vector VictimVelocity { get; set; }
 
-		public DemolishDataGoalExplosion(ObjectTarget goalExplosionOwner, ObjectTarget attacker, ObjectTarget victim, Vector attackerVelocity, Vector victimVelocity)
+		public DemolishDataExtended(ObjectTarget attackerPRI, ObjectTarget selfDemoFX, bool bSelfDemolish, ObjectTarget goalExplosionOwner, ObjectTarget attacker, ObjectTarget victim, Vector attackerVelocity, Vector victimVelocity)
 		{
+			this.AttackerPRI = attackerPRI;
+			this.SelfDemoFX = selfDemoFX;
+			this.bSelfDemolish = bSelfDemolish;
 			this.GoalExplosionOwner = goalExplosionOwner;
 			this.Attacker = attacker;
 			this.Victim = victim;
@@ -23,19 +29,25 @@ namespace RocketRP.DataTypes
 			this.VictimVelocity = victimVelocity;
 		}
 
-		public static DemolishDataGoalExplosion Deserialize(BitReader br, Replay replay)
+		public static DemolishDataExtended Deserialize(BitReader br, Replay replay)
 		{
+			var attackerPRI = ObjectTarget.Deserialize(br);
+			var selfDemoFX = ObjectTarget.Deserialize(br);
+			var bSelfDemolish = br.ReadBit();
 			var goalExplosionOwner = ObjectTarget.Deserialize(br);
 			var attacker = ObjectTarget.Deserialize(br);
 			var victim = ObjectTarget.Deserialize(br);
 			var attackerVelocity = Vector.Deserialize(br, replay);
 			var victimVelocity = Vector.Deserialize(br, replay);
 
-			return new DemolishDataGoalExplosion(goalExplosionOwner, attacker, victim, attackerVelocity, victimVelocity);
+			return new DemolishDataExtended(attackerPRI, selfDemoFX, bSelfDemolish, goalExplosionOwner, attacker, victim, attackerVelocity, victimVelocity);
 		}
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
+			AttackerPRI.Serialize(bw);
+			SelfDemoFX.Serialize(bw);
+			bw.Write(bSelfDemolish);
 			GoalExplosionOwner.Serialize(bw);
 			Attacker.Serialize(bw);
 			Victim.Serialize(bw);

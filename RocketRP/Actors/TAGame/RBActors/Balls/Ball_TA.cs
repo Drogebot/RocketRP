@@ -22,6 +22,7 @@ namespace RocketRP.Actors.TAGame
 		public float ReplicatedBallScale { get; set; }
 		public float BallHitSpinScale { get; set; }
 		public Vector MagnusCoefficient { get; set; }
+		public bool bWarnBallReset { get; set; }
 		public bool bEndOfGameHidden { get; set; }
 	}
 }

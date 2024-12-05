@@ -17,6 +17,7 @@ namespace RocketRP.Actors.TAGame
 		public ObjectTarget AttachedPickup { get; set; }
 		public DemolishDataGoalExplosion ReplicatedDemolishGoalExplosion { get; set; }
 		public DemolishData ReplicatedDemolish { get; set; }
+		public DemolishDataExtended ReplicatedDemolishExtended { get; set; }
 		public float ReplicatedCarScale { get; set; }
 		public ClubColorSet ClubColors { get; set; }
 		public LoadoutTeamPaint TeamPaint { get; set; }
