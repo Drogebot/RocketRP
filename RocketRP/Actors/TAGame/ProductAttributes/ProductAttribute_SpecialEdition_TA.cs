@@ -42,6 +42,7 @@ namespace RocketRP.Actors.TAGame
 		Remixed = 5,
 		ColorMatch,
 		Flare,
+		GlowTrim,
 		MAX,
 	}
 }

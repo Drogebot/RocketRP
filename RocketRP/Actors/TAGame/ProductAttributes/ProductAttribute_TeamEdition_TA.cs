@@ -97,10 +97,10 @@ namespace RocketRP.Actors.TAGame
 		Quadrant,
 		Tundra,
 		EndGame,
-		Unknown1,   //???
+		Fnatic,
 		Resolve,
 		Elevate2024,
-		Unknown2,   //???
+		G1,
 		GentleMates2024,
 		KRU2024,
 		M802024,
