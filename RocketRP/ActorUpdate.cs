@@ -177,6 +177,8 @@ namespace RocketRP
 					return replay.ClassNetCacheByName["TAGame.TrackerWallDynamicMeshActor_TA"];
 				case "TAGame.Default__FreeplayCommands_TA":
 					return replay.ClassNetCacheByName["TAGame.FreeplayCommands_TA"];
+				case "TAGame.Default__VoteActor_TA":
+					return replay.ClassNetCacheByName["TAGame.VoteActor_TA"];
 
 				case "TAGame.Default__PRI_TA":
 					return replay.ClassNetCacheByName["TAGame.PRI_TA"];
