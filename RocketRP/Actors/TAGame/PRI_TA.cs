@@ -28,7 +28,7 @@ namespace RocketRP.Actors.TAGame
 		public float SteeringSensitivity { get; set; }
 		public SkillTierData SkillTier { get; set; }
 		public Name Title { get; set; }
-		public PartyLeader PartyLeader { get; set; }    // This is normally a UniqueNetId but works differently in this context...
+		public UniqueNetId PartyLeader { get; set; }
 		public ESeverityType QuitSeverity { get; set; }
 		public EConnectionQualityState ReplicatedWorstNetQualityBeyondLatency { get; set; }
 		public HistoryKey PlayerHistoryKey { get; set; }   // In the original code, this is a byte[0x40]

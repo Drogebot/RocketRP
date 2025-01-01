@@ -35,11 +35,6 @@ namespace RocketRP.DataTypes
 
 		public static UniqueNetId Deserialize(BitReader br, Replay replay)
 		{
-			return Deserialize2(br, replay, false);
-		}
-
-		public static UniqueNetId Deserialize2(BitReader br, Replay replay, bool isPartyLeaderProperty = false)
-		{
 			var type = (OnlinePlatform)br.ReadByte();
 			string id;
 			switch (type)
@@ -74,11 +69,6 @@ namespace RocketRP.DataTypes
 		}
 
 		public void Serialize(BitWriter bw, Replay replay)
-		{
-			Serialize2(bw, replay, false);
-		}
-
-		public void Serialize2(BitWriter bw, Replay replay, bool isPartyLeaderProperty = false)
 		{
 			bw.Write((byte)Platform);
 			switch ((OnlinePlatform)Platform)
