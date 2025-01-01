@@ -63,7 +63,7 @@ namespace RocketRP
 			var part1Pos = (uint)br.BaseStream.Position;
 
 			replay.VersionInfo = ReplayVersionInfo.Deserialize(br);
-			replay.ReplayClass = "".Deserialize(br);
+			replay.ReplayClass = br.ReadString();
 
 			replay.Properties = (Replay_TA)Activator.CreateInstance(Type.GetType($"RocketRP.Actors.{replay.ReplayClass}"));
 			Actors.Core.Object.Deserialize(replay.Properties, br, replay.VersionInfo);
@@ -92,7 +92,7 @@ namespace RocketRP
 			replay.Levels = new List<string>(numLevels);
 			for (int i = 0; i < numLevels; i++)
 			{
-				replay.Levels.Add("".Deserialize(br));
+				replay.Levels.Add(br.ReadString());
 			}
 
 			var numKeyFrames = br.ReadInt32();
@@ -124,28 +124,28 @@ namespace RocketRP
 			replay.Packages = new List<string>(numPackages);
 			for (int i = 0; i < numPackages; i++)
 			{
-				replay.Packages.Add("".Deserialize(br));
+				replay.Packages.Add(br.ReadString());
 			}
 
 			var numObjects = br.ReadInt32();
 			replay.Objects = new List<string>(numObjects);
 			for (int i = 0; i < numObjects; i++)
 			{
-				replay.Objects.Add("".Deserialize(br));
+				replay.Objects.Add(br.ReadString());
 			}
 
 			var numNames = br.ReadInt32();
 			replay.Names = new List<string>(numNames);
 			for (int i = 0; i < numNames; i++)
 			{
-				replay.Names.Add("".Deserialize(br));
+				replay.Names.Add(br.ReadString());
 			}
 
 			var numClassIndexes = br.ReadInt32();
 			replay.ClassIndexes = new Dictionary<string, int>(numClassIndexes);
 			for (int i = 0; i < numClassIndexes; i++)
 			{
-				replay.ClassIndexes.Add("".Deserialize(br), br.ReadInt32());
+				replay.ClassIndexes.Add(br.ReadString(), br.ReadInt32());
 			}
 
 			var numClassNetCaches = br.ReadInt32();
@@ -237,7 +237,7 @@ namespace RocketRP
 			var part1Pos = (uint)bw.BaseStream.Position;
 
 			VersionInfo.Serialize(bw);
-			ReplayClass.Serialize(bw);
+			bw.Write(ReplayClass);
 			Actors.Core.Object.Serialize(Properties, bw, VersionInfo);
 
 			// Overwrite Part1Length and Part1CRC
@@ -257,7 +257,7 @@ namespace RocketRP
 			bw.Write(Levels.Count);
 			foreach (var level in Levels)
 			{
-				level.Serialize(bw);
+				bw.Write(level);
 			}
 
 			bw.Write(KeyFrames.Count);
@@ -285,25 +285,25 @@ namespace RocketRP
 			bw.Write(Packages.Count);
 			foreach (var package in Packages)
 			{
-				package.Serialize(bw);
+				bw.Write(package);
 			}
 
 			bw.Write(Objects.Count);
 			foreach (var obj in Objects)
 			{
-				obj.Serialize(bw);
+				bw.Write(obj);
 			}
 
 			bw.Write(Names.Count);
 			foreach (var name in Names)
 			{
-				name.Serialize(bw);
+				bw.Write(name);
 			}
 
 			bw.Write(ClassIndexes.Count);
 			foreach (var kvp in ClassIndexes)
 			{
-				kvp.Key.Serialize(bw);
+				bw.Write(kvp.Key);
 				bw.Write(kvp.Value);
 			}
 

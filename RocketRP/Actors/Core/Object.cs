@@ -27,7 +27,7 @@ namespace RocketRP.Actors.Core
 
 		public static bool DeserializeProperty(object obj, BinaryReader br, IFileVersionInfo versionInfo)
 		{
-			var propName = "".Deserialize(br);
+			var propName = br.ReadString();
 			if (propName == "None") return true;
 
 			var propertyInfo = obj.GetType().GetProperty(propName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
@@ -54,7 +54,7 @@ namespace RocketRP.Actors.Core
 
 		public static object DeserializePropertyValue(object obj, string propName, Type propertyType, BinaryReader br, IFileVersionInfo versionInfo)
 		{
-			var type = "".Deserialize(br);
+			var type = br.ReadString();
 			var valueLength = br.ReadInt32();
 			var valueIndex = br.ReadInt32();
 
@@ -83,7 +83,7 @@ namespace RocketRP.Actors.Core
 			else if (propertyType == typeof(string))
 			{
 				if (type != "StrProperty") throw new InvalidDataException($"Expected type StrProperty for {obj.GetType().FullName}.{propName} but got {type}");
-				return "".Deserialize(br);
+				return br.ReadString();
 			}
 			else if (propertyType == typeof(Name))
 			{
@@ -97,11 +97,11 @@ namespace RocketRP.Actors.Core
 					return Enum.ToObject(propertyType, br.ReadUInt32());
 				}
 				if (type != "ByteProperty") throw new InvalidDataException($"Expected type ByteProperty for {obj.GetType().FullName}.{propName} but got {type}");
-				var typeName = "".Deserialize(br);
+				var typeName = br.ReadString();
 				if (typeName == "None") return br.ReadByte();
 				//if(typeName.Contains(".")) propertyInfo.SetValue(obj, Enum.Parse(propertyType, typeName.Split(".")[1]));	// Patch for old versions of RocketRP made Replays
 				//else propertyInfo.SetValue(obj, Enum.Parse(propertyType, "".Deserialize(br)));							// Remove the 2 lines below and uncomment these 2 lines
-				return Enum.Parse(propertyType, "".Deserialize(br));
+				return Enum.Parse(propertyType, br.ReadString());
 			}
 			else if (propertyType == typeof(ObjectTarget))
 			{
@@ -121,7 +121,7 @@ namespace RocketRP.Actors.Core
 				{
 					return StructProperty.Deserialize(br, valueLength);
 				}
-				var structType = "".Deserialize(br);
+				var structType = br.ReadString();
 				var value = Activator.CreateInstance(propertyType);
 				if (value is ISpecialSerialized specialValue) specialValue.Deserialize(br, versionInfo);
 				else Deserialize(value, br, versionInfo);
@@ -138,7 +138,7 @@ namespace RocketRP.Actors.Core
 			{
 				SerializeProperty(obj, bw, versionInfo, property);
 			}
-			"None".Serialize(bw);
+			bw.Write("None");
 		}
 
 		private static void SerializeProperty(object obj, BinaryWriter bw, IFileVersionInfo versionInfo, PropertyInfo propertyInfo)
@@ -153,110 +153,115 @@ namespace RocketRP.Actors.Core
 				var valueIndex = 0;
                 foreach (var item in (Array)value)
 				{
-					propertyInfo.Name.Serialize(bw);
+					bw.Write(propertyInfo.Name);
 					SerializePropertyValue(obj, propertyType, item, valueIndex++, bw, versionInfo);
 				}
 			}
 			else
 			{
-				propertyInfo.Name.Serialize(bw);
+				bw.Write(propertyInfo.Name);
 				SerializePropertyValue(obj, propertyType, value, 0, bw, versionInfo);
 			}
 		}
 
 		public static void SerializePropertyValue(object obj, Type propertyType, object value, int valueIndex, BinaryWriter bw, IFileVersionInfo versionInfo)
 		{
-			if (value is bool boolvalue)
+			if(value is null)
 			{
-				"BoolProperty".Serialize(bw);
+				// This shouldn't be possible because we're checking for null values in SerializeProperty
+				throw new ArgumentNullException(nameof(value));
+			}
+			else if (value is bool boolvalue)
+			{
+				bw.Write("BoolProperty");
 				bw.Write(0);
 				bw.Write(valueIndex);
 				bw.Write(boolvalue);
 			}
 			else if (value is int intvalue)
 			{
-				"IntProperty".Serialize(bw);
+				bw.Write("IntProperty");
 				bw.Write(4);
 				bw.Write(valueIndex);
 				bw.Write(intvalue);
 			}
 			else if (value is uint uintvalue)
 			{
-				"IntProperty".Serialize(bw);
+				bw.Write("IntProperty");
 				bw.Write(4);
 				bw.Write(valueIndex);
 				bw.Write(uintvalue);
 			}
 			else if (value is long longvalue)
 			{
-				"QWordProperty".Serialize(bw);
+				bw.Write("QWordProperty");
 				bw.Write(8);
 				bw.Write(valueIndex);
 				bw.Write(longvalue);
 			}
 			else if (value is ulong ulongvalue)
 			{
-				"QWordProperty".Serialize(bw);
+				bw.Write("QWordProperty");
 				bw.Write(8);
 				bw.Write(valueIndex);
 				bw.Write(ulongvalue);
 			}
 			else if (value is float floatvalue)
 			{
-				"FloatProperty".Serialize(bw);
+				bw.Write("FloatProperty");
 				bw.Write(4);
 				bw.Write(valueIndex);
 				bw.Write(floatvalue);
 			}
 			else if (value is string stringvalue)
 			{
-				"StrProperty".Serialize(bw);
-				if (stringvalue != string.Empty) bw.Write(4 + (stringvalue.Length + 1) * (stringvalue.Any(c => c > 255) ? 2 : 1));
+				bw.Write("StrProperty");
+				if(stringvalue != String.Empty) bw.Write(4 + (stringvalue.Length + 1) * (stringvalue.Any(c => c > 255) ? 2 : 1));
 				else bw.Write(4);
 				bw.Write(valueIndex);
-				stringvalue.Serialize(bw);
+				bw.Write(stringvalue);
 			}
 			else if (value is Name namevalue)
 			{
-				"NameProperty".Serialize(bw);
+				bw.Write("NameProperty");
 				bw.Write(4 + namevalue.Value.Length + 1);
 				bw.Write(valueIndex);
 				namevalue.Serialize(bw);
 			}
 			else if(value is byte bytevalue)
 			{
-				"ByteProperty".Serialize(bw);
+				bw.Write("ByteProperty");
 				bw.Write(1);
 				bw.Write(valueIndex);
-				"None".Serialize(bw);
+				bw.Write("None");
 				bw.Write(bytevalue);
 			}
 			else if (value is Enum enumvalue)
 			{
 				if(enumvalue.GetType().GetEnumUnderlyingType() == typeof(uint))
 				{
-					"IntProperty".Serialize(bw);
+					bw.Write("IntProperty");
 					bw.Write(4);
 					bw.Write(valueIndex);
 					bw.Write(Convert.ToUInt32(enumvalue));
 					return;
 				}
-				"ByteProperty".Serialize(bw);
+				bw.Write("ByteProperty");
 				bw.Write(4 + enumvalue.ToString().Length + 1);
 				bw.Write(valueIndex);
-				value.GetType().Name.Serialize(bw);
-				enumvalue.ToString().Serialize(bw);
+				bw.Write(value.GetType().Name);
+				bw.Write(enumvalue.ToString());
 			}
 			else if (value is ObjectTarget objectvalue)
 			{
-				"ObjectProperty".Serialize(bw);
+				bw.Write("ObjectProperty");
 				bw.Write(4);
 				bw.Write(valueIndex);
 				objectvalue.Serialize(bw);
 			}
 			else if (value is IArrayProperty listvalue)
 			{
-				"ArrayProperty".Serialize(bw);
+				bw.Write("ArrayProperty");
 				var lengthPos = (int)bw.BaseStream.Position;
 				bw.Write(0);
 				bw.Write(valueIndex);
@@ -269,7 +274,7 @@ namespace RocketRP.Actors.Core
 			}
 			else
 			{
-				"StructProperty".Serialize(bw);
+				bw.Write("StructProperty");
 				var lengthPos = (int)bw.BaseStream.Position;
 				bw.Write(0);
 				bw.Write(valueIndex);
@@ -283,7 +288,7 @@ namespace RocketRP.Actors.Core
 				else
 				{
 					propTypeNameLength = value.GetType().Name.Length;
-					value.GetType().Name.Serialize(bw);
+					bw.Write(value.GetType().Name);
 					if (value is ISpecialSerialized specialValue) specialValue.Serialize(bw, versionInfo);
 					else Serialize(value, bw, versionInfo);
 				}

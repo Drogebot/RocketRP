@@ -133,7 +133,7 @@ namespace RocketRP
 
 		public void Write(string value)
 		{
-			if(value == null)
+			if(value == String.Empty)
 			{
 				Write((int)0);
 				return;

@@ -19,7 +19,7 @@ namespace RocketRP
 		public static ObjectType Deserialize(BinaryReader br)
 		{
 			var ot = new ObjectType();
-			ot.Type = "".Deserialize(br);
+			ot.Type = br.ReadString();
 			ot.FilePosition = br.ReadUInt32();
 			ot.ObjectIndex = br.ReadUInt32();
 			return ot;
@@ -27,7 +27,7 @@ namespace RocketRP
 
 		public void Serialize(BinaryWriter bw)
 		{
-			Type.Serialize(bw);
+			bw.Write(Type);
 			bw.Write(FilePosition);
 			bw.Write(ObjectIndex);
 		}

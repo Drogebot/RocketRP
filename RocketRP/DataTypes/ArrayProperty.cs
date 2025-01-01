@@ -57,10 +57,10 @@ namespace RocketRP.DataTypes
 				else if (typeof(T) == typeof(long)) array[i] = (T)(object)br.ReadInt64();
 				else if (typeof(T) == typeof(ulong)) array[i] = (T)(object)br.ReadUInt64();
 				else if (typeof(T) == typeof(float)) array[i] = (T)(object)br.ReadSingle();
-				else if (typeof(T) == typeof(string)) array[i] = (T)(object)"".Deserialize(br);
+				else if (typeof(T) == typeof(string)) array[i] = (T)(object)br.ReadString();
 				else if (typeof(T) == typeof(Name)) array[i] = (T)(object)Name.Deserialize(br);
 				else if (typeof(T) == typeof(byte)) array[i] = (T)(object)br.ReadByte();
-				else if (typeof(T).IsEnum) array[i] = (T)Enum.Parse(typeof(T), "".Deserialize(br));
+				else if (typeof(T).IsEnum) array[i] = (T)Enum.Parse(typeof(T), br.ReadString());
 				else if (typeof(T) == typeof(ObjectTarget)) array[i] = (T)(object)ObjectTarget.Deserialize(br);
 				else
 				{
@@ -110,14 +110,14 @@ namespace RocketRP.DataTypes
 				else if (item is long longvalue) bw.Write(longvalue);
 				else if (item is ulong ulongvalue) bw.Write(ulongvalue);
 				else if (item is float floatvalue) bw.Write(floatvalue);
-				else if (item is string stringvalue) stringvalue.Serialize(bw);
+				else if (item is string stringvalue) bw.Write(stringvalue);
 				else if (item is Name namevalue) namevalue.Serialize(bw);
 				else if (item is byte bytevalue) bw.Write(bytevalue);
-				else if (item is Enum enumvalue) enumvalue.ToString().Serialize(bw);
+				else if (item is Enum enumvalue) bw.Write(enumvalue.ToString());
 				else if (item is ObjectTarget objectvalue) objectvalue.Serialize(bw);
 				else
 				{
-					if(item is ISpecialSerialized specialItem) specialItem.Serialize(bw, versionInfo);
+					if (item is ISpecialSerialized specialItem) specialItem.Serialize(bw, versionInfo);
 					else Actors.Core.Object.Serialize(item, bw, versionInfo);
 				}
 			}

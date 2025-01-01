@@ -22,7 +22,7 @@ namespace RocketRP.DataTypes
         public static StructProperty Deserialize(BinaryReader br, int valueLength)
         {
             var prop = new StructProperty();
-            prop.Type = "".Deserialize(br);
+            prop.Type = br.ReadString();
             prop.Value = Convert.ToHexString(br.ReadBytes(valueLength));
 
             return prop;
@@ -30,7 +30,7 @@ namespace RocketRP.DataTypes
 
         public void Serialize(BinaryWriter bw)
         {
-            Type.Serialize(bw);
+            bw.Write(Type);
             bw.Write(Convert.FromHexString(Value));
         }
 

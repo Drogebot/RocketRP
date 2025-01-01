@@ -131,7 +131,7 @@ namespace RocketRP
 		public string ReadString()
 		{
 			int length = ReadInt32();
-			if(length > 0)
+			if (length > 0)
 			{
 				return CodePagesEncodingProvider.Instance.GetEncoding(1252).GetString(ReadBytes(length), 0, length - 1);
 			}
@@ -139,7 +139,7 @@ namespace RocketRP
 			{
 				return Encoding.Unicode.GetString(ReadBytes(length * -2), 0, length * -2 - 2);
 			}
-			return null;
+			return String.Empty;
 		}
 	}
 }

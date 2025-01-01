@@ -15,7 +15,7 @@ namespace RocketRP
 		public static Tickmark Deserialize(BinaryReader br)
 		{
 			var tickmark = new Tickmark();
-			tickmark.Type = "".Deserialize(br);
+			tickmark.Type = br.ReadString();
 			tickmark.Frame = br.ReadUInt32();
 
 			return tickmark;
@@ -23,7 +23,7 @@ namespace RocketRP
 
 		public void Serialize(BinaryWriter bw)
 		{
-			Type.Serialize(bw);
+			bw.Write(Type);
 			bw.Write(Frame);
 		}
 	}

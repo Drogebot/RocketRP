@@ -23,13 +23,13 @@ namespace RocketRP.DataTypes
 		{
 			return new Name
 			{
-				Value = "".Deserialize(br)
+				Value = br.ReadString()
 			};
 		}
 
 		public void Serialize(BinaryWriter bw)
 		{
-			Value.Serialize(bw);
+			bw.Write(Value);
 		}
 
 		public static Name Deserialize(BitReader br, Replay replay)

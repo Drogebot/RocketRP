@@ -17,8 +17,8 @@ namespace RocketRP
 		{
 			var debugString = new DebugString();
 			debugString.FrameNumber = br.ReadUInt32();
-			debugString.Username = "".Deserialize(br);
-			debugString.Text = "".Deserialize(br);
+			debugString.Username = br.ReadString();
+			debugString.Text = br.ReadString();
 
 			return debugString;
 		}
@@ -26,8 +26,8 @@ namespace RocketRP
 		public void Serialize(BinaryWriter bw)
 		{
 			bw.Write(FrameNumber);
-			Username.Serialize(bw);
-			Text.Serialize(bw);
+			bw.Write(Username);
+			bw.Write(Text);
 		}
 	}
 }
