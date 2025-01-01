@@ -133,6 +133,12 @@ namespace RocketRP
 
 		public void Write(string value)
 		{
+			if(value == null)
+			{
+				Write((int)0);
+				return;
+			}
+
 			var length = value.Length + 1;
 			bool isUnicode = value.Any(c => c > 255);
 			if (isUnicode)

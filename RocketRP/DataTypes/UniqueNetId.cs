@@ -45,9 +45,7 @@ namespace RocketRP.DataTypes
 			switch (type)
 			{
 				case OnlinePlatform.OnlinePlatform_Unknown:
-					if (replay.LicenseeVersion >= 18 && replay.NetVersion == 0 || isPartyLeaderProperty) return new UniqueNetId(OnlinePlatform.OnlinePlatform_Unknown, "", 0);
-					else id = Convert.ToHexString(br.ReadBytes(3));
-					break;
+					return new UniqueNetId(OnlinePlatform.OnlinePlatform_Unknown, "", 0);
 				case OnlinePlatform.OnlinePlatform_Steam:
 				case OnlinePlatform.OnlinePlatform_Dingo:
 				case OnlinePlatform.OnlinePlatform_QQ:
@@ -86,9 +84,7 @@ namespace RocketRP.DataTypes
 			switch ((OnlinePlatform)Platform)
 			{
 				case OnlinePlatform.OnlinePlatform_Unknown:
-					if (replay.LicenseeVersion >= 18 && replay.NetVersion == 0 || isPartyLeaderProperty) return;
-					else bw.Write(Convert.FromHexString(Id));
-					break;
+					return;
 				case OnlinePlatform.OnlinePlatform_Steam:
 				case OnlinePlatform.OnlinePlatform_Dingo:
 				case OnlinePlatform.OnlinePlatform_QQ:
