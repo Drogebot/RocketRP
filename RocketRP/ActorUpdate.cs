@@ -211,11 +211,14 @@ namespace RocketRP
 				case "Archetypes.Ball.Ball_Ekin":
 					return replay.ClassNetCacheByName["TAGame.Ball_TA"];
 				case "Archetypes.Ball.Ball_Breakout":
+				case "Archetypes.Ball.Ball_Score":
 					return replay.ClassNetCacheByName["TAGame.Ball_Breakout_TA"];
 				case "Archetypes.Ball.Ball_Haunted":
 					return replay.ClassNetCacheByName["TAGame.Ball_Haunted_TA"];
 				case "Archetypes.Ball.Ball_God":
 					return replay.ClassNetCacheByName["TAGame.Ball_God_TA"];
+				case "Archetypes.Ball.Ball_Fire":
+					return replay.ClassNetCacheByName["TAGame.Ball_Fire_TA"];
 				case "Archetypes.Ball.Ball_Training":
 				case "Archetypes.Ball.Ball_Tutorial":
 					return replay.ClassNetCacheByName["TAGame.Ball_Tutorial_TA"];
@@ -268,6 +271,23 @@ namespace RocketRP
 				case "Archetypes.GameEvent.GameEvent_SoccarLan":
 				case "GameInfo_Basketball.GameInfo.GameInfo_Basketball:Archetype":
 				case "Gameinfo_Hockey.GameInfo.Gameinfo_Hockey:Archetype":
+				case "GameInfo_BumperCars.GameInfo.GameInfo_BumperCars:Archetype":
+				case "GameInfo_DemoDerby.GameInfo.GameInfo_DemoDerby:Archetype":
+				case "GameInfo_GoalCrazy.GameInfo.GameInfo_GoalCrazy:Archetype":
+				case "GameInfo_Hops.GameInfo.GameInfo_Hops:Archetype":
+				case "GameInfo_Possession.GameInfo.GameInfo_Possession:Archetype":
+				case "GameInfo_TargetAcquired.GameInfo.GameInfo_TargetAcquired:Archetype":
+				case "GameInfo_LTM_AprilFool.GameInfo.GameInfo_LTM_AprilFool:Archetype":
+				case "GameInfo_LTM_BeachBall.GameInfo.GameInfo_LTM_BeachBall:Archetype":
+				case "GameInfo_LTM_BoomerBall.GameInfo.GameInfo_LTM_BoomerBall:Archetype":
+				case "GameInfo_LTM_Demolition.GameInfo.GameInfo_LTM_Demolition:Archetype":
+				case "GameInfo_LTM_Eggstra.GameInfo.GameInfo_LTM_Eggstra:Archetype":
+				case "GameInfo_LTM_GForce.GameInfo.GameInfo_LTM_GForce:Archetype":
+				case "GameInfo_LTM_Moonball.GameInfo.GameInfo_LTM_Moonball:Archetype":
+				case "GameInfo_LTM_Pinball.GameInfo.GameInfo_LTM_Pinball:Archetype":
+				case "GameInfo_LTM_SpeedDemon.GameInfo.GameInfo_LTM_SpeedDemon:Archetype":
+				case "GameInfo_LTM_SpikeRush.GameInfo.GameInfo_LTM_SpikeRush:Archetype":
+				case "GameInfo_LTM_SuperCube.GameInfo.GameInfo_LTM_SuperCube:Archetype":
 					return replay.ClassNetCacheByName["TAGame.GameEvent_Soccar_TA"];
 				case "Archetypes.GameEvent.GameEvent_SoccarPrivate":
 				case "Archetypes.GameEvent.GameEvent_BasketballPrivate":
@@ -280,6 +300,7 @@ namespace RocketRP
 				case "Archetypes.GameEvent.GameEvent_Season":
 					return replay.ClassNetCacheByName["TAGame.GameEvent_Season_TA"];
 				case "Archetypes.GameEvent.GameEvent_Breakout":
+				case "GameInfo_LTM_DropshotRumble.GameInfo.GameInfo_LTM_DropshotRumble:Archetype":
 					return replay.ClassNetCacheByName["TAGame.GameEvent_Breakout_TA"];
 				case "Archetypes.GameEvent.GameEvent_FTE_Part1_Prime":
 					return replay.ClassNetCacheByName["TAGame.GameEvent_FTE_TA"];
@@ -287,9 +308,14 @@ namespace RocketRP
 					return replay.ClassNetCacheByName["TAGame.GameEvent_KnockOut_TA"];
 				case "gameinfo_godball.GameInfo.gameinfo_godball:Archetype":
 				case "GameInfo_GodBall.GameInfo.GameInfo_GodBall:Archetype":
+				case "GameInfo_HeatseekerTerritory.GameInfo.GameInfo_HeatseekerTerritory:Archetype":
+				case "GameInfo_MultiHeatseeker.GameInfo.GameInfo_MultiHeatseeker:Archetype":
 					return replay.ClassNetCacheByName["TAGame.GameEvent_GodBall_TA"];
 				case "GameInfo_FootBall.GameInfo.GameInfo_FootBall:Archetype":
 					return replay.ClassNetCacheByName["TAGame.GameEvent_Football_TA"];
+				case "GameInfo_Territory.GameInfo.GameInfo_Territory:Archetype":
+				case "GameInfo_SnowDayTerritory.GameInfo.GameInfo_SnowDayTerritory:Archetype":
+					return replay.ClassNetCacheByName["TAGame.GameEvent_Territory_TA"];
 				/* These events shouldn't ever occur but there was at least 1 replay that had "GameInfo_Tutorial.GameEvent.GameEvent_Tutorial_Aerial" */
 				case "Archetypes.GameEvent.GameEvent_Tutorial_Advanced":
 					return replay.ClassNetCacheByName["TAGame.GameEvent_Tutorial_Advanced_TA"];
@@ -346,6 +372,28 @@ namespace RocketRP
 				case "GameInfo_FTE.GameInfo.GameInfo_FTE:GameReplicationInfoArchetype":
 				case "GameInfo_KnockOut.KnockOut.GameInfo_KnockOut:GameReplicationInfoArchetype":
 				case "GameInfo_Tutorial.GameInfo.GameInfo_Tutorial:GameReplicationInfoArchetype":
+				case "GameInfo_Territory.GameInfo.GameInfo_Territory:GameReplicationInfoArchetype":
+				case "GameInfo_HeatseekerTerritory.GameInfo.GameInfo_HeatseekerTerritory:GameReplicationInfoArchetype":
+				case "GameInfo_SnowDayTerritory.GameInfo.GameInfo_SnowDayTerritory:GameReplicationInfoArchetype":
+				case "GameInfo_BumperCars.GameInfo.GameInfo_BumperCars:GameReplicationInfoArchetype":
+				case "GameInfo_DemoDerby.GameInfo.GameInfo_DemoDerby:GameReplicationInfoArchetype":
+				case "GameInfo_GoalCrazy.GameInfo.GameInfo_GoalCrazy:GameReplicationInfoArchetype":
+				case "GameInfo_Hops.GameInfo.GameInfo_Hops:GameReplicationInfoArchetype":
+				case "GameInfo_MultiHeatseeker.GameInfo.GameInfo_MultiHeatseeker:GameReplicationInfoArchetype":
+				case "GameInfo_Possession.GameInfo.GameInfo_Possession:GameReplicationInfoArchetype":
+				case "GameInfo_TargetAcquired.GameInfo.GameInfo_TargetAcquired:GameReplicationInfoArchetype":
+				case "GameInfo_LTM_AprilFool.GameInfo.GameInfo_LTM_AprilFool:GameReplicationInfoArchetype":
+				case "GameInfo_LTM_BeachBall.GameInfo.GameInfo_LTM_BeachBall:GameReplicationInfoArchetype":
+				case "GameInfo_LTM_BoomerBall.GameInfo.GameInfo_LTM_BoomerBall:GameReplicationInfoArchetype":
+				case "GameInfo_LTM_Demolition.GameInfo.GameInfo_LTM_Demolition:GameReplicationInfoArchetype":
+				case "GameInfo_LTM_DropshotRumble.GameInfo.GameInfo_LTM_DropshotRumble:GameReplicationInfoArchetype":
+				case "GameInfo_LTM_Eggstra.GameInfo.GameInfo_LTM_Eggstra:GameReplicationInfoArchetype":
+				case "GameInfo_LTM_GForce.GameInfo.GameInfo_LTM_GForce:GameReplicationInfoArchetype":
+				case "GameInfo_LTM_Moonball.GameInfo.GameInfo_LTM_Moonball:GameReplicationInfoArchetype":
+				case "GameInfo_LTM_Pinball.GameInfo.GameInfo_LTM_Pinball:GameReplicationInfoArchetype":
+				case "GameInfo_LTM_SpeedDemon.GameInfo.GameInfo_LTM_SpeedDemon:GameReplicationInfoArchetype":
+				case "GameInfo_LTM_SpikeRush.GameInfo.GameInfo_LTM_SpikeRush:GameReplicationInfoArchetype":
+				case "GameInfo_LTM_SuperCube.GameInfo.GameInfo_LTM_SuperCube:GameReplicationInfoArchetype":
 					return replay.ClassNetCacheByName["TAGame.GRI_TA"];
 
 				case "Archetypes.Tutorial.Cannon":
