@@ -56,6 +56,17 @@ namespace RocketRP.Actors.TAGame
 		WhiteGold,
 		Onyx,
 		Platinum,
+		SkyBlueGlow,
+		CobaltGlow,
+		BurtSiennaGlow,
+		ForestGreenGlow,
+		LimeGlow,
+		OrangeGlow,
+		PinkGlow,
+		PurpleGlow,
+		CrimsonGlow,
+		TitaniumWhiteGlow,
+		SaffronGlow,
 		MAX,
 	}
 }

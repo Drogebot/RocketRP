@@ -1,5 +1,6 @@
 ﻿using RocketRP.Actors.Engine;
 using RocketRP.DataTypes;
+using RocketRP.DataTypes.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace RocketRP.Actors.TAGame
 	{
 		public override bool HasInitialPosition => false;
 
+		public EBreakOutDamageState DefaultDamageState { get; set; }
 		public BreakoutDamageState DamageState { get; set; }
+		public bool bLockedDamageState { get; set; }
 	}
 }

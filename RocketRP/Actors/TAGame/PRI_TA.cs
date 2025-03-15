@@ -13,6 +13,13 @@ namespace RocketRP.Actors.TAGame
 {
     public class PRI_TA : PRI_X
 	{
+		public int SelfDemolitions { get; set; }
+		public int BallDemolitions { get; set; }
+		public int CarDemolitions { get; set; }
+		public int BallDemolitionSaves { get; set; }
+		public int PossessionClears { get; set; }
+		public int PossessionDenials { get; set; }
+		public int PossessionSteals { get; set; }
 		public string CurrentVoiceRoom { get; set; }
 		public ObjectTarget PickupTimer { get; set; }
 		public ObjectTarget StayAsPartyVoteYes { get; set; }

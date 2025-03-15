@@ -43,6 +43,8 @@ namespace RocketRP.Actors.TAGame
 		ColorMatch,
 		Flare,
 		GlowTrim,
+		Roasted,
+		Scematized,
 		MAX,
 	}
 }

@@ -21,8 +21,12 @@ namespace RocketRP.Actors.TAGame
 		public float ReplicatedCarScale { get; set; }
 		public ClubColorSet ClubColors { get; set; }
 		public LoadoutTeamPaint TeamPaint { get; set; }
+		public int MaxNumJumps { get; set; }
+		public float MaxTimeForDodge { get; set; }
 		public bool bOverrideBoostOn { get; set; }
 		public bool bOverrideHandbrakeOn { get; set; }
+		public bool bUnlimitedJumps { get; set; }
+		public bool bUnlimitedTimeForDodge { get; set; }
 
 
 		// These are old properties that were removed

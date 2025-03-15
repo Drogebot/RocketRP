@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.DataTypes.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace RocketRP.Actors.TAGame
 	{
 		public int PMCAnimIdx { get; set; }
 		public int PodiumSpot { get; set; }
+		public EInputRestriction InputRestriction { get; set; }
 		public byte ReplicatedSteer { get; set; }
 		public byte ReplicatedThrottle { get; set; }
 		public bool bHasPostMatchCelebration { get; set; }

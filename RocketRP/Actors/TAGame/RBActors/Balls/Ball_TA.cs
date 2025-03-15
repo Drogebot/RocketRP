@@ -12,7 +12,7 @@ namespace RocketRP.Actors.TAGame
 		public ExplosionDataExtended ReplicatedExplosionDataExtended { get; set; }
 		public ExplosionData ReplicatedExplosionData { get; set; }
 		public ObjectTarget GameEvent { get; set; }
-		public byte HitTeamNum { get; set; }
+		public int GameBallIndex { get; set; }
 		public ObjectTarget ReplicatedPhysMatOverride { get; set; }
 		public float ReplicatedAddedCarBounceScale { get; set; }
 		public float ReplicatedBallMaxLinearSpeedScale { get; set; }
@@ -20,8 +20,10 @@ namespace RocketRP.Actors.TAGame
 		public float ReplicatedWorldBounceScale { get; set; }
 		public ObjectTarget ReplicatedBallMesh { get; set; }
 		public float ReplicatedBallScale { get; set; }
+		public byte HitTeamNum { get; set; }
 		public float BallHitSpinScale { get; set; }
 		public Vector MagnusCoefficient { get; set; }
+		public bool bPossessionEnabled { get; set; }
 		public bool bWarnBallReset { get; set; }
 		public bool bEndOfGameHidden { get; set; }
 	}

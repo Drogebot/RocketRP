@@ -1,4 +1,5 @@
 ﻿using RocketRP.DataTypes;
+using RocketRP.DataTypes.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,9 @@ namespace RocketRP.Actors.TAGame
 {
 	public class CarComponent_Boost_TA : CarComponent_AirActivate_TA
 	{
-		public byte ReplicatedBoostAmount { get; set; }
 		public ReplicatedBoostData ReplicatedBoost { get; set; }
+		public byte ReplicatedBoostAmount { get; set; }
+		public EBoostRestriction BoostRestriction { get; set; }
 		public int UnlimitedBoostRefCount { get; set; }
 		public float RechargeDelay { get; set; }
 		public float RechargeRate { get; set; }

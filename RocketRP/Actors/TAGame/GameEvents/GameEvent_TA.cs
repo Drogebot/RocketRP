@@ -22,10 +22,12 @@ namespace RocketRP.Actors.TAGame
 		public byte ReplicatedStateIndex { get; set; }
 		public ObjectTarget ActivatorCar { get; set; }
 		public float BotSkill { get; set; }
+		public bool bAlwaysShowMatchTypeLabel { get; set; }
 		public bool bIsBotMatch { get; set; }
 		public bool bCanVoteToForfeit { get; set; }
 		public bool bHasLeaveMatchPenalty { get; set; }
 		public bool bAllowReadyUp { get; set; }
+		public bool bAllowQueueSaveReplay { get; set; }
 		public ObjectTarget MatchTypeClass { get; set; }
 
 
