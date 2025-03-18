@@ -139,7 +139,7 @@ namespace RocketRP
 			{
 				return Encoding.Unicode.GetString(ReadBytes(length * -2), 0, length * -2 - 2);
 			}
-			return String.Empty;
+			return null;
 		}
 	}
 }

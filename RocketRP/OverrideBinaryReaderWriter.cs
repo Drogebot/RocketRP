@@ -34,7 +34,7 @@ namespace RocketRP
 				var bytes = ReadBytes(length * -2);
 				return Encoding.Unicode.GetString(bytes, 0, (length * -2) - 2);
 			}
-			return String.Empty;
+			return null;
 		}
 	}
 
@@ -55,7 +55,7 @@ namespace RocketRP
 		public override void Write(string value)
 		{
 			// TODO: This is the same implementation as BitWriter's Write(string)
-			if (value == String.Empty)
+			if (value == null)
 			{
 				Write((int)0);
 				return;
