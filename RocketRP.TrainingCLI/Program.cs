@@ -24,6 +24,7 @@ Parser.Default.ParseArguments<Options>(args)
 
 	if (!opts.DirectoryMode)
 	{
+		Crc32.GenerateCRCTable();
 		ParseTraining(opts.TrainingPath, opts.OutputPath, opts.EnforceCRC, opts.PrettyPrint, opts.Mode);
 	}
 	else
@@ -33,6 +34,7 @@ Parser.Default.ParseArguments<Options>(args)
 			Console.WriteLine("Invalid training path!");
 			return;
 		}
+		Crc32.GenerateCRCTable();
 
 		var trainingFiles = opts.Mode == SerializationMode.Deserialize ? trainingFileInfo.Directory.GetFiles("*.tem", SearchOption.TopDirectoryOnly) : trainingFileInfo.Directory.GetFiles("*.json", SearchOption.TopDirectoryOnly);
 		trainingFiles = trainingFiles.OrderByDescending(f => f.LastWriteTime).ToArray();
@@ -97,7 +99,7 @@ static void ParseTraining(string trainingPath, string outputPath, bool enforceCR
 	}
 	else if (mode == SerializationMode.Serialize)
 	{
-		var outputFilePath = Path.Combine(outputPath, Path.GetFileNameWithoutExtension(trainingPath) + "_RocketRP.tem");
+		var outputFilePath = Path.Combine(outputPath, Path.GetFileNameWithoutExtension(trainingPath) + ".tem");
 		try
 		{
 			//if (File.Exists(outputFilePath)) return;
