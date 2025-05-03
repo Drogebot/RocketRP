@@ -23,6 +23,7 @@ Parser.Default.ParseArguments<Options>(args)
 
 	if (!opts.DirectoryMode)
 	{
+		Crc32.GenerateCRCTable();
 		ParseReplay(opts.ReplayPath, opts.OutputPath, !opts.Fast, opts.EnforceCRC, opts.PrettyPrint, opts.Mode);
 	}
 	else
@@ -32,6 +33,7 @@ Parser.Default.ParseArguments<Options>(args)
 			Console.WriteLine("Invalid replay path!");
 			return;
 		}
+		Crc32.GenerateCRCTable();
 
 		var replayFiles = opts.Mode == SerializationMode.Deserialize ? replayFileInfo.Directory.GetFiles("*.replay", SearchOption.TopDirectoryOnly) : replayFileInfo.Directory.GetFiles("*.json", SearchOption.TopDirectoryOnly);
 		replayFiles = replayFiles.OrderByDescending(f => f.LastWriteTime).ToArray();
