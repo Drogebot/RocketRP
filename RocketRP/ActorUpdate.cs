@@ -209,6 +209,7 @@ namespace RocketRP
 				case "Archetypes.Ball.Ball_Anniversary":
 				case "Archetypes.Ball.Ball_Football":
 				case "Archetypes.Ball.Ball_Ekin":
+				case "Archetypes.Ball.Ball_PizzaPuck":
 					return replay.ClassNetCacheByName["TAGame.Ball_TA"];
 				case "Archetypes.Ball.Ball_Breakout":
 				case "Archetypes.Ball.Ball_Score":
@@ -356,6 +357,7 @@ namespace RocketRP
 				case "Archetypes.SpecialPickups.SpecialPickup_HauntedBallBeam":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_HauntedBallBeam_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_Rugby":
+				case "Archetypes.SpecialPickups.SpecialPickup_RugbyLightDark":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_Rugby_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_Football":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_Football_TA"];
