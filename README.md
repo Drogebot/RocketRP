@@ -1,4 +1,5 @@
 [![NuGet version (RocketRP)](https://img.shields.io/nuget/v/RocketRP.svg?style=flat-square)](https://www.nuget.org/packages/RocketRP/)
+[![Donate](https://img.shields.io/badge/Dontate-Paypal-002f85)](https://www.paypal.com/paypalme/Drogings)
 # [RocketRP](https://github.com/Drogebot/RocketRP)
 A Rocket League Replay parser written in C#. Replay files are converted to an object which can be exported as JSON.
 
@@ -9,7 +10,7 @@ RocketRP successfully parses all my 900+ replays dating back to early 2016. If y
 
 RocketRP can also be used to convert custom training files to and from objects and JSON.
 
-If you would like to support me with this project: https://www.paypal.com/paypalme/Drogings
+I like working on this project regardless, but if you would like to support me with this project: [![Donate](https://img.shields.io/badge/Dontate-Paypal-002f85)](https://www.paypal.com/paypalme/Drogings)
 
 ## Install
 You can download [the latest release](https://github.com/Drogebot/RocketRP/releases/latest) or build from source.

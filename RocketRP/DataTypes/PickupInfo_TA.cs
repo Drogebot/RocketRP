@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
-	/// This type doesn't quite match the original, but other parsers did it like this
 	public struct PickupInfo_TA
 	{
 		public ObjectTarget[] AvailablePickups { get; set; }

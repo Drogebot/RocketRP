@@ -9,7 +9,7 @@ namespace RocketRP.Actors.TAGame
 {
 	public class Car_KnockOut_TA : Car_TA
 	{
-		public ObjectTarget UsedAttackComponent { get; set; }
+		public ObjectTarget UsedAttackComponent { get; set; }	//Actor: CarComponent_TA
 		public ImpulseData ReplicatedImpulse { get; set; }
 		public byte ReplicatedStateChanged { get; set; }
 		public Name ReplicatedStateName { get; set; }

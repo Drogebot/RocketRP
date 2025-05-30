@@ -13,7 +13,7 @@ namespace RocketRP.Actors.TAGame
 	{
 		public override bool HasInitialPosition => false;
 
-		public EBreakOutDamageState DefaultDamageState { get; set; }
+		public EBreakoutDamageState DefaultDamageState { get; set; }
 		public BreakoutDamageState DamageState { get; set; }
 		public bool bLockedDamageState { get; set; }
 	}

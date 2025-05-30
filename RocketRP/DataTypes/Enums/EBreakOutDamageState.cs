@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes.Enums
 {
-	public enum EBreakOutDamageState : byte
+	public enum EBreakoutDamageState : byte
 	{
 		DamageState_Start,
 		DamageState_Damaged,
