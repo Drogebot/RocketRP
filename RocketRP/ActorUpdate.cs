@@ -332,25 +332,36 @@ namespace RocketRP
 					return replay.ClassNetCacheByName["TAGame.GameEvent_Training_Striker_TA"];
 
 				case "Archetypes.SpecialPickups.SpecialPickup_GravityWell":
+				case "Archetypes.SpecialPickups.BM.SpecialPickup_GravityWell_BM":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallGravity_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_BallVelcro":
+				case "Archetypes.SpecialPickups.BM.SpecialPickup_BallVelcro_BM":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallVelcro_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_BallLasso":
+				case "Archetypes.SpecialPickups.BM.SpecialPickup_BallLasso_BM":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallLasso_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_BallGrapplingHook":
+				case "Archetypes.SpecialPickups.BM.SpecialPickup_BallGrapplingHook_BM":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_GrapplingHook_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_Swapper":
+				case "Archetypes.SpecialPickups.BM.SpecialPickup_Swapper_BM":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_Swapper_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_BallFreeze":
+				case "Archetypes.SpecialPickups.BM.SpecialPickup_BallFreeze_BM":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallFreeze_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_BoostOverride":
+				case "Archetypes.SpecialPickups.BM.SpecialPickup_BoostOverride_BM":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BoostOverride_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_Tornado":
+				case "Archetypes.SpecialPickups.BM.SpecialPickup_Tornado_BM":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_Tornado_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_BallSpring":
 				case "Archetypes.SpecialPickups.SpecialPickup_CarSpring":
+				case "Archetypes.SpecialPickups.BM.SpecialPickup_BallSpring_BM":
+				case "Archetypes.SpecialPickups.BM.SpecialPickup_CarSpring_BM":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallCarSpring_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_StrongHit":
+				case "Archetypes.SpecialPickups.BM.SpecialPickup_StrongHit_BM":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_HitForce_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_Batarang":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_Batarang_TA"];
