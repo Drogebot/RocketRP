@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.Actors.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,10 @@ namespace RocketRP.DataTypes
 {
 	public struct ExplosionData
 	{
-		public ObjectTarget Goal { get; set; }
+		public ObjectTarget<ClassObject> Goal { get; set; }
 		public Vector Location { get; set; }
 
-		public ExplosionData(ObjectTarget goal, Vector location)
+		public ExplosionData(ObjectTarget<ClassObject> goal, Vector location)
 		{
 			Goal = goal;
 			Location = location;
@@ -19,7 +20,7 @@ namespace RocketRP.DataTypes
 
 		public static ExplosionData Deserialize(BitReader br, Replay replay)
 		{
-			var goal = ObjectTarget.Deserialize(br);
+			var goal = ObjectTarget<ClassObject>.Deserialize(br);
 			var location = Vector.Deserialize(br, replay);
 
 			return new ExplosionData(goal, location);

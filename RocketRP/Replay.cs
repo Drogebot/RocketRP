@@ -40,6 +40,7 @@ namespace RocketRP
 		public int MaxChannels { get => Properties.MaxChannels ?? 1023; }
 		public int Changelist { get => Properties.Changelist ?? 0; }
 		public Dictionary<string, ClassNetCache> ClassNetCacheByName;
+		public Dictionary<int, ActorUpdate> CurrentOpenChannels;
 
 		public static Replay Deserialize(string filePath, bool parseNetstream = true, bool enforeCRC = false)
 		{
@@ -197,16 +198,18 @@ namespace RocketRP
 		public void DeserializeNetStream()
 		{
 			if(ClassNetCacheByName == null) ClassNetCacheByName = ClassNetCaches.ToDictionary(c => Objects[c.ObjectIndex], c => c);
-			var openChannels = new Dictionary<int, ActorUpdate>();
+			CurrentOpenChannels = new Dictionary<int, ActorUpdate>();
 
 			Frames = new List<Frame>();
 			var br = new BitReader(NetStreamData);
 
 			while (br.Position < br.Length - 64)
 			{
-				var frame = Frame.Deserialize(br, this, openChannels);
+				var frame = Frame.Deserialize(br, this, CurrentOpenChannels);
 				Frames.Add(frame);
 			}
+
+			CurrentOpenChannels.Clear();
 		}
 		public void Serialize(string filePath)
 		{

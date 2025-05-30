@@ -17,7 +17,7 @@ namespace RocketRP.Actors.TAGame
 		public bool bUsingBehindView { get; set; }
 		public bool bUsingSecondaryCamera { get; set; }
 		public ProfileCameraSettings ProfileSettings { get; set; }
-		public ObjectTarget PRI { get; set; }
+		public ObjectTarget<PRI_TA> PRI { get; set; }
 
 
 		// These are old properties that were removed

@@ -1,4 +1,6 @@
-﻿using RocketRP.DataTypes;
+﻿using RocketRP.Actors.Core;
+using RocketRP.Actors.Engine;
+using RocketRP.DataTypes;
 using RocketRP.DataTypes.Enums;
 using System;
 using System.Collections.Generic;
@@ -10,16 +12,16 @@ namespace RocketRP.Actors.TAGame
 {
 	public class GameEvent_Soccar_TA : GameEvent_Team_TA
 	{
-		public ObjectTarget ReplicatedStatEvent { get; set; }
-		public ObjectTarget SubRulesArchetype { get; set; }
+		public ObjectTarget<ClassObject> ReplicatedStatEvent { get; set; }
+		public ObjectTarget<ClassObject> SubRulesArchetype { get; set; }
 		public int RoundNum { get; set; }
-		public ObjectTarget MVP { get; set; }
+		public ObjectTarget<PRI_TA> MVP { get; set; }
 		public EConnectionQualityState ReplicatedServerPerformanceState { get; set; }
 		public byte ReplicatedScoredOnTeam { get; set; }
 		public ETieBreakDecision TieBreakDecision { get; set; }
-		public ObjectTarget MatchWinner { get; set; }
-		public ObjectTarget GameWinner { get; set; }
-		public ObjectTarget ReplayDirector { get; set; }
+		public ObjectTarget<Team_TA> MatchWinner { get; set; }
+		public ObjectTarget<Team_TA> GameWinner { get; set; }
+		public ObjectTarget<Actor> ReplayDirector { get; set; } // Is of ReplayDirector_TA type, but those don't appear in replays
 		public int WaitTimeRemaining { get; set; }
 		public int SecondsRemaining { get; set; }
 		public int MaxScore { get; set; }

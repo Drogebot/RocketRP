@@ -12,7 +12,7 @@ namespace RocketRP.Actors.Engine
 		public Vector RootMotionInterpCurveLastValue { get; set; }
 		public float RootMotionInterpCurrentTime { get; set; }
 		public float RootMotionInterpRate { get; set; }
-		public ObjectTarget PlayerReplicationInfo { get; set; }
+		public ObjectTarget<PlayerReplicationInfo> PlayerReplicationInfo { get; set; }
 		public float AirControl { get; set; }
 		public float JumpZ { get; set; }
 		public float AccelRate { get; set; }
@@ -26,7 +26,7 @@ namespace RocketRP.Actors.Engine
 		public bool bSimulateGravity { get; set; }
 		public bool bIsCrouched { get; set; }
 		public bool bIsWalking { get; set; }
-		public ObjectTarget Controller { get; set; }
+		public ObjectTarget<Actor> Controller { get; set; }	// Is of Controller type, but those don't appear in replays
 
 
 		// These are old properties that were removed

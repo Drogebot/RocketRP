@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.Actors.TAGame;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,13 @@ namespace RocketRP.DataTypes
 {
 	public struct DemolishDataGoalExplosion //class extended from DemolishData
 	{
-		public ObjectTarget GoalExplosionOwner { get; set; }
-		public ObjectTarget Attacker { get; set; }
-		public ObjectTarget Victim { get; set; }
+		public ObjectTarget<PRI_TA> GoalExplosionOwner { get; set; }
+		public ObjectTarget<RBActor_TA> Attacker { get; set; }
+		public ObjectTarget<Car_TA> Victim { get; set; }
 		public Vector AttackerVelocity { get; set; }
 		public Vector VictimVelocity { get; set; }
 
-		public DemolishDataGoalExplosion(ObjectTarget goalExplosionOwner, ObjectTarget attacker, ObjectTarget victim, Vector attackerVelocity, Vector victimVelocity)
+		public DemolishDataGoalExplosion(ObjectTarget<PRI_TA> goalExplosionOwner, ObjectTarget<RBActor_TA> attacker, ObjectTarget<Car_TA> victim, Vector attackerVelocity, Vector victimVelocity)
 		{
 			this.GoalExplosionOwner = goalExplosionOwner;
 			this.Attacker = attacker;
@@ -25,9 +26,9 @@ namespace RocketRP.DataTypes
 
 		public static DemolishDataGoalExplosion Deserialize(BitReader br, Replay replay)
 		{
-			var goalExplosionOwner = ObjectTarget.Deserialize(br);
-			var attacker = ObjectTarget.Deserialize(br);
-			var victim = ObjectTarget.Deserialize(br);
+			var goalExplosionOwner = ObjectTarget<PRI_TA>.Deserialize(br);
+			var attacker = ObjectTarget<RBActor_TA>.Deserialize(br);
+			var victim = ObjectTarget<Car_TA>.Deserialize(br);
 			var attackerVelocity = Vector.Deserialize(br, replay);
 			var victimVelocity = Vector.Deserialize(br, replay);
 

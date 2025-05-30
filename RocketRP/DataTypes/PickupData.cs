@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.Actors.TAGame;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,10 @@ namespace RocketRP.DataTypes
 {
 	public struct PickupData
 	{
-		public ObjectTarget Insigator { get; set; }
+		public ObjectTarget<Car_TA> Insigator { get; set; }
 		public bool bPickedUp { get; set; }
 
-		public PickupData(ObjectTarget Insigator, bool bPickedUp)
+		public PickupData(ObjectTarget<Car_TA> Insigator, bool bPickedUp)
 		{
 			this.Insigator = Insigator;
 			this.bPickedUp = bPickedUp;
@@ -19,7 +20,7 @@ namespace RocketRP.DataTypes
 
 		public static PickupData Deserialize(BitReader br)
 		{
-			var Insigator = ObjectTarget.Deserialize(br);
+			var Insigator = ObjectTarget<Car_TA>.Deserialize(br);
 			var bPickedUp = br.ReadBit();
 
 			return new PickupData(Insigator, bPickedUp);

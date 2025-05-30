@@ -12,6 +12,6 @@ namespace RocketRP.Actors.TAGame
 		public float MashTime { get; set; }
 		public float StunTimeRemaining { get; set; }
 		public float MaxStunTime { get; set; }
-		public ObjectTarget Car { get; set; }
+		public ObjectTarget<Car_KnockOut_TA> Car { get; set; }
 	}
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RocketRP.Actors.Core;
+using RocketRP.Actors.TAGame;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +10,11 @@ namespace RocketRP.DataTypes
 {
 	public struct ExplosionDataExtended
 	{
-		public ObjectTarget Goal { get; set; }
+		public ObjectTarget<ClassObject> Goal { get; set; }
 		public Vector Location { get; set; }
-		public ObjectTarget Scorer { get; set; }
+		public ObjectTarget<PRI_TA> Scorer { get; set; }
 
-		public ExplosionDataExtended(ObjectTarget goal, Vector location, ObjectTarget scorer)
+		public ExplosionDataExtended(ObjectTarget<ClassObject> goal, Vector location, ObjectTarget<PRI_TA> scorer)
 		{
 			Goal = goal;
 			Location = location;
@@ -21,9 +23,9 @@ namespace RocketRP.DataTypes
 
 		public static ExplosionDataExtended Deserialize(BitReader br, Replay replay)
 		{
-			var goal = ObjectTarget.Deserialize(br);
+			var goal = ObjectTarget<ClassObject>.Deserialize(br);
 			var location = Vector.Deserialize(br, replay);
-			var scorer = ObjectTarget.Deserialize(br);
+			var scorer = ObjectTarget<PRI_TA>.Deserialize(br);
 
 			return new ExplosionDataExtended(goal, location, scorer);
 		}

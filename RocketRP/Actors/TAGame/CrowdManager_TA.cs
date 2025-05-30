@@ -1,4 +1,5 @@
-﻿using RocketRP.Actors.Engine;
+﻿using RocketRP.Actors.Core;
+using RocketRP.Actors.Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace RocketRP.Actors.TAGame
 	{
 		public override bool HasInitialPosition => false;
 
-		public ObjectTarget GameEvent { get; set; }
-		public ObjectTarget ReplicatedGlobalOneShotSound { get; set; }
+		public ObjectTarget<GameEvent_Soccar_TA> GameEvent { get; set; }
+		public ObjectTarget<ClassObject> ReplicatedGlobalOneShotSound { get; set; }
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.Actors.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,10 +12,10 @@ namespace RocketRP.DataTypes
 	{
 		public bool Unknown1 { get; set; }
 		public string Name { get; set; }
-		public ObjectTarget ObjectTarget { get; set; }
+		public ObjectTarget<ClassObject> ObjectTarget { get; set; }
 		public uint Value { get; set; }
 
-		public RepStatTitle(bool unknown1, string name, ObjectTarget objectTarget, uint value)
+		public RepStatTitle(bool unknown1, string name, ObjectTarget<ClassObject> objectTarget, uint value)
 		{
 			Unknown1 = unknown1;
 			Name = name;
@@ -26,7 +27,7 @@ namespace RocketRP.DataTypes
 		{
 			var unknown1 = br.ReadBit();
 			var name = br.ReadString();
-			var objectTarget = ObjectTarget.Deserialize(br);
+			var objectTarget = ObjectTarget<ClassObject>.Deserialize(br);
 			var value = br.ReadUInt32();
 
 			return new RepStatTitle(unknown1, name, objectTarget, value);

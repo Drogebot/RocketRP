@@ -1,13 +1,14 @@
-﻿using RocketRP.Actors.ProjectX;
+﻿using RocketRP.Actors.Engine;
+using RocketRP.Actors.ProjectX;
+using RocketRP.DataTypes;
+using RocketRP.DataTypes.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using System.Xml;
-using RocketRP.DataTypes;
-using RocketRP.DataTypes.Enums;
+using System.Xml.Linq;
 
 namespace RocketRP.Actors.TAGame
 {
@@ -21,9 +22,9 @@ namespace RocketRP.Actors.TAGame
 		public int PossessionDenials { get; set; }
 		public int PossessionSteals { get; set; }
 		public string CurrentVoiceRoom { get; set; }
-		public ObjectTarget PickupTimer { get; set; }
-		public ObjectTarget StayAsPartyVoteYes { get; set; }
-		public ObjectTarget StayAsPartyVoter { get; set; }
+		public ObjectTarget<PickupTimer_TA> PickupTimer { get; set; }
+		public ObjectTarget<Actor> StayAsPartyVoteYes { get; set; } // Is of StayAsPartyVoteYes_TA type, but those don't appear in replays
+		public ObjectTarget<Actor> StayAsPartyVoter { get; set; } // Is of StayAsPartyVoter_TA type, but those don't appear in replays
 		public int SpectatorShortcut { get; set; }
 		public ulong ClubID { get; set; }
 		public int BotBannerProductID { get; set; }
@@ -31,7 +32,7 @@ namespace RocketRP.Actors.TAGame
 		public Name BotProductName { get; set; }
 		public MemberTitleStat SecondaryTitle { get; set; }
 		public MemberTitleStat PrimaryTitle { get; set; }
-		public ObjectTarget ReplacingBotPRI { get; set; }
+		public ObjectTarget<PRI_TA> ReplacingBotPRI { get; set; }
 		public float SteeringSensitivity { get; set; }
 		public SkillTierData SkillTier { get; set; }
 		public Name Title { get; set; }
@@ -40,12 +41,12 @@ namespace RocketRP.Actors.TAGame
 		public EConnectionQualityState ReplicatedWorstNetQualityBeyondLatency { get; set; }
 		public ArrayProperty<byte> PlayerHistoryKey { get; set; } = new ArrayProperty<byte>(0x40);
 		public EPawnType PawnType { get; set; }
-		public ObjectTarget PersistentCamera { get; set; }
+		public ObjectTarget<CameraSettingsActor_TA> PersistentCamera { get; set; }
 		public ClientLoadoutOnlineDatas ClientLoadoutsOnline { get; set; }
 		public ClientLoadoutDatas ClientLoadouts { get; set; }
 		public ClientLoadoutOnlineData ClientLoadoutOnline { get; set; }
 		public ClientLoadoutData ClientLoadout { get; set; }
-		public ObjectTarget ReplicatedGameEvent { get; set; }
+		public ObjectTarget<GameEvent_TA> ReplicatedGameEvent { get; set; }
 		public bool bAbleToStart { get; set; }
 		public bool bIdleBanned { get; set; }
 		public bool bUsingItems { get; set; }

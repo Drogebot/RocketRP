@@ -1,4 +1,5 @@
-﻿using RocketRP.DataTypes;
+﻿using RocketRP.Actors.Core;
+using RocketRP.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,14 @@ namespace RocketRP.Actors.TAGame
 	{
 		public ExplosionDataExtended ReplicatedExplosionDataExtended { get; set; }
 		public ExplosionData ReplicatedExplosionData { get; set; }
-		public ObjectTarget GameEvent { get; set; }
+		public ObjectTarget<GameEvent_Soccar_TA> GameEvent { get; set; }
 		public int GameBallIndex { get; set; }
-		public ObjectTarget ReplicatedPhysMatOverride { get; set; }
+		public ObjectTarget<ClassObject> ReplicatedPhysMatOverride { get; set; }
 		public float ReplicatedAddedCarBounceScale { get; set; }
 		public float ReplicatedBallMaxLinearSpeedScale { get; set; }
 		public float ReplicatedBallGravityScale { get; set; }
 		public float ReplicatedWorldBounceScale { get; set; }
-		public ObjectTarget ReplicatedBallMesh { get; set; }
+		public ObjectTarget<ClassObject> ReplicatedBallMesh { get; set; }
 		public float ReplicatedBallScale { get; set; }
 		public byte HitTeamNum { get; set; }
 		public float BallHitSpinScale { get; set; }

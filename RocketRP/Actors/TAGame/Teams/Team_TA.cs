@@ -15,6 +15,6 @@ namespace RocketRP.Actors.TAGame
 		public ReplicatedLogoData LogoData { get; set; }
 		public ulong ClubID { get; set; }
 		public string CustomTeamName { get; set; }
-		public ObjectTarget GameEvent { get; set; }
+		public ObjectTarget<GameEvent_Team_TA> GameEvent { get; set; }
 	}
 }

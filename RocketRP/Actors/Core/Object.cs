@@ -103,10 +103,11 @@ namespace RocketRP.Actors.Core
 				//else propertyInfo.SetValue(obj, Enum.Parse(propertyType, "".Deserialize(br)));							// Remove the 2 lines below and uncomment these 2 lines
 				return Enum.Parse(propertyType, br.ReadString());
 			}
-			else if (propertyType == typeof(ObjectTarget))
+			else if (propertyType.GetInterface("IObjectTarget") == typeof(IObjectTarget))
 			{
 				if (type != "ObjectProperty") throw new InvalidDataException($"Expected type ObjectProperty for {obj.GetType().FullName}.{propName} but got {type}");
-				return ObjectTarget.Deserialize(br);
+				var objectTarget = propertyType.GetMethod("Deserialize", new Type[] { typeof(BinaryReader) }).Invoke(null, new object[] { br });
+				return objectTarget;
 			}
 			else if (propertyType.GetInterface("IArrayProperty") == typeof(IArrayProperty))
 			{
@@ -252,7 +253,7 @@ namespace RocketRP.Actors.Core
 				bw.Write(value.GetType().Name);
 				bw.Write(enumvalue.ToString());
 			}
-			else if (value is ObjectTarget objectvalue)
+			else if (value is ObjectTarget<ClassObject> objectvalue)
 			{
 				bw.Write("ObjectProperty");
 				bw.Write(4);

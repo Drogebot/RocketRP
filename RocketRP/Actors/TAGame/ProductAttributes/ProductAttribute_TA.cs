@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.Actors.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,12 @@ namespace RocketRP.Actors.TAGame
 {
     public abstract class ProductAttribute_TA : Core.Object
     {
-        public ObjectTarget? ObjectTarget { get; set; }
+        public ObjectTarget<ClassObject>? ObjectTarget { get; set; }
         public string? ClassName { get; set; }
 
         public static ProductAttribute_TA Deserialize(BitReader br, Replay replay)
         {
-            var objectTarget = RocketRP.ObjectTarget.Deserialize(br);
+            var objectTarget = RocketRP.ObjectTarget<ClassObject>.Deserialize(br);
             var className = replay.Objects[objectTarget.TargetIndex];
 
             var type = Type.GetType($"RocketRP.Actors.{className}");

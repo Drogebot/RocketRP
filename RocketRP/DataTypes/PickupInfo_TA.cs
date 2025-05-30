@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.Actors.TAGame;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,10 @@ namespace RocketRP.DataTypes
 {
 	public struct PickupInfo_TA
 	{
-		public ObjectTarget[] AvailablePickups { get; set; }
+		public ObjectTarget<SpecialPickup_TA>[] AvailablePickups { get; set; }
 		public bool bItemsArePreview { get; set; }
 
-		public PickupInfo_TA(ObjectTarget[] availablePickups, bool bItemsArePreview)
+		public PickupInfo_TA(ObjectTarget<SpecialPickup_TA>[] availablePickups, bool bItemsArePreview)
 		{
 			this.AvailablePickups = availablePickups;
 			this.bItemsArePreview = bItemsArePreview;
@@ -19,10 +20,12 @@ namespace RocketRP.DataTypes
 
 		public static PickupInfo_TA Deserialize(BitReader br)
 		{
-			var availablePickups = new ObjectTarget[3];
-			availablePickups[0] = ObjectTarget.Deserialize(br);
-			availablePickups[1] = ObjectTarget.Deserialize(br);
-			availablePickups[2] = ObjectTarget.Deserialize(br);
+			var availablePickups = new ObjectTarget<SpecialPickup_TA>[3]
+			{
+				ObjectTarget<SpecialPickup_TA>.Deserialize(br),
+				ObjectTarget<SpecialPickup_TA>.Deserialize(br),
+				ObjectTarget<SpecialPickup_TA>.Deserialize(br)
+			};
 			var bItemsArePreview = br.ReadBit();
 
 			return new PickupInfo_TA(availablePickups, bItemsArePreview);

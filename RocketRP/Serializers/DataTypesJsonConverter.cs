@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RocketRP.Actors.Core;
 using RocketRP.Actors.TAGame;
 using RocketRP.DataTypes;
 using System;
@@ -89,7 +90,7 @@ namespace RocketRP.Serializers
 				reader.Read();
 
 				ProductAttribute_TA attribute = default;
-				ObjectTarget objectTarget = default;
+				ObjectTarget<ClassObject> objectTarget = default;
 				string className = string.Empty;
 
 				bool keepReading = true;
@@ -100,7 +101,7 @@ namespace RocketRP.Serializers
 					switch (propName)
 					{
 						case "ObjectTarget":
-							objectTarget = serializer.Deserialize<ObjectTarget>(reader);
+							objectTarget = serializer.Deserialize<ObjectTarget<ClassObject>>(reader);
 							break;
 						case "ClassName":
 							className = serializer.Deserialize<string>(reader);

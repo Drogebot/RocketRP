@@ -1,5 +1,4 @@
-﻿using RocketRP.Actors.Core;
-using RocketRP.DataTypes;
+﻿using RocketRP.DataTypes;
 using RocketRP.DataTypes.Enums;
 using System;
 using System.Collections.Generic;
@@ -22,7 +21,7 @@ namespace RocketRP.Actors.Engine
 		public Rotator RelativeRotation { get; set; }
 		public Vector RelativeLocation { get; set; }
 		public Vector Velocity { get; set; }
-		public ObjectTarget Instigator { get; set; }
+		public ObjectTarget<Pawn> Instigator { get; set; }
 		public bool bNetOwner { get; set; }
 		public bool bBlockActors { get; set; }
 		public bool bCollideWorld { get; set; }
@@ -30,8 +29,8 @@ namespace RocketRP.Actors.Engine
 		public bool bHardAttach { get; set; }
 		public bool bTearOff { get; set; }
 		public bool bHidden { get; set; }
-		public ObjectTarget Base { get; set; }
-		public ObjectTarget Owner { get; set; }
+		public ObjectTarget<Actor> Base { get; set; }
+		public ObjectTarget<Actor> Owner { get; set; }
 		public ECollisionType ReplicatedCollisionType { get; set; }
 		public ENetRole Role { get; set; }
 		public ENetRole RemoteRole { get; set; }

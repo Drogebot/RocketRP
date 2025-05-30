@@ -13,8 +13,8 @@ namespace RocketRP.Actors.TAGame
 		public float ReplicatedCarMaxLinearSpeedScale { get; set; }
 		public float AddedCarForceMultiplier { get; set; }
 		public float AddedBallForceMultiplier { get; set; }
-		public ObjectTarget RumblePickups { get; set; }
-		public ObjectTarget AttachedPickup { get; set; }
+		public ObjectTarget<RumblePickups_TA> RumblePickups { get; set; }
+		public ObjectTarget<SpecialPickup_TA> AttachedPickup { get; set; }
 		public DemolishDataGoalExplosion ReplicatedDemolishGoalExplosion { get; set; }
 		public DemolishData ReplicatedDemolish { get; set; }
 		public DemolishDataExtended ReplicatedDemolishExtended { get; set; }

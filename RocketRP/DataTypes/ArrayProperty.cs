@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RocketRP.Actors.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -61,7 +62,7 @@ namespace RocketRP.DataTypes
 				else if (typeof(T) == typeof(Name)) array[i] = (T)(object)Name.Deserialize(br);
 				else if (typeof(T) == typeof(byte)) array[i] = (T)(object)br.ReadByte();
 				else if (typeof(T).IsEnum) array[i] = (T)Enum.Parse(typeof(T), br.ReadString());
-				else if (typeof(T) == typeof(ObjectTarget)) array[i] = (T)(object)ObjectTarget.Deserialize(br);
+				else if (typeof(T) == typeof(ObjectTarget<ClassObject>)) array[i] = (T)(object)ObjectTarget<ClassObject>.Deserialize(br);
 				else
 				{
 					var propertyType = typeof(T);
@@ -114,7 +115,7 @@ namespace RocketRP.DataTypes
 				else if (item is Name namevalue) namevalue.Serialize(bw);
 				else if (item is byte bytevalue) bw.Write(bytevalue);
 				else if (item is Enum enumvalue) bw.Write(enumvalue.ToString());
-				else if (item is ObjectTarget objectvalue) objectvalue.Serialize(bw);
+				else if (item is ObjectTarget<ClassObject> objectvalue) objectvalue.Serialize(bw);
 				else
 				{
 					if (item is ISpecialSerialized specialItem) specialItem.Serialize(bw, versionInfo);

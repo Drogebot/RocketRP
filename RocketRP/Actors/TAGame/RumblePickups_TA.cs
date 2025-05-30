@@ -16,6 +16,6 @@ namespace RocketRP.Actors.TAGame
 
 
 		// These are old properties that were removed
-		public ObjectTarget AttachedPickup { get; set; }
+		public ObjectTarget<SpecialPickup_TA> AttachedPickup { get; set; }
 	}
 }

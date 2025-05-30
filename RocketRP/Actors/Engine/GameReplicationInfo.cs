@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.Actors.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace RocketRP.Actors.Engine
 {
 	public class GameReplicationInfo : ReplicationInfo
 	{
-		public ObjectTarget Winner { get; set; }
+		public ObjectTarget<Actor> Winner { get; set; }
 		public string ServerName { get; set; }
 		public int TimeLimit { get; set; }
 		public int GoalScore { get; set; }
@@ -18,6 +19,6 @@ namespace RocketRP.Actors.Engine
 		public bool bMatchIsOver { get; set; }
 		public bool bMatchHasBegun { get; set; }
 		public bool bStopCountDown { get; set; }
-		public ObjectTarget GameClass { get; set; }
+		public ObjectTarget<ClassObject> GameClass { get; set; }
 	}
 }

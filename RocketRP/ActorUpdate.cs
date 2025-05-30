@@ -1,4 +1,5 @@
-﻿using RocketRP.Actors.Engine;
+﻿using RocketRP.Actors.Core;
+using RocketRP.Actors.Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace RocketRP
 		public ChannelState State { get; set; }
 		public int? NameId { get; set; }
 		public string? Name { get; set; }
-		public ObjectTarget TypeId { get; set; }
+		public ObjectTarget<ClassObject> TypeId { get; set; }
 		public string TypeName { get; set; }
 		public int ObjectId { get; set; }
 		public string ObjectName { get; set; }
@@ -45,7 +46,7 @@ namespace RocketRP
 						actorUpdate.Name = replay.Names[actorUpdate.NameId.Value];
 					}
 
-					actorUpdate.TypeId = ObjectTarget.Deserialize(br);
+					actorUpdate.TypeId = ObjectTarget<ClassObject>.Deserialize(br);
 					if (actorUpdate.TypeId.IsActor)
 					{
 						Console.WriteLine("Warning: New Actor referenced existing Actor as type?");

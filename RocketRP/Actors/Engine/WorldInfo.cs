@@ -10,7 +10,7 @@ namespace RocketRP.Actors.Engine
 	{
 		//public MusicTrackStruct ReplicatedMusicTrack { get; set; }	// This doesn't seem to get used and I don't feel like making that struct
 		public float WorldGravityZ { get; set; }
-		public ObjectTarget Pauser { get; set; }
+		public ObjectTarget<PlayerReplicationInfo> Pauser { get; set; }
 		public float TimeDilation { get; set; }
 		public bool bHighPriorityLoading { get; set; }
 	}

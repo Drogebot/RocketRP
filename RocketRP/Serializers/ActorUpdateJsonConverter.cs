@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RocketRP.Actors.Core;
 using RocketRP.Actors.Engine;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace RocketRP.Serializers
 						actorUpdate.Name = serializer.Deserialize<string>(reader);
 						break;
 					case "TypeId":
-						actorUpdate.TypeId = serializer.Deserialize<ObjectTarget>(reader);
+						actorUpdate.TypeId = serializer.Deserialize<ObjectTarget<ClassObject>>(reader);
 						break;
 					case "TypeName":
 						actorUpdate.TypeName = serializer.Deserialize<string>(reader);

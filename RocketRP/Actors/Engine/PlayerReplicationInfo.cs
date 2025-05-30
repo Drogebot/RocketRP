@@ -22,7 +22,7 @@ namespace RocketRP.Actors.Engine
 		public bool bOnlySpectator { get; set; }
 		public bool bIsSpectator { get; set; }
 		public bool bAdmin { get; set; }
-		public ObjectTarget Team { get; set; }
+		public ObjectTarget<TeamInfo> Team { get; set; }
 		public int PlayerID { get; set; }
 		public string PlayerName { get; set; }
 		public byte Ping { get; set; }

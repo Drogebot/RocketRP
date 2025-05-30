@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RocketRP.Actors.TAGame;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,12 @@ namespace RocketRP.DataTypes
 	public struct BreakoutDamageState
 	{
 		public byte State { get; set; }
-		public ObjectTarget Causer { get; set; }
+		public ObjectTarget<PRI_TA> Causer { get; set; }
 		public Vector DamageLocation { get; set; }
 		public bool bDirectDamage { get; set; }
 		public bool bImmediate { get; set; }
 
-		public BreakoutDamageState(byte state, ObjectTarget causer, Vector damageLocation, bool directDamage, bool immediate)
+		public BreakoutDamageState(byte state, ObjectTarget<PRI_TA> causer, Vector damageLocation, bool directDamage, bool immediate)
 		{
 			State = state;
 			Causer = causer;
@@ -26,7 +27,7 @@ namespace RocketRP.DataTypes
 		public static BreakoutDamageState Deserialize(BitReader br, Replay replay)
 		{
 			var state = br.ReadByte();
-			var causer = ObjectTarget.Deserialize(br);
+			var causer = ObjectTarget<PRI_TA>.Deserialize(br);
 			var damageLocation = Vector.Deserialize(br, replay);
 			var directDamage = br.ReadBit();
 			var immediate = br.ReadBit();
