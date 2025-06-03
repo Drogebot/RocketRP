@@ -67,7 +67,7 @@ namespace RocketRP.DataTypes
 				{
 					var propertyType = typeof(T);
 					var value = Activator.CreateInstance(propertyType);
-					if(value is ISpecialSerialized specialValue) specialValue.Deserialize(br, versionInfo);
+					if (value is ISpecialSerialized specialValue) specialValue.Deserialize(br, versionInfo);
 					else Actors.Core.Object.Deserialize(value, br, versionInfo);
 					array[i] = (T)value;
 				}
@@ -81,7 +81,8 @@ namespace RocketRP.DataTypes
 			var index = br.ReadInt32((uint)Length);
 			T value;
 
-			if (typeof(T) == typeof(byte)) value = (T)(object)br.ReadByte();
+			if (typeof(T) == typeof(bool)) value = (T)(object)br.ReadBit();
+			else if (typeof(T) == typeof(byte)) value = (T)(object)br.ReadByte();
 			else if (typeof(T) == typeof(int)) value = (T)(object)br.ReadInt32();
 			else if (typeof(T) == typeof(uint)) value = (T)(object)br.ReadUInt32();
 			else if (typeof(T) == typeof(long)) value = (T)(object)br.ReadInt64();
@@ -90,9 +91,9 @@ namespace RocketRP.DataTypes
 			else if (typeof(T) == typeof(string)) value = (T)(object)br.ReadString();
 			else
 			{
-				var methodInfo = typeof(T).GetMethod("Deserialize", new Type[] { typeof(BitReader) }) ?? typeof(T).GetMethod("Deserialize", new Type[] { typeof(BitReader), typeof(Replay) });
-				if (methodInfo.GetParameters().Length == 1) value = (T)methodInfo.Invoke(null, new object[] { br });
-				else if (methodInfo.GetParameters().Length == 2) value = (T)methodInfo.Invoke(null, new object[] { br, replay });
+				var methodInfo = typeof(T).GetMethod("Deserialize", [typeof(BitReader)]) ?? typeof(T).GetMethod("Deserialize", [typeof(BitReader), typeof(Replay)]);
+				if (methodInfo?.GetParameters().Length == 1) value = (T)methodInfo.Invoke(null, [br]);
+				else if (methodInfo?.GetParameters().Length == 2) value = (T)methodInfo.Invoke(null, [br, replay]);
 				else throw new MethodAccessException($"Deserialize method in {typeof(T).Name} must have 1 or 2 parameters");
 			}
 
@@ -129,7 +130,8 @@ namespace RocketRP.DataTypes
 			bool firstEntry = true;
 			for (int i = 0; i < Length; i++)
 			{
-				if (Values[i].Equals(default(T))) continue;
+				var value = Values[i];
+				if (value is null || value.Equals(default(T))) continue;
 				if (!firstEntry)
 				{
 					bw.Write(true);
@@ -137,9 +139,18 @@ namespace RocketRP.DataTypes
 				}
 				bw.Write(i, (uint)Length);
 
-				var methodInfo = typeof(T).GetMethod("Serialize", new Type[] { typeof(BitWriter) }) ?? typeof(T).GetMethod("Serialize", new Type[] { typeof(BitWriter), typeof(Replay) });
-				if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(Values[i], new object[] { bw });
-				else if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(Values[i], new object[] { bw, replay });
+				if (value is bool boolvalue) bw.Write(boolvalue);
+				else if (value is byte bytevalue) bw.Write(bytevalue);
+				else if (value is int intvalue) bw.Write(intvalue);
+				else if (value is uint uintvalue) bw.Write(uintvalue);
+				else if (value is long longvalue) bw.Write(longvalue);
+				else if (value is ulong ulongvalue) bw.Write(ulongvalue);
+				else if (value is float floatvalue) bw.Write(floatvalue);
+				else if (value is string stringvalue) bw.Write(stringvalue);
+
+				var methodInfo = typeof(T).GetMethod("Serialize", [typeof(BitWriter)]) ?? typeof(T).GetMethod("Serialize", [typeof(BitWriter), typeof(Replay)]);
+				if (methodInfo?.GetParameters().Length == 1) methodInfo.Invoke(value, [bw]);
+				else if (methodInfo?.GetParameters().Length == 2) methodInfo.Invoke(value, [bw, replay]);
 				else throw new MethodAccessException($"Serialize method in {typeof(T).Name} must have 1 or 2 parameters");
 
 				firstEntry = false;
