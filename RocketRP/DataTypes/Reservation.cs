@@ -27,7 +27,7 @@ namespace RocketRP.DataTypes
 
 			ReservationStatus status;
 			if (replay.EngineVersion >= 868 && replay.LicenseeVersion >= 12) status = (ReservationStatus)br.ReadByte();
-			else status = (ReservationStatus)br.ReadUInt32Max((uint)ReservationStatus.END);
+			else status = (ReservationStatus)br.ReadUInt32((uint)ReservationStatus.END);
 
 			return new Reservation(playerId, playerName, status);
 		}

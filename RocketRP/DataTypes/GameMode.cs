@@ -20,7 +20,7 @@ namespace RocketRP.DataTypes
 		{
 			Byte value;
 			if(replay.EngineVersion >= 868 && replay.LicenseeVersion >= 12) value = br.ReadByte();
-			else value = (byte)br.ReadUInt32Max(4);
+			else value = (byte)br.ReadUInt32(4);
 
 			return new GameMode(value);
 		}

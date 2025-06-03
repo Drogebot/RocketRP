@@ -37,30 +37,30 @@ namespace RocketRP.DataTypes
 
 		public static Vector Deserialize(BitReader br, Replay replay)
 		{
-			var maxValuePerComponent = replay.NetVersion >= 7 ? 22 : 20;
+			var maxValuePerComponent = replay.NetVersion >= 7 ? 22U : 20U;
 
-			var numBits = br.ReadInt32Max(maxValuePerComponent);
+			var numBits = br.ReadInt32(maxValuePerComponent);
 			var bias = 1 << (numBits + 1);
 			var maxBits = numBits + 2;
 
-			var x = br.ReadInt32FromBits(maxBits) - bias;
-			var y = br.ReadInt32FromBits(maxBits) - bias;
-			var z = br.ReadInt32FromBits(maxBits) - bias;
+			var x = br.ReadInt32(1U << maxBits) - bias;
+			var y = br.ReadInt32(1U << maxBits) - bias;
+			var z = br.ReadInt32(1U << maxBits) - bias;
 
 			return new Vector(x, y, z);
 		}
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			var maxValuePerComponent = replay.NetVersion >= 7 ? 22 : 20;
+			var maxValuePerComponent = replay.NetVersion >= 7 ? 22U : 20U;
 
-			var x = (int)Math.Round(X);
-			var y = (int)Math.Round(Y);
-			var z = (int)Math.Round(Z);
+			var x = (int)MathF.Round(X);
+			var y = (int)MathF.Round(Y);
+			var z = (int)MathF.Round(Z);
 
 			var maxValue = Math.Max(Math.Max(Math.Abs(x), Math.Abs(y)), Math.Abs(z));
-			var numBitsForValue = (int)Math.Ceiling(Math.Log2(maxValue + 1));
-			var numBits = Math.Min(Math.Max(1, numBitsForValue), maxValuePerComponent) - 1;
+			var numBitsForValue = (uint)MathF.Ceiling(MathF.Log2(maxValue + 1));
+			var numBits = (int)Math.Clamp(numBitsForValue, 1, maxValuePerComponent) - 1;
 			var bias = 1 << (numBits + 1);
 			var maxBits = numBits + 2;
 			var max = 1 << (numBits + 2);
@@ -75,9 +75,9 @@ namespace RocketRP.DataTypes
 			if (dy >= max) dy = max - 1;
 			if (dz >= max) dz = max - 1;
 
-			bw.WriteFixedBits(dx, maxBits);
-			bw.WriteFixedBits(dy, maxBits);
-			bw.WriteFixedBits(dz, maxBits);
+			bw.Write(dx, 1U << maxBits);
+			bw.Write(dy, 1U << maxBits);
+			bw.Write(dz, 1U << maxBits);
 		}
 
 		public static Vector DeserializeFixedPoint(BitReader br, Replay replay)
@@ -101,9 +101,9 @@ namespace RocketRP.DataTypes
 			var maxBitValue = (1 << (numBits - 1)) - 1;
 			var bias = 1 << (numBits - 1);
 
-			var x = br.ReadInt32FromBits(numBits) - bias;
-			var y = br.ReadInt32FromBits(numBits) - bias;
-			var z = br.ReadInt32FromBits(numBits) - bias;
+			var x = br.ReadInt32(1U << numBits) - bias;
+			var y = br.ReadInt32(1U << numBits) - bias;
+			var z = br.ReadInt32(1U << numBits) - bias;
 
 			return new Vector(x, y, z) / maxBitValue;
 		}
@@ -115,9 +115,9 @@ namespace RocketRP.DataTypes
 
 			this *= maxBitValue;
 
-			bw.WriteFixedBits((int)X + bias, numBits);
-			bw.WriteFixedBits((int)Y + bias, numBits);
-			bw.WriteFixedBits((int)Z + bias, numBits);
+			bw.Write((int)X + bias, 1U << numBits);
+			bw.Write((int)Y + bias, 1U << numBits);
+			bw.Write((int)Z + bias, 1U << numBits);
 		}
 	}
 }

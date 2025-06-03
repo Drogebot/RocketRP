@@ -31,7 +31,7 @@ namespace RocketRP
 		{
 			var actorUpdate = new ActorUpdate();
 
-			actorUpdate.ChannelId = br.ReadInt32Max(replay.MaxChannels);
+			actorUpdate.ChannelId = br.ReadInt32((uint)replay.MaxChannels);
 
 			if (br.ReadBit())
 			{
@@ -85,7 +85,7 @@ namespace RocketRP
 
 					while (br.ReadBit())
 					{
-						var propId = br.ReadInt32Max(actorUpdate.ClassNetCache.NumProperties);
+						var propId = br.ReadInt32((uint)actorUpdate.ClassNetCache.NumProperties);
 						var propObjectIndex = actorUpdate.ClassNetCache.GetPropertyObjectIndex(propId);
 						actorUpdate.SetPropertyObjectIndexes.Add(propObjectIndex);
 						actorUpdate.SetPropertyNames.Add(replay.Objects[propObjectIndex]);
@@ -114,7 +114,7 @@ namespace RocketRP
 
 		public void Serialize(BitWriter bw, Replay replay, Dictionary<int, ActorUpdate> openChannels)
 		{
-			bw.Write(ChannelId, replay.MaxChannels);
+			bw.Write(ChannelId, (uint)replay.MaxChannels);
 
 			if (State == ChannelState.Open)
 			{
@@ -144,7 +144,7 @@ namespace RocketRP
 				{
 					bw.Write(true);
 					var propId = ClassNetCache.GetPropertyPropertyId(propObjectIndex);
-					bw.Write(propId, ClassNetCache.NumProperties);
+					bw.Write(propId, (uint)ClassNetCache.NumProperties);
 					Actor.SerializeProperty(bw, replay, propId, propObjectIndex);
 				}
 				bw.Write(false);

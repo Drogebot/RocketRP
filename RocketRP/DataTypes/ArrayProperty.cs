@@ -78,7 +78,7 @@ namespace RocketRP.DataTypes
 
 		public void Deserialize(BitReader br, Replay replay)
 		{
-			var index = br.ReadInt32Max(Length);
+			var index = br.ReadInt32((uint)Length);
 			T value;
 
 			if (typeof(T) == typeof(byte)) value = (T)(object)br.ReadByte();
@@ -133,9 +133,9 @@ namespace RocketRP.DataTypes
 				if (!firstEntry)
 				{
 					bw.Write(true);
-					bw.Write(propId, maxPropertyId);
+					bw.Write(propId, (uint)maxPropertyId);
 				}
-				bw.Write(i, Length);
+				bw.Write(i, (uint)Length);
 
 				var methodInfo = typeof(T).GetMethod("Serialize", new Type[] { typeof(BitWriter) }) ?? typeof(T).GetMethod("Serialize", new Type[] { typeof(BitWriter), typeof(Replay) });
 				if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(Values[i], new object[] { bw });

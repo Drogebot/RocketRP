@@ -26,7 +26,7 @@ namespace RocketRP.Actors.TAGame
 			}
 			else
 			{
-				color = br.ReadBit() ? (1U << 31) & br.ReadUInt32FromBits(31) : 0;
+				color = br.ReadBit() ? (1U << 31) & br.ReadUInt32(1U << 31) : 0;
 			}
 
 			return new ProductAttribute_UserColor_TA(color);

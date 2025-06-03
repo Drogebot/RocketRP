@@ -47,7 +47,7 @@ namespace RocketRP.DataTypes
 
 		public void Normalize()
 		{
-			float mag = (float)Math.Sqrt(X * X + Y * Y + Z * Z + W * W);
+			float mag = MathF.Sqrt(X * X + Y * Y + Z * Z + W * W);
 			this /= mag;
 		}
 
@@ -60,15 +60,15 @@ namespace RocketRP.DataTypes
 
 		private static void UncompressComponents(BitReader br, ref float a, ref float b, ref float c, ref float missing)
 		{
-			a = UncompressComponent(br.ReadUInt32Max(MAX_VALUE + 1));
-			b = UncompressComponent(br.ReadUInt32Max(MAX_VALUE + 1));
-			c = UncompressComponent(br.ReadUInt32Max(MAX_VALUE + 1));
-			missing = (float)Math.Sqrt(1.0f - (a * a) - (b * b) - (c * c));
+			a = UncompressComponent(br.ReadUInt32(MAX_VALUE + 1));
+			b = UncompressComponent(br.ReadUInt32(MAX_VALUE + 1));
+			c = UncompressComponent(br.ReadUInt32(MAX_VALUE + 1));
+			missing = MathF.Sqrt(1.0f - (a * a) - (b * b) - (c * c));
 		}
 
 		public static Quat Deserialize(BitReader br)
 		{
-			var largestComponent = (Component)br.ReadInt32Max((byte)Component.Num);
+			var largestComponent = (Component)br.ReadInt32((byte)Component.Num);
 
 			var quat = new Quat();
 
@@ -97,7 +97,7 @@ namespace RocketRP.DataTypes
 		{
 			float rangedValue = value * INV_MAX_QUAT_VALUE;
 			float positiveRangedValue = (rangedValue / 2.0f) + 0.50f;
-			return (uint)Math.Round(positiveRangedValue * MAX_VALUE);
+			return (uint)MathF.Round(positiveRangedValue * MAX_VALUE);
 		}
 
 		private void CompressComponents(BitWriter bw, ref float a, ref float b, ref float c)

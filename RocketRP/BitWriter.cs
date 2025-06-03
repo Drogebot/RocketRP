@@ -9,172 +9,169 @@ namespace RocketRP
 {
 	public class BitWriter
 	{
-		private BitArray Bits;
-		public int Position { get; set; }
-		public int Length => Bits.Length;
+		private static readonly byte[] GShift = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
+		private static readonly byte[] GMask = { 0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f };
 
-		public BitWriter(int initialCapacity = 1024)
+		private byte[] Buffer;
+		private int Pos;
+		private int Max;
+
+		public int NumBytes => (Pos + 7) >> 3;
+		public int NumBits => Pos;
+		public int MaxBits => Max;
+
+		public BitWriter(int maxBits = 1024)
 		{
-			Bits = new BitArray(initialCapacity);
-			Position = 0;
+			Buffer = new byte[(maxBits + 7) >> 3];
+			Pos = 0;
+			Max = maxBits;
 		}
 
-		public void Seek(int position)
+		private unsafe void Grow(int minBits)
 		{
-			if (position < 0 || position >= Length)
+			while (minBits >= Max)
 			{
-				throw new ArgumentOutOfRangeException(nameof(position));
+				if (Max <= 0) Max = 1024;
+				else Max *= 2;
 			}
 
-			Position = position;
+			var newBuffer = new byte[(Max + 7) >> 3];
+			System.Buffer.BlockCopy(Buffer, 0, newBuffer, 0, Buffer.Length);
+			Buffer = newBuffer;
 		}
 
-		public void Write(bool value)
+		private unsafe void SerializeBits(in void* src, int lengthBits)
 		{
-			while (Position >= Bits.Length)
+			if (Pos + lengthBits >= Max) Grow(Pos + lengthBits);
+
+			if (lengthBits == 1)
 			{
-				if (Bits.Length <= 0) Bits.Length = 1024;
-				else Bits.Length *= 2;
-			}
-
-			Bits[Position++] = value;
-		}
-
-		public void Write(byte value)
-		{
-			WriteFixedBits(value, 8);
-		}
-
-		public void WriteFixedBits(byte value, int maxBits)
-		{
-			for(int i = 0; i < maxBits; i++)
-			{
-				Write((value & 1U) == 1U);
-				value >>= 1;
-			}
-		}
-
-		public void Write(uint value, uint maxValue)
-		{
-			var writtenValue = 0U;
-			for (int i = 0; (writtenValue | (1U << i)) < maxValue; i++)
-			{
-				var bit = value & (1U << i);
-				writtenValue |= bit;
-				Write(bit > 0);
-			}
-		}
-
-		public void WriteFixedBits(uint value, int numBits)
-		{
-			for (int i = 0; i < numBits; i++)
-			{
-				Write((value & 1U) == 1U);
-				value >>= 1;
-			}
-		}
-
-		public void Write(uint value)
-		{
-			WriteFixedBits(value, 32);
-		}
-
-		public void Write(int value, int maxValue)
-		{
-			Write((uint)value, (uint)maxValue);
-		}
-
-		public void WriteFixedBits(int value, int numBits)
-		{
-			WriteFixedBits((uint)value, numBits);
-		}
-
-		public void Write(int value)
-		{
-			Write((uint)value);
-		}
-
-		public void WriteFixedBits(ulong value, int numBits)
-		{
-			for (int i = 0; i < numBits; i++)
-			{
-				Write((value & 1U) == 1U);
-				value >>= 1;
-			}
-		}
-
-		public void Write(ulong value)
-		{
-			WriteFixedBits(value, 64);
-		}
-
-		public void ReadInt64FromBits(long value, int numBits)
-		{
-			WriteFixedBits((ulong)value, numBits);
-		}
-
-		public void Write(long value)
-		{
-			Write((ulong)value);
-		}
-
-		public void Write(byte[] bytes)
-		{
-			foreach(var value in bytes)
-			{
-				Write(value);
-			}
-		}
-
-		public void Write(float value)
-		{
-			Write(BitConverter.GetBytes(value));
-		}
-
-		public void Write(string value)
-		{
-			if(value == null)
-			{
-				Write((int)0);
-				return;
-			}
-
-			var length = value.Length + 1;
-			bool isUnicode = value.Any(c => c > 255);
-			if (isUnicode)
-			{
-				length *= -1;
-			}
-			Write(length);
-
-			if (!isUnicode)
-			{
-				Write(CodePagesEncodingProvider.Instance.GetEncoding(1252).GetBytes(value));
-				Write((byte)0);
+				if ((((byte*)src)[0] & 1) > 0)
+				{
+					Buffer[Pos >> 3] |= GShift[Pos & 7];
+				}
+				Pos++;
 			}
 			else
 			{
-				Write(Encoding.Unicode.GetBytes(value));
-				Write((byte)0);
-				Write((byte)0);
+				//if (Pos + lengthBits >= Max) throw new OverflowException("Buffer overflow");
+				fixed (byte* addr = &Buffer[0])
+					BitArray.BitsCopy(addr, Pos, (byte*)src, 0, lengthBits);
+				Pos += lengthBits;
+			}
+		}
+
+		private void SerializeInt(UInt32 value, UInt32 valueMax)
+		{
+			var maxLengthBits = (int)UInt32.Log2(valueMax) + 1;
+			if (Pos + maxLengthBits >= Max) Grow(Pos + maxLengthBits);
+
+			if (value > valueMax)
+			{
+				value = valueMax;
+			}
+			Int32 newValue = 0;
+			for (Int32 mask = 1; (newValue | mask) < valueMax && mask > 0; mask <<= 1, Pos++)
+			{
+				if ((value & mask) > 0)
+				{
+					Buffer[Pos >> 3] |= GShift[Pos & 7];
+					newValue |= mask;
+				}
+			}
+		}
+
+		public void Write(Boolean value)
+		{
+			if (Pos + 1 >= Max) Grow(Pos + 1);
+
+			if (value)
+				Buffer[Pos >> 3] |= GShift[Pos & 7];
+			else
+				Buffer[Pos >> 3] &= (byte)~GShift[Pos & 7];
+			Pos++;
+		}
+
+		public unsafe void Write(Byte value)
+		{
+			SerializeBits(&value, sizeof(Byte) << 3);
+		}
+
+		public void Write(Int32 value, UInt32 valueMax)
+		{
+			SerializeInt((UInt32)value, valueMax);
+		}
+
+		public void Write(UInt32 value, UInt32 valueMax)
+		{
+			SerializeInt(value, valueMax);
+		}
+
+		public unsafe void Write(Int32 value)
+		{
+			SerializeBits(&value, sizeof(Int32) << 3);
+		}
+
+		public unsafe void Write(UInt32 value)
+		{
+			SerializeBits(&value, sizeof(UInt32) << 3);
+		}
+
+		public unsafe void Write(Int64 value)
+		{
+			SerializeBits(&value, sizeof(Int64) << 3);
+		}
+
+		public unsafe void Write(UInt64 value)
+		{
+			SerializeBits(&value, sizeof(UInt64) << 3);
+		}
+
+		public unsafe void Write(Single value)
+		{
+			SerializeBits(&value, sizeof(Single) << 3);
+		}
+
+		public unsafe void Write(Byte[] bytes)
+		{
+			if (bytes.Length <= 0) return;
+			fixed (byte* addr = &bytes[0])
+				SerializeBits(addr, (sizeof(Byte) * bytes.Length) << 3);
+		}
+
+		public unsafe void Write(string value)
+		{
+			if (value == null)
+			{
+				Write((Int32)0);
+				return;
+			}
+
+			Int32 length = value.Length;
+			if (value.Any(c => c > 255))
+			{
+				Write(-length - 1);
+				length *= 2;
+				fixed (void* addr = &value.GetPinnableReference())
+					SerializeBits(addr, length << 3);
+				Write((Byte)0);
+				Write((Byte)0);
+			}
+			else
+			{
+				Write(length + 1);
+				var bytes = CodePagesEncodingProvider.Instance.GetEncoding(1252).GetBytes(value);
+				fixed (byte* addr = &bytes[0])
+					SerializeBits(addr, length << 3);
+				Write((Byte)0);
 			}
 		}
 
 		public byte[] GetAllBytes()
 		{
-			var bytes = new byte[((Position - 1) >> 3) + (((Position - 1) & 7) > 0 ? 1 : 0)];
-			if (Length < (bytes.Length << 3)) Bits.Length = bytes.Length << 3;
-
-			for (var byteIndex = 0; byteIndex < bytes.Length; byteIndex++)
-			{
-				byte value = 0;
-				for (int i = 0; i < 8; i++)
-				{
-					if (Bits[(byteIndex << 3) + i]) value |= (byte)(1 << i);
-				}
-				bytes[byteIndex] = value;
-			}
-			return bytes;
+			var data = new byte[(Pos + 7) >> 3];
+			System.Buffer.BlockCopy(Buffer, 0, data, 0, data.Length);
+			return data;
 		}
 	}
 }

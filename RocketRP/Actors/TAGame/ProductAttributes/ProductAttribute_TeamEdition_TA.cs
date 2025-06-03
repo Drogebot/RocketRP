@@ -19,7 +19,7 @@ namespace RocketRP.Actors.TAGame
 
 		public static ProductAttribute_TeamEdition_TA DeserializeType(BitReader br, Replay replay)
 		{
-			var id = (TeamEdition)br.ReadUInt32FromBits(31);
+			var id = (TeamEdition)br.ReadUInt32(1U << 31);
 
 			return new ProductAttribute_TeamEdition_TA(id);
 		}
@@ -28,7 +28,7 @@ namespace RocketRP.Actors.TAGame
 		{
 			base.Serialize(bw, replay);
 
-			bw.WriteFixedBits((uint)Id, 31);
+			bw.Write((uint)Id, 1U << 31);
 		}
 	}
 

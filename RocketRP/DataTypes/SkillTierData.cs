@@ -17,7 +17,7 @@ namespace RocketRP.DataTypes
 
 		public static SkillTierData Deserialize(BitReader br)
 		{
-			var tier = br.ReadInt32Max(500);    // Not sure why 500 was chosen as the max value, I took it from other parsers
+			var tier = br.ReadInt32(1U << 9);    // Not sure why this is different from the RL source
 
 			return new SkillTierData(tier);
 		}
