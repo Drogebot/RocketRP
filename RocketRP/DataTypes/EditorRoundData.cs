@@ -10,6 +10,6 @@ namespace RocketRP.DataTypes
     public struct EditorRoundData
     {
         public float? TimeLimit { get; set; }
-        public ArrayProperty<string>? SerializedArchetypes { get; set; }
+        public string[]? SerializedArchetypes { get; set; }
     }
 }

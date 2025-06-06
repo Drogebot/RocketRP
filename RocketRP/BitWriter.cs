@@ -85,10 +85,7 @@ namespace RocketRP
 		{
 			if (Pos + 1 >= Max) Grow(Pos + 1);
 
-			if (value)
-				Buffer[Pos >> 3] |= GShift[Pos & 7];
-			else
-				Buffer[Pos >> 3] &= (byte)~GShift[Pos & 7];
+			if (value) Buffer[Pos >> 3] |= GShift[Pos & 7];
 			Pos++;
 		}
 
@@ -141,7 +138,7 @@ namespace RocketRP
 
 		public unsafe void Write(string value)
 		{
-			if (value == null)
+			if (value is null)
 			{
 				Write((Int32)0);
 				return;
@@ -160,7 +157,7 @@ namespace RocketRP
 			else
 			{
 				Write(length + 1);
-				var bytes = CodePagesEncodingProvider.Instance.GetEncoding(1252).GetBytes(value);
+				var bytes = CodePagesEncodingProvider.Instance.GetEncoding(1252)?.GetBytes(value) ?? throw new Exception("Code page 1252 is not available");
 				fixed (byte* addr = &bytes[0])
 					SerializeBits(addr, length << 3);
 				Write((Byte)0);

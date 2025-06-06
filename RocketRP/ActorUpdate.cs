@@ -10,22 +10,22 @@ using System.Threading.Tasks;
 
 namespace RocketRP
 {
-    public class ActorUpdate
+	public class ActorUpdate
 	{
 		public int ChannelId { get; set; }
 		public ChannelState State { get; set; }
 		public int? NameId { get; set; }
 		public string? Name { get; set; }
 		public ObjectTarget<ClassObject> TypeId { get; set; }
-		public string TypeName { get; set; }
+		public string TypeName { get; set; } = null!;
 		public int ObjectId { get; set; }
-		public string ObjectName { get; set; }
-		public Type? Type { get; set; }
-		public Actor Actor { get; set; }
+		public string ObjectName { get; set; } = null!;
+		public Type Type { get; set; } = null!;
+		public Actor Actor { get; set; } = null!;
 
-		private ClassNetCache ClassNetCache;
-		public HashSet<int> SetPropertyObjectIndexes;
-		public HashSet<string> SetPropertyNames;
+		private ClassNetCache ClassNetCache = null!;
+		//public HashSet<int> SetPropertyObjectIndexes;
+		//public HashSet<string> SetPropertyNames;
 
 		public static ActorUpdate Deserialize(BitReader br, Replay replay, Dictionary<int, ActorUpdate> openChannels)
 		{
@@ -40,7 +40,7 @@ namespace RocketRP
 					actorUpdate.State = ChannelState.Open;
 
 					if ((replay.EngineVersion >= 868 && replay.LicenseeVersion >= 15) ||
-						(replay.EngineVersion == 868 && replay.LicenseeVersion == 14 && replay.Properties.MatchType != "Lan"))	// Fixes RLCS 2 replays
+						(replay.EngineVersion == 868 && replay.LicenseeVersion == 14 && replay.Properties.MatchType != "Lan"))  // Fixes RLCS 2 replays
 					{
 						actorUpdate.NameId = br.ReadInt32();
 						actorUpdate.Name = replay.Names[actorUpdate.NameId.Value];
@@ -56,14 +56,15 @@ namespace RocketRP
 					actorUpdate.ClassNetCache = TypeNameToClassNetCache(actorUpdate.TypeName, replay);
 					actorUpdate.ObjectId = actorUpdate.ClassNetCache.ObjectIndex;
 					actorUpdate.ObjectName = replay.Objects[actorUpdate.ObjectId];
-					actorUpdate.Type = System.Type.GetType($"RocketRP.Actors.{actorUpdate.ObjectName}");
+					var typeName = $"RocketRP.Actors.{actorUpdate.ObjectName}";
+					actorUpdate.Type = Type.GetType(typeName) ?? throw new Exception($"The Type {typeName} doesn't exist");
 
-					if(actorUpdate.Type == null)
+					if (actorUpdate.Type == null)
 					{
 						throw new Exception($"Unknown actor type: {actorUpdate.ObjectName}");
 					}
 
-					actorUpdate.Actor = (Actor)Activator.CreateInstance(actorUpdate.Type);
+					actorUpdate.Actor = (Actor)(Activator.CreateInstance(actorUpdate.Type) ?? throw new MissingMethodException($"{actorUpdate.TypeName} does not have a parameterless constructor"));
 					actorUpdate.Actor.Deserialize(br, replay);
 				}
 				else
@@ -79,16 +80,16 @@ namespace RocketRP
 					actorUpdate.ObjectId = activeActor.ObjectId;
 					actorUpdate.ObjectName = activeActor.ObjectName;
 					actorUpdate.Type = activeActor.Type;
-					actorUpdate.Actor = (Actor)Activator.CreateInstance(actorUpdate.Type);
-					actorUpdate.SetPropertyObjectIndexes = new HashSet<int>();
-					actorUpdate.SetPropertyNames = new HashSet<string>();
+					actorUpdate.Actor = (Actor)(Activator.CreateInstance(actorUpdate.Type) ?? throw new MissingMethodException($"{actorUpdate.TypeName} does not have a parameterless constructor"));
+					//actorUpdate.SetPropertyObjectIndexes = new HashSet<int>();
+					//actorUpdate.SetPropertyNames = new HashSet<string>();
 
 					while (br.ReadBit())
 					{
 						var propId = br.ReadInt32((uint)actorUpdate.ClassNetCache.NumProperties);
 						var propObjectIndex = actorUpdate.ClassNetCache.GetPropertyObjectIndex(propId);
-						actorUpdate.SetPropertyObjectIndexes.Add(propObjectIndex);
-						actorUpdate.SetPropertyNames.Add(replay.Objects[propObjectIndex]);
+						//actorUpdate.SetPropertyObjectIndexes.Add(propObjectIndex);
+						//actorUpdate.SetPropertyNames.Add(propName);
 
 						actorUpdate.Actor.DeserializeProperty(br, replay, propObjectIndex);
 					}
@@ -122,35 +123,36 @@ namespace RocketRP
 				bw.Write(true);
 
 				if ((replay.EngineVersion >= 868 && replay.LicenseeVersion >= 15) ||
-					(replay.EngineVersion == 868 && replay.LicenseeVersion == 14 && replay.Properties.MatchType != "Lan"))	// Fixes RLCS 2 replays
+					(replay.EngineVersion == 868 && replay.LicenseeVersion == 14 && replay.Properties.MatchType != "Lan"))  // Fixes RLCS 2 replays
 				{
-					bw.Write(NameId.Value);
+					bw.Write(NameId ?? 0);
 				}
 
 				TypeId.Serialize(bw);
 				Actor.Serialize(bw, replay);
 				return;
 			}
-			else if(State == ChannelState.Update)
+			else if (State == ChannelState.Update)
 			{
 				bw.Write(true);
 				bw.Write(false);
 
 				// We need to calulate the property object indexes if they haven't been set yet, and we need to get the ClassNetCache if it hasn't been set yet
 				if (Actor.SetPropertyObjectIndexes.Count != Actor.SetPropertyNames.Count) Actor.CalculatePropertyObjectIndexes(replay);
-				if(ClassNetCache == null) ClassNetCache = TypeNameToClassNetCache(TypeName, replay);
+				if (ClassNetCache == null) ClassNetCache = TypeNameToClassNetCache(TypeName, replay);
 
 				foreach (var propObjectIndex in Actor.SetPropertyObjectIndexes)
 				{
-					bw.Write(true);
 					var propId = ClassNetCache.GetPropertyPropertyId(propObjectIndex);
-					bw.Write(propId, (uint)ClassNetCache.NumProperties);
-					Actor.SerializeProperty(bw, replay, propId, propObjectIndex);
+					var maxPropId = (uint)ClassNetCache.NumProperties;
+					bw.Write(true);
+					bw.Write(propId, maxPropId);
+					Actor.SerializeProperty(bw, replay, propObjectIndex, propId, maxPropId);
 				}
 				bw.Write(false);
 				return;
 			}
-			else if(State == ChannelState.Close)
+			else if (State == ChannelState.Close)
 			{
 				bw.Write(false);
 				return;

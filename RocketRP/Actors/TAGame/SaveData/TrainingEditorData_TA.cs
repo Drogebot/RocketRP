@@ -16,11 +16,11 @@ namespace RocketRP.Actors.TAGame
         public EDifficulty? Difficulty { get; set; }
         public string? CreatorName { get; set; }
 		public string? Description { get; set; }
-		public ArrayProperty<int>? Tags { get; set; }
+        public int[]? Tags { get; set; }
         public Name? MapName { get; set; }
         public ulong? CreatedAt { get; set; }
         public ulong? UpdatedAt { get; set; }
         public UniqueNetId? CreatorPlayerID { get; set; }
-        public ArrayProperty<EditorRoundData>? Rounds { get; set; }
+        public EditorRoundData[]? Rounds { get; set; }
     }
 }

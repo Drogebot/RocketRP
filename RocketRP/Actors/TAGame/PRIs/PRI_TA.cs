@@ -12,7 +12,7 @@ using System.Xml.Linq;
 
 namespace RocketRP.Actors.TAGame
 {
-    public class PRI_TA : PRI_X
+	public class PRI_TA : PRI_X
 	{
 		public int SelfDemolitions { get; set; }
 		public int BallDemolitions { get; set; }
@@ -39,7 +39,8 @@ namespace RocketRP.Actors.TAGame
 		public UniqueNetId PartyLeader { get; set; }
 		public ESeverityType QuitSeverity { get; set; }
 		public EConnectionQualityState ReplicatedWorstNetQualityBeyondLatency { get; set; }
-		public ArrayProperty<byte> PlayerHistoryKey { get; set; } = new ArrayProperty<byte>(0x40);
+		[FixedArraySize(0x40)]
+		public byte?[] PlayerHistoryKey { get; set; }
 		public EPawnType PawnType { get; set; }
 		public ObjectTarget<CameraSettingsActor_TA> PersistentCamera { get; set; }
 		public ClientLoadoutOnlineDatas ClientLoadoutsOnline { get; set; }

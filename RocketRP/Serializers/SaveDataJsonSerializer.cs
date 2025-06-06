@@ -14,7 +14,6 @@ namespace RocketRP.Serializers
 		{
 			var converters = new JsonConverter[]{
 				new SaveDataJsonConverter<T>(),
-				new ArrayPropertyJsonConverter(),
 				new StringEnumConverter(),
 			};
 
@@ -25,7 +24,6 @@ namespace RocketRP.Serializers
 		{
 			var converters = new JsonConverter[]{
 				new SaveDataJsonConverter<T>(),
-				new ArrayPropertyJsonConverter(),
 				new StringEnumConverter(),
 			};
 

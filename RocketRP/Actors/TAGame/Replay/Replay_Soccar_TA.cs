@@ -21,8 +21,8 @@ namespace RocketRP.Actors.TAGame
 		public float? TotalSecondsPlayed { get; set; }
 		public ulong? MatchStartEpoch { get; set; }
 		public int? WinningTeam { get; set; }
-		public ArrayProperty<ScoredGoal>? Goals { get; set; }
-		public ArrayProperty<Highlight>? Highlights { get; set; }
-		public ArrayProperty<ReplayPlayerStats>? PlayerStats { get; set; }
+		public ScoredGoal[]? Goals { get; set; }
+		public Highlight[]? Highlights { get; set; }
+		public ReplayPlayerStats[]? PlayerStats { get; set; }
 	}
 }

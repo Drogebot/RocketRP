@@ -156,7 +156,7 @@ namespace RocketRP
 			else if (length > 0)
 			{
 				length = length - 1;
-				var value = CodePagesEncodingProvider.Instance.GetEncoding(1252).GetString(ReadBytes(length));
+				var value = CodePagesEncodingProvider.Instance.GetEncoding(1252)?.GetString(ReadBytes(length)) ?? throw new Exception("Code page 1252 is not available");
 				Pos += 8; // Skip the null terminator
 				return value;
 			}

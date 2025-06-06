@@ -46,9 +46,12 @@ namespace RocketRP.Actors.Engine
 		{
 			foreach (var propName in SetPropertyNames)
 			{
-				var test = GetType().GetProperty(propName);
-				var propObjectIndex = replay.Objects.IndexOf($"{GetType().GetProperty(propName).DeclaringType.FullName.Replace("RocketRP.Actors.", "")}:{propName}");
-				if (propObjectIndex == -1) throw new Exception($"Property {propName} not found in {GetType().Name}");
+				var propType = GetType().GetProperty(propName);
+				if (propType is null) throw new MissingMemberException($"Property {propName} not found in {GetType().Name}");
+
+				var objectName = $"{propType.DeclaringType!.FullName!.Replace("RocketRP.Actors.", "")}:{propName}";
+				var propObjectIndex = replay.Objects.IndexOf(objectName);
+				if (propObjectIndex == -1) throw new KeyNotFoundException($"Object {objectName} not found in {nameof(replay.Objects)}");
 				SetPropertyObjectIndexes.Add(propObjectIndex);
 			}
 		}
@@ -64,46 +67,56 @@ namespace RocketRP.Actors.Engine
 
 		public void DeserializeProperty(BitReader br, Replay replay, int propObjectIndex)
 		{
-			SetPropertyObjectIndexes.Add(propObjectIndex);
-
 			var propName = replay.Objects[propObjectIndex].Split(":").Last();
+			SetPropertyObjectIndexes.Add(propObjectIndex);
 			SetPropertyNames.Add(propName);
 
 			var propertyInfo = GetType().GetProperty(propName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
-			if (propertyInfo == null) throw new Exception($"Field {propName} not found in {GetType().Name}");
+			if (propertyInfo is null) throw new MissingMemberException($"Property {propName} not found in {GetType().Name}");
 
-			if (propertyInfo.PropertyType == typeof(bool)) propertyInfo.SetValue(this, br.ReadBit());
-			else if (propertyInfo.PropertyType == typeof(byte)) propertyInfo.SetValue(this, br.ReadByte());
-			else if (propertyInfo.PropertyType == typeof(int)) propertyInfo.SetValue(this, br.ReadInt32());
-			else if (propertyInfo.PropertyType == typeof(uint)) propertyInfo.SetValue(this, br.ReadUInt32());
-			else if (propertyInfo.PropertyType == typeof(long)) propertyInfo.SetValue(this, br.ReadInt64());
-			else if (propertyInfo.PropertyType == typeof(ulong)) propertyInfo.SetValue(this, br.ReadUInt64());
-			else if (propertyInfo.PropertyType == typeof(float)) propertyInfo.SetValue(this, br.ReadSingle());
-			else if (propertyInfo.PropertyType == typeof(string)) propertyInfo.SetValue(this, br.ReadString());
+			var propType = propertyInfo.PropertyType;
+			var valueType = propType;
+			var valueIndex = 0;
+			Array? arr = null;
 
-			else if (propertyInfo.PropertyType.IsEnum)
-			{   // I've never tested this, but it should work
-				var enumType = propertyInfo.PropertyType.GetEnumUnderlyingType();
-
-				if (enumType == typeof(byte)) propertyInfo.SetValue(this, Convert.ChangeType(br.ReadByte(), enumType));
-				else if (enumType == typeof(int)) propertyInfo.SetValue(this, Convert.ChangeType(br.ReadInt32(), enumType));
-				else if (enumType == typeof(uint)) propertyInfo.SetValue(this, Convert.ChangeType(br.ReadUInt32(), enumType));
-				else if (enumType == typeof(long)) propertyInfo.SetValue(this, Convert.ChangeType(br.ReadInt64(), enumType));
-				else if (enumType == typeof(ulong)) propertyInfo.SetValue(this, Convert.ChangeType(br.ReadUInt64(), enumType));
-			}
-
-			else if (propertyInfo.PropertyType.GetInterface("IArrayProperty") == typeof(IArrayProperty))
+			if (propType.IsEnum)
 			{
-				((IArrayProperty)propertyInfo.GetValue(this)).Deserialize(br, replay);
+				valueType = propType.GetEnumUnderlyingType();
 			}
 
+			else if (propType.IsArray)  //Fixed Size Array
+			{
+				var arrType = propType.GetElementType()!;
+				valueType = Nullable.GetUnderlyingType(arrType)!;
+				arr = (Array?)propertyInfo.GetValue(this);
+				if (arr is null)
+				{
+					arr = Array.CreateInstance(arrType, propertyInfo.GetCustomAttribute<FixedArraySize>()!.Size);
+					propertyInfo.SetValue(this, arr);
+				}
+				valueIndex = br.ReadInt32((uint)arr.Length);
+			}
+
+			object? value = null;
+
+			if (valueType == typeof(bool)) value = br.ReadBit();
+			else if (valueType == typeof(byte)) value = br.ReadByte();
+			else if (valueType == typeof(int)) value = br.ReadInt32();
+			else if (valueType == typeof(uint)) value = br.ReadUInt32();
+			else if (valueType == typeof(long)) value = br.ReadInt64();
+			else if (valueType == typeof(ulong)) value = br.ReadUInt64();
+			else if (valueType == typeof(float)) value = br.ReadSingle();
+			else if (valueType == typeof(string)) value = br.ReadString();
 			else
 			{
-				var methodInfo = propertyInfo.PropertyType.GetMethod("Deserialize", new Type[] { typeof(BitReader) }) ?? propertyInfo.PropertyType.GetMethod("Deserialize", new Type[] { typeof(BitReader), typeof(Replay) });
-				if (methodInfo.GetParameters().Length == 1) propertyInfo.SetValue(this, methodInfo.Invoke(null, new object[] { br }));
-				else if (methodInfo.GetParameters().Length == 2) propertyInfo.SetValue(this, methodInfo.Invoke(null, new object[] { br, replay }));
-				else throw new MethodAccessException($"Deserialize method in {propertyInfo.PropertyType.Name} must have 1 or 2 parameters");
+				var methodInfo = valueType.GetMethod("Deserialize", [typeof(BitReader)]) ?? valueType.GetMethod("Deserialize", [typeof(BitReader), typeof(Replay)]);
+				if (methodInfo is null) throw new MissingMethodException($"Deserialize method in {valueType.Name} not found");
+				else if (methodInfo.GetParameters().Length == 1) value = methodInfo.Invoke(null, [br]);
+				else if (methodInfo.GetParameters().Length == 2) value = methodInfo.Invoke(null, [br, replay]);
 			}
+
+			if (propType.IsArray) arr!.SetValue(value, valueIndex);
+			else propertyInfo.SetValue(this, value);
 		}
 
 		public void Serialize(BitWriter bw, Replay replay)
@@ -115,44 +128,71 @@ namespace RocketRP.Actors.Engine
 			InitialRotation.Value.Serialize(bw);
 		}
 
-		public void SerializeProperty(BitWriter bw, Replay replay, int propId, int propObjectIndex)
+		public void SerializeProperty(BitWriter bw, Replay replay, int propObjectIndex, int propId, uint maxPropId)
 		{
 			var propName = replay.Objects[propObjectIndex].Split(":").Last();
 
 			var propertyInfo = GetType().GetProperty(propName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
-			if (propertyInfo == null) throw new Exception($"Field {propName} not found in {GetType().Name}");
+			if (propertyInfo is null) throw new MissingMemberException($"Property {propName} not found in {GetType().Name}");
 
-			if (propertyInfo.PropertyType == typeof(bool)) bw.Write((bool)propertyInfo.GetValue(this));
-			else if (propertyInfo.PropertyType == typeof(byte)) bw.Write((byte)propertyInfo.GetValue(this));
-			else if (propertyInfo.PropertyType == typeof(int)) bw.Write((int)propertyInfo.GetValue(this));
-			else if (propertyInfo.PropertyType == typeof(uint)) bw.Write((uint)propertyInfo.GetValue(this));
-			else if (propertyInfo.PropertyType == typeof(long)) bw.Write((long)propertyInfo.GetValue(this));
-			else if (propertyInfo.PropertyType == typeof(ulong)) bw.Write((ulong)propertyInfo.GetValue(this));
-			else if (propertyInfo.PropertyType == typeof(float)) bw.Write((float)propertyInfo.GetValue(this));
-			else if (propertyInfo.PropertyType == typeof(string)) bw.Write((string)propertyInfo.GetValue(this));
+			var propType = propertyInfo.PropertyType;
+			var valueType = propType;
+			int maxValueIndex = 1;
+			Array? arr = null;
 
-			else if (propertyInfo.PropertyType.IsEnum)
-			{   // I've never tested this, but it should work
-				var enumType = propertyInfo.PropertyType.GetEnumUnderlyingType();
-
-				if (enumType == typeof(byte)) bw.Write((byte)propertyInfo.GetValue(this));
-				else if (enumType == typeof(int)) bw.Write((int)propertyInfo.GetValue(this));
-				else if (enumType == typeof(uint)) bw.Write((uint)propertyInfo.GetValue(this));
-				else if (enumType == typeof(long)) bw.Write((long)propertyInfo.GetValue(this));
-				else if (enumType == typeof(ulong)) bw.Write((ulong)propertyInfo.GetValue(this));
+			if (propType.IsEnum)
+			{
+				valueType = propType.GetEnumUnderlyingType();
 			}
 
-			else if (propertyInfo.PropertyType.GetInterface("IArrayProperty") == typeof(IArrayProperty))
+			else if (propType.IsArray)
 			{
-				var classNetCache = replay.ClassNetCacheByName[GetType().FullName.Replace("RocketRP.Actors.", "")];
-				((IArrayProperty)propertyInfo.GetValue(this)).Serialize(bw, replay, propId, classNetCache.NumProperties);
+				var arrType = propType.GetElementType()!;
+				valueType = Nullable.GetUnderlyingType(arrType)!;
+				arr = (Array?)propertyInfo.GetValue(this);
+				if (arr is null)
+				{
+					arr = Array.CreateInstance(arrType, propertyInfo.GetCustomAttribute<FixedArraySize>()!.Size);
+					propertyInfo.SetValue(this, arr);
+				}
+				maxValueIndex = arr.Length;
 			}
 
-			else
+			MethodInfo? methodInfo = null;
+			object? defaultValue = propType.IsArray && valueType.IsValueType ? Activator.CreateInstance(valueType) : null;
+			var firstEntry = true;
+			for (int valueIndex = 0; valueIndex < maxValueIndex; valueIndex++)
 			{
-				var methodInfo = propertyInfo.PropertyType.GetMethod("Serialize", new Type[] { typeof(BitWriter) }) ?? propertyInfo.PropertyType.GetMethod("Serialize", new Type[] { typeof(BitWriter), typeof(Replay) });
-				if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(propertyInfo.GetValue(this), new object[] { bw });
-				if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(propertyInfo.GetValue(this), new object[] { bw, replay });
+				object? value;
+				if (propType.IsArray)
+				{
+					value = arr!.GetValue(valueIndex);
+					if (value is null) continue;
+					if (!firstEntry)
+					{
+						bw.Write(true);
+						bw.Write(propId, maxPropId);
+					}
+					firstEntry = false;
+					bw.Write(valueIndex, (uint)maxValueIndex);
+				}
+				else value = propertyInfo.GetValue(this);
+
+				if (valueType == typeof(bool)) bw.Write((bool)value!);
+				else if (valueType == typeof(byte)) bw.Write((byte)value!);
+				else if (valueType == typeof(int)) bw.Write((int)value!);
+				else if (valueType == typeof(uint)) bw.Write((uint)value!);
+				else if (valueType == typeof(long)) bw.Write((long)value!);
+				else if (valueType == typeof(ulong)) bw.Write((ulong)value!);
+				else if (valueType == typeof(float)) bw.Write((float)value!);
+				else if (valueType == typeof(string)) bw.Write((string?)value);
+				else
+				{
+					methodInfo = methodInfo ?? valueType.GetMethod("Serialize", [typeof(BitWriter)]) ?? valueType.GetMethod("Serialize", [typeof(BitWriter), typeof(Replay)]);
+					if (methodInfo is null) throw new MissingMethodException($"Serialize method in {valueType.Name} not found");
+					else if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(value, [bw]);
+					else if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(value, [bw, replay]);
+				}
 			}
 		}
 	}
