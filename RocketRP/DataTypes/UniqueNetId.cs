@@ -58,7 +58,7 @@ namespace RocketRP.DataTypes
 					else id = Convert.ToHexString(br.ReadBytes(32));
 					break;
 				case OnlinePlatform.OnlinePlatform_Epic:
-					id = br.ReadString();
+					id = br.ReadString()!;
 					break;
 				default:
 					throw new Exception($"Unknown UniqueNetId Type {type}");
@@ -70,7 +70,7 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			bw.Write((byte)Platform);
+			bw.Write((byte?)Platform);
 			switch ((OnlinePlatform)Platform)
 			{
 				case OnlinePlatform.OnlinePlatform_Unknown:
@@ -78,23 +78,23 @@ namespace RocketRP.DataTypes
 				case OnlinePlatform.OnlinePlatform_Steam:
 				case OnlinePlatform.OnlinePlatform_Dingo:
 				case OnlinePlatform.OnlinePlatform_QQ:
-					bw.Write(UInt64.Parse(Id));
+					bw.Write(UInt64.Parse(Id!));
 					break;
 				case OnlinePlatform.OnlinePlatform_PS4:
 				case OnlinePlatform.OnlinePlatform_OldNNX:
-					bw.Write(Convert.FromHexString(Id));
+					bw.Write(Convert.FromHexString(Id!));
 					break;
 				case OnlinePlatform.OnlinePlatform_NNX:
-					if (replay.NetVersion >= 10) bw.Write(UInt64.Parse(Id));
-					else bw.Write(Convert.FromHexString(Id));
+					if (replay.NetVersion >= 10) bw.Write(UInt64.Parse(Id!));
+					else bw.Write(Convert.FromHexString(Id!));
 					break;
 				case OnlinePlatform.OnlinePlatform_Epic:
-					bw.Write(Id);
+					bw.Write(Id!);
 					break;
 				default:
 					throw new Exception($"Unknown UniqueNetId Type {Platform}");
 			}
-			bw.Write((byte)SplitscreenID);
+			bw.Write(SplitscreenID);
 		}
 	}
 }

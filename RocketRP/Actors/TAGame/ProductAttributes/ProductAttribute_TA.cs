@@ -18,7 +18,7 @@ namespace RocketRP.Actors.TAGame
             var className = replay.Objects[objectTarget.TargetIndex];
 
             var type = Type.GetType($"RocketRP.Actors.{className}");
-            var attribute = (ProductAttribute_TA)type.GetMethod("DeserializeType").Invoke(null, new object[] { br, replay });
+            var attribute = (ProductAttribute_TA?)type?.GetMethod("DeserializeType")?.Invoke(null, [br, replay]) ?? throw new NullReferenceException();
 
             attribute.ObjectTarget = objectTarget;
 			attribute.ClassName = className;
@@ -28,7 +28,7 @@ namespace RocketRP.Actors.TAGame
 
 		public virtual void Serialize(BitWriter bw, Replay replay)
 		{
-			this.ObjectTarget.Value.Serialize(bw);
+			ObjectTarget!.Value.Serialize(bw);
 		}
     }
 }

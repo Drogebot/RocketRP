@@ -9,19 +9,19 @@ namespace RocketRP.DataTypes
 {
 	public struct DemolishDataGoalExplosion //class extended from DemolishData
 	{
-		public ObjectTarget<PRI_TA> GoalExplosionOwner { get; set; }
-		public ObjectTarget<RBActor_TA> Attacker { get; set; }
-		public ObjectTarget<Car_TA> Victim { get; set; }
-		public Vector AttackerVelocity { get; set; }
-		public Vector VictimVelocity { get; set; }
+		public ObjectTarget<PRI_TA>? GoalExplosionOwner { get; set; }
+		public ObjectTarget<RBActor_TA>? Attacker { get; set; }
+		public ObjectTarget<Car_TA>? Victim { get; set; }
+		public Vector? AttackerVelocity { get; set; }
+		public Vector? VictimVelocity { get; set; }
 
-		public DemolishDataGoalExplosion(ObjectTarget<PRI_TA> goalExplosionOwner, ObjectTarget<RBActor_TA> attacker, ObjectTarget<Car_TA> victim, Vector attackerVelocity, Vector victimVelocity)
+		public DemolishDataGoalExplosion(ObjectTarget<PRI_TA>? goalExplosionOwner, ObjectTarget<RBActor_TA>? attacker, ObjectTarget<Car_TA>? victim, Vector? attackerVelocity, Vector? victimVelocity)
 		{
-			this.GoalExplosionOwner = goalExplosionOwner;
-			this.Attacker = attacker;
-			this.Victim = victim;
-			this.AttackerVelocity = attackerVelocity;
-			this.VictimVelocity = victimVelocity;
+			GoalExplosionOwner = goalExplosionOwner;
+			Attacker = attacker;
+			Victim = victim;
+			AttackerVelocity = attackerVelocity;
+			VictimVelocity = victimVelocity;
 		}
 
 		public static DemolishDataGoalExplosion Deserialize(BitReader br, Replay replay)
@@ -37,11 +37,11 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			GoalExplosionOwner.Serialize(bw);
-			Attacker.Serialize(bw);
-			Victim.Serialize(bw);
-			AttackerVelocity.Serialize(bw, replay);
-			VictimVelocity.Serialize(bw, replay);
+			GoalExplosionOwner!.Value.Serialize(bw);
+			Attacker!.Value.Serialize(bw);
+			Victim!.Value.Serialize(bw);
+			AttackerVelocity!.Value.Serialize(bw, replay);
+			VictimVelocity!.Value.Serialize(bw, replay);
 		}
 	}
 }

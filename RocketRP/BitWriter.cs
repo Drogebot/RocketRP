@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -81,51 +83,61 @@ namespace RocketRP
 			}
 		}
 
-		public void Write(Boolean value)
+		public void Write([NotNull] Boolean? value)
 		{
+			ArgumentNullException.ThrowIfNull(value);
 			if (Pos + 1 >= Max) Grow(Pos + 1);
 
-			if (value) Buffer[Pos >> 3] |= GShift[Pos & 7];
+			if ((Boolean)value) Buffer[Pos >> 3] |= GShift[Pos & 7];
 			Pos++;
 		}
 
-		public unsafe void Write(Byte value)
+		public unsafe void Write([NotNull] Byte? value)
 		{
+			ArgumentNullException.ThrowIfNull(value);
+			if (value is null) throw new ArgumentNullException();
 			SerializeBits(&value, sizeof(Byte) << 3);
 		}
 
-		public void Write(Int32 value, UInt32 valueMax)
+		public void Write([NotNull] Int32? value, UInt32 valueMax)
 		{
+			ArgumentNullException.ThrowIfNull(value);
 			SerializeInt((UInt32)value, valueMax);
 		}
 
-		public void Write(UInt32 value, UInt32 valueMax)
+		public void Write([NotNull] UInt32? value, UInt32 valueMax)
 		{
-			SerializeInt(value, valueMax);
+			ArgumentNullException.ThrowIfNull(value);
+			SerializeInt((UInt32)value, valueMax);
 		}
 
-		public unsafe void Write(Int32 value)
+		public unsafe void Write([NotNull] Int32? value)
 		{
+			ArgumentNullException.ThrowIfNull(value);
 			SerializeBits(&value, sizeof(Int32) << 3);
 		}
 
-		public unsafe void Write(UInt32 value)
+		public unsafe void Write([NotNull] UInt32? value)
 		{
+			ArgumentNullException.ThrowIfNull(value);
 			SerializeBits(&value, sizeof(UInt32) << 3);
 		}
 
-		public unsafe void Write(Int64 value)
+		public unsafe void Write([NotNull] Int64? value)
 		{
+			ArgumentNullException.ThrowIfNull(value);
 			SerializeBits(&value, sizeof(Int64) << 3);
 		}
 
-		public unsafe void Write(UInt64 value)
+		public unsafe void Write([NotNull] UInt64? value)
 		{
+			ArgumentNullException.ThrowIfNull(value);
 			SerializeBits(&value, sizeof(UInt64) << 3);
 		}
 
-		public unsafe void Write(Single value)
+		public unsafe void Write([NotNull] Single? value)
 		{
+			ArgumentNullException.ThrowIfNull(value);
 			SerializeBits(&value, sizeof(Single) << 3);
 		}
 
@@ -136,7 +148,7 @@ namespace RocketRP
 				SerializeBits(addr, (sizeof(Byte) * bytes.Length) << 3);
 		}
 
-		public unsafe void Write(string value)
+		public unsafe void Write(string? value)
 		{
 			if (value is null)
 			{

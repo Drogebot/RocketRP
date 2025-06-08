@@ -9,18 +9,19 @@ namespace RocketRP.DataTypes
 {
 	public struct PickupInfo_TA
 	{
-		public ObjectTarget<SpecialPickup_TA>[] AvailablePickups { get; set; }
-		public bool bItemsArePreview { get; set; }
+		[FixedArraySize(3)]
+		public ObjectTarget<SpecialPickup_TA>?[]? AvailablePickups { get; set; }
+		public bool? bItemsArePreview { get; set; }
 
-		public PickupInfo_TA(ObjectTarget<SpecialPickup_TA>[] availablePickups, bool bItemsArePreview)
+		public PickupInfo_TA(ObjectTarget<SpecialPickup_TA>?[]? availablePickups, bool? bItemsArePreview)
 		{
-			this.AvailablePickups = availablePickups;
+			AvailablePickups = availablePickups;
 			this.bItemsArePreview = bItemsArePreview;
 		}
 
 		public static PickupInfo_TA Deserialize(BitReader br)
 		{
-			var availablePickups = new ObjectTarget<SpecialPickup_TA>[3]
+			var availablePickups = new ObjectTarget<SpecialPickup_TA>?[3]
 			{
 				ObjectTarget<SpecialPickup_TA>.Deserialize(br),
 				ObjectTarget<SpecialPickup_TA>.Deserialize(br),
@@ -33,9 +34,9 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw)
 		{
-			AvailablePickups[0].Serialize(bw);
-			AvailablePickups[1].Serialize(bw);
-			AvailablePickups[2].Serialize(bw);
+			AvailablePickups![0]!.Value.Serialize(bw);
+			AvailablePickups![1]!.Value.Serialize(bw);
+			AvailablePickups![2]!.Value.Serialize(bw);
 			bw.Write(bItemsArePreview);
 		}
 	}

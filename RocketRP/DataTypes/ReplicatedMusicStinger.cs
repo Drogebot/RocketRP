@@ -10,10 +10,10 @@ namespace RocketRP.DataTypes
 	/// This type no longer exists inside Rocket League, so I have no clue what the official names are
 	public struct ReplicatedMusicStinger
 	{
-		public ObjectTarget<ClassObject> ObjectTarget { get; set; }
-		public byte Unknown1 { get; set; }
+		public ObjectTarget<ClassObject>? ObjectTarget { get; set; }
+		public byte? Unknown1 { get; set; }
 
-		public ReplicatedMusicStinger(ObjectTarget<ClassObject> objectTarget, byte unknown1)
+		public ReplicatedMusicStinger(ObjectTarget<ClassObject>? objectTarget, byte? unknown1)
 		{
 			ObjectTarget = objectTarget;
 			Unknown1 = unknown1;
@@ -29,7 +29,7 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw)
 		{
-			ObjectTarget.Serialize(bw);
+			ObjectTarget!.Value.Serialize(bw);
 			bw.Write(Unknown1);
 		}
 	}

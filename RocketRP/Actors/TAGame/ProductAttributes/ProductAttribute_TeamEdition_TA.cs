@@ -28,7 +28,7 @@ namespace RocketRP.Actors.TAGame
 		{
 			base.Serialize(bw, replay);
 
-			bw.Write((uint)Id, 1U << 31);
+			bw.Write((uint?)Id, 1U << 31);
 		}
 	}
 

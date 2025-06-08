@@ -38,11 +38,11 @@ namespace RocketRP.Actors.TAGame
 
 			if (replay.LicenseeVersion >= 23)
 			{
-				bw.Write(Color.Value);
+				bw.Write(Color);
 			}
 			else
 			{
-				if (Color >> 31 == 1) bw.Write(Color.Value);
+				if (Color >> 31 == 1) bw.Write(Color);
 				else bw.Write(false);
 			}
 		}

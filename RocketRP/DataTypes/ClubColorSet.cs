@@ -9,17 +9,17 @@ namespace RocketRP.DataTypes
 	/// The original version in RL does first the 2 bytes and then the 2 bools, so this might be wrong?
 	public struct ClubColorSet
 	{
-		public bool bTeamColorSet { get; set; }
-		public byte TeamColorID { get; set; }
-		public bool bCustomColorSet { get; set; }
-		public byte CustomColorID { get; set; }
+		public bool? bTeamColorSet { get; set; }
+		public byte? TeamColorID { get; set; }
+		public bool? bCustomColorSet { get; set; }
+		public byte? CustomColorID { get; set; }
 
-		public ClubColorSet(bool bTeamColorSet, byte TeamColorID, bool bCustomColorSet, byte CustomColorID)
+		public ClubColorSet(bool? bTeamColorSet, byte? teamColorID, bool? bCustomColorSet, byte? customColorID)
 		{
 			this.bTeamColorSet = bTeamColorSet;
-			this.TeamColorID = TeamColorID;
+			TeamColorID = teamColorID;
 			this.bCustomColorSet = bCustomColorSet;
-			this.CustomColorID = CustomColorID;
+			CustomColorID = customColorID;
 		}
 
 		public static ClubColorSet Deserialize(BitReader br)

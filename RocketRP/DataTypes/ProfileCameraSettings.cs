@@ -16,15 +16,15 @@ namespace RocketRP.DataTypes
 		public float? SwivelSpeed { get; set; }
 		public float? TransitionSpeed { get; set; }
 
-		public ProfileCameraSettings(float fov, float height, float pitch, float distance, float stiffness, float swivelSpeed, float transitionSpeed)
+		public ProfileCameraSettings(float? fov, float? height, float? pitch, float? distance, float? stiffness, float? swivelSpeed, float? transitionSpeed)
 		{
-			this.FOV = fov;
-			this.Height = height;
-			this.Pitch = pitch;
-			this.Distance = distance;
-			this.Stiffness = stiffness;
-			this.SwivelSpeed = swivelSpeed;
-			this.TransitionSpeed = transitionSpeed;
+			FOV = fov;
+			Height = height;
+			Pitch = pitch;
+			Distance = distance;
+			Stiffness = stiffness;
+			SwivelSpeed = swivelSpeed;
+			TransitionSpeed = transitionSpeed;
 		}
 
 		public static ProfileCameraSettings Deserialize(BitReader br, Replay replay)
@@ -44,14 +44,14 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			bw.Write(FOV.Value);
-			bw.Write(Height.Value);
-			bw.Write(Pitch.Value);
-			bw.Write(Distance.Value);
-			bw.Write(Stiffness.Value);
-			bw.Write(SwivelSpeed.Value);
+			bw.Write(FOV);
+			bw.Write(Height);
+			bw.Write(Pitch);
+			bw.Write(Distance);
+			bw.Write(Stiffness);
+			bw.Write(SwivelSpeed);
 
-			if(replay.EngineVersion >= 868 && replay.LicenseeVersion >= 20) bw.Write(TransitionSpeed.Value);
+			if(replay.EngineVersion >= 868 && replay.LicenseeVersion >= 20) bw.Write(TransitionSpeed);
 		}
 	}
 }

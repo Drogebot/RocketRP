@@ -9,6 +9,6 @@ namespace RocketRP.Actors.TAGame
 {
 	public class GRI_TA : GRI_X
 	{
-		public string NewDedicatedServerIP { get; set; }
+		public string? NewDedicatedServerIP { get; set; }
 	}
 }

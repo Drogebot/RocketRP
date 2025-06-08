@@ -10,13 +10,13 @@ namespace RocketRP.DataTypes
 {
 	public struct DemolishData2 //class extended from DemolishData
 	{
-		public ObjectTarget<ClassObject> CustomDemoFX { get; set; }
-		public ObjectTarget<RBActor_TA> Attacker { get; set; }
-		public ObjectTarget<Car_TA> Victim { get; set; }
-		public Vector AttackerVelocity { get; set; }
-		public Vector VictimVelocity { get; set; }
+		public ObjectTarget<ClassObject>? CustomDemoFX { get; set; }
+		public ObjectTarget<RBActor_TA>? Attacker { get; set; }
+		public ObjectTarget<Car_TA>? Victim { get; set; }
+		public Vector? AttackerVelocity { get; set; }
+		public Vector? VictimVelocity { get; set; }
 
-		public DemolishData2(ObjectTarget<ClassObject> customDemoFX, ObjectTarget<RBActor_TA> attacker, ObjectTarget<Car_TA> victim, Vector attackerVelocity, Vector victimVelocity)
+		public DemolishData2(ObjectTarget<ClassObject>? customDemoFX, ObjectTarget<RBActor_TA>? attacker, ObjectTarget<Car_TA>? victim, Vector? attackerVelocity, Vector? victimVelocity)
 		{
 			CustomDemoFX = customDemoFX;
 			Attacker = attacker;
@@ -38,11 +38,11 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			CustomDemoFX.Serialize(bw);
-			Attacker.Serialize(bw);
-			Victim.Serialize(bw);
-			AttackerVelocity.Serialize(bw, replay);
-			VictimVelocity.Serialize(bw, replay);
+			CustomDemoFX!.Value.Serialize(bw);
+			Attacker!.Value.Serialize(bw);
+			Victim!.Value.Serialize(bw);
+			AttackerVelocity!.Value.Serialize(bw, replay);
+			VictimVelocity!.Value.Serialize(bw, replay);
 		}
 	}
 }

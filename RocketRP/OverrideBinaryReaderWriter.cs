@@ -20,14 +20,14 @@ namespace RocketRP
 		/// Reads a string from the current stream. The string is prefixed with the length, encoded as a 32-bit integer. The string is postfixed with a null character.
 		/// </summary>
 		/// <returns>The string being read.</returns>
-		public override string ReadString()
+		public new string? ReadString()
 		{
-			// TODO: This is the same implementation as BitReader's ReadString()
+			// This is the same implementation as BitReader's ReadString()
 			var length = ReadInt32();
 			if (length > 0)
 			{
 				var bytes = ReadBytes(length);
-				return CodePagesEncodingProvider.Instance.GetEncoding(1252).GetString(bytes, 0, length - 1);
+				return CodePagesEncodingProvider.Instance.GetEncoding(1252)?.GetString(bytes, 0, length - 1) ?? throw new Exception("Code page 1252 is not available");
 			}
 			else if (length < 0)
 			{
@@ -52,9 +52,9 @@ namespace RocketRP
 		/// <param name="value"></param>
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		/// <exception cref="ObjectDisposedException">The stream is closed.</exception>
-		public override void Write(string value)
+		public override void Write(string? value)
 		{
-			// TODO: This is the same implementation as BitWriter's Write(string)
+			// This is the same implementation as BitWriter's Write(string)
 			if (value == null)
 			{
 				Write((int)0);
@@ -71,7 +71,8 @@ namespace RocketRP
 
 			if (!isUnicode)
 			{
-				Write(CodePagesEncodingProvider.Instance.GetEncoding(1252).GetBytes(value));
+				var bytes = CodePagesEncodingProvider.Instance.GetEncoding(1252)?.GetBytes(value) ?? throw new Exception("Code page 1252 is not available");
+				Write(bytes);
 				Write((byte)0);
 			}
 			else

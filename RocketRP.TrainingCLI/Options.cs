@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -11,7 +12,7 @@ namespace RocketRP.TrainingCLI
 	public class Options
 	{
 		[Option('f', "training", Required = true, HelpText = "Path to the Training File/Directory")]
-		public string TrainingPath { get; set; }
+		public required string TrainingPath { get; set; }
 
 		[Option('o', "output", HelpText = "Path to the output Directory")]
 		public string? OutputPath { get; set; }

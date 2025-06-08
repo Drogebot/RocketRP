@@ -27,7 +27,7 @@ namespace RocketRP.Serializers
 				new StringEnumConverter(),
 			};
 
-			return JsonConvert.DeserializeObject<SaveData<T>>(json, converters);
+			return JsonConvert.DeserializeObject<SaveData<T>>(json, converters) ?? throw new JsonException("SaveData JSON deserialization failed");
 
 		}
 	}

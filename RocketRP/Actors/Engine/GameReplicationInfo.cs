@@ -10,7 +10,7 @@ namespace RocketRP.Actors.Engine
 	public class GameReplicationInfo : ReplicationInfo
 	{
 		public ObjectTarget<Actor> Winner { get; set; }
-		public string ServerName { get; set; }
+		public string? ServerName { get; set; }
 		public int TimeLimit { get; set; }
 		public int GoalScore { get; set; }
 		public int RemainingMinute { get; set; }

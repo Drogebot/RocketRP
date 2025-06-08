@@ -141,7 +141,7 @@ namespace RocketRP
 			return bytes;
 		}
 
-		public unsafe string ReadString(int? fixedLength = null)
+		public unsafe string? ReadString(int? fixedLength = null)
 		{
 			Int32 length = fixedLength ?? ReadInt32();
 			if (length < 0)

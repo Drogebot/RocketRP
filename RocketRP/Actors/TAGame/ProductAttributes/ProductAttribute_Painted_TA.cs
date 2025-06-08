@@ -30,8 +30,8 @@ namespace RocketRP.Actors.TAGame
 		{
 			base.Serialize(bw, replay);
 
-			if (replay.EngineVersion >= 868 && replay.LicenseeVersion >= 18) bw.Write((uint)PaintID, 1U << 31);
-			else bw.Write((uint)PaintID, (uint)PaintColor.Gold);
+			if (replay.EngineVersion >= 868 && replay.LicenseeVersion >= 18) bw.Write((uint?)PaintID, 1U << 31);
+			else bw.Write((uint?)PaintID, (uint)PaintColor.Gold);
 		}
 	}
 

@@ -10,12 +10,10 @@ namespace RocketRP.DataTypes
 	/// This type is originally just a sort of string, but replays use an index into the replay's name table
 	public struct Name
 	{
-		public int? NameIndex { get; set; }
 		public string? Value { get; set; }
 
-		public Name(int nameIndex, string value = "")
+		public Name(string? value)
 		{
-			NameIndex = nameIndex;
 			Value = value;
 		}
 
@@ -36,15 +34,18 @@ namespace RocketRP.DataTypes
 		{
 			var nameIndex = br.ReadInt32();
 
-			return new Name(nameIndex, replay.Names[nameIndex]);
+			return new Name(replay.Names[nameIndex]);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
-			bw.Write((int)NameIndex);
+			if (Value is null) throw new NullReferenceException($"Value of {nameof(Name)} was null");
+			var nameIndex = replay.Names.IndexOf(Value);
+			if (nameIndex == -1) throw new KeyNotFoundException($"Name {Value} not found in {nameof(replay.Names)}");
+			bw.Write(nameIndex);
 		}
 
-		public static implicit operator Name(string value) => new Name { Value = value };
-		public static implicit operator string(Name value) => value.Value;
+		public static implicit operator Name(string? value) => new Name(value);
+		public static implicit operator string?(Name value) => value.Value;
 	}
 }

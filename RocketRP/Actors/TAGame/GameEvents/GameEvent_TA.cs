@@ -15,7 +15,7 @@ namespace RocketRP.Actors.TAGame
 		public int MatchTotalSecondsPlayed { get; set; }
 		public ulong MatchStartEpoch { get; set; }
 		public int ReplicatedRoundCountDownNumber { get; set; }
-		public string RichPresenceString { get; set; }
+		public string? RichPresenceString { get; set; }
 		public CustomMatchSettings MatchSettings { get; set; }
 		public ObjectTarget<PRI_TA> GameOwner { get; set; }
 		public int ReplicatedGameStateTimeRemaining { get; set; }

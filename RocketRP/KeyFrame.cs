@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP
 {
-	public class KeyFrame
+	public struct KeyFrame
 	{
 		public float Time { get; set; }
 		public uint Frame { get; set; }

@@ -9,9 +9,9 @@ namespace RocketRP.DataTypes
 {
     public struct ClientLoadoutOnlineData
 	{
-		public List<List<ProductAttribute_TA>> Products { get; set; }
+		public List<List<ProductAttribute_TA>?>? Products { get; set; }
 
-		public ClientLoadoutOnlineData(List<List<ProductAttribute_TA>> products)
+		public ClientLoadoutOnlineData(List<List<ProductAttribute_TA>?>? products)
 		{
 			Products = products;
 		}
@@ -19,7 +19,7 @@ namespace RocketRP.DataTypes
 		public static ClientLoadoutOnlineData Deserialize(BitReader br, Replay replay)
 		{
 			var count = br.ReadByte();
-			var products = new List<List<ProductAttribute_TA>>(count);
+			var products = new List<List<ProductAttribute_TA>?>(count);
 			for (int i = 0; i < count; i++)
 			{
 				var attributeCount = br.ReadByte();
@@ -36,10 +36,10 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			bw.Write((byte)Products.Count);
+			bw.Write((byte)Products!.Count);
 			foreach (var product in Products)
 			{
-				bw.Write((byte)product.Count);
+				bw.Write((byte)product!.Count);
 				foreach (var attribute in product)
 				{
 					attribute.Serialize(bw, replay);

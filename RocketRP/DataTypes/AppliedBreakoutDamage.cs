@@ -8,12 +8,12 @@ namespace RocketRP.DataTypes
 {
 	public struct AppliedBreakoutDamage
 	{
-		public byte Id { get; set; }
-		public Vector Location { get; set; }
-		public int DamageIndex { get; set; }
-		public int TotalDamage { get; set; }
+		public byte? Id { get; set; }
+		public Vector? Location { get; set; }
+		public int? DamageIndex { get; set; }
+		public int? TotalDamage { get; set; }
 
-		public AppliedBreakoutDamage(byte id, Vector location, int damageIndex, int totalDamage)
+		public AppliedBreakoutDamage(byte? id, Vector? location, int? damageIndex, int? totalDamage)
 		{
 			Id = id;
 			Location = location;
@@ -34,7 +34,7 @@ namespace RocketRP.DataTypes
 		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(Id);
-			Location.Serialize(bw, replay);
+			Location!.Value.Serialize(bw, replay);
 			bw.Write(DamageIndex);
 			bw.Write(TotalDamage);
 		}

@@ -8,23 +8,34 @@ namespace RocketRP.DataTypes
 {
 	public struct SkillTierData
 	{
-		public int Tier { get; set; }
+		public byte? Tier { get; set; }
+		public byte? PlacementMatchesPlayed { get; set; }
+		public bool? bReplicated { get; set; }
 
-		public SkillTierData(int tier)
+		public SkillTierData(byte? tier, byte? placementMatchesPlayed, bool? bReplicated)
 		{
 			Tier = tier;
+			PlacementMatchesPlayed = placementMatchesPlayed;
+			this.bReplicated = bReplicated;
 		}
 
 		public static SkillTierData Deserialize(BitReader br)
 		{
-			var tier = br.ReadInt32(1U << 9);    // Not sure why this is different from the RL source
+			var tier = br.ReadByte();
+			byte? placementMatchesPlayed = null;
+			if(false)  // Find the correct condition
+			{
+				placementMatchesPlayed = br.ReadByte();
+			}
+			var bReplicated = br.ReadBit();
 
-			return new SkillTierData(tier);
+			return new SkillTierData(tier, placementMatchesPlayed, bReplicated);
 		}
 
 		public void Serialize(BitWriter bw)
 		{
-			bw.Write(Tier, 500);
+			bw.Write(Tier);
+			bw.Write(bReplicated);
 		}
 	}
 }

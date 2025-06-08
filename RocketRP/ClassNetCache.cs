@@ -12,9 +12,9 @@ namespace RocketRP
 		public int ObjectIndex { get; set; }
 		public int MinPropertyId { get; set; }
 		public int MaxPropertyId { get; set; }
-		public List<ClassNetCacheProperty> Properties { get; set; }
+		public List<ClassNetCacheProperty> Properties { get; set; } = null!;
 		public int NumProperties => Properties.Count > 0 ? Properties.Max(p => p.PropertyId) + 1 : Parent != null ? Parent.NumProperties : 0;
-		public ClassNetCache Parent;
+		public ClassNetCache? Parent;
 
 		public int GetPropertyObjectIndex(int propId)
 		{
@@ -26,7 +26,7 @@ namespace RocketRP
 				}
 			}
 
-			return Parent.GetPropertyObjectIndex(propId);
+			return Parent!.GetPropertyObjectIndex(propId);
 		}
 
 		public int GetPropertyPropertyId(int objectIndex)
@@ -39,19 +39,19 @@ namespace RocketRP
 				}
 			}
 
-			return Parent.GetPropertyPropertyId(objectIndex);
+			return Parent!.GetPropertyPropertyId(objectIndex);
 		}
 
 		public void CalculateParent(Replay replay)
 		{
-			var type = System.Type.GetType($"RocketRP.Actors.{replay.Objects[ObjectIndex]}");
+			var type = System.Type.GetType($"RocketRP.Actors.{replay.Objects[ObjectIndex]}") ?? throw new NullReferenceException();
 			var baseType = type;
 			var baseObjectIndex = -1;
 			while (baseObjectIndex == -1)
 			{
 				if (baseType.BaseType == typeof(object)) break;
-				baseType = baseType.BaseType;
-				baseObjectIndex = replay.Objects.IndexOf(baseType.FullName.Replace("RocketRP.Actors.", ""));
+				baseType = baseType.BaseType!;
+				baseObjectIndex = replay.Objects.IndexOf(baseType.FullName!.Replace("RocketRP.Actors.", ""));
 			}
 
 			if (baseObjectIndex != -1) Parent = replay.ClassNetCaches.First(c => c.ObjectIndex == baseObjectIndex);

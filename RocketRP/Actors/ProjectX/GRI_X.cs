@@ -10,12 +10,12 @@ namespace RocketRP.Actors.ProjectX
 {
 	public class GRI_X : GameReplicationInfo
 	{
-		public string MatchGuid { get; set; }
+		public string? MatchGuid { get; set; }
 		public bool bGameStarted { get; set; }
 		public GameServerID GameServerID { get; set; }  // The type was changed from long to string at some point
 		[FixedArraySize(0x8)]
-		public Reservation?[] Reservations { get; set; }
-		public string ReplicatedServerRegion { get; set; }
+		public ReplicatedReservationData?[]? Reservations { get; set; }
+		public string? ReplicatedServerRegion { get; set; }
 		public int ReplicatedGameMutatorIndex { get; set; }
 		public int ReplicatedGamePlaylist { get; set; }
 

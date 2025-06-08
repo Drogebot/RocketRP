@@ -10,7 +10,7 @@ namespace RocketRP.CLI
 	public class Options
 	{
 		[Option('r', "replay", Required = true, HelpText = "Path to the Replay File/Directory")]
-		public string ReplayPath { get; set; }
+		public required string ReplayPath { get; set; }
 
 		[Option('o', "output", HelpText = "Path to the output Directory")]
 		public string? OutputPath { get; set; }

@@ -9,17 +9,17 @@ namespace RocketRP.DataTypes
 {
 	public struct DemolishData
 	{
-		public ObjectTarget<RBActor_TA> Attacker { get; set; }
-		public ObjectTarget<Car_TA> Victim { get; set; }
-		public Vector AttackerVelocity { get; set; }
-		public Vector VictimVelocity { get; set; }
+		public ObjectTarget<RBActor_TA>? Attacker { get; set; }
+		public ObjectTarget<Car_TA>? Victim { get; set; }
+		public Vector? AttackerVelocity { get; set; }
+		public Vector? VictimVelocity { get; set; }
 
-		public DemolishData(ObjectTarget<RBActor_TA> attacker, ObjectTarget<Car_TA> victim, Vector attackerVelocity, Vector victimVelocity)
+		public DemolishData(ObjectTarget<RBActor_TA>? attacker, ObjectTarget<Car_TA>? victim, Vector? attackerVelocity, Vector? victimVelocity)
 		{
-			this.Attacker = attacker;
-			this.Victim = victim;
-			this.AttackerVelocity = attackerVelocity;
-			this.VictimVelocity = victimVelocity;
+			Attacker = attacker;
+			Victim = victim;
+			AttackerVelocity = attackerVelocity;
+			VictimVelocity = victimVelocity;
 		}
 
 		public static DemolishData Deserialize(BitReader br, Replay replay)
@@ -34,10 +34,10 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			Attacker.Serialize(bw);
-			Victim.Serialize(bw);
-			AttackerVelocity.Serialize(bw, replay);
-			VictimVelocity.Serialize(bw, replay);
+			Attacker!.Value.Serialize(bw);
+			Victim!.Value.Serialize(bw);
+			AttackerVelocity!.Value.Serialize(bw, replay);
+			VictimVelocity!.Value.Serialize(bw, replay);
 		}
 	}
 }

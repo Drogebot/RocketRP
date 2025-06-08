@@ -8,10 +8,10 @@ namespace RocketRP.DataTypes
 {
 	public struct ImpulseData
 	{
-		public int CompressedRotation { get; set; }
-		public float ImpulseSpeed { get; set; }
+		public int? CompressedRotation { get; set; }
+		public float? ImpulseSpeed { get; set; }
 
-		public ImpulseData(int compressedRotation, float impulseSpeed)
+		public ImpulseData(int? compressedRotation, float? impulseSpeed)
 		{
 			CompressedRotation = compressedRotation;
 			ImpulseSpeed = impulseSpeed;

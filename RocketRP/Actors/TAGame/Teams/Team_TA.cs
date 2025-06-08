@@ -14,7 +14,7 @@ namespace RocketRP.Actors.TAGame
 		public ClubColorSet ClubColors { get; set; }
 		public ReplicatedLogoData LogoData { get; set; }
 		public ulong ClubID { get; set; }
-		public string CustomTeamName { get; set; }
+		public string? CustomTeamName { get; set; }
 		public ObjectTarget<GameEvent_Team_TA> GameEvent { get; set; }
 	}
 }

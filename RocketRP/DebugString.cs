@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace RocketRP
 {
-	public class DebugString
+	public struct DebugString
 	{
 		public uint FrameNumber { get; set; }
-		public string Username { get; set; }
-		public string Text { get; set; }
+		public string? Username { get; set; }
+		public string? Text { get; set; }
 
 		public static DebugString Deserialize(BinaryReader br)
 		{

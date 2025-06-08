@@ -10,6 +10,6 @@ namespace RocketRP.Actors.Engine
 	{
 		public int TeamIndex { get; set; }
 		public int Score { get; set; }
-		public string TeamName { get; set; }
+		public string? TeamName { get; set; }
 	}
 }

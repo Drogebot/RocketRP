@@ -14,14 +14,14 @@ namespace RocketRP
 		private const uint MAGIC = 0x7FFFFFFFU;
 		private const uint OBJHEADER = 0xFFFFFFFFU;
 		private const uint CRC_SEED = 0xEFCBF201;
-		private byte[] Data;
+		private byte[]? Data;
 
 		public uint Part1Length { get; set; }
 		public uint Part1CRC { get; set; }
 		public uint Foosball { get; set; } = FOOSBALL;
 		public uint Magic { get; set; } = MAGIC;
 		public SaveDataVersionInfo VersionInfo { get; set; } = new SaveDataVersionInfo { EngineVersion = 868, LicenseeVersion = 32, TypeVersion = 0 };
-		public T Properties { get; set; }
+		public T Properties { get; set; } = null!;
 		public List<Actors.Core.Object> Objects { get; set; } = new List<Actors.Core.Object>();
 		public List<ObjectType> ObjectTypes { get; set; } = new List<ObjectType>();
 
@@ -106,7 +106,7 @@ namespace RocketRP
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
-			savedata.Properties = (T)Activator.CreateInstance(typeof(T));
+			savedata.Properties = (T?)Activator.CreateInstance(typeof(T)) ?? throw new MissingMethodException($"{typeof(T).Name} does not have a parameterless constructor");
 			Actors.Core.Object.Deserialize(savedata.Properties, br, savedata.VersionInfo);
 
 			savedata.Objects = new List<Actors.Core.Object>(numObjectTypes);
@@ -120,7 +120,8 @@ namespace RocketRP
 					if (enforeCRC) throw new Exception(message);
 					Console.WriteLine($"Warning: {message}!");
 				}
-				var obj = (Actors.Core.Object)Activator.CreateInstance(Type.GetType($"RocketRP.Actors.{savedata.ObjectTypes[i].Type}"));
+				var objType = Type.GetType($"RocketRP.Actors.{savedata.ObjectTypes[i].Type}") ?? throw new NullReferenceException($"SaveData Object Class Type {savedata.ObjectTypes[i].Type} does not exist");
+				var obj = (Actors.Core.Object?)Activator.CreateInstance(objType) ?? throw new MissingMethodException($"{objType.Name} does not have a parameterless constructor"); ;
 				Actors.Core.Object.Deserialize(obj, br, savedata.VersionInfo);
 				savedata.Objects.Add(obj);
 			}
@@ -132,7 +133,8 @@ namespace RocketRP
 		{
 			var stream = new MemoryStream();
 			Serialize(stream, encrypt);
-			Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+			var dirName = Path.GetDirectoryName(filePath);
+			if (!string.IsNullOrEmpty(dirName)) Directory.CreateDirectory(dirName);
 			var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
 			fs.Write(stream.ToArray());
 			fs.Close();
@@ -163,7 +165,7 @@ namespace RocketRP
 			{
 				ObjectTypes.Add(new ObjectType
 				{
-					Type = obj.GetType().FullName.Replace("RocketRP.Actors.", ""),
+					Type = obj.GetType().FullName!.Replace("RocketRP.Actors.", ""),
 					ObjectIndex = i++,
 					FilePosition = (uint)(bw.BaseStream.Position - part2Pos)
 				});

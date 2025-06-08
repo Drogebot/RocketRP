@@ -16,7 +16,7 @@ namespace RocketRP.DataTypes
 		public byte? CustomColorID { get; set; }
 		public bool? bSet { get; set; }
 
-		public LoadoutTeamPaint(byte team, byte teamColorId, byte customColorId, int teamFinishId, int customFinishId)
+		public LoadoutTeamPaint(byte? team, byte? teamColorId, byte? customColorId, int? teamFinishId, int? customFinishId)
 		{
 			Team = team;
 			TeamColorID = teamColorId;
@@ -38,11 +38,11 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw)
 		{
-			bw.Write(Team.Value);
-			bw.Write(TeamColorID.Value);
-			bw.Write(CustomColorID.Value);
-			bw.Write(TeamFinishID.Value);
-			bw.Write(CustomFinishID.Value);
+			bw.Write(Team);
+			bw.Write(TeamColorID);
+			bw.Write(CustomColorID);
+			bw.Write(TeamFinishID);
+			bw.Write(CustomFinishID);
 		}
 	}
 }

@@ -8,12 +8,12 @@ namespace RocketRP.DataTypes
 {
 	public struct ReplicatedBoostData
 	{
-		public byte GrantCount { get; set; }
-		public byte BoostAmount { get; set; }
-		public byte Unknown1 { get; set; }
-		public byte Unknown2 { get; set; }
+		public byte? GrantCount { get; set; }
+		public byte? BoostAmount { get; set; }
+		public byte? Unknown1 { get; set; }
+		public byte? Unknown2 { get; set; }
 
-		public ReplicatedBoostData(byte grantCount, byte boostAmount, byte unknown1, byte unknown2)
+		public ReplicatedBoostData(byte? grantCount, byte? boostAmount, byte? unknown1, byte? unknown2)
 		{
 			GrantCount = grantCount;
 			BoostAmount = boostAmount;

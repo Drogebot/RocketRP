@@ -19,7 +19,7 @@ namespace RocketRP.Serializers
 			if (reader.TokenType != JsonToken.StartObject) throw new JsonReaderException("Expected StartObject token!");
 			reader.Read();
 
-			var keyFrame = (KeyFrame)existingValue ?? new KeyFrame();
+			var keyFrame = (KeyFrame?)existingValue ?? new KeyFrame();
 
 			while (reader.TokenType == JsonToken.PropertyName)
 			{

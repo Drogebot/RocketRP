@@ -10,13 +10,13 @@ namespace RocketRP.DataTypes
 {
 	public struct MemberTitleStat
 	{
-		public ObjectTarget<ClassObject> Category { get; set; }
-		public ObjectTarget<ClassObject> Title { get; set; }
-		public int PointsEarned { get; set; }
-		public int StatCount { get; set; }
-		public ObjectTarget<PRI_TA> MemberPRI { get; set; }
+		public ObjectTarget<ClassObject>? Category { get; set; }
+		public ObjectTarget<ClassObject>? Title { get; set; }
+		public int? PointsEarned { get; set; }
+		public int? StatCount { get; set; }
+		public ObjectTarget<PRI_TA>? MemberPRI { get; set; }
 
-		public MemberTitleStat(ObjectTarget<ClassObject> category, ObjectTarget<ClassObject> title, int pointsEarned, int statCount, ObjectTarget<PRI_TA> memberPRI)
+		public MemberTitleStat(ObjectTarget<ClassObject>? category, ObjectTarget<ClassObject>? title, int? pointsEarned, int? statCount, ObjectTarget<PRI_TA>? memberPRI)
 		{
 			Category = category;
 			Title = title;
@@ -38,11 +38,11 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw)
 		{
-			Category.Serialize(bw);
-			Title.Serialize(bw);
+			Category!.Value.Serialize(bw);
+			Title!.Value.Serialize(bw);
 			bw.Write(PointsEarned);
 			bw.Write(StatCount);
-			MemberPRI.Serialize(bw);
+			MemberPRI!.Value.Serialize(bw);
 		}
 	}
 }

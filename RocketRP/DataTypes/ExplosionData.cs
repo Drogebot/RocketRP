@@ -9,10 +9,10 @@ namespace RocketRP.DataTypes
 {
 	public struct ExplosionData
 	{
-		public ObjectTarget<ClassObject> Goal { get; set; }
-		public Vector Location { get; set; }
+		public ObjectTarget<ClassObject>? Goal { get; set; }
+		public Vector? Location { get; set; }
 
-		public ExplosionData(ObjectTarget<ClassObject> goal, Vector location)
+		public ExplosionData(ObjectTarget<ClassObject>? goal, Vector? location)
 		{
 			Goal = goal;
 			Location = location;
@@ -28,8 +28,8 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			Goal.Serialize(bw);
-			Location.Serialize(bw, replay);
+			Goal!.Value.Serialize(bw);
+			Location!.Value.Serialize(bw, replay);
 		}
 	}
 }

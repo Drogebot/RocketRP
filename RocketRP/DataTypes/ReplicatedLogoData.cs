@@ -8,21 +8,21 @@ namespace RocketRP.DataTypes
 {
 	public struct ReplicatedLogoData
 	{
-		public int LogoID { get; set; }
-		public bool bSwapColors { get; set; }
+		public int? LogoID { get; set; }
+		public bool? bSwapColors { get; set; }
 
-		public ReplicatedLogoData(int LogoID, bool bSwapColors)
+		public ReplicatedLogoData(int? logoID, bool? bSwapColors)
 		{
-			this.LogoID = LogoID;
+			LogoID = logoID;
 			this.bSwapColors = bSwapColors;
 		}
 
 		public static ReplicatedLogoData Deserialize(BitReader br)
 		{
-			var LogoID = br.ReadInt32();
+			var logoID = br.ReadInt32();
 			var bSwapColors = br.ReadBit();
 
-			return new ReplicatedLogoData(LogoID, bSwapColors);
+			return new ReplicatedLogoData(logoID, bSwapColors);
 		}
 
 		public void Serialize(BitWriter bw)

@@ -9,11 +9,11 @@ namespace RocketRP.DataTypes
 	/// This class hasn't been encountered in any replays yet, so I'm sure it's entirely accurate
 	public struct CustomMatchTeamSettings
 	{
-		public string Name { get; set; }
-		public ClubColorSet Colors { get; set; }
-		//public int GameScore { get; set; }	//This seems to go unused
+		public string? Name { get; set; }
+		public ClubColorSet? Colors { get; set; }
+		//public int? GameScore { get; set; }	//This seems to go unused
 
-		public CustomMatchTeamSettings(string name, ClubColorSet colors)
+		public CustomMatchTeamSettings(string? name, ClubColorSet? colors)
 		{
 			Name = name;
 			Colors = colors;
@@ -30,7 +30,7 @@ namespace RocketRP.DataTypes
 		public void Serialize(BitWriter bw)
 		{
 			bw.Write(Name);
-			Colors.Serialize(bw);
+			Colors!.Value.Serialize(bw);
 		}
 	}
 }

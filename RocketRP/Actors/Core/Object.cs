@@ -40,7 +40,7 @@ namespace RocketRP.Actors.Core
 		{
 			while (true)
 			{
-				var propName = br.ReadString();
+				var propName = br.ReadString()!;
 				if (propName == NONE) break;
 				DeserializeProperty(obj, br, versionInfo, propName);
 			}
@@ -48,7 +48,7 @@ namespace RocketRP.Actors.Core
 
 		public static void DeserializeProperty(object obj, BinaryReader br, IFileVersionInfo versionInfo, string propName)
 		{
-			var type = br.ReadString();
+			var type = br.ReadString()!;
 			var valueLength = br.ReadInt32();
 			var valueIndex = br.ReadInt32();
 
@@ -68,7 +68,8 @@ namespace RocketRP.Actors.Core
 				propertyInfo.SetValue(obj, value);
 
 				valueSize = RecalculateValueSizeFromType((int)(br.BaseStream.Position - curPos), value, type);
-				if (valueSize != valueLength) throw new InternalBufferOverflowException($"Size of read value({valueSize}) doesn't match the expected size {valueLength}");
+				if (valueSize != valueLength && type != STR_PROPERTY)
+					throw new InternalBufferOverflowException($"Size of read value({valueSize}) doesn't match the expected size {valueLength}");
 				return;
 			}
 
@@ -87,7 +88,8 @@ namespace RocketRP.Actors.Core
 				arr.SetValue(value, valueIndex);
 
 				valueSize = RecalculateValueSizeFromType((int)(br.BaseStream.Position - curPos), value, type);
-				if (valueSize != valueLength) throw new InternalBufferOverflowException($"Size of read value({valueSize}) doesn't match the expected size {valueLength}");
+				if (valueSize != valueLength)
+					throw new InternalBufferOverflowException($"Size of read value({valueSize}) doesn't match the expected size {valueLength}");
 				return;
 			}
 
@@ -108,7 +110,7 @@ namespace RocketRP.Actors.Core
 			if (valueSize != valueLength) throw new InternalBufferOverflowException($"Size of read value({valueSize}) doesn't match the expected size {valueLength}");
 		}
 
-		public static object DeserializePropertyValue(BinaryReader br, IFileVersionInfo versionInfo, Type propertyType, string type)
+		public static object? DeserializePropertyValue(BinaryReader br, IFileVersionInfo versionInfo, Type propertyType, string type)
 		{
 			if (propertyType == typeof(bool))
 			{
@@ -146,7 +148,7 @@ namespace RocketRP.Actors.Core
 				if (type != BYTE_PROPERTY && type != ARRAY_PROPERTY) throw new InvalidDataException($"Expected type {BYTE_PROPERTY} for {propertyType.Name} but got {type}");
 				var typeName = br.ReadString();
 				if (typeName == NONE) return br.ReadByte();
-				return Enum.Parse(propertyType, br.ReadString());
+				return Enum.Parse(propertyType, br.ReadString()!);
 			}
 			else if (propertyType.GetInterface("IObjectTarget") == typeof(IObjectTarget))
 			{

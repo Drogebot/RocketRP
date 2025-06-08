@@ -37,7 +37,7 @@ namespace RocketRP.Serializers
 				new StringEnumConverter(),
 			};
 
-			return JsonConvert.DeserializeObject<Replay>(json, converters);
+			return JsonConvert.DeserializeObject<Replay>(json, converters) ?? throw new JsonException("Replay JSON deserialization failed");
 
 		}
 	}

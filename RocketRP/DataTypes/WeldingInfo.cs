@@ -9,17 +9,17 @@ namespace RocketRP.DataTypes
 {
 	public struct WeldingInfo
 	{
-		public ObjectTarget<RBActor_TA> RBActor;
-		Vector Offset;
-		float Mass;
-		Rotator Rotation;
+		public ObjectTarget<RBActor_TA>? RBActor { get; set; }
+		public Vector? Offset { get; set; }
+		public float? Mass { get; set; }
+		public Rotator? Rotation { get; set; }
 
-		public WeldingInfo(ObjectTarget<RBActor_TA> rbActor, Vector offset, float mass, Rotator rotation)
+		public WeldingInfo(ObjectTarget<RBActor_TA>? rbActor, Vector? offset, float? mass, Rotator? rotation)
 		{
-			this.RBActor = rbActor;
-			this.Offset = offset;
-			this.Mass = mass;
-			this.Rotation = rotation;
+			RBActor = rbActor;
+			Offset = offset;
+			Mass = mass;
+			Rotation = rotation;
 		}
 
 		public static WeldingInfo Deserialize(BitReader br, Replay replay)
@@ -34,10 +34,10 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			RBActor.Serialize(bw);
-			Offset.Serialize(bw, replay);
+			RBActor!.Value.Serialize(bw);
+			Offset!.Value.Serialize(bw, replay);
 			bw.Write(Mass);
-			Rotation.Serialize(bw);
+			Rotation!.Value.Serialize(bw);
 		}
 	}
 }

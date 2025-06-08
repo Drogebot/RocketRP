@@ -87,7 +87,8 @@ static void ParseTraining(string trainingPath, string outputPath, bool enforceCR
 
 			Console.WriteLine($"Converting to JSON...");
 			var jsonData = serializer.Serialize(training, prettyPrint);
-			Directory.CreateDirectory(Path.GetDirectoryName(outputFilePath));
+			var dirName = Path.GetDirectoryName(outputFilePath);
+			if (!string.IsNullOrEmpty(dirName)) Directory.CreateDirectory(dirName);
 			File.WriteAllText(outputFilePath, jsonData);
 
 			Console.WriteLine($"Parsed training: {trainingPath}: {outputFilePath}!");

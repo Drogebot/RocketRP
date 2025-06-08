@@ -9,13 +9,13 @@ namespace RocketRP.DataTypes
 {
 	public struct BreakoutDamageState
 	{
-		public byte State { get; set; }
-		public ObjectTarget<PRI_TA> Causer { get; set; }
-		public Vector DamageLocation { get; set; }
-		public bool bDirectDamage { get; set; }
-		public bool bImmediate { get; set; }
+		public byte? State { get; set; }
+		public ObjectTarget<PRI_TA>? Causer { get; set; }
+		public Vector? DamageLocation { get; set; }
+		public bool? bDirectDamage { get; set; }
+		public bool? bImmediate { get; set; }
 
-		public BreakoutDamageState(byte state, ObjectTarget<PRI_TA> causer, Vector damageLocation, bool directDamage, bool immediate)
+		public BreakoutDamageState(byte? state, ObjectTarget<PRI_TA>? causer, Vector? damageLocation, bool? directDamage, bool? immediate)
 		{
 			State = state;
 			Causer = causer;
@@ -38,8 +38,8 @@ namespace RocketRP.DataTypes
 		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(State);
-			Causer.Serialize(bw);
-			DamageLocation.Serialize(bw, replay);
+			Causer!.Value.Serialize(bw);
+			DamageLocation!.Value.Serialize(bw, replay);
 			bw.Write(bDirectDamage);
 			bw.Write(bImmediate);
 		}

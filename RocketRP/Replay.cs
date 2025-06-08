@@ -6,13 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using System.Xml;
 
 namespace RocketRP
 {
 	public class Replay
 	{
 		private const uint CRC_SEED = 0xEFCBF201;
-		private byte[] NetStreamData;
+		private byte[] NetStreamData = null!;
 
 		public uint Part1Length { get; set; }
 		public uint Part1CRC { get; set; }
@@ -22,7 +23,7 @@ namespace RocketRP
 		public uint LicenseeVersion { get => VersionInfo.LicenseeVersion; set => VersionInfo.LicenseeVersion = value; }
 		public uint NetVersion { get => VersionInfo.NetVersion; set => VersionInfo.NetVersion = value; }
 		public string ReplayClass { get; set; } = "TAGame.Replay_Soccar_TA";
-		public Replay_TA Properties { get; set; }
+		public Replay_TA Properties { get; set; } = null!;
 		public uint Part2Length { get; set; }
 		public uint Part2CRC { get; set; }
 		public List<string> Levels { get; set; } = new List<string>();
@@ -39,8 +40,8 @@ namespace RocketRP
 
 		public int MaxChannels { get => Properties.MaxChannels ?? 1023; }
 		public int Changelist { get => Properties.Changelist ?? 0; }
-		public Dictionary<string, ClassNetCache> ClassNetCacheByName;
-		public Dictionary<int, ActorUpdate> CurrentOpenChannels;
+		public Dictionary<string, ClassNetCache> ClassNetCacheByName = null!;
+		public Dictionary<int, ActorUpdate>? CurrentOpenChannels;
 
 		public static Replay Deserialize(string filePath, bool parseNetstream = true, bool enforeCRC = false)
 		{
@@ -64,9 +65,10 @@ namespace RocketRP
 			var part1Pos = (uint)br.BaseStream.Position;
 
 			replay.VersionInfo = ReplayVersionInfo.Deserialize(br);
-			replay.ReplayClass = br.ReadString();
+			replay.ReplayClass = br.ReadString()!;
 
-			replay.Properties = (Replay_TA)Activator.CreateInstance(Type.GetType($"RocketRP.Actors.{replay.ReplayClass}"));
+			var replayType = Type.GetType($"RocketRP.Actors.{replay.ReplayClass}") ?? throw new NullReferenceException($"Replay Class Type {replay.ReplayClass} does not exist");
+			replay.Properties = (Replay_TA?)Activator.CreateInstance(replayType) ?? throw new MissingMethodException($"{replayType.Name} does not have a parameterless constructor");
 			Actors.Core.Object.Deserialize(replay.Properties, br, replay.VersionInfo);
 
 			if(part1Pos + replay.Part1Length != br.BaseStream.Position)
@@ -93,7 +95,7 @@ namespace RocketRP
 			replay.Levels = new List<string>(numLevels);
 			for (int i = 0; i < numLevels; i++)
 			{
-				replay.Levels.Add(br.ReadString());
+				replay.Levels.Add(br.ReadString()!);
 			}
 
 			var numKeyFrames = br.ReadInt32();
@@ -125,28 +127,28 @@ namespace RocketRP
 			replay.Packages = new List<string>(numPackages);
 			for (int i = 0; i < numPackages; i++)
 			{
-				replay.Packages.Add(br.ReadString());
+				replay.Packages.Add(br.ReadString()!);
 			}
 
 			var numObjects = br.ReadInt32();
 			replay.Objects = new List<string>(numObjects);
 			for (int i = 0; i < numObjects; i++)
 			{
-				replay.Objects.Add(br.ReadString());
+				replay.Objects.Add(br.ReadString()!);
 			}
 
 			var numNames = br.ReadInt32();
 			replay.Names = new List<string>(numNames);
 			for (int i = 0; i < numNames; i++)
 			{
-				replay.Names.Add(br.ReadString());
+				replay.Names.Add(br.ReadString()!);
 			}
 
 			var numClassIndexes = br.ReadInt32();
 			replay.ClassIndexes = new Dictionary<string, int>(numClassIndexes);
 			for (int i = 0; i < numClassIndexes; i++)
 			{
-				replay.ClassIndexes.Add(br.ReadString(), br.ReadInt32());
+				replay.ClassIndexes.Add(br.ReadString()!, br.ReadInt32());
 			}
 
 			var numClassNetCaches = br.ReadInt32();
@@ -215,7 +217,8 @@ namespace RocketRP
 		{
 			var stream = new MemoryStream();
 			Serialize(stream);
-			Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+			var dirName = Path.GetDirectoryName(filePath);
+			if(!string.IsNullOrEmpty(dirName)) Directory.CreateDirectory(dirName);
 			var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
 			fs.Write(stream.ToArray());
 			fs.Close();
@@ -336,7 +339,7 @@ namespace RocketRP
 			var bw = new BitWriter();
 			foreach (var frame in Frames)
 			{
-				frame.Serialize(bw, this, null);
+				frame.Serialize(bw, this, null!);
 			}
 
 			return bw.GetAllBytes();

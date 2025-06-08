@@ -21,7 +21,7 @@ namespace RocketRP.Actors.TAGame
 		public int PossessionClears { get; set; }
 		public int PossessionDenials { get; set; }
 		public int PossessionSteals { get; set; }
-		public string CurrentVoiceRoom { get; set; }
+		public string? CurrentVoiceRoom { get; set; }
 		public ObjectTarget<PickupTimer_TA> PickupTimer { get; set; }
 		public ObjectTarget<Actor> StayAsPartyVoteYes { get; set; } // Is of StayAsPartyVoteYes_TA type, but those don't appear in replays
 		public ObjectTarget<Actor> StayAsPartyVoter { get; set; } // Is of StayAsPartyVoter_TA type, but those don't appear in replays
@@ -40,7 +40,7 @@ namespace RocketRP.Actors.TAGame
 		public ESeverityType QuitSeverity { get; set; }
 		public EConnectionQualityState ReplicatedWorstNetQualityBeyondLatency { get; set; }
 		[FixedArraySize(0x40)]
-		public byte?[] PlayerHistoryKey { get; set; }
+		public byte?[]? PlayerHistoryKey { get; set; }
 		public EPawnType PawnType { get; set; }
 		public ObjectTarget<CameraSettingsActor_TA> PersistentCamera { get; set; }
 		public ClientLoadoutOnlineDatas ClientLoadoutsOnline { get; set; }

@@ -19,7 +19,7 @@ namespace RocketRP
 		public static ObjectType Deserialize(BinaryReader br)
 		{
 			var ot = new ObjectType();
-			ot.Type = br.ReadString();
+			ot.Type = br.ReadString()!;
 			ot.FilePosition = br.ReadUInt32();
 			ot.ObjectIndex = br.ReadUInt32();
 			return ot;

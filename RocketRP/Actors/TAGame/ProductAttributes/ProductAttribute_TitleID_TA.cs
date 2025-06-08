@@ -13,14 +13,14 @@ namespace RocketRP.Actors.TAGame
 
 		public ProductAttribute_TitleID_TA() { }
 
-		public ProductAttribute_TitleID_TA(string title)
+		public ProductAttribute_TitleID_TA(string? title)
 		{
 			TitleId = title;
 		}
 
 		public static ProductAttribute_TitleID_TA DeserializeType(BitReader br, Replay replay)
 		{
-			string title = br.ReadString();
+			var title = br.ReadString();
 
 			return new ProductAttribute_TitleID_TA(title);
 		}
@@ -29,7 +29,7 @@ namespace RocketRP.Actors.TAGame
 		{
 			base.Serialize(bw, replay);
 
-			bw.Write((string)TitleId);
+			bw.Write(TitleId);
 		}
 	}
 }

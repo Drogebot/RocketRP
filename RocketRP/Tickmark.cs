@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP
 {
-	public class Tickmark
+	public struct Tickmark
 	{
 		public string Type { get; set; }
 		public uint Frame { get; set; }
@@ -15,7 +15,7 @@ namespace RocketRP
 		public static Tickmark Deserialize(BinaryReader br)
 		{
 			var tickmark = new Tickmark();
-			tickmark.Type = br.ReadString();
+			tickmark.Type = br.ReadString()!;
 			tickmark.Frame = br.ReadUInt32();
 
 			return tickmark;

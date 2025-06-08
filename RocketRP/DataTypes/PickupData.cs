@@ -9,10 +9,10 @@ namespace RocketRP.DataTypes
 {
 	public struct PickupData
 	{
-		public ObjectTarget<Car_TA> Insigator { get; set; }
-		public bool bPickedUp { get; set; }
+		public ObjectTarget<Car_TA>? Insigator { get; set; }
+		public bool? bPickedUp { get; set; }
 
-		public PickupData(ObjectTarget<Car_TA> Insigator, bool bPickedUp)
+		public PickupData(ObjectTarget<Car_TA>? Insigator, bool? bPickedUp)
 		{
 			this.Insigator = Insigator;
 			this.bPickedUp = bPickedUp;
@@ -28,7 +28,7 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw)
 		{
-			Insigator.Serialize(bw);
+			Insigator!.Value.Serialize(bw);
 			bw.Write(bPickedUp);
 		}
 	}

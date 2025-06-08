@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,122 +11,150 @@ namespace RocketRP.DataTypes
 	/// This is originally defined as an array of int, but other parsers do it like this
 	public struct ClientLoadoutData
 	{
-		public byte Version { get; set; }
-		public int BodyProductId { get; set; }
-		public int SkinProductId { get; set; }
-		public int WheelProductId { get; set; }
-		public int BoostProductId { get; set; }
-		public int AntennaProductId { get; set; }
-		public int HatProductId { get; set; }
-		public int PaintFinish { get; set; }
-		public int CustomFinish { get; set; }
-		public int EngineAudioProductId { get; set; }
-		public int SupersonicTrailProductId { get; set; }
-		public int GoalExplosionProductId { get; set; }
-		public int PlayerBannerProductId { get; set; }
-		public int MusicStinger { get; set; }
-		public int Unknown1 { get; set; }
-		public int PlayerAvatarBorder { get; set; }
-		public int PlayerTitle { get; set; }
-
-		public ClientLoadoutData(byte version, int bodyProductId, int skinProductId, int wheelProductId, int boostProductId, int antennaProductId, int hatProductId, int paintFinish, int customFinish, int engineAudioProductId, int supersonicTrailProductId, int goalExplosionProductId, int playerBannerProductId, int musicStinger, int unknown1, int playerAvatarBorder, int playerTitle)
+		public byte? Version { get; set; }
+		public int[]? Products { get; set; }
+		#region ProductSlots
+		public int? BodyProductId
 		{
-			this.Version = version;
-			this.BodyProductId = bodyProductId;
-			this.SkinProductId = skinProductId;
-			this.WheelProductId = wheelProductId;
-			this.BoostProductId = boostProductId;
-			this.AntennaProductId = antennaProductId;
-			this.HatProductId = hatProductId;
-			this.PaintFinish = paintFinish;
-			this.CustomFinish = customFinish;
-			this.EngineAudioProductId = engineAudioProductId;
-			this.SupersonicTrailProductId = supersonicTrailProductId;
-			this.GoalExplosionProductId = goalExplosionProductId;
-			this.PlayerBannerProductId = playerBannerProductId;
-			this.MusicStinger = musicStinger;
-			this.Unknown1 = unknown1;
-			this.PlayerAvatarBorder = playerAvatarBorder;
-			this.PlayerTitle = playerTitle;
+			get => Products?.Length > 0 ? Products[0] : null;
+			set => Products![0] = (int)value!;
 		}
+		public int? SkinProductId
+		{
+			get => Products?.Length > 1 ? Products[1] : null;
+			set => Products![1] = (int)value!;
+		}
+		public int? WheelProductId
+		{
+			get => Products?.Length > 2 ? Products[2] : null;
+			set => Products![2] = (int)value!;
+		}
+		public int? BoostProductId
+		{
+			get => Products?.Length > 3 ? Products[3] : null;
+			set => Products![3] = (int)value!;
+		}
+		public int? AntennaProductId
+		{
+			get => Products?.Length > 4 ? Products[4] : null;
+			set => Products![4] = (int)value!;
+		}
+		public int? HatProductId
+		{
+			get => Products?.Length > 5 ? Products[5] : null;
+			set => Products![5] = (int)value!;
+		}
+		public int? PaintFinish
+		{
+			get => Products?.Length > 6 ? Products[6] : null;
+			set => Products![6] = (int)value!;
+		}
+		public int? CustomFinish
+		{
+			get => Products?.Length > 7 ? Products[7] : null;
+			set => Products![7] = (int)value!;
+		}
+		public int? EngineAudioProductId
+		{
+			get => Products?.Length > 8 ? Products[8] : null;
+			set => Products![8] = (int)value!;
+		}
+		public int? SupersonicTrailProductId
+		{
+			get => Products?.Length > 9 ? Products[9] : null;
+			set => Products![9] = (int)value!;
+		}
+		public int? GoalExplosionProductId
+		{
+			get => Products?.Length > 10 ? Products[10] : null;
+			set => Products![10] = (int)value!;
+		}
+		public int? PlayerBannerProductId
+		{
+			get => Products?.Length > 11 ? Products[11] : null;
+			set => Products![11] = (int)value!;
+		}
+		public int? MusicStinger
+		{
+			get => Products?.Length > 12 ? Products[12] : null;
+			set => Products![12] = (int)value!;
+		}
+		public int? Unknown1
+		{
+			get => Products?.Length > 13 ? Products[13] : null;
+			set => Products![13] = (int)value!;
+		}
+		public int? PlayerAvatarBorder
+		{
+			get => Products?.Length > 14 ? Products[14] : null;
+			set => Products![14] = (int)value!;
+		}
+		public int? PlayerTitle
+		{
+			get => Products?.Length > 15 ? Products[15] : null;
+			set => Products![15] = (int)value!;
+		}
+		#endregion
+
+		public ClientLoadoutData(byte? version, int[]? products)
+		{
+			Version = version;
+			Products = products;
+			if (Products is null) return;
+			var itemCountVersion = ItemCountToVersion(Products.Length);
+			Version = version ?? itemCountVersion;
+			var versionItemCount = VersionToItemCount(Version.Value);
+			if (Products.Length != versionItemCount) throw new IndexOutOfRangeException($"Given product count({Products.Length}) does not match the given version({versionItemCount})");
+			Products = products;
+		}
+
+		public ClientLoadoutData(byte? version, params int?[] products)
+			: this(version, products.TakeWhile(id => id is not null).Select(id => (int)id!).ToArray()) { }
+
+		public ClientLoadoutData(byte? version, int? bodyProductId, int? skinProductId, int? wheelProductId, int? boostProductId, int? antennaProductId, int? hatProductId, int? paintFinish, int? customFinish, int? engineAudioProductId, int? supersonicTrailProductId, int? goalExplosionProductId, int? playerBannerProductId, int? musicStinger, int? unknown1, int? playerAvatarBorder, int? playerTitle)
+			: this(version, [bodyProductId, skinProductId, wheelProductId, boostProductId, antennaProductId, hatProductId, paintFinish, customFinish, engineAudioProductId, supersonicTrailProductId, goalExplosionProductId, playerBannerProductId, musicStinger, unknown1, playerAvatarBorder, playerTitle]) { }
+
+		public static int VersionToItemCount(byte version) => version switch
+		{
+			<= 10 => 7,
+			<= 15 => 8,
+			<= 16 => 11,
+			<= 18 => 12,
+			<= 21 => 13,
+			_ => 16,
+		};
+
+		/// <returns>The highest known valid version for the item count</returns>
+		public static byte ItemCountToVersion(int count) => count switch
+		{
+			7 => 10,
+			8 => 15,
+			11 => 16,
+			12 => 18,
+			13 => 21,
+			16 => 28,
+			_ => throw new ArgumentOutOfRangeException(nameof(count), "Loadout Item Count must be one of [7,8,11,12,13,16]"),
+		};
 
 		public static ClientLoadoutData Deserialize(BitReader br)
 		{
 			byte version = br.ReadByte();
-			int bodyProductId = br.ReadInt32();
-			int skinProductId = br.ReadInt32();
-			int wheelProductId = br.ReadInt32();
-			int boostProductId = br.ReadInt32();
-			int antennaProductId = br.ReadInt32();
-			int hatProductId = br.ReadInt32();
-			int paintFinish = br.ReadInt32();
-
-			int customFinish = 0;
-			if (version >= 11)
+			var products = new int[VersionToItemCount(version)];
+			for (int i = 0; i < products.Length; i++)
 			{
-				customFinish = br.ReadInt32();
+				products[i] = br.ReadInt32();
 			}
 
-			int engineAudioProductId = 0, supersonicTrailProductId = 0, goalExplosionProductId = 0;
-			if (version >= 16)
-			{
-				engineAudioProductId = br.ReadInt32();
-				supersonicTrailProductId = br.ReadInt32();
-				goalExplosionProductId = br.ReadInt32();
-			}
-
-			int playerBannerProductId = 0;
-			if(version >= 17)
-			{
-				playerBannerProductId = br.ReadInt32();
-			}
-
-			int musicStinger = 0;
-			if (version >= 19)
-			{
-				musicStinger = br.ReadInt32();
-			}
-
-			int unknown1 = 0, playerAvatarBorder = 0, playerTitle = 0;
-			if (version >= 22)
-			{
-				unknown1 = br.ReadInt32();
-				playerAvatarBorder = br.ReadInt32();
-				playerTitle = br.ReadInt32();
-			}
-
-			return new ClientLoadoutData(version, bodyProductId, skinProductId, wheelProductId, boostProductId, antennaProductId, hatProductId, paintFinish, customFinish, engineAudioProductId, supersonicTrailProductId, goalExplosionProductId, playerBannerProductId, musicStinger, unknown1, playerAvatarBorder, playerTitle);
+			return new ClientLoadoutData(version, products);
 		}
 
 		public void Serialize(BitWriter bw)
 		{
 			bw.Write(Version);
-			bw.Write(BodyProductId);
-			bw.Write(SkinProductId);
-			bw.Write(WheelProductId);
-			bw.Write(BoostProductId);
-			bw.Write(AntennaProductId);
-			bw.Write(HatProductId);
-			bw.Write(PaintFinish);
-
-			if (Version < 11) return;
-			bw.Write(CustomFinish);
-
-			if (Version < 16) return;
-			bw.Write(EngineAudioProductId);
-			bw.Write(SupersonicTrailProductId);
-			bw.Write(GoalExplosionProductId);
-
-			if (Version < 17) return;
-			bw.Write(PlayerBannerProductId);
-
-			if (Version < 19) return;
-			bw.Write(MusicStinger);
-
-			if (Version < 22) return;
-			bw.Write(Unknown1);
-			bw.Write(PlayerAvatarBorder);
-			bw.Write(PlayerTitle);
+			for (int i = 0; i < VersionToItemCount(Version.Value); i++)
+			{
+				bw.Write(Products![i]);
+			}
 		}
 	}
 }

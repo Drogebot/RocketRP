@@ -10,7 +10,7 @@ namespace RocketRP.Actors.Engine
 {
 	public class PlayerReplicationInfo : ReplicationInfo
 	{
-		public string RemoteUserData { get; set; }
+		public string? RemoteUserData { get; set; }
 		public UniqueNetId UniqueId { get; set; }
 		public bool bTimedOut { get; set; }
 		public bool bFromPreviousLevel { get; set; }
@@ -24,7 +24,7 @@ namespace RocketRP.Actors.Engine
 		public bool bAdmin { get; set; }
 		public ObjectTarget<TeamInfo> Team { get; set; }
 		public int PlayerID { get; set; }
-		public string PlayerName { get; set; }
+		public string? PlayerName { get; set; }
 		public byte Ping { get; set; }
 		public int Deaths { get; set; }
 		public int Score { get; set; }

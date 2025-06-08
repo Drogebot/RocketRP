@@ -10,14 +10,14 @@ namespace RocketRP.DataTypes
 	/// This type no longer exists inside Rocket League, so I have no clue what the official names are. CustomMatchSettings takes its place in the current version of Rocket League.
 	public struct PrivateMatchSettings
 	{
-		public string GameTags { get; set; }
-		public Name MapName { get; set; }
-		public int MaxPlayerCount { get; set; }
-		public string ServerName { get; set; }
-		public string Password { get; set; }
-		public bool bPublic { get; set; }
+		public string? GameTags { get; set; }
+		public Name? MapName { get; set; }
+		public int? MaxPlayerCount { get; set; }
+		public string? ServerName { get; set; }
+		public string? Password { get; set; }
+		public bool? bPublic { get; set; }
 
-		public PrivateMatchSettings(string gameTags, Name mapName, int maxPlayerCount, string serverName, string password, bool bPublic)
+		public PrivateMatchSettings(string? gameTags, Name? mapName, int? maxPlayerCount, string? serverName, string? password, bool? bPublic)
 		{
 			GameTags = gameTags;
 			MapName = mapName;
@@ -39,10 +39,10 @@ namespace RocketRP.DataTypes
 			return new PrivateMatchSettings(gameTags, mapName, maxPlayerCount, serverName, password, bPublic);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(GameTags);
-			MapName.Serialize(bw);
+			MapName!.Value.Serialize(bw, replay);
 			bw.Write(MaxPlayerCount);
 			bw.Write(ServerName);
 			bw.Write(Password);

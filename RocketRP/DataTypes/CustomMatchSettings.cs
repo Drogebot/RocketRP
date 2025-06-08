@@ -16,9 +16,11 @@ namespace RocketRP.DataTypes
 		public string? ServerName { get; set; }
 		public string? Password { get; set; }
 		public bool? bPublic { get; set; }
-		public CustomMatchTeamSettings[]? TeamSettings { get; set; }
+		[FixedArraySize(2)]
+		public CustomMatchTeamSettings?[]? TeamSettings { get; set; }
+		//public bool? bClubServer { get; set; }  //This seems to go unused
 
-		public CustomMatchSettings(string gameTags, Name mapName, byte gameMode, int maxPlayerCount, string serverName, string password, bool bPublic, CustomMatchTeamSettings[] teamSettings)
+		public CustomMatchSettings(string? gameTags, Name? mapName, byte? gameMode, int? maxPlayerCount, string? serverName, string? password, bool? bPublic, CustomMatchTeamSettings?[]? teamSettings)
 		{
 			GameTags = gameTags;
 			MapName = mapName;
@@ -47,11 +49,14 @@ namespace RocketRP.DataTypes
 			var serverName = br.ReadString();
 			var password = br.ReadString();
 			var bPublic = br.ReadBit();
-			var teamSettings = new CustomMatchTeamSettings[2];
-			if (false)	// Find the correct condition
+			CustomMatchTeamSettings?[]? teamSettings = null;
+			if (false)  // Find the correct condition
 			{
-				teamSettings[0] = CustomMatchTeamSettings.Deserialize(br);
-				teamSettings[1] = CustomMatchTeamSettings.Deserialize(br);
+				teamSettings = new CustomMatchTeamSettings?[2]
+				{
+					CustomMatchTeamSettings.Deserialize(br),
+					CustomMatchTeamSettings.Deserialize(br),
+				};
 			}
 
 			return new CustomMatchSettings(gameTags, mapName, gameMode, maxPlayerCount, serverName, password, bPublic, teamSettings);
@@ -60,19 +65,19 @@ namespace RocketRP.DataTypes
 		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(GameTags);
-			MapName.Value.Serialize(bw);
+			MapName!.Value.Serialize(bw, replay);
 			if (false)	// Find the correct condition
 			{
-				bw.Write(GameMode.Value);
+				bw.Write(GameMode);
 			}
-			bw.Write(MaxPlayerCount.Value);
+			bw.Write(MaxPlayerCount);
 			bw.Write(ServerName);
 			bw.Write(Password);
-			bw.Write(bPublic.Value);
+			bw.Write(bPublic);
 			if (false)	// Find the correct condition
 			{
-				TeamSettings[0].Serialize(bw);
-				TeamSettings[1].Serialize(bw);
+				TeamSettings![0]!.Value.Serialize(bw);
+				TeamSettings![1]!.Value.Serialize(bw);
 			}
 		}
 	}
