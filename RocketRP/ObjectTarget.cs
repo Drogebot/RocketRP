@@ -56,7 +56,7 @@ namespace RocketRP
             return null;
         }
 
-        public static ObjectTarget<TObject> Deserialize(BitReader br)
+		public static ObjectTarget<TObject> Deserialize(BitReader br)
         {
             return new ObjectTarget<TObject>
             {
@@ -72,5 +72,8 @@ namespace RocketRP
         }
     }
 
-    public interface IObjectTarget { }
+    public interface IObjectTarget
+    {
+        public void Serialize(BinaryWriter bw);
+    }
 }

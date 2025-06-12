@@ -153,7 +153,7 @@ namespace RocketRP.Actors.Core
 			else if (propertyType.GetInterface("IObjectTarget") == typeof(IObjectTarget))
 			{
 				if (type != OBJECT_PROPERTY && type != ARRAY_PROPERTY) throw new InvalidDataException($"Expected type {OBJECT_PROPERTY} for {propertyType.Name} but got {type}");
-				return ObjectTarget<ClassObject>.Deserialize(br);
+				return propertyType.GetMethod(nameof(ObjectTarget<ClassObject>.Deserialize), BindingFlags.Public | BindingFlags.Static, [typeof(BinaryReader)])!.Invoke(null, [br])!;
 			}
 			else
 			{
@@ -320,7 +320,7 @@ namespace RocketRP.Actors.Core
 				bw.Write(enumvalue.ToString());
 				return;
 			}
-			else if (value is ObjectTarget<ClassObject> objectvalue)
+			else if (value is IObjectTarget objectvalue)
 			{
 				type = OBJECT_PROPERTY;
 				objectvalue.Serialize(bw);
