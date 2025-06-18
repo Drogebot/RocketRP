@@ -21,6 +21,7 @@ namespace RocketRP.Actors.TAGame
 		public ETieBreakDecision TieBreakDecision { get; set; }
 		public ObjectTarget<Team_TA> MatchWinner { get; set; }
 		public ObjectTarget<Team_TA> GameWinner { get; set; }
+		public int TotalGameBalls { get; set; }
 		public ObjectTarget<Actor> ReplayDirector { get; set; } // Is of ReplayDirector_TA type, but those don't appear in replays
 		public int WaitTimeRemaining { get; set; }
 		public int SecondsRemaining { get; set; }
@@ -29,7 +30,9 @@ namespace RocketRP.Actors.TAGame
 		public int SeriesLength { get; set; }
 		public bool bAllowHonorDuels { get; set; }
 		public bool bCanDropOnlineRewards { get; set; }
+		public bool bFullClubMatch { get; set; }
 		public bool bClubMatch { get; set; }
+		public bool bReadyToStartGame { get; set; }
 		public bool bShowIntroScene { get; set; }
 		public bool bDisableCrowdSound { get; set; }
 		public bool bMatchEnded { get; set; }

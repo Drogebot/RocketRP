@@ -213,6 +213,7 @@ namespace RocketRP
 				case "Archetypes.Ball.Ball_Football":
 				case "Archetypes.Ball.Ball_Ekin":
 				case "Archetypes.Ball.Ball_PizzaPuck":
+				case "Archetypes.Ball.Ball_Shoe":
 					return replay.ClassNetCacheByName["TAGame.Ball_TA"];
 				case "Archetypes.Ball.Ball_Breakout":
 				case "Archetypes.Ball.Ball_Score":
@@ -351,6 +352,7 @@ namespace RocketRP
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_Swapper_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_BallFreeze":
 				case "Archetypes.SpecialPickups.BM.SpecialPickup_BallFreeze_BM":
+				case "Archetypes.Mutators.SubRules.ItemsMode_RPS:DispenserArchetype.ItemPool.Obj_2":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallFreeze_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_BoostOverride":
 				case "Archetypes.SpecialPickups.BM.SpecialPickup_BoostOverride_BM":
@@ -362,6 +364,8 @@ namespace RocketRP
 				case "Archetypes.SpecialPickups.SpecialPickup_CarSpring":
 				case "Archetypes.SpecialPickups.BM.SpecialPickup_BallSpring_BM":
 				case "Archetypes.SpecialPickups.BM.SpecialPickup_CarSpring_BM":
+				case "Archetypes.Mutators.SubRules.ItemsMode_RPS:DispenserArchetype.ItemPool.Obj":
+				case "Archetypes.Mutators.SubRules.ItemsMode_RPS:DispenserArchetype.ItemPool.Obj_1":
 					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallCarSpring_TA"];
 				case "Archetypes.SpecialPickups.SpecialPickup_StrongHit":
 				case "Archetypes.SpecialPickups.BM.SpecialPickup_StrongHit_BM":

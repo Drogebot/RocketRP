@@ -15,6 +15,8 @@ namespace RocketRP.Actors.TAGame
 		public ObjectTarget<GameEvent_Soccar_TA> GameEvent { get; set; }
 		public int GameBallIndex { get; set; }
 		public ObjectTarget<ClassObject> ReplicatedPhysMatOverride { get; set; }
+		public float AdditionalCarGroundBounceScaleXY { get; set; }
+		public float AdditionalCarGroundBounceScaleZ { get; set; }
 		public float ReplicatedAddedCarBounceScale { get; set; }
 		public float ReplicatedBallMaxLinearSpeedScale { get; set; }
 		public float ReplicatedBallGravityScale { get; set; }
@@ -23,6 +25,7 @@ namespace RocketRP.Actors.TAGame
 		public float ReplicatedBallScale { get; set; }
 		public byte HitTeamNum { get; set; }
 		public float BallHitSpinScale { get; set; }
+		public float MagnusMinSpeed { get; set; }
 		public Vector MagnusCoefficient { get; set; }
 		public bool bPossessionEnabled { get; set; }
 		public bool bWarnBallReset { get; set; }
