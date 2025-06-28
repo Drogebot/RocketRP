@@ -17,7 +17,6 @@ namespace RocketRP
 
 		public uint Part1Length { get; set; }
 		public uint Part1CRC { get; set; }
-		[JsonIgnore]
 		public ReplayVersionInfo VersionInfo = new ReplayVersionInfo { EngineVersion = 868, LicenseeVersion = 32, NetVersion = 10 };
 		public uint EngineVersion { get => VersionInfo.EngineVersion; set => VersionInfo.EngineVersion = value; }
 		public uint LicenseeVersion { get => VersionInfo.LicenseeVersion; set => VersionInfo.LicenseeVersion = value; }
@@ -42,6 +41,7 @@ namespace RocketRP
 		public int Changelist { get => Properties.Changelist ?? 0; }
 		public Dictionary<string, ClassNetCache> ClassNetCacheByName = null!;
 		public Dictionary<int, ActorUpdate>? CurrentOpenChannels;
+		public Dictionary<int, ClassNetCache> TypeIdToClassNetCache = null!;
 
 		public static Replay Deserialize(string filePath, bool parseNetstream = true, bool enforeCRC = false)
 		{
@@ -199,7 +199,18 @@ namespace RocketRP
 
 		public void DeserializeNetStream()
 		{
-			if(ClassNetCacheByName == null) ClassNetCacheByName = ClassNetCaches.ToDictionary(c => Objects[c.ObjectIndex], c => c);
+			var shouldThrow = false;
+			foreach (var classNetCache in ClassNetCaches)
+			{
+				var didLinkError = !classNetCache.LinkTypeAndPropertyInfos(Objects);
+				if(didLinkError) Console.WriteLine($"Error linking ClassNetCache {classNetCache.ObjectIndex} ({Objects[classNetCache.ObjectIndex]})");
+				shouldThrow |= didLinkError;
+			}
+			if(shouldThrow) throw new Exception("Some ClassNetCaches could not be linked, check the console for more information.");
+
+			TypeIdToClassNetCache = TypeIdToClassNetCacheMapper.MapTypeIdsToClassNetCache(Objects, ClassNetCaches);
+
+			ClassNetCacheByName ??= ClassNetCaches.ToDictionary(c => Objects[c.ObjectIndex], c => c);
 			CurrentOpenChannels = new Dictionary<int, ActorUpdate>();
 
 			Frames = new List<Frame>();
@@ -231,7 +242,7 @@ namespace RocketRP
 
 		public void Serialize(BinaryWriter bw)
 		{
-			if (ClassNetCacheByName == null) ClassNetCacheByName = ClassNetCaches.ToDictionary(c => Objects[c.ObjectIndex], c => c);
+			ClassNetCacheByName ??= ClassNetCaches.ToDictionary(c => Objects[c.ObjectIndex], c => c);
 			foreach (var classNetCache in ClassNetCaches)
 			{
 				classNetCache.CalculateParent(this);
@@ -339,7 +350,7 @@ namespace RocketRP
 			var bw = new BitWriter();
 			foreach (var frame in Frames)
 			{
-				frame.Serialize(bw, this, null!);
+				frame.Serialize(bw, this);
 			}
 
 			return bw.GetAllBytes();

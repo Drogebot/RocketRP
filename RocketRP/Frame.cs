@@ -10,14 +10,15 @@ namespace RocketRP
 	{
 		public float Time { get; set; }
 		public float Delta { get; set; }
-		public List<ActorUpdate> ActorUpdates { get; set; } = new List<ActorUpdate>();
+		public List<ActorUpdate> ActorUpdates { get; set; } = [];
 
 		public static Frame Deserialize(BitReader br, Replay replay, Dictionary<int, ActorUpdate> openChannels)
 		{
-			var frame = new Frame();
-
-			frame.Time = br.ReadSingle();
-			frame.Delta = br.ReadSingle();
+			var frame = new Frame
+			{
+				Time = br.ReadSingle(),
+				Delta = br.ReadSingle()
+			};
 
 			var lastFrame = replay.Frames.LastOrDefault();
 			if (replay.Frames.Count > 0 && (frame.Time < lastFrame?.Time && frame.Time != 0 || frame.Delta < 0))
@@ -37,7 +38,7 @@ namespace RocketRP
 			return frame;
 		}
 
-		public void Serialize(BitWriter bw, Replay replay, Dictionary<int, ActorUpdate> openChannels)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(Time);
 			bw.Write(Delta);
@@ -45,7 +46,7 @@ namespace RocketRP
 			foreach (var actorUpdate in ActorUpdates)
 			{
 				bw.Write(true);
-				actorUpdate.Serialize(bw, replay, openChannels);
+				actorUpdate.Serialize(bw, replay);
 			}
 			bw.Write(false);
 		}

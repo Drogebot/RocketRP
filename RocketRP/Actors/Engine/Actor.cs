@@ -65,15 +65,12 @@ namespace RocketRP.Actors.Engine
 			InitialRotation = Rotator.Deserialize(br);
 		}
 
-		public void DeserializeProperty(BitReader br, Replay replay, int propObjectIndex)
+		public void DeserializeProperty(BitReader br, Replay replay, ClassNetCacheProperty property)
 		{
-			var propName = replay.Objects[propObjectIndex].Split(":").Last();
-			SetPropertyObjectIndexes.Add(propObjectIndex);
-			SetPropertyNames.Add(propName);
-
-			var propertyInfo = GetType().GetProperty(propName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
-			if (propertyInfo is null) throw new MissingMemberException($"Property {propName} not found in {GetType().Name}");
-
+			//var objectName = replay.Objects[property.ObjectIndex];
+			var propertyInfo = property.PropertyInfo;
+			SetPropertyObjectIndexes.Add(property.PropertyId);
+			SetPropertyNames.Add(propertyInfo.Name);
 			var propType = propertyInfo.PropertyType;
 			var valueType = propType;
 			var valueIndex = 0;
@@ -159,7 +156,6 @@ namespace RocketRP.Actors.Engine
 			}
 
 			MethodInfo? methodInfo = null;
-			object? defaultValue = propType.IsArray && valueType.IsValueType ? Activator.CreateInstance(valueType) : null;
 			var firstEntry = true;
 			for (int valueIndex = 0; valueIndex < maxValueIndex; valueIndex++)
 			{
@@ -188,7 +184,7 @@ namespace RocketRP.Actors.Engine
 				else if (valueType == typeof(string)) bw.Write((string?)value);
 				else
 				{
-					methodInfo = methodInfo ?? valueType.GetMethod("Serialize", [typeof(BitWriter)]) ?? valueType.GetMethod("Serialize", [typeof(BitWriter), typeof(Replay)]);
+					methodInfo ??= valueType.GetMethod("Serialize", [typeof(BitWriter)]) ?? valueType.GetMethod("Serialize", [typeof(BitWriter), typeof(Replay)]);
 					if (methodInfo is null) throw new MissingMethodException($"Serialize method in {valueType.Name} not found");
 					else if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(value, [bw]);
 					else if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(value, [bw, replay]);

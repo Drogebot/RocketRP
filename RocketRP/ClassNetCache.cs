@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,20 +15,16 @@ namespace RocketRP
 		public int MinPropertyId { get; set; }
 		public int MaxPropertyId { get; set; }
 		public List<ClassNetCacheProperty> Properties { get; set; } = null!;
-		public int NumProperties => Properties.Count > 0 ? Properties.Max(p => p.PropertyId) + 1 : Parent != null ? Parent.NumProperties : 0;
+		public int NumProperties => Properties.Count + (Parent?.NumProperties ?? 0);
+		public int NumFields => MaxPropertyId - 1;
+		public int NumFuncs => NumProperties - MaxPropertyId;
 		public ClassNetCache? Parent;
+		public Type ClassType = null!;
 
-		public int GetPropertyObjectIndex(int propId)
+		public ClassNetCacheProperty GetPropertyByPropertyId(int propId)
 		{
-			foreach (var property in Properties)
-			{
-				if (property.PropertyId == propId)
-				{
-					return property.ObjectIndex;
-				}
-			}
-
-			return Parent!.GetPropertyObjectIndex(propId);
+			if(propId < MinPropertyId) return Parent?.GetPropertyByPropertyId(propId) ?? throw new NullReferenceException($"PropertyId {propId} is less than MinPropertyId {MinPropertyId} and no parent was specified");
+			return Properties[propId - MinPropertyId];
 		}
 
 		public int GetPropertyPropertyId(int objectIndex)
@@ -57,17 +55,45 @@ namespace RocketRP
 			if (baseObjectIndex != -1) Parent = replay.ClassNetCaches.First(c => c.ObjectIndex == baseObjectIndex);
 		}
 
+		public bool LinkTypeAndPropertyInfos(List<string> objects)
+		{
+			if (ClassType is not null) return true; // Already linked
+			var result = true;
+			ClassType = System.Type.GetType($"RocketRP.Actors.{objects[ObjectIndex]}") ?? throw new NullReferenceException();
+			for (int i = 0; i < Properties.Count; i++)
+			{
+				ClassNetCacheProperty? property = Properties[i];
+				if (property.PropertyId < MinPropertyId) throw new ArgumentOutOfRangeException(nameof(property.PropertyId), $"PropertyId {property.PropertyId} is less than MinPropertyId {MinPropertyId}");
+				if (property.PropertyId > NumProperties - 1) throw new ArgumentOutOfRangeException(nameof(property.PropertyId), $"PropertyId {property.PropertyId} is greater than NumProperties {NumProperties}");
+				
+				var propName = objects[property.ObjectIndex].Split(":").Last();
+				if (property.PropertyId > MaxPropertyId - 1 + Parent?.NumFuncs)
+				{
+					//Console.WriteLine($"Skipping {property.PropertyId} ({objects[property.ObjectIndex].Split(":").Last()}) in {ClassType.Name} ({MinPropertyId}/{MaxPropertyId}/{NumProperties}, {NumFields}/{NumFuncs})");
+					continue; // This is a function, those are never included in the data
+				}
+				var propertyInfo = ClassType.GetProperty(propName, BindingFlags.DeclaredOnly | BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
+				if (propertyInfo is null)
+				{
+					Console.WriteLine($"Property {property.PropertyId} ({property.ObjectIndex} {propName}) not found in {ClassType.Name}");
+					result = false;
+					continue;
+				}
+				property.PropertyInfo = propertyInfo;
+			}
+			return result;
+		}
+
 		public static ClassNetCache Deserialize(BinaryReader br)
 		{
-			var classNetCache = new ClassNetCache();
-
-			classNetCache.ObjectIndex = br.ReadInt32();
-			classNetCache.MinPropertyId = br.ReadInt32();
-			classNetCache.MaxPropertyId = br.ReadInt32();
-
-			var numProperties = br.ReadInt32();
-			classNetCache.Properties = new List<ClassNetCacheProperty>(numProperties);
-			for (int i = 0; i < numProperties; i++)
+			var classNetCache = new ClassNetCache
+			{
+				ObjectIndex = br.ReadInt32(),
+				MinPropertyId = br.ReadInt32(),
+				MaxPropertyId = br.ReadInt32(),
+				Properties = new List<ClassNetCacheProperty>(br.ReadInt32())
+			};
+			for (int i = 0; i < classNetCache.Properties.Capacity; i++)
 			{
 				classNetCache.Properties.Add(ClassNetCacheProperty.Deserialize(br));
 			}
@@ -92,13 +118,16 @@ namespace RocketRP
 	{
 		public int ObjectIndex { get; set; }
 		public int PropertyId { get; set; }
+		[JsonIgnore]
+		public PropertyInfo PropertyInfo = null!;
 
 		public static ClassNetCacheProperty Deserialize(BinaryReader br)
 		{
-			var classNetCacheProperty = new ClassNetCacheProperty();
-
-			classNetCacheProperty.ObjectIndex = br.ReadInt32();
-			classNetCacheProperty.PropertyId = br.ReadInt32();
+			var classNetCacheProperty = new ClassNetCacheProperty
+			{
+				ObjectIndex = br.ReadInt32(),
+				PropertyId = br.ReadInt32()
+			};
 
 			return classNetCacheProperty;
 		}
