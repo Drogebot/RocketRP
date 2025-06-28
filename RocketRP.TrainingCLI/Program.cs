@@ -5,7 +5,7 @@ using RocketRP.Serializers;
 using System.Text;
 using RocketRP.Actors.TAGame;
 
-if (!args.Any())
+if (args.Length <= 0)
 {
 	args = ["--help"];
 }
@@ -15,7 +15,7 @@ Parser.Default.ParseArguments<Options>(args)
 {
 	var trainingFileInfo = new FileInfo(opts.TrainingPath);
 	opts.TrainingPath = trainingFileInfo.FullName;
-	opts.OutputPath = opts.OutputPath ?? trainingFileInfo?.Directory?.FullName;
+	opts.OutputPath ??= trainingFileInfo?.Directory?.FullName;
 	if (opts.OutputPath == null)
 	{
 		Console.WriteLine("Output path could not be determined!");

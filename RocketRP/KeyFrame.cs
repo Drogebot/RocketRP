@@ -15,10 +15,12 @@ namespace RocketRP
 
 		public static KeyFrame Deserialize(BinaryReader br)
 		{
-			var keyFrame = new KeyFrame();
-			keyFrame.Time = br.ReadSingle();
-			keyFrame.Frame = br.ReadUInt32();
-			keyFrame.FilePosition = br.ReadUInt32();
+			var keyFrame = new KeyFrame
+			{
+				Time = br.ReadSingle(),
+				Frame = br.ReadUInt32(),
+				FilePosition = br.ReadUInt32()
+			};
 
 			return keyFrame;
 		}

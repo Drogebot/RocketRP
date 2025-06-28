@@ -9,8 +9,8 @@ namespace RocketRP
 {
 	public class BitReader
 	{
-		private static readonly byte[] GShift = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
-		private static readonly byte[] GMask = { 0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f };
+		private static readonly byte[] GShift = [0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80];
+		private static readonly byte[] GMask = [0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f];
 
 		private byte[] Buffer;
 		private int Pos;
@@ -155,7 +155,7 @@ namespace RocketRP
 			}
 			else if (length > 0)
 			{
-				length = length - 1;
+				length--;
 				var value = CodePagesEncodingProvider.Instance.GetEncoding(1252)?.GetString(ReadBytes(length)) ?? throw new Exception("Code page 1252 is not available");
 				Pos += 8; // Skip the null terminator
 				return value;

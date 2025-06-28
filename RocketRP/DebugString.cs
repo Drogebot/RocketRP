@@ -15,10 +15,12 @@ namespace RocketRP
 
 		public static DebugString Deserialize(BinaryReader br)
 		{
-			var debugString = new DebugString();
-			debugString.FrameNumber = br.ReadUInt32();
-			debugString.Username = br.ReadString();
-			debugString.Text = br.ReadString();
+			var debugString = new DebugString
+			{
+				FrameNumber = br.ReadUInt32(),
+				Username = br.ReadString(),
+				Text = br.ReadString()
+			};
 
 			return debugString;
 		}

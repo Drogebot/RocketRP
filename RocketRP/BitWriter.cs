@@ -11,8 +11,8 @@ namespace RocketRP
 {
 	public class BitWriter
 	{
-		private static readonly byte[] GShift = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
-		private static readonly byte[] GMask = { 0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f };
+		private static readonly byte[] GShift = [0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80];
+		private static readonly byte[] GMask = [0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f];
 
 		private byte[] Buffer;
 		private int Pos;
@@ -95,7 +95,6 @@ namespace RocketRP
 		public unsafe void Write([NotNull] Byte? value)
 		{
 			ArgumentNullException.ThrowIfNull(value);
-			if (value is null) throw new ArgumentNullException();
 			SerializeBits(&value, sizeof(Byte) << 3);
 		}
 

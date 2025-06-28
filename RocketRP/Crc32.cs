@@ -9,7 +9,7 @@ namespace RocketRP
 {
 	public static class Crc32
 	{
-		private static uint[] CRCTable = new uint[0];
+		private static uint[] CRCTable = [];
 
 		public static void GenerateCRCTable()
 		{

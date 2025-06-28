@@ -39,8 +39,8 @@ namespace RocketRP.Actors.Engine
 		public Rotator Rotation { get; set; }
 		public Vector Location { get; set; }
 
-		public HashSet<int> SetPropertyObjectIndexes = new HashSet<int>();
-		public HashSet<string> SetPropertyNames = new HashSet<string>();
+		public HashSet<int> SetPropertyObjectIndexes = [];
+		public HashSet<string> SetPropertyNames = [];
 
 		public void CalculatePropertyObjectIndexes(Replay replay)
 		{

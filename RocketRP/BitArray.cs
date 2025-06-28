@@ -90,7 +90,7 @@ namespace RocketRP
 					}
 					else
 					{
-						bitAccu = bitAccu >> 8;
+						bitAccu >>= 8;
 					}
 
 					dest[destIndex] = (byte)((dest[destIndex] & lastSrcMask) | (bitAccu & ~lastSrcMask));

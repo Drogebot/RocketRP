@@ -52,11 +52,11 @@ namespace RocketRP.DataTypes
 			CustomMatchTeamSettings?[]? teamSettings = null;
 			if (false)  // Find the correct condition
 			{
-				teamSettings = new CustomMatchTeamSettings?[2]
-				{
+				teamSettings =
+				[
 					CustomMatchTeamSettings.Deserialize(br),
 					CustomMatchTeamSettings.Deserialize(br),
-				};
+				];
 			}
 
 			return new CustomMatchSettings(gameTags, mapName, gameMode, maxPlayerCount, serverName, password, bPublic, teamSettings);

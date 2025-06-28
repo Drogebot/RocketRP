@@ -14,9 +14,11 @@ namespace RocketRP
 
 		public static Tickmark Deserialize(BinaryReader br)
 		{
-			var tickmark = new Tickmark();
-			tickmark.Type = br.ReadString()!;
-			tickmark.Frame = br.ReadUInt32();
+			var tickmark = new Tickmark
+			{
+				Type = br.ReadString()!,
+				Frame = br.ReadUInt32()
+			};
 
 			return tickmark;
 		}

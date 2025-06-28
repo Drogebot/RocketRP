@@ -22,8 +22,8 @@ namespace RocketRP
 		public uint Magic { get; set; } = MAGIC;
 		public SaveDataVersionInfo VersionInfo { get; set; } = new SaveDataVersionInfo { EngineVersion = 868, LicenseeVersion = 32, TypeVersion = 0 };
 		public T Properties { get; set; } = null!;
-		public List<Actors.Core.Object> Objects { get; set; } = new List<Actors.Core.Object>();
-		public List<ObjectType> ObjectTypes { get; set; } = new List<ObjectType>();
+		public List<Actors.Core.Object> Objects { get; set; } = [];
+		public List<ObjectType> ObjectTypes { get; set; } = [];
 
 		public static SaveData<T> Deserialize(string filePath, bool isEncrypted = true, bool enforeCRC = false)
 		{

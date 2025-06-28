@@ -4,7 +4,7 @@ using RocketRP.CLI;
 using RocketRP.Serializers;
 using System.Text;
 
-if (!args.Any())
+if (args.Length <= 0)
 {
 	args = ["--help"];
 }
@@ -14,7 +14,7 @@ Parser.Default.ParseArguments<Options>(args)
 {
 	var replayFileInfo = new FileInfo(opts.ReplayPath);
 	opts.ReplayPath = replayFileInfo.FullName;
-	opts.OutputPath = opts.OutputPath ?? replayFileInfo?.Directory?.FullName;
+	opts.OutputPath ??= replayFileInfo?.Directory?.FullName;
 	if (opts.OutputPath == null)
 	{
 		Console.WriteLine("Output path could not be determined!");

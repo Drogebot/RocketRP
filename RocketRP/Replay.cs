@@ -25,16 +25,16 @@ namespace RocketRP
 		public Replay_TA Properties { get; set; } = null!;
 		public uint Part2Length { get; set; }
 		public uint Part2CRC { get; set; }
-		public List<string> Levels { get; set; } = new List<string>();
-		public List<Frame> Frames { get; set; } = new List<Frame>();
-		public List<KeyFrame> KeyFrames { get; set; } = new List<KeyFrame>();
-		public List<DebugString> DebugStrings { get; set; } = new List<DebugString>();
-		public List<Tickmark> Tickmarks { get; set; } = new List<Tickmark>();
-		public List<string> Packages { get; set; } = new List<string>();
-		public List<string> Objects { get; set; } = new List<string>();
-		public List<string> Names { get; set; } = new List<string>();
-		public Dictionary<string, int> ClassIndexes { get; set; } = new Dictionary<string, int>();
-		public List<ClassNetCache> ClassNetCaches { get; set; } = new List<ClassNetCache>();
+		public List<string> Levels { get; set; } = [];
+		public List<Frame> Frames { get; set; } = [];
+		public List<KeyFrame> KeyFrames { get; set; } = [];
+		public List<DebugString> DebugStrings { get; set; } = [];
+		public List<Tickmark> Tickmarks { get; set; } = [];
+		public List<string> Packages { get; set; } = [];
+		public List<string> Objects { get; set; } = [];
+		public List<string> Names { get; set; } = [];
+		public Dictionary<string, int> ClassIndexes { get; set; } = [];
+		public List<ClassNetCache> ClassNetCaches { get; set; } = [];
 		public uint Unknown { get; set; } = 0;
 
 		public int MaxChannels { get => Properties.MaxChannels ?? 1023; }
@@ -211,9 +211,9 @@ namespace RocketRP
 			TypeIdToClassNetCache = TypeIdToClassNetCacheMapper.MapTypeIdsToClassNetCache(Objects, ClassNetCaches);
 
 			ClassNetCacheByName ??= ClassNetCaches.ToDictionary(c => Objects[c.ObjectIndex], c => c);
-			CurrentOpenChannels = new Dictionary<int, ActorUpdate>();
+			CurrentOpenChannels = [];
 
-			Frames = new List<Frame>();
+			Frames = [];
 			var br = new BitReader(NetStreamData);
 
 			while (br.Position < br.Length - 64)
@@ -402,6 +402,7 @@ namespace RocketRP
 			rvi.EngineVersion = br.ReadUInt32();
 			rvi.LicenseeVersion = br.ReadUInt32();
 			if (rvi.EngineVersion >= 868 && rvi.LicenseeVersion >= 18) rvi.NetVersion = br.ReadUInt32();
+
 			return rvi;
 		}
 
