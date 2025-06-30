@@ -41,7 +41,6 @@ namespace RocketRP
 		public int Changelist => Properties.Changelist ?? 0;
 		public Dictionary<int, ActorUpdate>? CurrentOpenChannels;
 		public Dictionary<int, ClassNetCache> TypeIdToClassNetCache = null!;
-		public ActorActivator ActorActivator = new ActorActivator();
 
 		public static Replay Deserialize(string filePath, bool parseNetstream = true, bool enforeCRC = false)
 		{
