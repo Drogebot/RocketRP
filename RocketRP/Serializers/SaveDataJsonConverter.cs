@@ -20,25 +20,24 @@ namespace RocketRP.Serializers
 			if (reader.TokenType != JsonToken.StartObject) throw new JsonReaderException("Expected StartObject token!");
 			reader.Read();
 
-			var savedata = (SaveData<T>)existingValue ?? new SaveData<T>();
+			var savedata = (SaveData<T>?)existingValue ?? new SaveData<T>();
 
-			JArray objects = null;
+			JArray? objects = null;
 
 			while (reader.TokenType == JsonToken.PropertyName)
 			{
-				object value = null;
-				var propertyName = (string)reader.Value;
+				var propertyName = (string)reader.Value!;
 				var propInfo = savedata.GetType().GetProperty(propertyName);
 				reader.Read();
 
-				if(propertyName == "Objects")
+				if (propertyName == "Objects")
 				{
 					objects = serializer.Deserialize<JArray>(reader);
 					reader.Read();
 					continue;
 				}
-				
-				value = serializer.Deserialize(reader, propInfo?.PropertyType);
+
+				object? value = serializer.Deserialize(reader, propInfo?.PropertyType);
 
 				propInfo?.SetValue(savedata, value);
 				reader.Read();
@@ -46,9 +45,10 @@ namespace RocketRP.Serializers
 
 			if (reader.TokenType != JsonToken.EndObject) throw new JsonReaderException("Expected EndObject token!");
 
-			for(int i = 0; i < objects.Count; i++)
+			for (int i = 0; i < objects?.Count; i++)
 			{
-				savedata.Objects.Add((Actors.Core.Object)objects[i].ToObject(Type.GetType($"RocketRP.Actors.{savedata.ObjectTypes[i].Type}"), serializer));
+				var obj = (Actors.Core.Object?)objects[i].ToObject(Type.GetType($"RocketRP.Actors.{savedata.ObjectTypes[i].Type}"), serializer) ?? throw new JsonException($"Failed to convert JArray to {savedata.ObjectTypes[i].Type}");
+				savedata.Objects.Add(obj);
 			}
 
 			return savedata;

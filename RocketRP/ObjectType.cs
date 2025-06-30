@@ -13,7 +13,6 @@ namespace RocketRP
 		public string Type { get; set; }
 		[JsonIgnore]
 		public uint FilePosition { get; set; }
-		[JsonIgnore]
 		public uint ObjectIndex { get; set; }
 
 		public static ObjectType Deserialize(BinaryReader br)

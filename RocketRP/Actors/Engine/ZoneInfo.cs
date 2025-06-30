@@ -8,6 +8,6 @@ namespace RocketRP.Actors.Engine
 {
 	public class ZoneInfo : Info
 	{
-		public override bool HasInitialPosition { get => false; }
+		public override bool HasInitialPosition => false;
 	}
 }

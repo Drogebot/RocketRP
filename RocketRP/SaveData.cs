@@ -178,6 +178,8 @@ namespace RocketRP
 			bw.Write((uint)savedataLength);
 			bw.BaseStream.Seek(savedataLength - sizeof(uint), SeekOrigin.Current);
 
+			// TODO: We should recalculate the file position of each ObjectTypes after serialization
+			// The game does not appear to use it though, at least not for training files
 			bw.Write(ObjectTypes.Count);
 			foreach (var objType in ObjectTypes)
 			{

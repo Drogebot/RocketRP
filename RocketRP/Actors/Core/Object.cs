@@ -26,7 +26,7 @@ namespace RocketRP.Actors.Core
 		private static readonly string ARRAY_PROPERTY = "ArrayProperty";
 
 		[JsonProperty(Order = -2)]
-		protected string ObjectTypeName { get => GetType().Name; }
+		protected string ObjectTypeName => GetType().Name;
 
 		private static int RecalculateValueSizeFromType(int valueSize, object? value, string? type)
 		{
@@ -160,8 +160,7 @@ namespace RocketRP.Actors.Core
 				if (type != STRUCT_PROPERTY && type != ARRAY_PROPERTY) throw new InvalidDataException($"Expected type {STRUCT_PROPERTY} for {propertyType.Name} but got {type}");
 				var typeName = type == ARRAY_PROPERTY ? propertyType.Name : br.ReadString();
 				if (typeName != propertyType.Name) throw new InvalidDataException($"Expected type {propertyType.Name} for {propertyType.Name} but got {typeName}");
-				var value = Activator.CreateInstance(propertyType);
-				if (value is null) throw new MissingMethodException($"{propertyType.Name} does not have a parameterless constructor");
+				var value = Activator.CreateInstance(propertyType) ?? throw new MissingMethodException($"{propertyType.Name} does not have a parameterless constructor");
 				if (value is ISpecialSerialized specialValue) specialValue.Deserialize(br, versionInfo);
 				else Deserialize(value, br, versionInfo);
 				return value;

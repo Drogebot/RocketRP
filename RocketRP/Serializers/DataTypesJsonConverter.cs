@@ -25,17 +25,12 @@ namespace RocketRP.Serializers
 			{
 				var gameServerID = (GameServerID)(existingValue ?? new GameServerID());
 
-				switch (reader.TokenType)
+				gameServerID.Value = reader.TokenType switch
 				{
-					case JsonToken.String:
-						gameServerID.Value = serializer.Deserialize<string>(reader);
-						break;
-					case JsonToken.Integer:
-						gameServerID.Value = serializer.Deserialize<long>(reader).ToString();
-						break;
-					default:
-						throw new JsonException($"Unexpected token type: {reader.TokenType}");
-				}
+					JsonToken.String => serializer.Deserialize<string>(reader),
+					JsonToken.Integer => serializer.Deserialize<long>(reader).ToString(),
+					_ => throw new JsonException($"Unexpected token type: {reader.TokenType}"),
+				};
 				return gameServerID;
 			}
 
@@ -55,7 +50,7 @@ namespace RocketRP.Serializers
 				var rbState = (ReplicatedRBState)(existingValue ?? new ReplicatedRBState());
 				while (reader.TokenType == JsonToken.PropertyName)
 				{
-					var propName = (string)reader.Value;
+					var propName = (string)reader.Value!;
 					reader.Read();
 					switch (propName)
 					{
@@ -66,15 +61,15 @@ namespace RocketRP.Serializers
 							rbState.Position = serializer.Deserialize<Vector>(reader);
 							break;
 						case "Rotation":
-							var jObject = serializer.Deserialize<JObject>(reader);
+							var jObject = serializer.Deserialize<JObject>(reader)!;
 							if (jObject.ContainsKey("W")) rbState.Rotation = jObject.ToObject<Quat>();
 							else rbState.Rotation = jObject.ToObject<Vector>();
 							break;
 						case "LinearVelocity":
-							rbState.LinearVelocity = serializer.Deserialize<Vector>(reader);
+							rbState.LinearVelocity = serializer.Deserialize<Vector?>(reader);
 							break;
 						case "AngularVelocity":
-							rbState.AngularVelocity = serializer.Deserialize<Vector>(reader);
+							rbState.AngularVelocity = serializer.Deserialize<Vector?>(reader);
 							break;
 						default:
 							break;
@@ -89,14 +84,13 @@ namespace RocketRP.Serializers
 				if (reader.TokenType != JsonToken.StartObject) throw new JsonReaderException("Expected StartObject token!");
 				reader.Read();
 
-				ProductAttribute_TA attribute = default;
 				ObjectTarget<ClassObject> objectTarget = default;
 				string className = string.Empty;
 
 				bool keepReading = true;
 				while (keepReading && reader.TokenType == JsonToken.PropertyName)
 				{
-					var propName = (string)reader.Value;
+					var propName = (string)reader.Value!;
 					reader.Read();
 					switch (propName)
 					{
@@ -104,7 +98,7 @@ namespace RocketRP.Serializers
 							objectTarget = serializer.Deserialize<ObjectTarget<ClassObject>>(reader);
 							break;
 						case "ClassName":
-							className = serializer.Deserialize<string>(reader);
+							className = serializer.Deserialize<string>(reader)!;
 							break;
 						default:
 							keepReading = false;
@@ -113,6 +107,7 @@ namespace RocketRP.Serializers
 					if (keepReading) reader.Read();
 				}
 
+				ProductAttribute_TA? attribute;
 				switch (className)
 				{
 					case "TAGame.ProductAttribute_Painted_TA":
@@ -214,7 +209,7 @@ namespace RocketRP.Serializers
 						break;
 					case "TAGame.ProductAttribute_TitleID_TA":
 						var titleID = (ProductAttribute_TitleID_TA)attribute;
-						writer.WriteKeyValue("Title", (string)titleID.TitleId, serializer);
+						writer.WriteKeyValue("Title", (string)titleID.TitleId!, serializer);
 						break;
 					case "TAGame.ProductAttribute_UserColor_TA":
 						var userColor = (ProductAttribute_UserColor_TA)attribute;
@@ -227,6 +222,8 @@ namespace RocketRP.Serializers
 				writer.WriteEndObject();
 				return;
 			}
+
+			throw new JsonException($"Unexpected object type: {value.GetType()}");
 		}
 	}
 }

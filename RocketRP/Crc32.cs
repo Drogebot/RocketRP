@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -11,8 +12,11 @@ namespace RocketRP
 	{
 		private static uint[] CRCTable = [];
 
+		[MethodImpl(MethodImplOptions.Synchronized | MethodImplOptions.AggressiveInlining)]
 		public static void GenerateCRCTable()
 		{
+			if (CRCTable.Length > 0) return; // Already generated
+
 			CRCTable = new uint[256];
 			for (uint i = 0; i < 256; i++)
 			{
@@ -26,7 +30,7 @@ namespace RocketRP
 
 		public static uint CalculateCRC(byte[] data, uint seed)
 		{
-			if (CRCTable.Length == 0) GenerateCRCTable();
+			if (CRCTable.Length <= 0) GenerateCRCTable();
 			uint crc = ~seed;
 
 			for (int i = 0; i < data.Length; i++)

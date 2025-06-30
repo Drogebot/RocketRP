@@ -14,7 +14,7 @@ namespace RocketRP.Actors.ProjectX
 		public bool bGameStarted { get; set; }
 		public GameServerID GameServerID { get; set; }  // The type was changed from long to string at some point
 		[FixedArraySize(0x8)]
-		public ReplicatedReservationData?[]? Reservations { get; set; }
+		public ReplicatedReservationData[] Reservations { get; set; } = new ReplicatedReservationData[8];
 		public string? ReplicatedServerRegion { get; set; }
 		public int ReplicatedGameMutatorIndex { get; set; }
 		public int ReplicatedGamePlaylist { get; set; }

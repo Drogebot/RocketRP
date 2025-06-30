@@ -37,11 +37,11 @@ namespace RocketRP
 		public List<ClassNetCache> ClassNetCaches { get; set; } = [];
 		public uint Unknown { get; set; } = 0;
 
-		public int MaxChannels { get => Properties.MaxChannels ?? 1023; }
-		public int Changelist { get => Properties.Changelist ?? 0; }
-		public Dictionary<string, ClassNetCache> ClassNetCacheByName = null!;
+		public int MaxChannels => Properties.MaxChannels ?? 1023;
+		public int Changelist => Properties.Changelist ?? 0;
 		public Dictionary<int, ActorUpdate>? CurrentOpenChannels;
 		public Dictionary<int, ClassNetCache> TypeIdToClassNetCache = null!;
+		public ActorActivator ActorActivator = new ActorActivator();
 
 		public static Replay Deserialize(string filePath, bool parseNetstream = true, bool enforeCRC = false)
 		{
@@ -203,27 +203,31 @@ namespace RocketRP
 			foreach (var classNetCache in ClassNetCaches)
 			{
 				var didLinkError = !classNetCache.LinkTypeAndPropertyInfos(Objects);
-				if(didLinkError) Console.WriteLine($"Error linking ClassNetCache {classNetCache.ObjectIndex} ({Objects[classNetCache.ObjectIndex]})");
-				shouldThrow |= didLinkError;
+				if (didLinkError)
+				{
+					Console.ForegroundColor = ConsoleColor.Yellow;
+					Console.WriteLine($"Warning: Error linking ClassNetCache {classNetCache.ObjectIndex} ({Objects[classNetCache.ObjectIndex]})");
+					Console.ForegroundColor = ConsoleColor.Gray;
+				}
+					shouldThrow |= didLinkError;
 			}
-			if(shouldThrow) throw new Exception("Some ClassNetCaches could not be linked, check the console for more information.");
+			//if (shouldThrow) throw new Exception("Some ClassNetCaches could not be linked, check the console for more information.");
 
 			TypeIdToClassNetCache = TypeIdToClassNetCacheMapper.MapTypeIdsToClassNetCache(Objects, ClassNetCaches);
 
-			ClassNetCacheByName ??= ClassNetCaches.ToDictionary(c => Objects[c.ObjectIndex], c => c);
-			CurrentOpenChannels = [];
-
-			Frames = [];
 			var br = new BitReader(NetStreamData);
+			CurrentOpenChannels = new Dictionary<int, ActorUpdate>(Properties.MaxChannels!.Value);
+			Frames = new List<Frame>(Properties.NumFrames!.Value);
 
 			while (br.Position < br.Length - 64)
 			{
-				var frame = Frame.Deserialize(br, this, CurrentOpenChannels);
+				var frame = Frame.Deserialize(br, this, CurrentOpenChannels, true);
 				Frames.Add(frame);
 			}
 
 			CurrentOpenChannels.Clear();
 		}
+
 		public void Serialize(string filePath)
 		{
 			var stream = new MemoryStream();
@@ -242,7 +246,6 @@ namespace RocketRP
 
 		public void Serialize(BinaryWriter bw)
 		{
-			ClassNetCacheByName ??= ClassNetCaches.ToDictionary(c => Objects[c.ObjectIndex], c => c);
 			foreach (var classNetCache in ClassNetCaches)
 			{
 				classNetCache.CalculateParent(this);
@@ -277,6 +280,8 @@ namespace RocketRP
 				bw.Write(level);
 			}
 
+			// TODO: We should recalculate the file position of each KeyFrame after serialization
+			// I think the game might like to use the file position of the KeyFrame to seek to it
 			bw.Write(KeyFrames.Count);
 			foreach (var keyFrame in KeyFrames)
 			{
@@ -348,6 +353,18 @@ namespace RocketRP
 		public byte[] SerializeNetStream()
 		{
 			var bw = new BitWriter();
+
+			var shouldThrow = false;
+			foreach (var classNetCache in ClassNetCaches)
+			{
+				var didLinkError = !classNetCache.LinkTypeAndPropertyInfos(Objects);
+				if (didLinkError) Console.WriteLine($"Error linking ClassNetCache {classNetCache.ObjectIndex} ({Objects[classNetCache.ObjectIndex]})");
+				shouldThrow |= didLinkError;
+			}
+			if (shouldThrow) throw new Exception("Some ClassNetCaches could not be linked, check the console for more information.");
+
+			TypeIdToClassNetCache = TypeIdToClassNetCacheMapper.MapTypeIdsToClassNetCache(Objects, ClassNetCaches);
+
 			foreach (var frame in Frames)
 			{
 				frame.Serialize(bw, this);
@@ -396,14 +413,21 @@ namespace RocketRP
 		public uint TypeVersion { get; set; }
 		public uint NetVersion { get => TypeVersion; set => TypeVersion = value; }
 
+		public ReplayVersionInfo(uint engineVersion, uint licenseeVersion, uint netVersion = 0)
+		{
+			EngineVersion = engineVersion;
+			LicenseeVersion = licenseeVersion;
+			TypeVersion = netVersion;
+		}
+
 		public static ReplayVersionInfo Deserialize(BinaryReader br)
 		{
-			var rvi = new ReplayVersionInfo();
-			rvi.EngineVersion = br.ReadUInt32();
-			rvi.LicenseeVersion = br.ReadUInt32();
-			if (rvi.EngineVersion >= 868 && rvi.LicenseeVersion >= 18) rvi.NetVersion = br.ReadUInt32();
+			var engineVersion = br.ReadUInt32();
+			var licenseeVersion = br.ReadUInt32();
+			var netVersion = 0U;
+			if (engineVersion >= 868 && licenseeVersion >= 18) netVersion = br.ReadUInt32();
 
-			return rvi;
+			return new ReplayVersionInfo(engineVersion, licenseeVersion, netVersion);
 		}
 
 		public void Serialize(BinaryWriter bw)

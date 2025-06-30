@@ -12,7 +12,7 @@ namespace RocketRP
 		public float Delta { get; set; }
 		public List<ActorUpdate> ActorUpdates { get; set; } = [];
 
-		public static Frame Deserialize(BitReader br, Replay replay, Dictionary<int, ActorUpdate> openChannels)
+		public static Frame Deserialize(BitReader br, Replay replay, Dictionary<int, ActorUpdate> openChannels, bool keepSnapshot = false)
 		{
 			var frame = new Frame
 			{
@@ -28,7 +28,7 @@ namespace RocketRP
 
 			while (br.ReadBit())
 			{
-				var actorUpdate = ActorUpdate.Deserialize(br, replay, openChannels);
+				var actorUpdate = ActorUpdate.Deserialize(br, replay, openChannels, keepSnapshot);
 				frame.ActorUpdates.Add(actorUpdate);
 
 				if (actorUpdate.State == ChannelState.Open) openChannels.TryAdd(actorUpdate.ChannelId, actorUpdate);

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,26 +38,28 @@ namespace RocketRP
 				src.SerializeBits(addr, countBits);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private unsafe void SerializeBits(void* dest, int lengthBits)
 		{
 			//Array.Clear(*(byte[]*)dest, 0, (lengthBits + 7) >> 3);
-			if (lengthBits == 1)
-			{
-				if ((Buffer[Pos >> 3] & GShift[Pos & 7]) > 0)
-				{
-					((byte*)dest)[0] |= 1;
-				}
-				Pos++;
-			}
-			else
-			{
+			//if (lengthBits == 1)
+			//{
+			//	if ((Buffer[Pos >> 3] & GShift[Pos & 7]) > 0)
+			//	{
+			//		((byte*)dest)[0] |= 1;
+			//	}
+			//	Pos++;
+			//}
+			//else
+			//{
 				if (Pos + lengthBits > Max) throw new OverflowException("Buffer overflow");
 				fixed (byte* addr = &Buffer[0])
 					BitArray.BitsCopy((byte*)dest, 0, addr, Pos, lengthBits);
 				Pos += lengthBits;
-			}
+			//}
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private void SerializeInt(ref UInt32 value, UInt32 valueMax)
 		{
 			value = 0;
@@ -69,6 +72,7 @@ namespace RocketRP
 			}
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe Boolean ReadBit()
 		{
 			Boolean value = (Buffer[Pos >> 3] & GShift[Pos & 7]) > 0;
@@ -76,6 +80,7 @@ namespace RocketRP
 			return value;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe Byte ReadByte()
 		{
 			Byte value;
@@ -83,6 +88,7 @@ namespace RocketRP
 			return value;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public Int32 ReadInt32(UInt32 valueMax)
 		{
 			UInt32 value = 0;
@@ -90,6 +96,7 @@ namespace RocketRP
 			return (Int32)value;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public UInt32 ReadUInt32(UInt32 valueMax)
 		{
 			UInt32 value = 0;
@@ -97,6 +104,7 @@ namespace RocketRP
 			return value;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe Int32 ReadInt32()
 		{
 			Int32 value = 0;
@@ -104,6 +112,7 @@ namespace RocketRP
 			return value;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe UInt32 ReadUInt32()
 		{
 			UInt32 value = 0;
@@ -111,6 +120,7 @@ namespace RocketRP
 			return value;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe Int64 ReadInt64()
 		{
 			Int64 value = 0;
@@ -118,6 +128,7 @@ namespace RocketRP
 			return value;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe UInt64 ReadUInt64()
 		{
 			UInt64 value = 0;
@@ -125,6 +136,7 @@ namespace RocketRP
 			return value;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe Single ReadSingle()
 		{
 			Single value = 0;
@@ -132,6 +144,7 @@ namespace RocketRP
 			return value;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe Byte[] ReadBytes(int count)
 		{
 			var bytes = new Byte[count];

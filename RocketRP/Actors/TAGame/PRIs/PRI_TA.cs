@@ -40,7 +40,7 @@ namespace RocketRP.Actors.TAGame
 		public ESeverityType QuitSeverity { get; set; }
 		public EConnectionQualityState ReplicatedWorstNetQualityBeyondLatency { get; set; }
 		[FixedArraySize(0x40)]
-		public byte?[]? PlayerHistoryKey { get; set; }
+		public byte[] PlayerHistoryKey { get; set; } = new byte[0x40];
 		public EPawnType PawnType { get; set; }
 		public ObjectTarget<CameraSettingsActor_TA> PersistentCamera { get; set; }
 		public ClientLoadoutOnlineDatas ClientLoadoutsOnline { get; set; }

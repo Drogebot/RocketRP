@@ -1,11 +1,13 @@
 ﻿using RocketRP.Actors.Core;
 using RocketRP.Actors.Engine;
+using RocketRP.DataTypes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Security.AccessControl;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace RocketRP
@@ -20,22 +22,28 @@ namespace RocketRP
 		public string TypeName { get; set; } = null!;
 		public int ObjectId { get; set; }
 		public string ObjectName { get; set; } = null!;
-		public Type Type { get; set; } = null!;
-		public Actor Actor { get; set; } = null!;
+		public Vector InitialPosition { get; set; }
+		public Rotator InitialRotation { get; set; }
 
-		private ClassNetCache ClassNetCache = null!;
-		//public HashSet<int> SetPropertyObjectIndexes;
-		//public HashSet<string> SetPropertyNames;
+		public ClassNetCache ClassNetCache = null!;
+		public Type ObjectType = null!;
+		public Actor Actor = null!;
+		[MemberNotNullWhen(true, nameof(ActorSnapshot))]
+		public bool IsSnapshot => ActorSnapshot is not null;
+		public Actor? ActorSnapshot { get; set; }
+		public HashSet<(ClassNetCacheProperty Property, int Index)> SetProperties = [];
+		public HashSet<string>? SetPropertyNames;   // Used for JSON serialization
 
-		public static ActorUpdate Deserialize(BitReader br, Replay replay, Dictionary<int, ActorUpdate> openChannels)
+		public static ActorUpdate Deserialize(BitReader br, Replay replay, Dictionary<int, ActorUpdate> openChannels, bool keepSnapshot = false)
 		{
-			var actorUpdate = new ActorUpdate();
-			actorUpdate.ChannelId = br.ReadInt32((uint)replay.MaxChannels);
+			var channelId = br.ReadInt32((uint)replay.MaxChannels);
 
 			if (br.ReadBit())
 			{
 				if (br.ReadBit())
 				{
+					var actorUpdate = new ActorUpdate();
+					actorUpdate.ChannelId = channelId;
 					actorUpdate.State = ChannelState.Open;
 
 					if ((replay.EngineVersion >= 868 && replay.LicenseeVersion >= 15) ||
@@ -55,54 +63,149 @@ namespace RocketRP
 					actorUpdate.ClassNetCache = replay.TypeIdToClassNetCache[actorUpdate.TypeId.TargetIndex];
 					actorUpdate.ObjectId = actorUpdate.ClassNetCache.ObjectIndex;
 					actorUpdate.ObjectName = replay.Objects[actorUpdate.ObjectId];
-					actorUpdate.Type = actorUpdate.ClassNetCache.ClassType;
-					actorUpdate.Actor = (Actor)(Activator.CreateInstance(actorUpdate.Type) ?? throw new MissingMethodException($"{actorUpdate.TypeName} does not have a parameterless constructor"));
-					actorUpdate.Actor.Deserialize(br, replay);
+					actorUpdate.ObjectType = actorUpdate.ClassNetCache.ClassType;
+
+					if (openChannels.TryGetValue(channelId, out var activeActor)) actorUpdate.Actor = activeActor.Actor;
+					else actorUpdate.Actor = Actor.CreateInstance(actorUpdate.ObjectType);
+
+					//Console.WriteLine($"Open {channelId} {actorUpdate.ObjectName}");
+
+					if (actorUpdate.Actor.HasInitialPosition)
+					{
+						actorUpdate.InitialPosition = Vector.Deserialize(br, replay);
+
+						if (actorUpdate.Actor.HasInitialRotation)
+						{
+							actorUpdate.InitialRotation = Rotator.Deserialize(br);
+						}
+					}
+
+					return actorUpdate;
 				}
 				else
 				{
-					actorUpdate.State = ChannelState.Update;
+					var state = ChannelState.Update;
 
-					var activeActor = openChannels[actorUpdate.ChannelId];
-					actorUpdate.NameId = activeActor.NameId;
-					actorUpdate.Name = activeActor.Name;
-					actorUpdate.TypeId = activeActor.TypeId;
-					actorUpdate.TypeName = activeActor.TypeName;
-					actorUpdate.ClassNetCache = activeActor.ClassNetCache;
-					actorUpdate.ObjectId = activeActor.ObjectId;
-					actorUpdate.ObjectName = activeActor.ObjectName;
-					actorUpdate.Type = activeActor.Type;
-					actorUpdate.Actor = (Actor)(Activator.CreateInstance(actorUpdate.Type) ?? throw new MissingMethodException($"{actorUpdate.TypeName} does not have a parameterless constructor"));
-					//actorUpdate.SetPropertyObjectIndexes = new HashSet<int>();
-					//actorUpdate.SetPropertyNames = new HashSet<string>();
+					var activeActor = openChannels[channelId];
+
+					var nameId = activeActor.NameId;
+					var name = activeActor.Name;
+					var typeId = activeActor.TypeId;
+					var typeName = activeActor.TypeName;
+					var classNetCache = activeActor.ClassNetCache;
+					var objectId = activeActor.ObjectId;
+					var objectName = activeActor.ObjectName;
+					var objectType = activeActor.ObjectType;
+					var actor = activeActor.Actor;
+					//Console.WriteLine($"Update {channelId} {objectName}");
+
+					Actor? actorSnapshot = null;
+					if (keepSnapshot) actorSnapshot = Actor.CreateInstance(objectType);
+
+					var setProperties = new HashSet<(ClassNetCacheProperty Property, int Index)>();
+					var setActorProperties = actor.SetProperties;
+					var maxNumProperties = (uint)classNetCache.NumProperties;
 
 					while (br.ReadBit())
 					{
-						var propId = br.ReadInt32((uint)actorUpdate.ClassNetCache.NumProperties);
-						var property = actorUpdate.ClassNetCache.GetPropertyByPropertyId(propId);
-						//actorUpdate.SetPropertyObjectIndexes.Add(propObjectIndex);
-						//actorUpdate.SetPropertyNames.Add(propName);
+						var propId = br.ReadInt32(maxNumProperties);
+						var property = classNetCache.GetPropertyByPropertyId(propId);
+						var propInfo = property.PropertyInfo;
+						var propType = propInfo.PropertyType;
 
-						actorUpdate.Actor.DeserializeProperty(br, replay, property);
+						int valueIndex = 0;
+						var propIsArray = propType.IsArray;
+						if (propIsArray)
+						{
+							var arrLength = ((Array)propInfo.GetValue(actor)!).Length;
+							valueIndex = br.ReadInt32((uint)arrLength);
+						}
+
+						//Console.WriteLine($"\t{propInfo.Name}");
+						setProperties.Add((property, valueIndex));
+						setActorProperties.Add((property, valueIndex));
+
+						var value = DeserializeActorProperty(br, replay, propType);
+						if (propIsArray) ((Array)propInfo.GetValue(actor)!).SetValue(value, valueIndex);
+						else propInfo.SetValue(actor, value);
+						if (keepSnapshot)
+						{
+							if (propIsArray) ((Array)propInfo.GetValue(actorSnapshot)!).SetValue(value, valueIndex);
+							else propInfo.SetValue(actorSnapshot, value);
+						}
 					}
+
+					var actorUpdate = new ActorUpdate
+					{
+						State = state,
+						ChannelId = channelId,
+						NameId = nameId,
+						Name = name,
+						TypeId = typeId,
+						TypeName = typeName,
+						ClassNetCache = classNetCache,
+						ObjectId = objectId,
+						ObjectName = objectName,
+						ObjectType = objectType,
+						Actor = actor,
+						ActorSnapshot = actorSnapshot,
+						SetProperties = setProperties,
+					};
+					return actorUpdate;
 				}
 			}
 			else
 			{
-				actorUpdate.State = ChannelState.Close;
+				var activeActor = openChannels[channelId];
+				var actorUpdate = new ActorUpdate
+				{
+					State = ChannelState.Close,
+					ChannelId = activeActor.ChannelId,
+					NameId = activeActor.NameId,
+					Name = activeActor.Name,
+					TypeId = activeActor.TypeId,
+					TypeName = activeActor.TypeName,
+					ClassNetCache = activeActor.ClassNetCache,
+					ObjectId = activeActor.ObjectId,
+					ObjectName = activeActor.ObjectName,
+					ObjectType = activeActor.ObjectType,
+					Actor = activeActor.Actor,
+				};
+				//Console.WriteLine($"Close {channelId} {actorUpdate.ObjectName}");
 
-				var activeActor = openChannels[actorUpdate.ChannelId];
-				actorUpdate.NameId = activeActor.NameId;
-				actorUpdate.Name = activeActor.Name;
-				actorUpdate.TypeId = activeActor.TypeId;
-				actorUpdate.TypeName = activeActor.TypeName;
-				actorUpdate.ClassNetCache = activeActor.ClassNetCache;
-				actorUpdate.ObjectId = activeActor.ObjectId;
-				actorUpdate.ObjectName = activeActor.ObjectName;
-				actorUpdate.Type = activeActor.Type;
+				return actorUpdate;
+			}
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static object? DeserializeActorProperty(BitReader br, Replay replay, Type propertyType)
+		{
+			if (propertyType.IsArray)  //Fixed Size Array
+			{
+				propertyType = propertyType.GetElementType()!;
 			}
 
-			return actorUpdate;
+			if (propertyType.IsEnum)
+			{
+				propertyType = propertyType.GetEnumUnderlyingType();
+			}
+
+			if (propertyType == typeof(bool)) return br.ReadBit();
+			else if (propertyType == typeof(byte)) return br.ReadByte();
+			else if (propertyType == typeof(int)) return br.ReadInt32();
+			else if (propertyType == typeof(uint)) return br.ReadUInt32();
+			else if (propertyType == typeof(long)) return br.ReadInt64();
+			else if (propertyType == typeof(ulong)) return br.ReadUInt64();
+			else if (propertyType == typeof(float)) return br.ReadSingle();
+			else if (propertyType == typeof(string)) return br.ReadString();
+			else
+			{
+				var methodInfo = propertyType.GetMethod("Deserialize", BindingFlags.Static | BindingFlags.Public, [typeof(BitReader)]) ?? propertyType.GetMethod("Deserialize", BindingFlags.Static | BindingFlags.Public, [typeof(BitReader), typeof(Replay)]);
+				if (methodInfo is null) throw new MissingMethodException($"Deserialize method in {propertyType.Name} not found");
+				else if (methodInfo.GetParameters().Length == 1) return methodInfo.Invoke(null, [br]);
+				else if (methodInfo.GetParameters().Length == 2) return methodInfo.Invoke(null, [br, replay]);
+				else throw new MissingMethodException($"Deserialize method in {propertyType.Name} does not have the correct parameters");
+			}
 		}
 
 		public void Serialize(BitWriter bw, Replay replay)
@@ -121,7 +224,17 @@ namespace RocketRP
 				}
 
 				TypeId.Serialize(bw);
-				Actor.Serialize(bw, replay);
+
+				if (Actor.HasInitialPosition)
+				{
+					InitialPosition.Serialize(bw, replay);
+
+					if (Actor.HasInitialRotation)
+					{
+						InitialRotation.Serialize(bw);
+					}
+				}
+
 				return;
 			}
 			else if (State == ChannelState.Update)
@@ -129,18 +242,30 @@ namespace RocketRP
 				bw.Write(true);
 				bw.Write(false);
 
-				// We need to calulate the property object indexes if they haven't been set yet, and we need to get the ClassNetCache if it hasn't been set yet
-				if (Actor.SetPropertyObjectIndexes.Count != Actor.SetPropertyNames.Count) Actor.CalculatePropertyObjectIndexes(replay);
-				ClassNetCache ??= TypeNameToClassNetCache(TypeName, replay);
+				ClassNetCache ??= replay.TypeIdToClassNetCache[TypeId.TargetIndex];
+				var maxPropId = (uint)ClassNetCache.NumProperties;
 
-				foreach (var propObjectIndex in Actor.SetPropertyObjectIndexes)
+				foreach (var property in SetProperties)
 				{
-					var propId = ClassNetCache.GetPropertyPropertyId(propObjectIndex);
-					var maxPropId = (uint)ClassNetCache.NumProperties;
-					bw.Write(true);
-					bw.Write(propId, maxPropId);
-					Actor.SerializeProperty(bw, replay, propObjectIndex, propId, maxPropId);
+					object? value = property.Property.PropertyInfo.GetValue(ActorSnapshot);
+					if (property.Property.PropertyInfo.PropertyType.IsArray)
+					{
+						var arr = (Array)value!;
+						value = arr.GetValue(property.Index)!;
+						// This check could be removed if I ever remove nullability of struct properties
+						if (value.Equals(Activator.CreateInstance(property.Property.PropertyInfo.PropertyType.GetElementType()!))) continue;
+						bw.Write(true);
+						bw.Write(property.Property.PropertyId, maxPropId);
+						bw.Write(property.Index, (uint)arr.Length);
+					}
+					else
+					{
+						bw.Write(true);
+						bw.Write(property.Property.PropertyId, maxPropId);
+					}
+					SerializeActorProperty(bw, replay, property.Property.PropertyInfo.PropertyType, value);
 				}
+
 				bw.Write(false);
 				return;
 			}
@@ -153,296 +278,35 @@ namespace RocketRP
 			throw new Exception($"Unknown channel state: {State}");
 		}
 
-		public static ClassNetCache TypeNameToClassNetCache(string typeName, Replay replay)
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static void SerializeActorProperty(BitWriter bw, Replay replay, Type valueType, object? value)
 		{
-			switch (typeName)
+			if (valueType.IsArray)
 			{
-				case "ProjectX.Default__NetModeReplicator_X":
-					return replay.ClassNetCacheByName["ProjectX.NetModeReplicator_X"];
-
-				case "TAGame.Default__CameraSettingsActor_TA":
-					return replay.ClassNetCacheByName["TAGame.CameraSettingsActor_TA"];
-				case "TAGame.Default__MaxTimeWarningData_TA":
-					return replay.ClassNetCacheByName["TAGame.MaxTimeWarningData_TA"];
-				case "TAGame.Default__RumblePickups_TA":
-					return replay.ClassNetCacheByName["TAGame.RumblePickups_TA"];
-				case "TAGame.Default__PickupTimer_TA":
-					return replay.ClassNetCacheByName["TAGame.PickupTimer_TA"];
-				case "TAGame.Default__TrackerWallDynamicMeshActor_TA":
-					return replay.ClassNetCacheByName["TAGame.TrackerWallDynamicMeshActor_TA"];
-				case "TAGame.Default__FreeplayCommands_TA":
-					return replay.ClassNetCacheByName["TAGame.FreeplayCommands_TA"];
-				case "TAGame.Default__VoteActor_TA":
-					return replay.ClassNetCacheByName["TAGame.VoteActor_TA"];
-
-				case "TAGame.Default__PRI_TA":
-					return replay.ClassNetCacheByName["TAGame.PRI_TA"];
-				case "TAGame.Default__PRI_Breakout_TA":
-					return replay.ClassNetCacheByName["TAGame.PRI_Breakout_TA"];
-				case "TAGame.Default__PRI_KnockOut_TA":
-					return replay.ClassNetCacheByName["TAGame.PRI_KnockOut_TA"];
-
-				case "TAGame.Default__Car_TA":
-				case "Archetypes.Car.Car_Default":
-					return replay.ClassNetCacheByName["TAGame.Car_TA"];
-				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype":
-					return replay.ClassNetCacheByName["TAGame.Car_KnockOut_TA"];
-				case "Archetypes.Car.Car_PostGameLobby":
-				case "Mutators.Mutators.Mutators.FreePlay:CarArchetype":
-				case "Mutators.Mutators.Mutators.OnlineFreeplay:CarArchetype":
-					return replay.ClassNetCacheByName["TAGame.Car_Freeplay_TA"];
-				case "Archetypes.GameEvent.GameEvent_Season:CarArchetype":
-					return replay.ClassNetCacheByName["TAGame.Car_Season_TA"];
-
-				case "Archetypes.Ball.Ball_Default":
-				case "Archetypes.Ball.Ball_Basketball":
-				case "Archetypes.Ball.Ball_BasketBall":
-				case "Archetypes.Ball.Ball_BasketBall_Mutator":
-				case "Archetypes.Ball.Ball_Puck":
-				case "Archetypes.Ball.CubeBall":
-				case "Archetypes.Ball.Ball_Beachball":
-				case "Archetypes.Ball.Ball_Anniversary":
-				case "Archetypes.Ball.Ball_Football":
-				case "Archetypes.Ball.Ball_Ekin":
-				case "Archetypes.Ball.Ball_PizzaPuck":
-				case "Archetypes.Ball.Ball_Shoe":
-					return replay.ClassNetCacheByName["TAGame.Ball_TA"];
-				case "Archetypes.Ball.Ball_Breakout":
-				case "Archetypes.Ball.Ball_Score":
-					return replay.ClassNetCacheByName["TAGame.Ball_Breakout_TA"];
-				case "Archetypes.Ball.Ball_Haunted":
-					return replay.ClassNetCacheByName["TAGame.Ball_Haunted_TA"];
-				case "Archetypes.Ball.Ball_God":
-					return replay.ClassNetCacheByName["TAGame.Ball_God_TA"];
-				case "Archetypes.Ball.Ball_Fire":
-					return replay.ClassNetCacheByName["TAGame.Ball_Fire_TA"];
-				case "Archetypes.Ball.Ball_Training":
-				case "Archetypes.Ball.Ball_Tutorial":
-					return replay.ClassNetCacheByName["TAGame.Ball_Tutorial_TA"];
-				case "Archetypes.Ball.Ball_Trajectory":
-					return replay.ClassNetCacheByName["TAGame.Ball_Trajectory_TA"];
-
-				case "Archetypes.CarComponents.CarComponent_Boost":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_Boost_TA"];
-				case "Archetypes.CarComponents.CarComponent_Dodge":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_Dodge_TA"];
-				case "Archetypes.CarComponents.CarComponent_DoubleJump":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_DoubleJump_TA"];
-				case "Archetypes.CarComponents.CarComponent_FlipCar":
-				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.Flip":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_FlipCar_TA"];
-				case "Archetypes.CarComponents.CarComponent_Jump":
-				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.Jump":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_Jump_TA"];
-				case "Archetypes.Mutators.Mutator_Robin:AutoFlip":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_FlipCar_TA"];
-				case "Archetypes.Mutators.Mutator_Robin:DoubleJump":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_DoubleJump_Robin_TA"];
-				case "Archetypes.Mutators.Mutator_Robin:Jump":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_Jump_Robin_TA"];
-				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.Boost":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_Boost_KO_TA"];
-				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.Dodge":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_Dodge_KO_TA"];
-				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.DoubleJump":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_DoubleJump_KO_TA"];
-				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.StunlockArchetype":
-					return replay.ClassNetCacheByName["TAGame.Stunlock_TA"];
-				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.Torque":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_Torque_TA"];
-				case "Archetypes.CarComponents.CarComponent_TerritoryDemolish":
-					return replay.ClassNetCacheByName["TAGame.CarComponent_TerritoryDemolish_TA"];
-
-				case "Archetypes.Teams.Team0":
-				case "Archetypes.Teams.Team1":
-					return replay.ClassNetCacheByName["TAGame.Team_Soccar_TA"];
-				case "Archetypes.Teams.TeamWhite0":
-				case "Archetypes.Teams.TeamWhite1":
-					return replay.ClassNetCacheByName["TAGame.Team_Freeplay_TA"];
-
-
-				case "Archetypes.GameEvent.GameEvent_Basketball":
-				case "Archetypes.GameEvent.GameEvent_Hockey":
-				case "Archetypes.GameEvent.GameEvent_Soccar":
-				case "Archetypes.GameEvent.GameEvent_Items":
-				case "Archetypes.GameEvent.GameEvent_SoccarLan":
-				case "GameInfo_Basketball.GameInfo.GameInfo_Basketball:Archetype":
-				case "Gameinfo_Hockey.GameInfo.Gameinfo_Hockey:Archetype":
-				case "GameInfo_BumperCars.GameInfo.GameInfo_BumperCars:Archetype":
-				case "GameInfo_DemoDerby.GameInfo.GameInfo_DemoDerby:Archetype":
-				case "GameInfo_GoalCrazy.GameInfo.GameInfo_GoalCrazy:Archetype":
-				case "GameInfo_Hops.GameInfo.GameInfo_Hops:Archetype":
-				case "GameInfo_Possession.GameInfo.GameInfo_Possession:Archetype":
-				case "GameInfo_TargetAcquired.GameInfo.GameInfo_TargetAcquired:Archetype":
-				case "GameInfo_LTM_AprilFool.GameInfo.GameInfo_LTM_AprilFool:Archetype":
-				case "GameInfo_LTM_BeachBall.GameInfo.GameInfo_LTM_BeachBall:Archetype":
-				case "GameInfo_LTM_BoomerBall.GameInfo.GameInfo_LTM_BoomerBall:Archetype":
-				case "GameInfo_LTM_Demolition.GameInfo.GameInfo_LTM_Demolition:Archetype":
-				case "GameInfo_LTM_Eggstra.GameInfo.GameInfo_LTM_Eggstra:Archetype":
-				case "GameInfo_LTM_GForce.GameInfo.GameInfo_LTM_GForce:Archetype":
-				case "GameInfo_LTM_Moonball.GameInfo.GameInfo_LTM_Moonball:Archetype":
-				case "GameInfo_LTM_Pinball.GameInfo.GameInfo_LTM_Pinball:Archetype":
-				case "GameInfo_LTM_SpeedDemon.GameInfo.GameInfo_LTM_SpeedDemon:Archetype":
-				case "GameInfo_LTM_SpikeRush.GameInfo.GameInfo_LTM_SpikeRush:Archetype":
-				case "GameInfo_LTM_SuperCube.GameInfo.GameInfo_LTM_SuperCube:Archetype":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_Soccar_TA"];
-				case "Archetypes.GameEvent.GameEvent_SoccarPrivate":
-				case "Archetypes.GameEvent.GameEvent_BasketballPrivate":
-				case "Archetypes.GameEvent.GameEvent_HockeyPrivate":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_SoccarPrivate_TA"];
-				case "Archetypes.GameEvent.GameEvent_SoccarSplitscreen":
-				case "Archetypes.GameEvent.GameEvent_BasketballSplitscreen":
-				case "Archetypes.GameEvent.GameEvent_HockeySplitscreen":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_SoccarSplitscreen_TA"];
-				case "Archetypes.GameEvent.GameEvent_Season":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_Season_TA"];
-				case "Archetypes.GameEvent.GameEvent_Breakout":
-				case "GameInfo_LTM_DropshotRumble.GameInfo.GameInfo_LTM_DropshotRumble:Archetype":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_Breakout_TA"];
-				case "Archetypes.GameEvent.GameEvent_FTE_Part1_Prime":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_FTE_TA"];
-				case "Archetypes.KnockOut.GameEvent_Knockout":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_KnockOut_TA"];
-				case "gameinfo_godball.GameInfo.gameinfo_godball:Archetype":
-				case "GameInfo_GodBall.GameInfo.GameInfo_GodBall:Archetype":
-				case "GameInfo_HeatseekerTerritory.GameInfo.GameInfo_HeatseekerTerritory:Archetype":
-				case "GameInfo_MultiHeatseeker.GameInfo.GameInfo_MultiHeatseeker:Archetype":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_GodBall_TA"];
-				case "GameInfo_FootBall.GameInfo.GameInfo_FootBall:Archetype":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_Football_TA"];
-				case "GameInfo_Territory.GameInfo.GameInfo_Territory:Archetype":
-				case "GameInfo_SnowDayTerritory.GameInfo.GameInfo_SnowDayTerritory:Archetype":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_Territory_TA"];
-				/* These events shouldn't ever occur but there was at least 1 replay that had "GameInfo_Tutorial.GameEvent.GameEvent_Tutorial_Aerial" */
-				case "Archetypes.GameEvent.GameEvent_Tutorial_Advanced":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_Tutorial_Advanced_TA"];
-				case "Archetypes.GameEvent.GameEvent_Tutorial_Basic":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_Tutorial_Basic_TA"];
-				case "Archetypes.GameEvent.GameEvent_Tutorial_FreePlay":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_Tutorial_FreePlay_TA"];
-				case "GameInfo_Tutorial.GameEvent.GameEvent_Tutorial_Aerial":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_Training_Aerial_TA"];
-				case "GameInfo_Tutorial.GameEvent.GameEvent_Tutorial_Goalie":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_Training_Goalie_TA"];
-				case "GameInfo_Tutorial.GameEvent.GameEvent_Tutorial_Striker":
-					return replay.ClassNetCacheByName["TAGame.GameEvent_Training_Striker_TA"];
-
-				case "Archetypes.SpecialPickups.SpecialPickup_GravityWell":
-				case "Archetypes.SpecialPickups.BM.SpecialPickup_GravityWell_BM":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallGravity_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_BallVelcro":
-				case "Archetypes.SpecialPickups.BM.SpecialPickup_BallVelcro_BM":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallVelcro_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_BallLasso":
-				case "Archetypes.SpecialPickups.BM.SpecialPickup_BallLasso_BM":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallLasso_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_BallGrapplingHook":
-				case "Archetypes.SpecialPickups.BM.SpecialPickup_BallGrapplingHook_BM":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_GrapplingHook_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_Swapper":
-				case "Archetypes.SpecialPickups.BM.SpecialPickup_Swapper_BM":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_Swapper_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_BallFreeze":
-				case "Archetypes.SpecialPickups.BM.SpecialPickup_BallFreeze_BM":
-				case "Archetypes.Mutators.SubRules.ItemsMode_RPS:DispenserArchetype.ItemPool.Obj_2":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallFreeze_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_BoostOverride":
-				case "Archetypes.SpecialPickups.BM.SpecialPickup_BoostOverride_BM":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BoostOverride_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_Tornado":
-				case "Archetypes.SpecialPickups.BM.SpecialPickup_Tornado_BM":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_Tornado_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_BallSpring":
-				case "Archetypes.SpecialPickups.SpecialPickup_CarSpring":
-				case "Archetypes.SpecialPickups.BM.SpecialPickup_BallSpring_BM":
-				case "Archetypes.SpecialPickups.BM.SpecialPickup_CarSpring_BM":
-				case "Archetypes.Mutators.SubRules.ItemsMode_RPS:DispenserArchetype.ItemPool.Obj":
-				case "Archetypes.Mutators.SubRules.ItemsMode_RPS:DispenserArchetype.ItemPool.Obj_1":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_BallCarSpring_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_StrongHit":
-				case "Archetypes.SpecialPickups.BM.SpecialPickup_StrongHit_BM":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_HitForce_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_Batarang":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_Batarang_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_HauntedBallBeam":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_HauntedBallBeam_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_Rugby":
-				case "Archetypes.SpecialPickups.SpecialPickup_RugbyLightDark":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_Rugby_TA"];
-				case "Archetypes.SpecialPickups.SpecialPickup_Football":
-					return replay.ClassNetCacheByName["TAGame.SpecialPickup_Football_TA"];
-
-				case "GameInfo_Basketball.GameInfo.GameInfo_Basketball:GameReplicationInfoArchetype":
-				case "Gameinfo_Hockey.GameInfo.Gameinfo_Hockey:GameReplicationInfoArchetype":
-				case "GameInfo_Season.GameInfo.GameInfo_Season:GameReplicationInfoArchetype":
-				case "GameInfo_Soccar.GameInfo.GameInfo_Soccar:GameReplicationInfoArchetype":
-				case "GameInfo_Items.GameInfo.GameInfo_Items:GameReplicationInfoArchetype":
-				case "GameInfo_Breakout.GameInfo.GameInfo_Breakout:GameReplicationInfoArchetype":
-				case "gameinfo_godball.GameInfo.gameinfo_godball:GameReplicationInfoArchetype":
-				case "GameInfo_GodBall.GameInfo.GameInfo_GodBall:GameReplicationInfoArchetype":
-				case "GameInfo_FootBall.GameInfo.GameInfo_FootBall:GameReplicationInfoArchetype":
-				case "GameInfo_FTE.GameInfo.GameInfo_FTE:GameReplicationInfoArchetype":
-				case "GameInfo_KnockOut.KnockOut.GameInfo_KnockOut:GameReplicationInfoArchetype":
-				case "GameInfo_Tutorial.GameInfo.GameInfo_Tutorial:GameReplicationInfoArchetype":
-				case "GameInfo_Territory.GameInfo.GameInfo_Territory:GameReplicationInfoArchetype":
-				case "GameInfo_HeatseekerTerritory.GameInfo.GameInfo_HeatseekerTerritory:GameReplicationInfoArchetype":
-				case "GameInfo_SnowDayTerritory.GameInfo.GameInfo_SnowDayTerritory:GameReplicationInfoArchetype":
-				case "GameInfo_BumperCars.GameInfo.GameInfo_BumperCars:GameReplicationInfoArchetype":
-				case "GameInfo_DemoDerby.GameInfo.GameInfo_DemoDerby:GameReplicationInfoArchetype":
-				case "GameInfo_GoalCrazy.GameInfo.GameInfo_GoalCrazy:GameReplicationInfoArchetype":
-				case "GameInfo_Hops.GameInfo.GameInfo_Hops:GameReplicationInfoArchetype":
-				case "GameInfo_MultiHeatseeker.GameInfo.GameInfo_MultiHeatseeker:GameReplicationInfoArchetype":
-				case "GameInfo_Possession.GameInfo.GameInfo_Possession:GameReplicationInfoArchetype":
-				case "GameInfo_TargetAcquired.GameInfo.GameInfo_TargetAcquired:GameReplicationInfoArchetype":
-				case "GameInfo_LTM_AprilFool.GameInfo.GameInfo_LTM_AprilFool:GameReplicationInfoArchetype":
-				case "GameInfo_LTM_BeachBall.GameInfo.GameInfo_LTM_BeachBall:GameReplicationInfoArchetype":
-				case "GameInfo_LTM_BoomerBall.GameInfo.GameInfo_LTM_BoomerBall:GameReplicationInfoArchetype":
-				case "GameInfo_LTM_Demolition.GameInfo.GameInfo_LTM_Demolition:GameReplicationInfoArchetype":
-				case "GameInfo_LTM_DropshotRumble.GameInfo.GameInfo_LTM_DropshotRumble:GameReplicationInfoArchetype":
-				case "GameInfo_LTM_Eggstra.GameInfo.GameInfo_LTM_Eggstra:GameReplicationInfoArchetype":
-				case "GameInfo_LTM_GForce.GameInfo.GameInfo_LTM_GForce:GameReplicationInfoArchetype":
-				case "GameInfo_LTM_Moonball.GameInfo.GameInfo_LTM_Moonball:GameReplicationInfoArchetype":
-				case "GameInfo_LTM_Pinball.GameInfo.GameInfo_LTM_Pinball:GameReplicationInfoArchetype":
-				case "GameInfo_LTM_SpeedDemon.GameInfo.GameInfo_LTM_SpeedDemon:GameReplicationInfoArchetype":
-				case "GameInfo_LTM_SpikeRush.GameInfo.GameInfo_LTM_SpikeRush:GameReplicationInfoArchetype":
-				case "GameInfo_LTM_SuperCube.GameInfo.GameInfo_LTM_SuperCube:GameReplicationInfoArchetype":
-					return replay.ClassNetCacheByName["TAGame.GRI_TA"];
-
-				case "Archetypes.Tutorial.Cannon":
-					return replay.ClassNetCacheByName["TAGame.Cannon_TA"];
+				valueType = valueType.GetElementType()!;
 			}
 
-			// These are map specific objects
-			if (typeName.Contains("CrowdActor_TA"))
+			if (valueType.IsEnum)
 			{
-				return replay.ClassNetCacheByName["TAGame.CrowdActor_TA"];
-			}
-			else if (typeName.Contains("VehiclePickup_Boost_TA"))
-			{
-				return replay.ClassNetCacheByName["TAGame.VehiclePickup_Boost_TA"];
-			}
-			else if (typeName.Contains("CrowdManager_TA"))
-			{
-				return replay.ClassNetCacheByName["TAGame.CrowdManager_TA"];
-			}
-			else if (typeName.Contains("BreakOutActor_Platform_TA"))
-			{
-				return replay.ClassNetCacheByName["TAGame.BreakOutActor_Platform_TA"];
-			}
-			else if (typeName.Contains("PlayerStart_Platform_TA"))
-			{
-				return replay.ClassNetCacheByName["TAGame.PlayerStart_Platform_TA"];
-			}
-			else if (typeName.Contains("InMapScoreboard_TA"))
-			{
-				return replay.ClassNetCacheByName["TAGame.InMapScoreboard_TA"];
-			}
-			else if (typeName.Contains("HauntedBallTrapTrigger_TA"))
-			{
-				return replay.ClassNetCacheByName["TAGame.HauntedBallTrapTrigger_TA"];
+				valueType = valueType.GetEnumUnderlyingType();
 			}
 
-			throw new Exception($"Unknown type name: {typeName}");
+			if (valueType == typeof(bool)) bw.Write((bool)value!);
+			else if (valueType == typeof(byte)) bw.Write((byte)value!);
+			else if (valueType == typeof(int)) bw.Write((int)value!);
+			else if (valueType == typeof(uint)) bw.Write((uint)value!);
+			else if (valueType == typeof(long)) bw.Write((long)value!);
+			else if (valueType == typeof(ulong)) bw.Write((ulong)value!);
+			else if (valueType == typeof(float)) bw.Write((float)value!);
+			else if (valueType == typeof(string)) bw.Write((string?)value);
+			else
+			{
+				var methodInfo = valueType.GetMethod("Serialize", BindingFlags.Instance | BindingFlags.Public, [typeof(BitWriter)]) ?? valueType.GetMethod("Serialize", BindingFlags.Instance | BindingFlags.Public, [typeof(BitWriter), typeof(Replay)]);
+				if (methodInfo is null) throw new MissingMethodException($"Serialize method in {valueType.Name} not found");
+				else if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(value, [bw]);
+				else if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(value, [bw, replay]);
+				else throw new MissingMethodException($"Serialize method in {valueType.Name} does not have the correct parameters");
+			}
 		}
 	}
 
@@ -450,6 +314,7 @@ namespace RocketRP
 	{
 		Close,
 		Update,
+		Unknown,
 		Open,
 	}
 }

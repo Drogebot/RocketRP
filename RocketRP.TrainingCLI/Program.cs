@@ -24,7 +24,6 @@ Parser.Default.ParseArguments<Options>(args)
 
 	if (!opts.DirectoryMode)
 	{
-		Crc32.GenerateCRCTable();
 		ParseTraining(opts.TrainingPath, opts.OutputPath, opts.EnforceCRC, opts.PrettyPrint, opts.Mode);
 	}
 	else
@@ -34,7 +33,6 @@ Parser.Default.ParseArguments<Options>(args)
 			Console.WriteLine("Invalid training path!");
 			return;
 		}
-		Crc32.GenerateCRCTable();
 
 		var trainingFiles = opts.Mode == SerializationMode.Deserialize ? trainingFileInfo.Directory.GetFiles("*.tem", SearchOption.TopDirectoryOnly) : trainingFileInfo.Directory.GetFiles("*.json", SearchOption.TopDirectoryOnly);
 		trainingFiles = trainingFiles.OrderByDescending(f => f.LastWriteTime).ToArray();
@@ -95,6 +93,7 @@ static void ParseTraining(string trainingPath, string outputPath, bool enforceCR
 		}
 		catch (Exception e)
 		{
+			Console.ForegroundColor = ConsoleColor.Red;
 			Console.WriteLine($"Failed to parse training: {e.Message}");
 			//var trainingOutputPath = Path.Combine(outputPath + "\\failedTrainings", Path.GetFileName(trainingPath));
 			//Directory.CreateDirectory(Path.GetDirectoryName(trainingOutputPath));
@@ -120,6 +119,7 @@ static void ParseTraining(string trainingPath, string outputPath, bool enforceCR
 		}
 		catch (Exception e)
 		{
+			Console.ForegroundColor = ConsoleColor.Red;
 			Console.WriteLine($"Failed to serialize training: {trainingPath}: {e.Message}");
 			return;
 		}

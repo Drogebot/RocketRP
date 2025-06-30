@@ -78,8 +78,7 @@ namespace RocketRP
 			else
 			{
 				Write(Encoding.Unicode.GetBytes(value));
-				Write((byte)0);
-				Write((byte)0);
+				Write((short)0);
 			}
 		}
 	}

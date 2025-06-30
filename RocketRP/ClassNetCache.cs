@@ -15,10 +15,15 @@ namespace RocketRP
 		public int MinPropertyId { get; set; }
 		public int MaxPropertyId { get; set; }
 		public List<ClassNetCacheProperty> Properties { get; set; } = null!;
+		[JsonIgnore]
 		public int NumProperties => Properties.Count + (Parent?.NumProperties ?? 0);
+		[JsonIgnore]
 		public int NumFields => MaxPropertyId - 1;
+		[JsonIgnore]
 		public int NumFuncs => NumProperties - MaxPropertyId;
+		[JsonIgnore]
 		public ClassNetCache? Parent;
+		[JsonIgnore]
 		public Type ClassType = null!;
 
 		public ClassNetCacheProperty GetPropertyByPropertyId(int propId)
@@ -27,17 +32,17 @@ namespace RocketRP
 			return Properties[propId - MinPropertyId];
 		}
 
-		public int GetPropertyPropertyId(int objectIndex)
+		public ClassNetCacheProperty? GetPropertyByName(string propName)
 		{
 			foreach (var property in Properties)
 			{
-				if (property.ObjectIndex == objectIndex)
+				if (property.PropertyInfo?.Name == propName)
 				{
-					return property.PropertyId;
+					return property;
 				}
 			}
 
-			return Parent!.GetPropertyPropertyId(objectIndex);
+			return Parent?.GetPropertyByName(propName);
 		}
 
 		public void CalculateParent(Replay replay)
@@ -75,7 +80,9 @@ namespace RocketRP
 				var propertyInfo = ClassType.GetProperty(propName, BindingFlags.DeclaredOnly | BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
 				if (propertyInfo is null)
 				{
-					Console.WriteLine($"Property {property.PropertyId} ({property.ObjectIndex} {propName}) not found in {ClassType.Name}");
+					Console.ForegroundColor = ConsoleColor.Yellow;
+					Console.WriteLine($"Warning: Property {property.PropertyId} ({property.ObjectIndex} {propName}) not found in {ClassType.Name}");
+					Console.ForegroundColor = ConsoleColor.Gray;
 					result = false;
 					continue;
 				}

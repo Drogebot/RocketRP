@@ -14,7 +14,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile></PackageReadmeFile>
     <SignAssembly>False</SignAssembly>
-    <VersionPrefix>1.2.1</VersionPrefix>
+    <VersionPrefix>1.2.3</VersionPrefix>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 

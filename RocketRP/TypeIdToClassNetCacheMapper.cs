@@ -282,39 +282,39 @@ namespace RocketRP
 
 				case "Archetypes.Tutorial.Cannon":
 					return classNetCacheByName["TAGame.Cannon_TA"];
-			}
+				default:
+					// These are map specific objects, they should all contain ".TheWorld:PersistentLevel." before as well
+					if (typeName.Contains("VehiclePickup_Boost_TA_"))
+					{
+						return classNetCacheByName["TAGame.VehiclePickup_Boost_TA"];
+					}
+					else if (typeName.Contains("CrowdActor_TA_"))
+					{
+						return classNetCacheByName["TAGame.CrowdActor_TA"];
+					}
+					else if (typeName.Contains("CrowdManager_TA_"))
+					{
+						return classNetCacheByName["TAGame.CrowdManager_TA"];
+					}
+					else if (typeName.Contains("BreakOutActor_Platform_TA_"))
+					{
+						return classNetCacheByName["TAGame.BreakOutActor_Platform_TA"];
+					}
+					else if (typeName.Contains("PlayerStart_Platform_TA_"))
+					{
+						return classNetCacheByName["TAGame.PlayerStart_Platform_TA"];
+					}
+					else if (typeName.Contains("InMapScoreboard_TA_"))
+					{
+						return classNetCacheByName["TAGame.InMapScoreboard_TA"];
+					}
+					else if (typeName.Contains("HauntedBallTrapTrigger_TA_"))
+					{
+						return classNetCacheByName["TAGame.HauntedBallTrapTrigger_TA"];
+					}
 
-			// These are map specific objects, they should all contain ".TheWorld:PersistentLevel." before as well
-			if (typeName.Contains("CrowdActor_TA_"))
-			{
-				return classNetCacheByName["TAGame.CrowdActor_TA"];
+					return null; // This was likely not a TypeName, so don't map it
 			}
-			else if (typeName.Contains("VehiclePickup_Boost_TA_"))
-			{
-				return classNetCacheByName["TAGame.VehiclePickup_Boost_TA"];
-			}
-			else if (typeName.Contains("CrowdManager_TA_"))
-			{
-				return classNetCacheByName["TAGame.CrowdManager_TA"];
-			}
-			else if (typeName.Contains("BreakOutActor_Platform_TA_"))
-			{
-				return classNetCacheByName["TAGame.BreakOutActor_Platform_TA"];
-			}
-			else if (typeName.Contains("PlayerStart_Platform_TA_"))
-			{
-				return classNetCacheByName["TAGame.PlayerStart_Platform_TA"];
-			}
-			else if (typeName.Contains("InMapScoreboard_TA_"))
-			{
-				return classNetCacheByName["TAGame.InMapScoreboard_TA"];
-			}
-			else if (typeName.Contains("HauntedBallTrapTrigger_TA_"))
-			{
-				return classNetCacheByName["TAGame.HauntedBallTrapTrigger_TA"];
-			}
-
-			return null; // This was likely not a TypeName, so don't map it
 		}
 	}
 }

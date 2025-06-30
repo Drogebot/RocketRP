@@ -16,69 +16,34 @@ namespace RocketRP.Serializers
 
 		public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
 		{
-			if(reader.TokenType != JsonToken.StartObject) throw new JsonReaderException("Expected StartObject token!");
+			if (reader.TokenType != JsonToken.StartObject) throw new JsonReaderException("Expected StartObject token!");
 			reader.Read();
 
-			var replay = (Replay)existingValue ?? new Replay();
+			var replay = (Replay?)existingValue ?? new Replay();
 			replay.NetVersion = 0;
 
 			while (reader.TokenType == JsonToken.PropertyName)
 			{
-				object value = null;
-				var propertyName = (string)reader.Value;
+				var propertyName = (string)reader.Value!;
 				reader.Read();
-				switch (propertyName)
+				object? value = propertyName switch
 				{
-					case "Part1Length":
-					case "Part1CRC":
-					case "EngineVersion":
-					case "LicenseeVersion":
-					case "NetVersion":
-					case "Part2Length":
-					case "Part2CRC":
-						value = serializer.Deserialize<uint>(reader);
-						break;
-					case "ReplayClass":
-						value = serializer.Deserialize<string>(reader);
-						break;
-					case "Properties":
-						value = serializer.Deserialize(reader, Type.GetType($"RocketRP.Actors.{replay.ReplayClass}"));
-						break;
-					case "Levels":
-						value = serializer.Deserialize<List<string>>(reader);
-						break;
-					case "KeyFrames":
-						value = serializer.Deserialize<List<KeyFrame>>(reader);
-						break;
-					case "Frames":
-						value = serializer.Deserialize<List<Frame>>(reader);
-						break;
-					case "DebugStrings":
-						value = serializer.Deserialize<List<DebugString>>(reader);
-						break;
-					case "Tickmarks":
-						value = serializer.Deserialize<List<Tickmark>>(reader);
-						break;
-					case "Packages":
-						value = serializer.Deserialize<List<string>>(reader);
-						break;
-					case "Objects":
-						value = serializer.Deserialize<List<string>>(reader);
-						break;
-					case "Names":
-						value = serializer.Deserialize<List<string>>(reader);
-						break;
-					case "ClassIndexes":
-						value = serializer.Deserialize<Dictionary<string, int>>(reader);
-						break;
-					case "ClassNetCaches":
-						value = serializer.Deserialize<List<ClassNetCache>>(reader);
-						break;
-					default:
-						throw new JsonReaderException($"Unexpected property {propertyName}!");
-				}
-
-				replay.GetType().GetProperty(propertyName)?.SetValue(replay, value);
+					"Part1Length" or "Part1CRC" or "EngineVersion" or "LicenseeVersion" or "NetVersion" or "Part2Length" or "Part2CRC" => serializer.Deserialize<uint>(reader),
+					"ReplayClass" => serializer.Deserialize<string>(reader),
+					"Properties" => serializer.Deserialize(reader, Type.GetType($"RocketRP.Actors.{replay.ReplayClass}")),
+					"Levels" => serializer.Deserialize<List<string>>(reader),
+					"KeyFrames" => serializer.Deserialize<List<KeyFrame>>(reader),
+					"Frames" => serializer.Deserialize<List<Frame>>(reader),
+					"DebugStrings" => serializer.Deserialize<List<DebugString>>(reader),
+					"Tickmarks" => serializer.Deserialize<List<Tickmark>>(reader),
+					"Packages" => serializer.Deserialize<List<string>>(reader),
+					"Objects" => serializer.Deserialize<List<string>>(reader),
+					"Names" => serializer.Deserialize<List<string>>(reader),
+					"ClassIndexes" => serializer.Deserialize<Dictionary<string, int>>(reader),
+					"ClassNetCaches" => serializer.Deserialize<List<ClassNetCache>>(reader),
+					_ => throw new JsonReaderException($"Unexpected property {propertyName}!"),
+				};
+				replay.GetType().GetProperty(propertyName)!.SetValue(replay, value);
 				reader.Read();
 			}
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace RocketRP
 	{
 		public float Time { get; set; }
 		public uint Frame { get; set; }
+		[JsonIgnore]
 		public uint FilePosition { get; set; }
 
 		public static KeyFrame Deserialize(BinaryReader br)

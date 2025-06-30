@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.Serialization;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,36 +43,35 @@ namespace RocketRP
 			Buffer = newBuffer;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private unsafe void SerializeBits(in void* src, int lengthBits)
 		{
 			if (Pos + lengthBits >= Max) Grow(Pos + lengthBits);
 
-			if (lengthBits == 1)
-			{
-				if ((((byte*)src)[0] & 1) > 0)
-				{
-					Buffer[Pos >> 3] |= GShift[Pos & 7];
-				}
-				Pos++;
-			}
-			else
-			{
+			//if (lengthBits == 1)
+			//{
+			//	if ((((byte*)src)[0] & 1) > 0)
+			//	{
+			//		Buffer[Pos >> 3] |= GShift[Pos & 7];
+			//	}
+			//	Pos++;
+			//}
+			//else
+			//{
 				//if (Pos + lengthBits >= Max) throw new OverflowException("Buffer overflow");
 				fixed (byte* addr = &Buffer[0])
 					BitArray.BitsCopy(addr, Pos, (byte*)src, 0, lengthBits);
 				Pos += lengthBits;
-			}
+			//}
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private void SerializeInt(UInt32 value, UInt32 valueMax)
 		{
-			var maxLengthBits = (int)UInt32.Log2(valueMax) + 1;
+			var maxLengthBits = BitOperations.Log2(valueMax) + 1;
 			if (Pos + maxLengthBits >= Max) Grow(Pos + maxLengthBits);
 
-			if (value > valueMax)
-			{
-				value = valueMax;
-			}
+			value = Math.Min(value, valueMax);
 			Int32 newValue = 0;
 			for (Int32 mask = 1; (newValue | mask) < valueMax && mask > 0; mask <<= 1, Pos++)
 			{
@@ -83,6 +83,7 @@ namespace RocketRP
 			}
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public void Write([NotNull] Boolean? value)
 		{
 			ArgumentNullException.ThrowIfNull(value);
@@ -92,54 +93,69 @@ namespace RocketRP
 			Pos++;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe void Write([NotNull] Byte? value)
 		{
 			ArgumentNullException.ThrowIfNull(value);
-			SerializeBits(&value, sizeof(Byte) << 3);
+			var val = (Byte)value;
+			SerializeBits(&val, sizeof(Byte) << 3);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public void Write([NotNull] Int32? value, UInt32 valueMax)
 		{
 			ArgumentNullException.ThrowIfNull(value);
 			SerializeInt((UInt32)value, valueMax);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public void Write([NotNull] UInt32? value, UInt32 valueMax)
 		{
 			ArgumentNullException.ThrowIfNull(value);
 			SerializeInt((UInt32)value, valueMax);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe void Write([NotNull] Int32? value)
 		{
 			ArgumentNullException.ThrowIfNull(value);
-			SerializeBits(&value, sizeof(Int32) << 3);
+			var val = (Int32)value;
+			SerializeBits(&val, sizeof(Int32) << 3);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe void Write([NotNull] UInt32? value)
 		{
 			ArgumentNullException.ThrowIfNull(value);
-			SerializeBits(&value, sizeof(UInt32) << 3);
+			var val = (UInt32)value;
+			SerializeBits(&val, sizeof(UInt32) << 3);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe void Write([NotNull] Int64? value)
 		{
 			ArgumentNullException.ThrowIfNull(value);
-			SerializeBits(&value, sizeof(Int64) << 3);
+			var val = (Int64)value;
+			SerializeBits(&val, sizeof(Int64) << 3);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe void Write([NotNull] UInt64? value)
 		{
 			ArgumentNullException.ThrowIfNull(value);
-			SerializeBits(&value, sizeof(UInt64) << 3);
+			var val = (UInt64)value;
+			SerializeBits(&val, sizeof(UInt64) << 3);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe void Write([NotNull] Single? value)
 		{
 			ArgumentNullException.ThrowIfNull(value);
-			SerializeBits(&value, sizeof(Single) << 3);
+			var val = (Single)value;
+			SerializeBits(&val, sizeof(Single) << 3);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public unsafe void Write(Byte[] bytes)
 		{
 			if (bytes.Length <= 0) return;
@@ -162,8 +178,7 @@ namespace RocketRP
 				length *= 2;
 				fixed (void* addr = &value.GetPinnableReference())
 					SerializeBits(addr, length << 3);
-				Write((Byte)0);
-				Write((Byte)0);
+				Write([(Byte)0, (Byte)0]);
 			}
 			else
 			{
@@ -175,6 +190,7 @@ namespace RocketRP
 			}
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public byte[] GetAllBytes()
 		{
 			var data = new byte[(Pos + 7) >> 3];
