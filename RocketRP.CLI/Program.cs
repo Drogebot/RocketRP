@@ -93,6 +93,7 @@ static void ParseReplay(string replayPath, string outputPath, bool parseNetstrea
 			//Directory.CreateDirectory(Path.GetDirectoryName(replayOutputPath));
 			//if (File.Exists(replayOutputPath)) return;
 			//File.Copy(replayPath, replayOutputPath, false);
+			Console.ForegroundColor = ConsoleColor.Gray;
 			return;
 		}
 	}
@@ -115,6 +116,7 @@ static void ParseReplay(string replayPath, string outputPath, bool parseNetstrea
 		{
 			Console.ForegroundColor = ConsoleColor.Red;
 			Console.WriteLine($"Failed to serialize replay: {replayPath}: {e.Message}");
+			Console.ForegroundColor = ConsoleColor.Gray;
 			return;
 		}
 	}

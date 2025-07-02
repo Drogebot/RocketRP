@@ -99,6 +99,7 @@ static void ParseTraining(string trainingPath, string outputPath, bool enforceCR
 			//Directory.CreateDirectory(Path.GetDirectoryName(trainingOutputPath));
 			//if (File.Exists(trainingOutputPath)) return;
 			//File.Copy(trainingPath, trainingOutputPath, false);
+			Console.ForegroundColor = ConsoleColor.Gray;
 			return;
 		}
 	}
@@ -121,6 +122,7 @@ static void ParseTraining(string trainingPath, string outputPath, bool enforceCR
 		{
 			Console.ForegroundColor = ConsoleColor.Red;
 			Console.WriteLine($"Failed to serialize training: {trainingPath}: {e.Message}");
+			Console.ForegroundColor = ConsoleColor.Gray;
 			return;
 		}
 	}

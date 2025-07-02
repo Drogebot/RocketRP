@@ -47,7 +47,7 @@ namespace RocketRP
 
 		public void CalculateParent(Replay replay)
 		{
-			var type = System.Type.GetType($"RocketRP.Actors.{replay.Objects[ObjectIndex]}") ?? throw new NullReferenceException();
+			var type = System.Type.GetType($"RocketRP.Actors.{replay.Objects[ObjectIndex]}") ?? throw new TypeLoadException($"The type {replay.Objects[ObjectIndex]} was not found");
 			var baseType = type;
 			var baseObjectIndex = -1;
 			while (baseObjectIndex == -1)
@@ -64,7 +64,7 @@ namespace RocketRP
 		{
 			if (ClassType is not null) return true; // Already linked
 			var result = true;
-			ClassType = System.Type.GetType($"RocketRP.Actors.{objects[ObjectIndex]}") ?? throw new NullReferenceException();
+			ClassType = System.Type.GetType($"RocketRP.Actors.{objects[ObjectIndex]}") ?? throw new TypeLoadException($"The type {objects[ObjectIndex]} was not found");
 			for (int i = 0; i < Properties.Count; i++)
 			{
 				ClassNetCacheProperty? property = Properties[i];

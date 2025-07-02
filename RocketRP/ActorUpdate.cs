@@ -60,6 +60,10 @@ namespace RocketRP
 					}
 
 					actorUpdate.TypeName = replay.Objects[actorUpdate.TypeId.TargetIndex];
+					if (!replay.TypeIdToClassNetCache.TryGetValue(actorUpdate.TypeId.TargetIndex, out actorUpdate.ClassNetCache!))
+					{
+						throw new KeyNotFoundException($"ClassNetCache for TypeId {actorUpdate.TypeId.TargetIndex} ({actorUpdate.TypeName}) not found in replay data. Maybe add it to {nameof(TypeIdToClassNetCacheMapper)}");
+					}
 					actorUpdate.ClassNetCache = replay.TypeIdToClassNetCache[actorUpdate.TypeId.TargetIndex];
 					actorUpdate.ObjectId = actorUpdate.ClassNetCache.ObjectIndex;
 					actorUpdate.ObjectName = replay.Objects[actorUpdate.ObjectId];
@@ -110,7 +114,7 @@ namespace RocketRP
 					{
 						var propId = br.ReadInt32(maxNumProperties);
 						var property = classNetCache.GetPropertyByPropertyId(propId);
-						var propInfo = property.PropertyInfo;
+						var propInfo = property.PropertyInfo ?? throw new NullReferenceException($"PropertyInfo for property {propId} ({replay.Objects[property.ObjectIndex]}) was not linked");
 						var propType = propInfo.PropertyType;
 
 						int valueIndex = 0;
