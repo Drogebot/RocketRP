@@ -53,6 +53,8 @@ namespace RocketRP
 					return classNetCacheByName["TAGame.PRI_Breakout_TA"];
 				case "TAGame.Default__PRI_KnockOut_TA":
 					return classNetCacheByName["TAGame.PRI_KnockOut_TA"];
+				case "TAGame.Default__PRI_Possession_TA":
+					return classNetCacheByName["TAGame.PRI_Possession_TA"];
 
 				case "TAGame.Default__Car_TA":
 				case "Archetypes.Car.Car_Default":
