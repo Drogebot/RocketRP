@@ -22,6 +22,7 @@ namespace RocketRP.Actors.TAGame
 		public int PossessionDenials { get; set; }
 		public int PossessionSteals { get; set; }
 		public string? CurrentVoiceRoom { get; set; }
+		public ObjectTarget<ViralItemActor_TA> ViralItemActor { get; set; }
 		public ObjectTarget<PickupTimer_TA> PickupTimer { get; set; }
 		public ObjectTarget<Actor> StayAsPartyVoteYes { get; set; } // Is of StayAsPartyVoteYes_TA type, but those don't appear in replays
 		public ObjectTarget<Actor> StayAsPartyVoter { get; set; } // Is of StayAsPartyVoter_TA type, but those don't appear in replays

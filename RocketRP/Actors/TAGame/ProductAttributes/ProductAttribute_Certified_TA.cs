@@ -35,21 +35,23 @@ namespace RocketRP.Actors.TAGame
 	public enum CertificationType : uint
 	{
 		None,
-		Aviator,
-		Playmaker,
-		ShowOff,
-		Acrobat,
-		Tactician,
-		Sweeper,
-		Guardian,
-		Scorer,
-		Juggler,
-		Sniper,
-		Paragon,
-		Goalkeeper,
-		Striker,
-		Turtle,
-		Victor,
+		Aviator,      //AerialGoals
+		Playmaker,    //Assists
+		ShowOff,      //BackwardsGoals
+		Acrobat,      //BicycleGoals
+		Tactician,    //Centers
+		Sweeper,      //Clears
+		Guardian,     //EpicSaves
+		Scorer,       //Goals
+		Juggler,      //Juggles
+		Sniper,       //LongGoals
+		Paragon,      //MVPs
+		Goalkeeper,   //Saves
+		Striker,      //ShotsOnGoal
+		Turtle,       //TurtleGoals
+		Victor,       //Wins
+		Silencer,     //InfectedPlayersDefeated
+		Reverberator, //PlayersInfected
 		MAX,
 	}
 }

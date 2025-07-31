@@ -46,6 +46,8 @@ namespace RocketRP
 					return classNetCacheByName["TAGame.FreeplayCommands_TA"];
 				case "TAGame.Default__VoteActor_TA":
 					return classNetCacheByName["TAGame.VoteActor_TA"];
+				case "TAGame.Default__ViralItemActor_TA":
+					return classNetCacheByName["TAGame.ViralItemActor_TA"];
 
 				case "TAGame.Default__PRI_TA":
 					return classNetCacheByName["TAGame.PRI_TA"];

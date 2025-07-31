@@ -10,7 +10,7 @@ namespace RocketRP.Actors.ProjectX
 {
 	public class GRI_X : GameReplicationInfo
 	{
-		public string? MatchGuid { get; set; }
+		public string? MatchGUID { get; set; }
 		public bool bGameStarted { get; set; }
 		public GameServerID GameServerID { get; set; }  // The type was changed from long to string at some point
 		[FixedArraySize(0x8)]
