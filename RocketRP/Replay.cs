@@ -279,15 +279,16 @@ namespace RocketRP
 				bw.Write(level);
 			}
 
-			// TODO: We should recalculate the file position of each KeyFrame after serialization
-			// I think the game might like to use the file position of the KeyFrame to seek to it
+			// Serialize the NetworkStream data first, so we can calculate the KeyFrame positions correctly
+			NetStreamData = SerializeNetStream();
+
 			bw.Write(KeyFrames.Count);
 			foreach (var keyFrame in KeyFrames)
 			{
 				keyFrame.Serialize(bw);
 			}
 
-			NetStreamData = SerializeNetStream();
+			// Write the NetworkStream data
 			bw.Write(NetStreamData.Length);
 			bw.Write(NetStreamData);
 
@@ -364,8 +365,25 @@ namespace RocketRP
 
 			TypeIdToClassNetCache = TypeIdToClassNetCacheMapper.MapTypeIdsToClassNetCache(Objects, ClassNetCaches);
 
-			foreach (var frame in Frames)
+			var keyFrameNum = 0;
+			for (int frameNum = 0; frameNum < Frames.Count; frameNum++)
 			{
+				Frame? frame = Frames[frameNum];
+				if(frameNum == KeyFrames[keyFrameNum].Frame)
+				{
+					if (KeyFrames[keyFrameNum].Time != frame.Time)
+					{
+						Console.WriteLine($"Warning: KeyFrame Time ({KeyFrames[keyFrameNum].Time}) doesn't match the Frame Time ({KeyFrames[keyFrameNum].Time}). Overwriting with the Frame Time");
+					}
+					KeyFrames[keyFrameNum] = new KeyFrame()
+					{
+						Time = frame.Time,
+						Frame = (uint)frameNum,
+						FilePosition = (uint)bw.NumBits
+					};
+					keyFrameNum++;
+					if (keyFrameNum >= KeyFrames.Count) keyFrameNum = 0;
+				}
 				frame.Serialize(bw, this);
 			}
 
