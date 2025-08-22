@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes.Enums
 {
-	public enum EInfectedType
+	public enum EInfectedType : byte
 	{
 		InfectedType_NotInfected,
 		InfectedType_NormalInfected,
