@@ -44,6 +44,7 @@ namespace RocketRP.Actors.TAGame
 		public byte[] PlayerHistoryKey { get; set; } = new byte[0x40];
 		public EPawnType PawnType { get; set; }
 		public ObjectTarget<CameraSettingsActor_TA> PersistentCamera { get; set; }
+		public float TotalGameTimePlayed { get; set; }
 		public ClientLoadoutOnlineDatas ClientLoadoutsOnline { get; set; }
 		public ClientLoadoutDatas ClientLoadouts { get; set; }
 		public ClientLoadoutOnlineData ClientLoadoutOnline { get; set; }
@@ -59,7 +60,9 @@ namespace RocketRP.Actors.TAGame
 		public bool bOnlineLoadoutSet { get; set; }
 		public bool bMatchAdmin { get; set; }
 		public bool bMatchMVP { get; set; }
+		public float TotalIdleTime { get; set; }
 		public int MatchBreakoutDamage { get; set; }
+		public int MatchDemolishes { get; set; }
 		public int MatchShots { get; set; }
 		public int MatchSaves { get; set; }
 		public int MatchAssists { get; set; }

@@ -91,12 +91,16 @@ namespace RocketRP
 				case "Archetypes.Ball.Ball_God":
 					return classNetCacheByName["TAGame.Ball_God_TA"];
 				case "Archetypes.Ball.Ball_Fire":
+				case "Archetypes.Ball.Ball_Fire_Obstacle":
 					return classNetCacheByName["TAGame.Ball_Fire_TA"];
 				case "Archetypes.Ball.Ball_Training":
 				case "Archetypes.Ball.Ball_Tutorial":
 					return classNetCacheByName["TAGame.Ball_Tutorial_TA"];
 				case "Archetypes.Ball.Ball_Trajectory":
 					return classNetCacheByName["TAGame.Ball_Trajectory_TA"];
+
+				case "Archetypes.Ball.Ball_RingSpawner":
+					return classNetCacheByName["TAGame.Ball_Spawner_TA"];
 
 				case "Archetypes.CarComponents.CarComponent_Boost":
 					return classNetCacheByName["TAGame.CarComponent_Boost_TA"];
@@ -148,6 +152,7 @@ namespace RocketRP
 				case "GameInfo_DemoDerby.GameInfo.GameInfo_DemoDerby:Archetype":
 				case "GameInfo_GoalCrazy.GameInfo.GameInfo_GoalCrazy:Archetype":
 				case "GameInfo_Hops.GameInfo.GameInfo_Hops:Archetype":
+				case "GameInfo_MagnusFutball.GameInfo.GameInfo_MagnusFutball:Archetype":
 				case "GameInfo_Possession.GameInfo.GameInfo_Possession:Archetype":
 				case "GameInfo_TargetAcquired.GameInfo.GameInfo_TargetAcquired:Archetype":
 				case "GameInfo_LTM_AprilFool.GameInfo.GameInfo_LTM_AprilFool:Archetype":
