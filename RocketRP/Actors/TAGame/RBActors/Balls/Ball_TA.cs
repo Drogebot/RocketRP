@@ -10,6 +10,8 @@ namespace RocketRP.Actors.TAGame
 {
 	public class Ball_TA : RBActor_TA
 	{
+		public Vector MinResistanceVelocity { get; set; }
+		public Vector AirResistance { get; set; }
 		public ExplosionDataExtended ReplicatedExplosionDataExtended { get; set; }
 		public ExplosionData ReplicatedExplosionData { get; set; }
 		public ObjectTarget<GameEvent_Soccar_TA> GameEvent { get; set; }

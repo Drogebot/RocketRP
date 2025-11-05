@@ -70,18 +70,22 @@ namespace RocketRP
 				case "Archetypes.GameEvent.GameEvent_Season:CarArchetype":
 					return classNetCacheByName["TAGame.Car_Season_TA"];
 
-				case "Archetypes.Ball.Ball_Default":
 				case "Archetypes.Ball.Ball_Basketball":
 				case "Archetypes.Ball.Ball_BasketBall":
 				case "Archetypes.Ball.Ball_BasketBall_Mutator":
+				case "Archetypes.Ball.Ball_Default":
 				case "Archetypes.Ball.Ball_Puck":
 				case "Archetypes.Ball.CubeBall":
-				case "Archetypes.Ball.Ball_Beachball":
 				case "Archetypes.Ball.Ball_Anniversary":
+				case "Archetypes.Ball.Ball_Beachball":
 				case "Archetypes.Ball.Ball_Football":
+				case "Archetypes.Ball.Ball_SpookyCube":
 				case "Archetypes.Ball.Ball_Ekin":
+				case "Archetypes.Ball.Ball_Egg":
 				case "Archetypes.Ball.Ball_PizzaPuck":
 				case "Archetypes.Ball.Ball_Shoe":
+				case "Archetypes.Ball.Ball_SpookyBalloon":
+				case "Archetypes.Ball.Ball_Strike":
 					return classNetCacheByName["TAGame.Ball_TA"];
 				case "Archetypes.Ball.Ball_Breakout":
 				case "Archetypes.Ball.Ball_Score":
@@ -93,6 +97,7 @@ namespace RocketRP
 				case "Archetypes.Ball.Ball_Fire":
 				case "Archetypes.Ball.Ball_Fire_Obstacle":
 					return classNetCacheByName["TAGame.Ball_Fire_TA"];
+				case "Archetypes.Ball.Ball_NoVibrate":
 				case "Archetypes.Ball.Ball_Training":
 				case "Archetypes.Ball.Ball_Tutorial":
 					return classNetCacheByName["TAGame.Ball_Tutorial_TA"];
@@ -101,6 +106,11 @@ namespace RocketRP
 
 				case "Archetypes.Ball.Ball_RingSpawner":
 					return classNetCacheByName["TAGame.Ball_Spawner_TA"];
+				case "Archetypes.Ball.BallComponent_KeepUp":
+				case "Archetypes.Ball.BallComponent_KeepUp_Stage":
+					return classNetCacheByName["TAGame.BallKeepUpComponent_TA"];
+				case "Archetypes.Misc.KeepUpIndicator":
+					return classNetCacheByName["TAGame.KeepUpIndicator_TA"];
 
 				case "Archetypes.CarComponents.CarComponent_Boost":
 					return classNetCacheByName["TAGame.CarComponent_Boost_TA"];

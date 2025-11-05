@@ -14,6 +14,9 @@ namespace RocketRP.Actors.TAGame
 {
 	public class PRI_TA : PRI_X
 	{
+		public int KeepUpPossessions { get; set; }
+		public int KeepUpClears { get; set; }
+		public int KeepUpDenials { get; set; }
 		public int SelfDemolitions { get; set; }
 		public int BallDemolitions { get; set; }
 		public int CarDemolitions { get; set; }
