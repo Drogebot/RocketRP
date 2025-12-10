@@ -15,6 +15,7 @@ namespace RocketRP.Actors.TAGame
 		public bool? bNoContest { get; set; }
 		public bool? bForfeit { get; set; }
 		public bool? bLocalPlayerAbandoned { get; set; }
+		public bool? bMatchCreatorAdminEnabled { get; set; }
 		public int? PrimaryPlayerTeam { get; set; }
 		public int? Team0Score { get; set; }
 		public int? Team1Score { get; set; }
