@@ -161,6 +161,7 @@ namespace RocketRP
 				case "GameInfo_BumperCars.GameInfo.GameInfo_BumperCars:Archetype":
 				case "GameInfo_DemoDerby.GameInfo.GameInfo_DemoDerby:Archetype":
 				case "GameInfo_GoalCrazy.GameInfo.GameInfo_GoalCrazy:Archetype":
+				case "GameInfo_KeepUp.GameInfo.GameInfo_KeepUp.Archetype":
 				case "GameInfo_Hops.GameInfo.GameInfo_Hops:Archetype":
 				case "GameInfo_MagnusFutball.GameInfo.GameInfo_MagnusFutball:Archetype":
 				case "GameInfo_Possession.GameInfo.GameInfo_Possession:Archetype":
@@ -281,7 +282,9 @@ namespace RocketRP
 				case "GameInfo_BumperCars.GameInfo.GameInfo_BumperCars:GameReplicationInfoArchetype":
 				case "GameInfo_DemoDerby.GameInfo.GameInfo_DemoDerby:GameReplicationInfoArchetype":
 				case "GameInfo_GoalCrazy.GameInfo.GameInfo_GoalCrazy:GameReplicationInfoArchetype":
+				case "GameInfo_KeepUp.GameInfo.GameInfo_KeepUp.GameReplicationInfoArchetype":
 				case "GameInfo_Hops.GameInfo.GameInfo_Hops:GameReplicationInfoArchetype":
+				case "GameInfo_MagnusFutball.GameInfo.GameInfo_MagnusFutball:GameReplicationInfoArchetype":
 				case "GameInfo_MultiHeatseeker.GameInfo.GameInfo_MultiHeatseeker:GameReplicationInfoArchetype":
 				case "GameInfo_Possession.GameInfo.GameInfo_Possession:GameReplicationInfoArchetype":
 				case "GameInfo_TargetAcquired.GameInfo.GameInfo_TargetAcquired:GameReplicationInfoArchetype":

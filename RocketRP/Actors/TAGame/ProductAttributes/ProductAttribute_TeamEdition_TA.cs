@@ -109,6 +109,11 @@ namespace RocketRP.Actors.TAGame
 		RuleOne,
 		VirtusPro,
 		Limitless,
+		FUT,
+		Geekay,
+		ManchesterCity,
+		TwistedMinds,
+		Wildcard,
 		MAX,
 	}
 }
