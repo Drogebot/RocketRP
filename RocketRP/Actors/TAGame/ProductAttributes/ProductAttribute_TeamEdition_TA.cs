@@ -112,7 +112,8 @@ namespace RocketRP.Actors.TAGame
 		FUT,
 		Geekay,
 		ManchesterCity,
-		TwistedMinds,
+
+		TwistedMinds = 80,
 		Wildcard,
 		MAX,
 	}
