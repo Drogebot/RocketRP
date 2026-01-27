@@ -37,6 +37,7 @@ namespace RocketRP.Actors.TAGame
 		public bool bReadyToStartGame { get; set; }
 		public bool bShowIntroScene { get; set; }
 		public bool bDisableCrowdSound { get; set; }
+		public bool bFullMatchWinnerDecided { get; set; }
 		public bool bMatchEnded { get; set; }
 		public bool bNoContest { get; set; }
 		public bool bGoalsEnabled { get; set; }

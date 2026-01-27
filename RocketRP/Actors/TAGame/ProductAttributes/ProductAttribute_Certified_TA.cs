@@ -52,6 +52,8 @@ namespace RocketRP.Actors.TAGame
 		Victor,       //Wins
 		Silencer,     //InfectedPlayersDefeated
 		Reverberator, //PlayersInfected
+		Underdog,     //Losses
+		Exploder,     //Demolished
 		MAX,
 	}
 }
