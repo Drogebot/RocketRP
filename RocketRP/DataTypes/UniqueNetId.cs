@@ -16,16 +16,14 @@ namespace RocketRP.DataTypes
 		public string? EpicAccountId { get; set; }
 		public OnlinePlatform? Platform { get; set; }
 		public byte? SplitscreenID { get; set; }
-		public string? Id { get; set; }
 
-		public UniqueNetId(OnlinePlatform type, string Id, byte playerNumber)
+		public UniqueNetId(OnlinePlatform platform, ulong uid, SceNpId? npId, string? epicAccountId, byte splitscreenId)
 		{
-			this.Uid = 0;
-			this.NpId = null;
-			this.EpicAccountId = null;
-			this.Platform = type;
-			this.Id = Id;
-			this.SplitscreenID = playerNumber;
+			Uid = uid;
+			NpId = npId;
+			EpicAccountId = epicAccountId;
+			Platform = platform;
+			SplitscreenID = splitscreenId;
 		}
 
 		public static UniqueNetId Deserialize(BinaryReader br)
@@ -35,37 +33,44 @@ namespace RocketRP.DataTypes
 
 		public static UniqueNetId Deserialize(BitReader br, Replay replay)
 		{
-			var type = (OnlinePlatform)br.ReadByte();
-			string id;
-			switch (type)
+			var platform = (OnlinePlatform)br.ReadByte();
+			ulong uid = 0;
+			SceNpId? npId = null;
+			string? epicAccountId = null;
+			byte splitscreenId = 0;
+
+			switch (platform)
 			{
 				case OnlinePlatform.OnlinePlatform_Unknown:
-					return new UniqueNetId(OnlinePlatform.OnlinePlatform_Unknown, "", 0);
+					break;
 				case OnlinePlatform.OnlinePlatform_Steam:
 				case OnlinePlatform.OnlinePlatform_Dingo:
 				case OnlinePlatform.OnlinePlatform_QQ:
-					id = br.ReadUInt64().ToString();
+					uid = br.ReadUInt64();
 					break;
 				case OnlinePlatform.OnlinePlatform_PS4:
-					if(replay.NetVersion >= 1) id = Convert.ToHexString(br.ReadBytes(40));
-					else id = Convert.ToHexString(br.ReadBytes(32));
+					npId = SceNpId.Deserialize(br);
+					if (replay.NetVersion >= 1) uid = br.ReadUInt64();
 					break;
 				case OnlinePlatform.OnlinePlatform_OldNNX:
-					id = Convert.ToHexString(br.ReadBytes(32));
+					npId = SceNpId.Deserialize(br);
 					break;
 				case OnlinePlatform.OnlinePlatform_NNX:
-					if(replay.NetVersion >= 10) id = br.ReadUInt64().ToString();
-					else id = Convert.ToHexString(br.ReadBytes(32));
+					if (replay.NetVersion >= 10) uid = br.ReadUInt64();
+					// I don't know if this ever happens, but better safe than sorry.
+					// It's the same as the old NNX format, so I think new NNX was made at the same time they changed the format.
+					else npId = SceNpId.Deserialize(br);
 					break;
 				case OnlinePlatform.OnlinePlatform_Epic:
-					id = br.ReadString()!;
+					epicAccountId = br.ReadString();
 					break;
 				default:
-					throw new Exception($"Unknown UniqueNetId Type {type}");
+					throw new Exception($"Unknown UniqueNetId Type {platform}");
 			}
-			var playerNumber = br.ReadByte();
+			
+			if(platform != OnlinePlatform.OnlinePlatform_Unknown) splitscreenId = br.ReadByte();
 
-			return new UniqueNetId(type, id, playerNumber);
+			return new UniqueNetId(platform, uid, npId, epicAccountId, splitscreenId);
 		}
 
 		public void Serialize(BitWriter bw, Replay replay)
@@ -74,27 +79,31 @@ namespace RocketRP.DataTypes
 			switch ((OnlinePlatform)Platform)
 			{
 				case OnlinePlatform.OnlinePlatform_Unknown:
-					return;
+					break;
 				case OnlinePlatform.OnlinePlatform_Steam:
 				case OnlinePlatform.OnlinePlatform_Dingo:
 				case OnlinePlatform.OnlinePlatform_QQ:
-					bw.Write(UInt64.Parse(Id!));
+					bw.Write(Uid);
 					break;
 				case OnlinePlatform.OnlinePlatform_PS4:
+					NpId!.Value.Serialize(bw);
+					if (replay.NetVersion >= 1) bw.Write(Uid);
+					break;
 				case OnlinePlatform.OnlinePlatform_OldNNX:
-					bw.Write(Convert.FromHexString(Id!));
+					NpId!.Value.Serialize(bw);
 					break;
 				case OnlinePlatform.OnlinePlatform_NNX:
-					if (replay.NetVersion >= 10) bw.Write(UInt64.Parse(Id!));
-					else bw.Write(Convert.FromHexString(Id!));
+					if (replay.NetVersion >= 10) bw.Write(Uid);
+					else NpId!.Value.Serialize(bw);
 					break;
 				case OnlinePlatform.OnlinePlatform_Epic:
-					bw.Write(Id!);
+					bw.Write(EpicAccountId);
 					break;
 				default:
 					throw new Exception($"Unknown UniqueNetId Type {Platform}");
 			}
-			bw.Write(SplitscreenID);
+
+			if(Platform != OnlinePlatform.OnlinePlatform_Unknown) bw.Write(SplitscreenID);
 		}
 	}
 }
