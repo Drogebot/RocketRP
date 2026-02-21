@@ -13,7 +13,7 @@ namespace RocketRP
 	public class Replay
 	{
 		private const uint CRC_SEED = 0xEFCBF201;
-		private byte[] NetStreamData = null!;
+		private byte[]? NetStreamData = null!;
 
 		public uint Part1Length { get; set; }
 		public uint Part1CRC { get; set; }
@@ -83,8 +83,6 @@ namespace RocketRP
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
-
-			if (!parseNetstream) return replay;
 
 			replay.Part2Length = br.ReadUInt32();
 			replay.Part2CRC = br.ReadUInt32();
@@ -191,12 +189,14 @@ namespace RocketRP
 				Console.WriteLine($"Warning: {message}!");
 			}
 
-			replay.DeserializeNetStream();
+			if (!parseNetstream) return replay;
+
+			replay.DeserializeNetStream(replay.PrepareForNetStreamDeserialization());
 
 			return replay;
 		}
 
-		public void DeserializeNetStream()
+		public BitReader PrepareForNetStreamDeserialization()
 		{
 			var shouldThrow = false;
 			foreach (var classNetCache in ClassNetCaches)
@@ -208,23 +208,35 @@ namespace RocketRP
 					Console.WriteLine($"Warning: Error linking ClassNetCache {classNetCache.ObjectIndex} ({Objects[classNetCache.ObjectIndex]})");
 					Console.ForegroundColor = ConsoleColor.Gray;
 				}
-					shouldThrow |= didLinkError;
+				shouldThrow |= didLinkError;
 			}
 			//if (shouldThrow) throw new Exception("Some ClassNetCaches could not be linked, check the console for more information.");
 
 			TypeIdToClassNetCache = TypeIdToClassNetCacheMapper.MapTypeIdsToClassNetCache(Objects, ClassNetCaches);
 
-			var br = new BitReader(NetStreamData);
 			CurrentOpenChannels = new Dictionary<int, ActorUpdate>(Properties.MaxChannels!.Value);
 			Frames = new List<Frame>(Properties.NumFrames!.Value);
 
-			while (br.Position < br.Length - 64)
+			var br = new BitReader(NetStreamData);
+			return br;
+		}
+
+		public void DeserializeNetStream(BitReader br)
+		{
+			while (Properties.NumFrames.Value > Frames.Count)
 			{
-				var frame = Frame.Deserialize(br, this, CurrentOpenChannels, true);
-				Frames.Add(frame);
+				DeserializeNextFrame(br);
 			}
 
-			CurrentOpenChannels.Clear();
+			CurrentOpenChannels?.Clear();
+		}
+
+		public Frame? DeserializeNextFrame(BitReader br)
+		{
+			if (Properties.NumFrames.Value <= Frames.Count) return null;
+			var frame = Frame.Deserialize(br, this, CurrentOpenChannels, true);
+			Frames.Add(frame);
+			return frame;
 		}
 
 		public void Serialize(string filePath)
