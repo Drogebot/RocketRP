@@ -12,6 +12,7 @@ namespace RocketRP.Actors.TAGame
 {
 	public class GameEvent_TA : Actor
 	{
+		public ObjectTarget<ClassObject> DemoFXOverride { get; set; }
 		public int MatchTotalSecondsPlayed { get; set; }
 		public ulong MatchStartEpoch { get; set; }
 		public int ReplicatedRoundCountDownNumber { get; set; }

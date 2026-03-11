@@ -9,6 +9,7 @@ namespace RocketRP.Actors.TAGame
 {
 	public class Car_TA : Vehicle_TA
 	{
+		public int DodgesRefreshedCounter { get; set; }
 		public Name PostMatchAnim { get; set; }
 		public float ReplicatedCarMaxLinearSpeedScale { get; set; }
 		public float AddedCarForceMultiplier { get; set; }

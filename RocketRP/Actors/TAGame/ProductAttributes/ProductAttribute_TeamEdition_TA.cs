@@ -115,6 +115,7 @@ namespace RocketRP.Actors.TAGame
 
 		TwistedMinds = 80,
 		Wildcard,
+		MIBR,
 		MAX,
 	}
 }
