@@ -121,7 +121,7 @@ namespace RocketRP
 					Console.WriteLine($"Warning: {message}!");
 				}
 				var objType = Type.GetType($"RocketRP.Actors.{savedata.ObjectTypes[i].Type}") ?? throw new NullReferenceException($"SaveData Object Class Type {savedata.ObjectTypes[i].Type} does not exist");
-				var obj = (Actors.Core.Object?)Activator.CreateInstance(objType) ?? throw new MissingMethodException($"{objType.Name} does not have a parameterless constructor"); ;
+				var obj = (Actors.Core.Object?)Activator.CreateInstance(objType) ?? throw new MissingMethodException($"{objType.Name} does not have a parameterless constructor");
 				Actors.Core.Object.Deserialize(obj, br, savedata.VersionInfo);
 				savedata.Objects.Add(obj);
 			}

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
-	public struct Vector
+	public struct Vector : ISpecialSerialized
 	{
 		public float X { get; set; }
 		public float Y { get; set; }
@@ -33,6 +33,20 @@ namespace RocketRP.DataTypes
 			vector.Y /= scalar;
 			vector.Z /= scalar;
 			return vector;
+		}
+
+		public void Deserialize(BinaryReader br, IFileVersionInfo versionInfo)
+		{
+			X = br.ReadSingle();
+			Y = br.ReadSingle();
+			Z = br.ReadSingle();
+		}
+
+		public void Serialize(BinaryWriter bw, IFileVersionInfo versionInfo)
+		{
+			bw.Write(X);
+			bw.Write(Y);
+			bw.Write(Z);
 		}
 
 		public static Vector Deserialize(BitReader br, Replay replay)

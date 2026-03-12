@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
-	public struct Rotator
+	public struct Rotator : ISpecialSerialized
 	{
 		public float Pitch { get; set; }
 		public float Yaw { get; set; }
@@ -17,6 +17,20 @@ namespace RocketRP.DataTypes
 			Pitch = pitch;
 			Yaw = yaw;
 			Roll = roll;
+		}
+
+		public void Deserialize(BinaryReader br, IFileVersionInfo versionInfo)
+		{
+			Pitch = br.ReadSingle();
+			Yaw = br.ReadSingle();
+			Roll = br.ReadSingle();
+		}
+
+		public void Serialize(BinaryWriter bw, IFileVersionInfo versionInfo)
+		{
+			bw.Write(Pitch);
+			bw.Write(Yaw);
+			bw.Write(Roll);
 		}
 
 		private static float ByteToAxis(byte b)

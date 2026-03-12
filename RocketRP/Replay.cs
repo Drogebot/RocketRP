@@ -35,7 +35,8 @@ namespace RocketRP
 		public List<string> Names { get; set; } = [];
 		public Dictionary<string, int> ClassIndexes { get; set; } = [];
 		public List<ClassNetCache> ClassNetCaches { get; set; } = [];
-		public uint Unknown { get; set; } = 0;
+		public string? CameraTrackClass { get; set; } = null;
+		public CameraTrack_TA? CameraTrack { get; set; } = null;
 
 		public int MaxChannels => Properties.MaxChannels ?? 1023;
 		public int Changelist => Properties.Changelist ?? 0;
@@ -172,7 +173,7 @@ namespace RocketRP
 
 			if(replay.VersionInfo.NetVersion >= 10)
 			{
-				replay.Unknown = br.ReadUInt32();
+				replay.DeserializeCameraTrack(br);
 			}
 
 			if (part2Pos + replay.Part2Length != br.BaseStream.Position)
@@ -194,6 +195,22 @@ namespace RocketRP
 			replay.DeserializeNetStream(replay.PrepareForNetStreamDeserialization());
 
 			return replay;
+		}
+
+		public void DeserializeCameraTrack(BinaryReader br)
+		{
+			CameraTrackClass = br.ReadString();
+			if (CameraTrackClass == null) return;
+
+			var objHeader = br.ReadUInt32();  // 0xFFFFFFFF
+			if(objHeader != 0xFFFFFFFF)
+			{
+				var message = $"objHeader({objHeader:X8}) is not correct!";
+				Console.WriteLine($"Warning: {message}!");
+			}
+			var objType = Type.GetType($"RocketRP.Actors.{CameraTrackClass}") ?? throw new NullReferenceException($"SaveData Object Class Type {CameraTrackClass} does not exist");
+			CameraTrack = (CameraTrack_TA?)Activator.CreateInstance(objType) ?? throw new MissingMethodException($"{objType.Name} does not have a parameterless constructor");
+			Actors.Core.Object.Deserialize(CameraTrack, br, VersionInfo);
 		}
 
 		public BitReader PrepareForNetStreamDeserialization()
@@ -349,7 +366,7 @@ namespace RocketRP
 
 			if (VersionInfo.NetVersion >= 10)
 			{
-				bw.Write(Unknown);
+				SerializeCameraTrack(bw);
 			}
 
 			// Overwrite Part2Length and Part2CRC
@@ -360,6 +377,15 @@ namespace RocketRP
 			Part2CRC = CalculateCRC(bw, part2Pos, part2Pos + Part2Length);
 			bw.Write(Part2CRC);
 			bw.BaseStream.Seek(Part2Length, SeekOrigin.Current);
+		}
+
+		public void SerializeCameraTrack(BinaryWriter bw)
+		{
+			bw.Write(CameraTrackClass);
+			if (CameraTrackClass == null) return;
+
+			bw.Write(0xFFFFFFFF);   // ObjHeader
+			Actors.Core.Object.Serialize(CameraTrack, bw, VersionInfo);
 		}
 
 		public byte[] SerializeNetStream()

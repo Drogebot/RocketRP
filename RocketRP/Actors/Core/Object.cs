@@ -32,6 +32,7 @@ namespace RocketRP.Actors.Core
 		{
 			if (value is bool) return 0;
 			else if (value is byte) return sizeof(byte);
+			else if (value is Enum && type == INT_PROPERTY) return sizeof(int);
 			else if (value is Enum || type == STRUCT_PROPERTY) return valueSize - (4 + value!.GetType().Name.Length + 1);
 			return valueSize;
 		}
@@ -146,7 +147,7 @@ namespace RocketRP.Actors.Core
 			{
 				if (type == INT_PROPERTY) return Enum.ToObject(propertyType, br.ReadUInt32());
 				if (type != BYTE_PROPERTY && type != ARRAY_PROPERTY) throw new InvalidDataException($"Expected type {BYTE_PROPERTY} for {propertyType.Name} but got {type}");
-				var typeName = br.ReadString();
+				var typeName = type == ARRAY_PROPERTY ? propertyType.Name : br.ReadString();
 				if (typeName == NONE) return br.ReadByte();
 				return Enum.Parse(propertyType, br.ReadString()!);
 			}
@@ -158,7 +159,14 @@ namespace RocketRP.Actors.Core
 			else
 			{
 				if (type != STRUCT_PROPERTY && type != ARRAY_PROPERTY) throw new InvalidDataException($"Expected type {STRUCT_PROPERTY} for {propertyType.Name} but got {type}");
-				var typeName = type == ARRAY_PROPERTY ? propertyType.Name : br.ReadString();
+				var typeName = propertyType.Name;
+				if (type != ARRAY_PROPERTY) typeName = br.ReadString();
+				else if (!propertyType.IsValueType)
+				{
+					typeName = br.ReadString().Split('.', 2).Last();
+					var objHeader = br.ReadUInt32(); // 0xFFFFFFFF
+					if (objHeader != 0xFFFFFFFF) throw new InvalidDataException($"objHeader({objHeader:X8}) is not correct!");
+				}
 				if (typeName != propertyType.Name) throw new InvalidDataException($"Expected type {propertyType.Name} for {propertyType.Name} but got {typeName}");
 				var value = Activator.CreateInstance(propertyType) ?? throw new MissingMethodException($"{propertyType.Name} does not have a parameterless constructor");
 				if (value is ISpecialSerialized specialValue) specialValue.Deserialize(br, versionInfo);
@@ -202,7 +210,7 @@ namespace RocketRP.Actors.Core
 			}
 
 			var arr = (Array)value;
-			if (arr.Length <= 0) throw new NullReferenceException($"Array size needs to be at least 1");
+			//if (arr.Length <= 0) throw new NullReferenceException($"Array size needs to be at least 1");
 			var fixedSize = propertyInfo.GetCustomAttribute<FixedArraySize>()?.Size;
 
 			if (fixedSize is not null)  //Fixed Size Array
@@ -315,7 +323,7 @@ namespace RocketRP.Actors.Core
 					return;
 				}
 				type = BYTE_PROPERTY;
-				bw.Write(value.GetType().Name);
+				if (!isArrayProp) bw.Write(value.GetType().Name);
 				bw.Write(enumvalue.ToString());
 				return;
 			}
@@ -329,6 +337,11 @@ namespace RocketRP.Actors.Core
 			{
 				type = STRUCT_PROPERTY;
 				if (!isArrayProp) bw.Write(value.GetType().Name);
+				else if (!value.GetType().IsValueType)
+				{
+					bw.Write(value.GetType().FullName!.Replace("RocketRP.Actors.", ""));
+					bw.Write(0xFFFFFFFF);   // ObjHeader
+				}
 				if (value is ISpecialSerialized specialValue) specialValue.Serialize(bw, versionInfo);
 				else Serialize(value, bw, versionInfo);
 				return;

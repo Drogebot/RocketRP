@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RocketRP.Actors.TAGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,8 @@ namespace RocketRP.Serializers
 					"Names" => serializer.Deserialize<List<string>>(reader),
 					"ClassIndexes" => serializer.Deserialize<Dictionary<string, int>>(reader),
 					"ClassNetCaches" => serializer.Deserialize<List<ClassNetCache>>(reader),
+					"CameraTrackClass" => serializer.Deserialize<string>(reader),
+					"CameraTrack" => serializer.Deserialize<CameraTrack_TA>(reader),
 					_ => throw new JsonReaderException($"Unexpected property {propertyName}!"),
 				};
 				replay.GetType().GetProperty(propertyName)!.SetValue(replay, value);
@@ -106,6 +109,10 @@ namespace RocketRP.Serializers
 			writer.WriteKeyValue("ClassIndexes", replay.ClassIndexes, serializer);
 
 			writer.WriteKeyValue("ClassNetCaches", replay.ClassNetCaches, serializer);
+
+			writer.WriteKeyValue("CameraTrackClass", replay.CameraTrackClass, serializer);
+
+			writer.WriteKeyValue("CameraTrack", replay.CameraTrack, serializer);
 
 			writer.WriteEndObject();
 		}
