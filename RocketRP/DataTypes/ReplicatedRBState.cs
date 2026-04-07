@@ -10,11 +10,11 @@ namespace RocketRP.DataTypes
 	{
 		public bool? Sleeping { get; set; }
 		public Vector? Position { get; set; }
-		public object? Rotation { get; set; }	// Can be Vector or Quat
+		public Quat? Rotation { get; set; }
 		public Vector? LinearVelocity { get; set; }
 		public Vector? AngularVelocity { get; set; }
 
-		public ReplicatedRBState(bool? sleeping, Vector? position, object? rotation, Vector? linearVelocity, Vector? angularVelocity)
+		public ReplicatedRBState(bool? sleeping, Vector? position, Quat? rotation, Vector? linearVelocity, Vector? angularVelocity)
 		{
 			Sleeping = sleeping;
 			Position = position;
@@ -26,20 +26,21 @@ namespace RocketRP.DataTypes
 		public static ReplicatedRBState Deserialize(BitReader br, Replay replay)
 		{
 			var sleeping = br.ReadBit();
-			
-			Vector position;
-			if(replay.NetVersion >= 5) position = Vector.DeserializeFixedPoint(br, replay);
-			else position = Vector.Deserialize(br, replay);
 
-			object rotation;
-			if(replay.NetVersion >= 7) rotation = Quat.Deserialize(br);
-			else rotation = Vector.DeserializeFixed(br, 16);
+			Vector position = Vector.Deserialize(br, replay);
+			if (replay.NetVersion >= 5) position /= 100f;
 
-			Vector? linearVelocity = null, angularVelocity = null;
+			Quat rotation = replay.NetVersion >= 7
+				? Quat.Deserialize(br)
+				: new Quat(Rotator.DeserializeUncompressed(br));
+
+			Vector linearVelocity = default;
+			Vector angularVelocity = default;
 			if (!sleeping)
 			{
-				linearVelocity = Vector.Deserialize(br, replay);
-				angularVelocity = Vector.Deserialize(br, replay);
+				var velocityScalar = replay.NetVersion >= 5 ? 100f : 10f;
+				linearVelocity = Vector.Deserialize(br, replay) / velocityScalar;
+				angularVelocity = Vector.Deserialize(br, replay) / velocityScalar;
 			}
 
 			return new ReplicatedRBState(sleeping, position, rotation, linearVelocity, angularVelocity);
@@ -49,16 +50,18 @@ namespace RocketRP.DataTypes
 		{
 			bw.Write(Sleeping);
 
-			if (replay.NetVersion >= 5) Position!.Value.SerializeFixedPoint(bw, replay);
-			else Position!.Value.Serialize(bw, replay);
+			var position = Position;
+			if (replay.NetVersion >= 5) position *= 100;
+			position!.Value.Serialize(bw, replay);
 
-			if (replay.NetVersion >= 7) ((Quat)Rotation!).Serialize(bw);
-			else ((Vector)Rotation!).SerializeFixed(bw, 16);
+			if (replay.NetVersion >= 7) Rotation!.Value.Serialize(bw);
+			else (new Rotator(Rotation!.Value)).SerializeUncompressed(bw);
 
 			if (!Sleeping.Value)
 			{
-				LinearVelocity!.Value.Serialize(bw, replay);
-				AngularVelocity!.Value.Serialize(bw, replay);
+				var velocityScalar = replay.NetVersion >= 5 ? 100f : 10f;
+				(LinearVelocity!.Value * velocityScalar).Serialize(bw, replay);
+				(AngularVelocity!.Value * velocityScalar).Serialize(bw, replay);
 			}
 		}
 	}

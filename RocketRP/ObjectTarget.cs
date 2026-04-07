@@ -33,11 +33,8 @@ namespace RocketRP
 
 		public static ObjectTarget<TObject> Deserialize(BinaryReader br)
 		{
-			return new ObjectTarget<TObject>
-			{
-				IsActor = false,
-				TargetIndex = br.ReadInt32(),
-			};
+			var targetIndex = br.ReadInt32();
+			return new ObjectTarget<TObject>(false, targetIndex);
 		}
 
 		public void Serialize(BinaryWriter bw)
@@ -64,11 +61,10 @@ namespace RocketRP
 
 		public static ObjectTarget<TObject> Deserialize(BitReader br)
 		{
-			return new ObjectTarget<TObject>
-			{
-				IsActor = br.ReadBit(),
-				TargetIndex = br.ReadInt32(),
-			};
+			var isActor = br.ReadBit();
+			var targetIndex = br.ReadInt32();
+
+			return new ObjectTarget<TObject>(isActor, targetIndex);
 		}
 
 		public void Serialize(BitWriter bw)

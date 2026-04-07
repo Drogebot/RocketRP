@@ -36,6 +36,21 @@ namespace RocketRP.DataTypes
 			W = w;
 		}
 
+		public Quat(Rotator rotator)
+		{
+			var cr = MathF.Cos(rotator.Roll * (MathF.PI / 180) / 2);
+			var cp = MathF.Cos(rotator.Pitch * (MathF.PI / 180) / 2);
+			var cy = MathF.Cos(rotator.Yaw * (MathF.PI / 180) / 2);
+			var sr = MathF.Sin(rotator.Roll * (MathF.PI / 180) / 2);
+			var sp = MathF.Sin(rotator.Pitch * (MathF.PI / 180) / 2);
+			var sy = MathF.Sin(rotator.Yaw * (MathF.PI / 180) / 2);
+
+			W = cr * cp * cy + sr * sp * sy;
+			X = sr * cp * cy - cr * sp * sy;
+			Y = cr * sp * cy + sr * cp * sy;
+			Z = cr * cp * sy - sr * sp * cy;
+		}
+
 		public static Quat operator /(Quat quat, float scalar)
 		{
 			quat.X /= scalar;

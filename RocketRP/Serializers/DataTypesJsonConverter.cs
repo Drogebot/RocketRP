@@ -61,9 +61,7 @@ namespace RocketRP.Serializers
 							rbState.Position = serializer.Deserialize<Vector>(reader);
 							break;
 						case "Rotation":
-							var jObject = serializer.Deserialize<JObject>(reader)!;
-							if (jObject.ContainsKey("W")) rbState.Rotation = jObject.ToObject<Quat>();
-							else rbState.Rotation = jObject.ToObject<Vector>();
+							rbState.Rotation = serializer.Deserialize<Quat>(reader)!;
 							break;
 						case "LinearVelocity":
 							rbState.LinearVelocity = serializer.Deserialize<Vector?>(reader);
@@ -179,8 +177,11 @@ namespace RocketRP.Serializers
 				writer.WriteKeyValue("Sleeping", rbState.Sleeping, serializer);
 				writer.WriteKeyValue("Position", rbState.Position, serializer);
 				writer.WriteKeyValue("Rotation", rbState.Rotation, serializer);
-				writer.WriteKeyValue("LinearVelocity", rbState.LinearVelocity, serializer);
-				writer.WriteKeyValue("AngularVelocity", rbState.AngularVelocity, serializer);
+				if (!rbState.Sleeping!.Value)
+				{
+					writer.WriteKeyValue("LinearVelocity", rbState.LinearVelocity, serializer);
+					writer.WriteKeyValue("AngularVelocity", rbState.AngularVelocity, serializer);
+				}
 
 				writer.WriteEndObject();
 				return;

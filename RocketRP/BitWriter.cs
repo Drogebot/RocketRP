@@ -84,13 +84,15 @@ namespace RocketRP
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void Write([NotNull] Boolean? value)
+		public bool Write([NotNull] Boolean? value)
 		{
 			ArgumentNullException.ThrowIfNull(value);
 			if (Pos + 1 >= Max) Grow(Pos + 1);
 
 			if ((Boolean)value) Buffer[Pos >> 3] |= GShift[Pos & 7];
 			Pos++;
+
+			return value.Value;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
