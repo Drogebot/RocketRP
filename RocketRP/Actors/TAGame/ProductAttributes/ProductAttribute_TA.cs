@@ -14,7 +14,7 @@ namespace RocketRP.Actors.TAGame
 
         public static ProductAttribute_TA Deserialize(BitReader br, Replay replay)
         {
-            var objectTarget = RocketRP.ObjectTarget<ClassObject>.Deserialize(br);
+            var objectTarget = RocketRP.ObjectTarget<ClassObject>.Deserialize(br, replay);
             var className = replay.Objects[objectTarget.TargetIndex];
 
             var type = Type.GetType($"RocketRP.Actors.{className}");
@@ -28,7 +28,7 @@ namespace RocketRP.Actors.TAGame
 
 		public virtual void Serialize(BitWriter bw, Replay replay)
 		{
-			ObjectTarget!.Value.Serialize(bw);
+			ObjectTarget!.Value.Serialize(bw, replay);
 		}
     }
 }

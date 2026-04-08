@@ -20,7 +20,7 @@ namespace RocketRP.DataTypes
 
 		public static ExplosionData Deserialize(BitReader br, Replay replay)
 		{
-			var goal = ObjectTarget<ClassObject>.Deserialize(br);
+			var goal = ObjectTarget<ClassObject>.Deserialize(br, replay);
 			var location = Vector.Deserialize(br, replay);
 
 			return new ExplosionData(goal, location);
@@ -28,7 +28,7 @@ namespace RocketRP.DataTypes
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			Goal!.Value.Serialize(bw);
+			Goal!.Value.Serialize(bw, replay);
 			Location!.Value.Serialize(bw, replay);
 		}
 	}

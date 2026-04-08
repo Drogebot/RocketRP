@@ -53,7 +53,7 @@ namespace RocketRP
 						actorUpdate.Name = replay.Names[actorUpdate.NameId.Value];
 					}
 
-					actorUpdate.TypeId = ObjectTarget<ClassObject>.Deserialize(br);
+					actorUpdate.TypeId = ObjectTarget<ClassObject>.Deserialize(br, replay);
 					if (actorUpdate.TypeId.IsActor)
 					{
 						Console.WriteLine("Warning: New Actor referenced existing Actor as type?");
@@ -80,7 +80,7 @@ namespace RocketRP
 
 						if (actorUpdate.Actor.HasInitialRotation)
 						{
-							actorUpdate.InitialRotation = Rotator.Deserialize(br);
+							actorUpdate.InitialRotation = Rotator.Deserialize(br, replay);
 						}
 					}
 
@@ -204,9 +204,8 @@ namespace RocketRP
 			else if (propertyType == typeof(string)) return br.ReadString();
 			else
 			{
-				var methodInfo = propertyType.GetMethod("Deserialize", BindingFlags.Static | BindingFlags.Public, [typeof(BitReader)]) ?? propertyType.GetMethod("Deserialize", BindingFlags.Static | BindingFlags.Public, [typeof(BitReader), typeof(Replay)]);
+				var methodInfo = propertyType.GetMethod("Deserialize", BindingFlags.Static | BindingFlags.Public, [typeof(BitReader), typeof(Replay)]);
 				if (methodInfo is null) throw new MissingMethodException($"Deserialize method in {propertyType.Name} not found");
-				else if (methodInfo.GetParameters().Length == 1) return methodInfo.Invoke(null, [br]);
 				else if (methodInfo.GetParameters().Length == 2) return methodInfo.Invoke(null, [br, replay]);
 				else throw new MissingMethodException($"Deserialize method in {propertyType.Name} does not have the correct parameters");
 			}
@@ -227,7 +226,7 @@ namespace RocketRP
 					bw.Write(NameId ?? 0);
 				}
 
-				TypeId.Serialize(bw);
+				TypeId.Serialize(bw, replay);
 
 				if (Actor.HasInitialPosition)
 				{
@@ -235,7 +234,7 @@ namespace RocketRP
 
 					if (Actor.HasInitialRotation)
 					{
-						InitialRotation.Serialize(bw);
+						InitialRotation.Serialize(bw, replay);
 					}
 				}
 
@@ -305,9 +304,8 @@ namespace RocketRP
 			else if (valueType == typeof(string)) bw.Write((string?)value);
 			else
 			{
-				var methodInfo = valueType.GetMethod("Serialize", BindingFlags.Instance | BindingFlags.Public, [typeof(BitWriter)]) ?? valueType.GetMethod("Serialize", BindingFlags.Instance | BindingFlags.Public, [typeof(BitWriter), typeof(Replay)]);
+				var methodInfo = valueType.GetMethod("Serialize", BindingFlags.Instance | BindingFlags.Public, [typeof(BitWriter), typeof(Replay)]);
 				if (methodInfo is null) throw new MissingMethodException($"Serialize method in {valueType.Name} not found");
-				else if (methodInfo.GetParameters().Length == 1) methodInfo.Invoke(value, [bw]);
 				else if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(value, [bw, replay]);
 				else throw new MissingMethodException($"Serialize method in {valueType.Name} does not have the correct parameters");
 			}

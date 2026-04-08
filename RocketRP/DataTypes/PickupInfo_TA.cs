@@ -19,24 +19,24 @@ namespace RocketRP.DataTypes
 			this.bItemsArePreview = bItemsArePreview;
 		}
 
-		public static PickupInfo_TA Deserialize(BitReader br)
+		public static PickupInfo_TA Deserialize(BitReader br, Replay replay)
 		{
 			var availablePickups = new ObjectTarget<SpecialPickup_TA>?[3]
 			{
-				ObjectTarget<SpecialPickup_TA>.Deserialize(br),
-				ObjectTarget<SpecialPickup_TA>.Deserialize(br),
-				ObjectTarget<SpecialPickup_TA>.Deserialize(br)
+				ObjectTarget<SpecialPickup_TA>.Deserialize(br, replay),
+				ObjectTarget<SpecialPickup_TA>.Deserialize(br, replay),
+				ObjectTarget<SpecialPickup_TA>.Deserialize(br, replay)
 			};
 			var bItemsArePreview = br.ReadBit();
 
 			return new PickupInfo_TA(availablePickups, bItemsArePreview);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
-			AvailablePickups![0]!.Value.Serialize(bw);
-			AvailablePickups![1]!.Value.Serialize(bw);
-			AvailablePickups![2]!.Value.Serialize(bw);
+			AvailablePickups![0]!.Value.Serialize(bw, replay);
+			AvailablePickups![1]!.Value.Serialize(bw, replay);
+			AvailablePickups![2]!.Value.Serialize(bw, replay);
 			bw.Write(bItemsArePreview);
 		}
 	}

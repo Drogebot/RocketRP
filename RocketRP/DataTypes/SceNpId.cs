@@ -21,18 +21,18 @@ namespace RocketRP.DataTypes
 			Reserved = reserved;
 		}
 
-		public static SceNpId Deserialize(BitReader br)
+		public static SceNpId Deserialize(BitReader br, Replay replay)
 		{
-			var handle = SceNpOnlineId.Deserialize(br);
+			var handle = SceNpOnlineId.Deserialize(br, replay);
 			var opt = br.ReadUInt64();
 			var reserved = br.ReadUInt64();
 
 			return new SceNpId(handle, opt, reserved);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
-			Handle!.Value.Serialize(bw);
+			Handle!.Value.Serialize(bw, replay);
 			bw.Write(Opt);
 			bw.Write(Reserved);
 		}

@@ -59,7 +59,7 @@ namespace RocketRP
 			return null;
 		}
 
-		public static ObjectTarget<TObject> Deserialize(BitReader br)
+		public static ObjectTarget<TObject> Deserialize(BitReader br, Replay replay)
 		{
 			var isActor = br.ReadBit();
 			var targetIndex = br.ReadInt32();
@@ -67,7 +67,7 @@ namespace RocketRP
 			return new ObjectTarget<TObject>(isActor, targetIndex);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(IsActor);
 			bw.Write(TargetIndex);
@@ -80,6 +80,6 @@ namespace RocketRP
 		public int TargetIndex { get; set; }
 		
 		public void Serialize(BinaryWriter bw);
-		public void Serialize(BitWriter bw);
+		public void Serialize(BitWriter bw, Replay replay);
 	}
 }

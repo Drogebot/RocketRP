@@ -19,17 +19,17 @@ namespace RocketRP.DataTypes
 			Unknown1 = unknown1;
 		}
 
-		public static ReplicatedMusicStinger Deserialize(BitReader br)
+		public static ReplicatedMusicStinger Deserialize(BitReader br, Replay replay)
 		{
-			var objectTarget = ObjectTarget<ClassObject>.Deserialize(br);
+			var objectTarget = ObjectTarget<ClassObject>.Deserialize(br, replay);
 			var unknown1 = br.ReadByte();
 
 			return new ReplicatedMusicStinger(objectTarget, unknown1);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
-			ObjectTarget!.Value.Serialize(bw);
+			ObjectTarget!.Value.Serialize(bw, replay);
 			bw.Write(Unknown1);
 		}
 	}

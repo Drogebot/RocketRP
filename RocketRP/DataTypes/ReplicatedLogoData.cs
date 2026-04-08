@@ -17,7 +17,7 @@ namespace RocketRP.DataTypes
 			this.bSwapColors = bSwapColors;
 		}
 
-		public static ReplicatedLogoData Deserialize(BitReader br)
+		public static ReplicatedLogoData Deserialize(BitReader br, Replay replay)
 		{
 			var logoID = br.ReadInt32();
 			var bSwapColors = br.ReadBit();
@@ -25,7 +25,7 @@ namespace RocketRP.DataTypes
 			return new ReplicatedLogoData(logoID, bSwapColors);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(LogoID);
 			bw.Write(bSwapColors);

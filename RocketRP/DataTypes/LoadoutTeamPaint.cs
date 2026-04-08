@@ -26,7 +26,7 @@ namespace RocketRP.DataTypes
 			bSet = true;
 		}
 
-		public static LoadoutTeamPaint Deserialize(BitReader br)
+		public static LoadoutTeamPaint Deserialize(BitReader br, Replay replay)
 		{
 			var team = br.ReadByte();
 			var teamColorId = br.ReadByte();
@@ -36,7 +36,7 @@ namespace RocketRP.DataTypes
 			return new LoadoutTeamPaint(team, teamColorId, customColorId, teamFinishId, customFinishId);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(Team);
 			bw.Write(TeamColorID);

@@ -23,18 +23,18 @@ namespace RocketRP.DataTypes
 
 		public static ExplosionDataExtended Deserialize(BitReader br, Replay replay)
 		{
-			var goal = ObjectTarget<ClassObject>.Deserialize(br);
+			var goal = ObjectTarget<ClassObject>.Deserialize(br, replay);
 			var location = Vector.Deserialize(br, replay);
-			var scorer = ObjectTarget<PRI_TA>.Deserialize(br);
+			var scorer = ObjectTarget<PRI_TA>.Deserialize(br, replay);
 
 			return new ExplosionDataExtended(goal, location, scorer);
 		}
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			Goal!.Value.Serialize(bw);
+			Goal!.Value.Serialize(bw, replay);
 			Location!.Value.Serialize(bw, replay);
-			Scorer!.Value.Serialize(bw);
+			Scorer!.Value.Serialize(bw, replay);
 		}
 	}
 }

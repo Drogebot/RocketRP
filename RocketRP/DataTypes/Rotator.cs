@@ -60,7 +60,7 @@ namespace RocketRP.DataTypes
 			return b * (180f / 128f);
 		}
 
-		public static Rotator Deserialize(BitReader br)
+		public static Rotator Deserialize(BitReader br, Replay replay)
 		{
 			float pitch = 0, yaw = 0, roll = 0;
 			if (br.ReadBit())
@@ -85,7 +85,7 @@ namespace RocketRP.DataTypes
 			return (byte)(Normalize(axis) * (128f / 180f));
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
 			byte b = AxisToByte(Pitch);
 			if (bw.Write(b != 0))
@@ -98,7 +98,7 @@ namespace RocketRP.DataTypes
 				bw.Write(b);
 		}
 
-		public static Rotator DeserializeUncompressed(BitReader br)
+		public static Rotator DeserializeUncompressed(BitReader br, Replay replay)
 		{
 			var pitch = br.ReadInt32(1U << 16) * (180f / 32768f);
 			var yaw = br.ReadInt32(1U << 16) * (180f / 32768f);
@@ -107,7 +107,7 @@ namespace RocketRP.DataTypes
 			return new Rotator(pitch, yaw, roll);
 		}
 
-		public void SerializeUncompressed(BitWriter bw)
+		public void SerializeUncompressed(BitWriter bw, Replay replay)
 		{
 			bw.Write((int)(Pitch * (32768f / 180f)), 1U << 16);
 			bw.Write((int)(Yaw * (32768f / 180f)), 1U << 16);

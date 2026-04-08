@@ -54,8 +54,8 @@ namespace RocketRP.DataTypes
 			{
 				teamSettings =
 				[
-					CustomMatchTeamSettings.Deserialize(br),
-					CustomMatchTeamSettings.Deserialize(br),
+					CustomMatchTeamSettings.Deserialize(br, replay),
+					CustomMatchTeamSettings.Deserialize(br, replay),
 				];
 			}
 
@@ -76,8 +76,8 @@ namespace RocketRP.DataTypes
 			bw.Write(bPublic);
 			if (false)	// Find the correct condition
 			{
-				TeamSettings![0]!.Value.Serialize(bw);
-				TeamSettings![1]!.Value.Serialize(bw);
+				TeamSettings![0]!.Value.Serialize(bw, replay);
+				TeamSettings![1]!.Value.Serialize(bw, replay);
 			}
 		}
 	}

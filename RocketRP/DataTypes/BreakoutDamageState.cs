@@ -27,7 +27,7 @@ namespace RocketRP.DataTypes
 		public static BreakoutDamageState Deserialize(BitReader br, Replay replay)
 		{
 			var state = br.ReadByte();
-			var causer = ObjectTarget<PRI_TA>.Deserialize(br);
+			var causer = ObjectTarget<PRI_TA>.Deserialize(br, replay);
 			var damageLocation = Vector.Deserialize(br, replay);
 			var directDamage = br.ReadBit();
 			var immediate = br.ReadBit();
@@ -38,7 +38,7 @@ namespace RocketRP.DataTypes
 		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(State);
-			Causer!.Value.Serialize(bw);
+			Causer!.Value.Serialize(bw, replay);
 			DamageLocation!.Value.Serialize(bw, replay);
 			bw.Write(bDirectDamage);
 			bw.Write(bImmediate);

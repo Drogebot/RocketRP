@@ -22,7 +22,7 @@ namespace RocketRP.DataTypes
 			Dummy = dummy;
 		}
 
-		public static SceNpOnlineId Deserialize(BitReader br)
+		public static SceNpOnlineId Deserialize(BitReader br, Replay replay)
 		{
 			ulong?[] data = [
 				br.ReadUInt64(),
@@ -32,7 +32,7 @@ namespace RocketRP.DataTypes
 			return new SceNpOnlineId(data, null, null);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(Data![0]);
 			bw.Write(Data![1]);

@@ -22,7 +22,7 @@ namespace RocketRP.DataTypes
 			CustomColorID = customColorID;
 		}
 
-		public static ClubColorSet Deserialize(BitReader br)
+		public static ClubColorSet Deserialize(BitReader br, Replay replay)
 		{
 			bool bTeamColorSet = br.ReadBit();
 			byte TeamColorID = br.ReadByte();
@@ -32,7 +32,7 @@ namespace RocketRP.DataTypes
 			return new ClubColorSet(bTeamColorSet, TeamColorID, bCustomColorSet, CustomColorID);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(bTeamColorSet);
 			bw.Write(TeamColorID);

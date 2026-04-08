@@ -23,21 +23,21 @@ namespace RocketRP.DataTypes
 			Value = value;
 		}
 
-		public static RepStatTitle Deserialize(BitReader br)
+		public static RepStatTitle Deserialize(BitReader br, Replay replay)
 		{
 			var unknown1 = br.ReadBit();
 			var name = br.ReadString();
-			var objectTarget = ObjectTarget<ClassObject>.Deserialize(br);
+			var objectTarget = ObjectTarget<ClassObject>.Deserialize(br, replay);
 			var value = br.ReadUInt32();
 
 			return new RepStatTitle(unknown1, name, objectTarget, value);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(Unknown1);
 			bw.Write(Name);
-			ObjectTarget!.Value.Serialize(bw);
+			ObjectTarget!.Value.Serialize(bw, replay);
 			bw.Write(Value);
 		}
 	}

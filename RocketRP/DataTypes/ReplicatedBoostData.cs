@@ -21,7 +21,7 @@ namespace RocketRP.DataTypes
 			Unused2 = unused2;
 		}
 
-		public static ReplicatedBoostData Deserialize(BitReader br)
+		public static ReplicatedBoostData Deserialize(BitReader br, Replay replay)
 		{
 			var grantCount = br.ReadByte();
 			var boostAmount = br.ReadByte();
@@ -31,7 +31,7 @@ namespace RocketRP.DataTypes
 			return new ReplicatedBoostData(grantCount, boostAmount, unused1, unused2);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(GrantCount);
 			bw.Write(BoostAmount);
