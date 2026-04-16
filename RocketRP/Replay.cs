@@ -1,47 +1,42 @@
 ﻿using RocketRP.Actors.TAGame;
-using RocketRP.DataTypes.Enums;
+using RocketRP.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text.Json.Serialization;
-using System.Xml;
 
 namespace RocketRP
 {
 	public class Replay
 	{
 		private const uint CRC_SEED = 0xEFCBF201;
-		private byte[]? NetStreamData = null!;
+		private byte[] NetStreamData = [];
 
-		public uint Part1Length { get; set; }
-		public uint Part1CRC { get; set; }
-		public ReplayVersionInfo VersionInfo = new ReplayVersionInfo { EngineVersion = 868, LicenseeVersion = 32, NetVersion = 10 };
-		public uint EngineVersion { get => VersionInfo.EngineVersion; set => VersionInfo.EngineVersion = value; }
-		public uint LicenseeVersion { get => VersionInfo.LicenseeVersion; set => VersionInfo.LicenseeVersion = value; }
-		public uint NetVersion { get => VersionInfo.NetVersion; set => VersionInfo.NetVersion = value; }
+		public uint Part1Length;
+		public uint Part1CRC;
+		public ReplayVersionInfo VersionInfo = new() { EngineVersion = 868, LicenseeVersion = 32, NetVersion = 10 };
+		public int EngineVersion { get => VersionInfo.EngineVersion; set => VersionInfo.EngineVersion = value; }
+		public int LicenseeVersion { get => VersionInfo.LicenseeVersion; set => VersionInfo.LicenseeVersion = value; }
+		public int NetVersion { get => VersionInfo.NetVersion; set => VersionInfo.NetVersion = value; }
 		public string ReplayClass { get; set; } = "TAGame.Replay_Soccar_TA";
-		public Replay_TA Properties { get; set; } = null!;
-		public uint Part2Length { get; set; }
-		public uint Part2CRC { get; set; }
-		public List<string> Levels { get; set; } = [];
+		public Replay_Soccar_TA Properties { get; set; } = null!;
+		public uint Part2Length;
+		public uint Part2CRC;
+		public List<Name> Levels { get; set; } = [];
+		public List<ReplayKeyframe> KeyFrames { get; set; } = [];
 		public List<Frame> Frames { get; set; } = [];
-		public List<KeyFrame> KeyFrames { get; set; } = [];
-		public List<DebugString> DebugStrings { get; set; } = [];
-		public List<Tickmark> Tickmarks { get; set; } = [];
+		public List<ReplayLogItem> Logs { get; set; } = [];
+		public List<TimelineKeyframe> TimelineKeyframes { get; set; } = [];
 		public List<string> Packages { get; set; } = [];
 		public List<string> Objects { get; set; } = [];
-		public List<string> Names { get; set; } = [];
-		public Dictionary<string, int> ClassIndexes { get; set; } = [];
+		public List<Name> Names { get; set; } = [];
+		public Dictionary<int, string> ClassIndexes { get; set; } = [];
 		public List<ClassNetCache> ClassNetCaches { get; set; } = [];
 		public string? CameraTrackClass { get; set; } = null;
 		public CameraTrack_TA? CameraTrack { get; set; } = null;
 
-		public int MaxChannels => Properties.MaxChannels ?? 1023;
-		public int Changelist => Properties.Changelist ?? 0;
-		public Dictionary<int, ActorUpdate>? CurrentOpenChannels;
-		public Dictionary<int, ClassNetCache> TypeIdToClassNetCache = null!;
+		public Dictionary<int, ActorUpdate> CurrentOpenChannels = [];
+		public Dictionary<int, ClassNetCache> TypeIdToClassNetCache = [];
 
 		public static Replay Deserialize(string filePath, bool parseNetstream = true, bool enforeCRC = false)
 		{
@@ -68,7 +63,7 @@ namespace RocketRP
 			replay.ReplayClass = br.ReadString()!;
 
 			var replayType = Type.GetType($"RocketRP.Actors.{replay.ReplayClass}") ?? throw new NullReferenceException($"Replay Class Type {replay.ReplayClass} does not exist");
-			replay.Properties = (Replay_TA?)Activator.CreateInstance(replayType) ?? throw new MissingMethodException($"{replayType.Name} does not have a parameterless constructor");
+			replay.Properties = (Replay_Soccar_TA?)Activator.CreateInstance(replayType) ?? throw new MissingMethodException($"{replayType.Name} does not have a parameterless constructor");
 			Actors.Core.Object.Deserialize(replay.Properties, br, replay.VersionInfo);
 
 			if(part1Pos + replay.Part1Length != br.BaseStream.Position)
@@ -90,35 +85,35 @@ namespace RocketRP
 			var part2Pos = (uint)br.BaseStream.Position;
 
 			var numLevels = br.ReadInt32();
-			replay.Levels = new List<string>(numLevels);
+			replay.Levels = new List<Name>(numLevels);
 			for (int i = 0; i < numLevels; i++)
 			{
-				replay.Levels.Add(br.ReadString()!);
+				replay.Levels.Add(Name.Deserialize(br));
 			}
 
 			var numKeyFrames = br.ReadInt32();
-			replay.KeyFrames = new List<KeyFrame>(numKeyFrames);
+			replay.KeyFrames = new List<ReplayKeyframe>(numKeyFrames);
 			for(int i = 0; i < numKeyFrames; i++)
 			{
-				replay.KeyFrames.Add(KeyFrame.Deserialize(br));
+				replay.KeyFrames.Add(ReplayKeyframe.Deserialize(br));
 			}
 
 			// Skip the NetworkStream for now because we require the data after it to parse the NetworkStream
 			var netStreamLength = br.ReadInt32();
 			replay.NetStreamData = br.ReadBytes(netStreamLength);
 
-			var numDebugStrings = br.ReadInt32();
-			replay.DebugStrings = new List<DebugString>(numDebugStrings);
-			for (int i = 0; i < numDebugStrings; i++)
+			var numLogItems = br.ReadInt32();
+			replay.Logs = new List<ReplayLogItem>(numLogItems);
+			for (int i = 0; i < numLogItems; i++)
 			{
-				replay.DebugStrings.Add(DebugString.Deserialize(br));
+				replay.Logs.Add(ReplayLogItem.Deserialize(br));
 			}
 
-			var numTickmarks = br.ReadInt32();
-			replay.Tickmarks = new List<Tickmark>(numTickmarks);
-			for (int i = 0; i < numTickmarks; i++)
+			var numTimelineKeyframes = br.ReadInt32();
+			replay.TimelineKeyframes = new List<TimelineKeyframe>(numTimelineKeyframes);
+			for (int i = 0; i < numTimelineKeyframes; i++)
 			{
-				replay.Tickmarks.Add(Tickmark.Deserialize(br));
+				replay.TimelineKeyframes.Add(TimelineKeyframe.Deserialize(br));
 			}
 
 			var numPackages = br.ReadInt32();
@@ -136,17 +131,19 @@ namespace RocketRP
 			}
 
 			var numNames = br.ReadInt32();
-			replay.Names = new List<string>(numNames);
+			replay.Names = new List<Name>(numNames);
 			for (int i = 0; i < numNames; i++)
 			{
-				replay.Names.Add(br.ReadString()!);
+				replay.Names.Add(Name.Deserialize(br));
 			}
 
 			var numClassIndexes = br.ReadInt32();
-			replay.ClassIndexes = new Dictionary<string, int>(numClassIndexes);
+			replay.ClassIndexes = new Dictionary<int, string>(numClassIndexes);
 			for (int i = 0; i < numClassIndexes; i++)
 			{
-				replay.ClassIndexes.Add(br.ReadString()!, br.ReadInt32());
+				var className = br.ReadString()!;
+				var index = br.ReadInt32();
+				replay.ClassIndexes.Add(index, className);
 			}
 
 			var numClassNetCaches = br.ReadInt32();
@@ -159,7 +156,7 @@ namespace RocketRP
 				var dupe = replay.ClassNetCaches.Find(c => replay.Objects[c.ObjectIndex] == replay.Objects[classNetCache.ObjectIndex]);
 				if (dupe != null)
 				{
-					var realObjectName = replay.ClassIndexes.Where(kvp => kvp.Value == classNetCache.ObjectIndex).First().Key;
+					var realObjectName = replay.ClassIndexes[classNetCache.ObjectIndex];
 					replay.Objects[classNetCache.ObjectIndex] = realObjectName;
 					foreach(var prop in classNetCache.Properties)
 					{
@@ -231,8 +228,8 @@ namespace RocketRP
 
 			TypeIdToClassNetCache = TypeIdToClassNetCacheMapper.MapTypeIdsToClassNetCache(Objects, ClassNetCaches);
 
-			CurrentOpenChannels = new Dictionary<int, ActorUpdate>(Properties.MaxChannels!.Value);
-			Frames = new List<Frame>(Properties.NumFrames!.Value);
+			CurrentOpenChannels = new Dictionary<int, ActorUpdate>(Properties.MaxChannels);
+			Frames = new List<Frame>(Properties.NumFrames);
 
 			var br = new BitReader(NetStreamData);
 			return br;
@@ -240,7 +237,7 @@ namespace RocketRP
 
 		public void DeserializeNetStream(BitReader br)
 		{
-			while (Properties.NumFrames.Value > Frames.Count)
+			while (Properties.NumFrames > Frames.Count)
 			{
 				DeserializeNextFrame(br);
 			}
@@ -250,7 +247,7 @@ namespace RocketRP
 
 		public Frame? DeserializeNextFrame(BitReader br)
 		{
-			if (Properties.NumFrames.Value <= Frames.Count) return null;
+			if (Properties.NumFrames <= Frames.Count) return null;
 			var frame = Frame.Deserialize(br, this, CurrentOpenChannels, true);
 			Frames.Add(frame);
 			return frame;
@@ -305,7 +302,7 @@ namespace RocketRP
 			bw.Write(Levels.Count);
 			foreach (var level in Levels)
 			{
-				bw.Write(level);
+				level.Serialize(bw);
 			}
 
 			// Serialize the NetworkStream data first, so we can calculate the KeyFrame positions correctly
@@ -321,14 +318,14 @@ namespace RocketRP
 			bw.Write(NetStreamData.Length);
 			bw.Write(NetStreamData);
 
-			bw.Write(DebugStrings.Count);
-			foreach (var debugString in DebugStrings)
+			bw.Write(Logs.Count);
+			foreach (var debugString in Logs)
 			{
 				debugString.Serialize(bw);
 			}
 
-			bw.Write(Tickmarks.Count);
-			foreach (var tickmark in Tickmarks)
+			bw.Write(TimelineKeyframes.Count);
+			foreach (var tickmark in TimelineKeyframes)
 			{
 				tickmark.Serialize(bw);
 			}
@@ -348,14 +345,14 @@ namespace RocketRP
 			bw.Write(Names.Count);
 			foreach (var name in Names)
 			{
-				bw.Write(name);
+				name.Serialize(bw);
 			}
 
 			bw.Write(ClassIndexes.Count);
-			foreach (var kvp in ClassIndexes)
+			foreach ((int index, string className) in ClassIndexes)
 			{
-				bw.Write(kvp.Key);
-				bw.Write(kvp.Value);
+				bw.Write(className);
+				bw.Write(index);
 			}
 
 			bw.Write(ClassNetCaches.Count);
@@ -382,7 +379,7 @@ namespace RocketRP
 		public void SerializeCameraTrack(BinaryWriter bw)
 		{
 			bw.Write(CameraTrackClass);
-			if (CameraTrackClass == null) return;
+			if (CameraTrack == null) return;
 
 			bw.Write(0xFFFFFFFF);   // ObjHeader
 			Actors.Core.Object.Serialize(CameraTrack, bw, VersionInfo);
@@ -407,17 +404,17 @@ namespace RocketRP
 			for (int frameNum = 0; frameNum < Frames.Count; frameNum++)
 			{
 				Frame? frame = Frames[frameNum];
-				if(frameNum == KeyFrames[keyFrameNum].Frame)
+				if(frameNum == KeyFrames[keyFrameNum].frame)
 				{
 					if (KeyFrames[keyFrameNum].Time != frame.Time)
 					{
 						Console.WriteLine($"Warning: KeyFrame Time ({KeyFrames[keyFrameNum].Time}) doesn't match the Frame Time ({KeyFrames[keyFrameNum].Time}). Overwriting with the Frame Time");
 					}
-					KeyFrames[keyFrameNum] = new KeyFrame()
+					KeyFrames[keyFrameNum] = new ReplayKeyframe()
 					{
 						Time = frame.Time,
-						Frame = (uint)frameNum,
-						FilePosition = (uint)bw.NumBits
+						frame = frameNum,
+						Position = bw.NumBits
 					};
 					keyFrameNum++;
 					if (keyFrameNum >= KeyFrames.Count) keyFrameNum = 0;
@@ -463,12 +460,12 @@ namespace RocketRP
 
 	public struct ReplayVersionInfo : IFileVersionInfo
 	{
-		public uint EngineVersion { get; set; }
-		public uint LicenseeVersion { get; set; }
-		public uint TypeVersion { get; set; }
-		public uint NetVersion { get => TypeVersion; set => TypeVersion = value; }
+		public int EngineVersion { get; set; }
+		public int LicenseeVersion { get; set; }
+		public int TypeVersion { get; set; }
+		public int NetVersion { readonly get => TypeVersion; set => TypeVersion = value; }
 
-		public ReplayVersionInfo(uint engineVersion, uint licenseeVersion, uint netVersion = 0)
+		public ReplayVersionInfo(int engineVersion, int licenseeVersion, int netVersion = 0)
 		{
 			EngineVersion = engineVersion;
 			LicenseeVersion = licenseeVersion;
@@ -477,15 +474,15 @@ namespace RocketRP
 
 		public static ReplayVersionInfo Deserialize(BinaryReader br)
 		{
-			var engineVersion = br.ReadUInt32();
-			var licenseeVersion = br.ReadUInt32();
-			var netVersion = 0U;
-			if (engineVersion >= 868 && licenseeVersion >= 18) netVersion = br.ReadUInt32();
+			var engineVersion = br.ReadInt32();
+			var licenseeVersion = br.ReadInt32();
+			var netVersion = 0;
+			if (engineVersion >= 868 && licenseeVersion >= 18) netVersion = br.ReadInt32();
 
 			return new ReplayVersionInfo(engineVersion, licenseeVersion, netVersion);
 		}
 
-		public void Serialize(BinaryWriter bw)
+		public readonly void Serialize(BinaryWriter bw)
 		{
 			bw.Write(EngineVersion);
 			bw.Write(LicenseeVersion);

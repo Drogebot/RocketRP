@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RocketRP.DataTypes
+﻿namespace RocketRP.DataTypes
 {
 	public struct ImpulseData
 	{
-		public int? CompressedRotation { get; set; }
-		public float? ImpulseSpeed { get; set; }
+		public int CompressedRotation { get; set; }
+		public float ImpulseSpeed { get; set; }
 
-		public ImpulseData(int? compressedRotation, float? impulseSpeed)
+		public ImpulseData(int compressedRotation, float impulseSpeed)
 		{
 			CompressedRotation = compressedRotation;
 			ImpulseSpeed = impulseSpeed;
@@ -25,7 +19,7 @@ namespace RocketRP.DataTypes
 			return new ImpulseData(compressedRotation, impulseSpeed);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(CompressedRotation);
 			bw.Write(ImpulseSpeed);

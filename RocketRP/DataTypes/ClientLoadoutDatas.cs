@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RocketRP.DataTypes
+﻿namespace RocketRP.DataTypes
 {
 	public struct ClientLoadoutDatas
 	{
 		[FixedArraySize(2)]
-		public ClientLoadoutData?[]? Loadouts { get; set; }
+		public ClientLoadoutData[] Loadouts { get; set; }
 
-		public ClientLoadoutDatas(ClientLoadoutData?[]? clientLoadouts)
+		public ClientLoadoutDatas(ClientLoadoutData[] clientLoadouts)
 		{
 			Loadouts = clientLoadouts;
 		}
 
 		public static ClientLoadoutDatas Deserialize(BitReader br, Replay replay)
 		{
-			var loadouts = new ClientLoadoutData?[2]
+			var loadouts = new ClientLoadoutData[2]
 			{
 				ClientLoadoutData.Deserialize(br, replay),
 				ClientLoadoutData.Deserialize(br, replay),
@@ -27,10 +21,10 @@ namespace RocketRP.DataTypes
 			return new ClientLoadoutDatas(loadouts);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
-			Loadouts![0]!.Value.Serialize(bw, replay);
-			Loadouts![1]!.Value.Serialize(bw, replay);
+			Loadouts[0].Serialize(bw, replay);
+			Loadouts[1].Serialize(bw, replay);
 		}
 	}
 }

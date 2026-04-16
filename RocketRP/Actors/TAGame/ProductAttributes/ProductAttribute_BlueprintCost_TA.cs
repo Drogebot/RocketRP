@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.Actors.TAGame
 {
 	public class ProductAttribute_BlueprintCost_TA : ProductAttribute_TA
 	{
-		public int? Cost { get; set; }
+		public int Cost { get; set; }
 
 		public ProductAttribute_BlueprintCost_TA() { }
 

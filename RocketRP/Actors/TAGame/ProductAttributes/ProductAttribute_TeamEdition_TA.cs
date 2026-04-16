@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RocketRP.Actors.TAGame
+﻿namespace RocketRP.Actors.TAGame
 {
 	public class ProductAttribute_TeamEdition_TA : ProductAttribute_TA
 	{
-		public TeamEdition? Id { get; set; }
+		public TeamEdition Id { get; set; }
 
 		public ProductAttribute_TeamEdition_TA() { }
 
@@ -28,7 +22,7 @@ namespace RocketRP.Actors.TAGame
 		{
 			base.Serialize(bw, replay);
 
-			bw.Write((uint?)Id, 1U << 31);
+			bw.Write((uint)Id, 1U << 31);
 		}
 	}
 

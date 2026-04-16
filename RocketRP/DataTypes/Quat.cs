@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
 	/// This code was adapted from https://www.reddit.com/r/RocketLeague/comments/93h1f3/psyonix_help_me_please_how_are_rotations_encoded/e3g5b2s/
 	public struct Quat
 	{
-		public float X;
-		public float Y;
-		public float Z;
-		public float W;
+		private float _x;
+		private float _y;
+		private float _z;
+		private float _w;
+		public float X { readonly get => _x; set => _x = value; }
+		public float Y { readonly get => _y; set => _y = value; }
+		public float Z { readonly get => _z; set => _z = value; }
+		public float W { readonly get => _w; set => _w = value; }
 
 		private const int NUM_BITS = 18;
 		private const int MAX_VALUE = (1 << NUM_BITS) - 1;
-		private const float MAX_QUAT_VALUE = 0.7071067811865475244f;    // 1/sqrt(2)
+		private const float MAX_QUAT_VALUE = 0.7071067811865475244f;	// 1/sqrt(2)
 		private const float INV_MAX_QUAT_VALUE = 1.0f / MAX_QUAT_VALUE;
 
 		private enum Component : byte
@@ -90,16 +91,16 @@ namespace RocketRP.DataTypes
 			switch (largestComponent)
 			{
 				case Component.X:
-					UncompressComponents(br, ref quat.Y, ref quat.Z, ref quat.W, ref quat.X);
+					UncompressComponents(br, ref quat._y, ref quat._z, ref quat._w, ref quat._x);
 					break;
 				case Component.Y:
-					UncompressComponents(br, ref quat.X, ref quat.Z, ref quat.W, ref quat.Y);
+					UncompressComponents(br, ref quat._x, ref quat._z, ref quat._w, ref quat._y);
 					break;
 				case Component.Z:
-					UncompressComponents(br, ref quat.X, ref quat.Y, ref quat.W, ref quat.Z);
+					UncompressComponents(br, ref quat._x, ref quat._y, ref quat._w, ref quat._z);
 					break;
 				case Component.W:
-					UncompressComponents(br, ref quat.X, ref quat.Y, ref quat.Z, ref quat.W);
+					UncompressComponents(br, ref quat._x, ref quat._y, ref quat._z, ref quat._w);
 					break;
 			}
 
@@ -147,16 +148,16 @@ namespace RocketRP.DataTypes
 			switch (largestComponent)
 			{
 				case Component.X:
-					CompressComponents(bw, ref Y, ref Z, ref W);
+					CompressComponents(bw, ref _y, ref _z, ref _w);
 					break;
 				case Component.Y:
-					CompressComponents(bw, ref X, ref Z, ref W);
+					CompressComponents(bw, ref _x, ref _z, ref _w);
 					break;
 				case Component.Z:
-					CompressComponents(bw, ref X, ref Y, ref W);
+					CompressComponents(bw, ref _x, ref _y, ref _w);
 					break;
 				case Component.W:
-					CompressComponents(bw, ref X, ref Y, ref Z);
+					CompressComponents(bw, ref _x, ref _y, ref _z);
 					break;
 			}
 		}

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
@@ -42,7 +38,7 @@ namespace RocketRP.DataTypes
 			Z = br.ReadSingle();
 		}
 
-		public void Serialize(BinaryWriter bw, IFileVersionInfo versionInfo)
+		public readonly void Serialize(BinaryWriter bw, IFileVersionInfo versionInfo)
 		{
 			bw.Write(X);
 			bw.Write(Y);
@@ -65,7 +61,7 @@ namespace RocketRP.DataTypes
 			return new Vector(x, y, z);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			var maxValuePerComponent = replay.NetVersion >= 7 ? 22U : 20U;
 

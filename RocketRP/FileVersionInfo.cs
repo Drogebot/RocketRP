@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RocketRP
+﻿namespace RocketRP
 {
 	public interface IFileVersionInfo
 	{
-		public uint EngineVersion { get; set; }
-		public uint LicenseeVersion { get; set; }
-		public uint TypeVersion { get; set; }
+		public int EngineVersion { get; set; }
+		public int LicenseeVersion { get; set; }
+		public int TypeVersion { get; set; }
 	}
 }

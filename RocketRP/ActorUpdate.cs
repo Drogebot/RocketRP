@@ -4,11 +4,8 @@ using RocketRP.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP
 {
@@ -16,12 +13,12 @@ namespace RocketRP
 	{
 		public int ChannelId { get; set; }
 		public ChannelState State { get; set; }
-		public int? NameId { get; set; }
+		public int NameId { get; set; }
 		public string? Name { get; set; }
 		public ObjectTarget<ClassObject> TypeId { get; set; }
-		public string TypeName { get; set; } = null!;
+		public string? TypeName { get; set; } = null!;
 		public int ObjectId { get; set; }
-		public string ObjectName { get; set; } = null!;
+		public string? ObjectName { get; set; } = null!;
 		public Vector InitialPosition { get; set; }
 		public Rotator InitialRotation { get; set; }
 
@@ -36,7 +33,7 @@ namespace RocketRP
 
 		public static ActorUpdate Deserialize(BitReader br, Replay replay, Dictionary<int, ActorUpdate> openChannels, bool keepSnapshot = false)
 		{
-			var channelId = br.ReadInt32((uint)replay.MaxChannels);
+			var channelId = br.ReadInt32((uint)replay.Properties.MaxChannels);
 
 			if (br.ReadBit())
 			{
@@ -46,11 +43,11 @@ namespace RocketRP
 					actorUpdate.ChannelId = channelId;
 					actorUpdate.State = ChannelState.Open;
 
-					if ((replay.EngineVersion >= 868 && replay.LicenseeVersion >= 15) ||
+					if ((replay.LicenseeVersion >= 15) ||
 						(replay.EngineVersion == 868 && replay.LicenseeVersion == 14 && replay.Properties.MatchType != "Lan"))  // Fixes RLCS 2 replays
 					{
 						actorUpdate.NameId = br.ReadInt32();
-						actorUpdate.Name = replay.Names[actorUpdate.NameId.Value];
+						actorUpdate.Name = replay.Names[actorUpdate.NameId];
 					}
 
 					actorUpdate.TypeId = ObjectTarget<ClassObject>.Deserialize(br, replay);
@@ -204,26 +201,25 @@ namespace RocketRP
 			else if (propertyType == typeof(string)) return br.ReadString();
 			else
 			{
-				var methodInfo = propertyType.GetMethod("Deserialize", BindingFlags.Static | BindingFlags.Public, [typeof(BitReader), typeof(Replay)]);
-				if (methodInfo is null) throw new MissingMethodException($"Deserialize method in {propertyType.Name} not found");
-				else if (methodInfo.GetParameters().Length == 2) return methodInfo.Invoke(null, [br, replay]);
-				else throw new MissingMethodException($"Deserialize method in {propertyType.Name} does not have the correct parameters");
+				var methodInfo = propertyType.GetMethod("Deserialize", BindingFlags.Static | BindingFlags.Public, [typeof(BitReader), typeof(Replay)])
+					?? throw new MissingMethodException($"Deserialize method in {propertyType.Name} not found");
+				return methodInfo.Invoke(null, [br, replay]);
 			}
 		}
 
 		public void Serialize(BitWriter bw, Replay replay)
 		{
-			bw.Write(ChannelId, (uint)replay.MaxChannels);
+			bw.Write(ChannelId, (uint)replay.Properties.MaxChannels);
 
 			if (State == ChannelState.Open)
 			{
 				bw.Write(true);
 				bw.Write(true);
 
-				if ((replay.EngineVersion >= 868 && replay.LicenseeVersion >= 15) ||
+				if ((replay.LicenseeVersion >= 15) ||
 					(replay.EngineVersion == 868 && replay.LicenseeVersion == 14 && replay.Properties.MatchType != "Lan"))  // Fixes RLCS 2 replays
 				{
-					bw.Write(NameId ?? 0);
+					bw.Write(NameId);
 				}
 
 				TypeId.Serialize(bw, replay);
@@ -304,10 +300,9 @@ namespace RocketRP
 			else if (valueType == typeof(string)) bw.Write((string?)value);
 			else
 			{
-				var methodInfo = valueType.GetMethod("Serialize", BindingFlags.Instance | BindingFlags.Public, [typeof(BitWriter), typeof(Replay)]);
-				if (methodInfo is null) throw new MissingMethodException($"Serialize method in {valueType.Name} not found");
-				else if (methodInfo.GetParameters().Length == 2) methodInfo.Invoke(value, [bw, replay]);
-				else throw new MissingMethodException($"Serialize method in {valueType.Name} does not have the correct parameters");
+				var methodInfo = valueType.GetMethod("Serialize", BindingFlags.Instance | BindingFlags.Public, [typeof(BitWriter), typeof(Replay)])
+					?? throw new MissingMethodException($"Serialize method in {valueType.Name} not found");
+				methodInfo.Invoke(value, [bw, replay]);
 			}
 		}
 	}

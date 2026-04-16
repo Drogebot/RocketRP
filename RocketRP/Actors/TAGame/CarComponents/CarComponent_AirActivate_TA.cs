@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RocketRP.Actors.TAGame
+﻿namespace RocketRP.Actors.TAGame
 {
 	public class CarComponent_AirActivate_TA : CarComponent_TA
 	{

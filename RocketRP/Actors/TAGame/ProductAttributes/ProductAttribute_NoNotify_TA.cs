@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RocketRP.Actors.TAGame
+﻿namespace RocketRP.Actors.TAGame
 {
 	public class ProductAttribute_NoNotify_TA : ProductAttribute_TA
 	{

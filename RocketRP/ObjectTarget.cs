@@ -1,10 +1,6 @@
 ﻿using RocketRP.Actors.Core;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP
 {
@@ -19,14 +15,14 @@ namespace RocketRP
 			TargetIndex = targetIndex;
 		}
 
-		public TObject? GetObject(List<Actors.Core.Object> objects)
+		public readonly TObject? GetObject(List<Actors.Core.Object> objects)
 		{
 			if (objects[TargetIndex] is TObject obj) return obj;
 			else Console.WriteLine("ObjectTarget references wrong object type!");
 			return null;
 		}
 
-		public ClassObject? GetObject(List<string> objectTypes)
+		public readonly ClassObject? GetObject(List<string> objectTypes)
 		{
 			return new ClassObject(objectTypes[TargetIndex]);
 		}
@@ -37,12 +33,12 @@ namespace RocketRP
 			return new ObjectTarget<TObject>(false, targetIndex);
 		}
 
-		public void Serialize(BinaryWriter bw)
+		public readonly void Serialize(BinaryWriter bw)
 		{
 			bw.Write(TargetIndex);
 		}
 
-		public TObject? GetObject(Dictionary<int, ActorUpdate> actorUpdates, List<string> objectTypes)
+		public readonly TObject? GetObject(Dictionary<int, ActorUpdate> actorUpdates, List<string> objectTypes)
 		{
 			if (TargetIndex == 0) return null;
 			if (IsActor)
@@ -67,7 +63,7 @@ namespace RocketRP
 			return new ObjectTarget<TObject>(isActor, targetIndex);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(IsActor);
 			bw.Write(TargetIndex);

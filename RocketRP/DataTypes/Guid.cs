@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RocketRP.DataTypes
+﻿namespace RocketRP.DataTypes
 {
 	public struct Guid : ISpecialSerialized
 	{
@@ -22,7 +15,7 @@ namespace RocketRP.DataTypes
 			D = br.ReadInt32();
 		}
 
-		public void Serialize(BinaryWriter bw, IFileVersionInfo versionInfo)
+		public readonly void Serialize(BinaryWriter bw, IFileVersionInfo versionInfo)
 		{
 			bw.Write(A);
 			bw.Write(B);

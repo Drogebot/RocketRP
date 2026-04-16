@@ -1,19 +1,14 @@
 ﻿using RocketRP.Actors.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
 	/// This type no longer exists inside Rocket League, so I have no clue what the official names are
 	public struct ReplicatedMusicStinger
 	{
-		public ObjectTarget<ClassObject>? ObjectTarget { get; set; }
-		public byte? Unknown1 { get; set; }
+		public ObjectTarget<ClassObject> ObjectTarget { get; set; }
+		public byte Unknown1 { get; set; }
 
-		public ReplicatedMusicStinger(ObjectTarget<ClassObject>? objectTarget, byte? unknown1)
+		public ReplicatedMusicStinger(ObjectTarget<ClassObject> objectTarget, byte unknown1)
 		{
 			ObjectTarget = objectTarget;
 			Unknown1 = unknown1;
@@ -27,9 +22,9 @@ namespace RocketRP.DataTypes
 			return new ReplicatedMusicStinger(objectTarget, unknown1);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
-			ObjectTarget!.Value.Serialize(bw, replay);
+			ObjectTarget.Serialize(bw, replay);
 			bw.Write(Unknown1);
 		}
 	}

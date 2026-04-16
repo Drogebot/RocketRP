@@ -1,10 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace RocketRP
 {
@@ -27,7 +21,7 @@ namespace RocketRP
 			return ot;
 		}
 
-		public void Serialize(BinaryWriter bw)
+		public readonly void Serialize(BinaryWriter bw)
 		{
 			bw.Write(Type);
 			bw.Write(FilePosition);

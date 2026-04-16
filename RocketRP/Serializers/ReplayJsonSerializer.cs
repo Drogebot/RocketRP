@@ -1,37 +1,42 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace RocketRP.Serializers
 {
 	public class ReplayJsonSerializer
 	{
-		public string Serialize(Replay obj, bool prettyPrint = true)
+		public string Serialize(Replay replay, bool prettyPrint = true)
 		{
-			var converters = new JsonConverter[]{
-				new ActorUpdateJsonConverter(),
-				new DataTypesJsonConverter(),
-				new StringEnumConverter(),
-				new ReplayJsonConverter(),
+			var options = new JsonSerializerOptions()
+			{
+				WriteIndented = prettyPrint,
+				DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
 			};
+			options.Converters.Add(new JsonStringEnumConverter());
+			options.Converters.Add(new JsonActorUpdateConverter());
+			options.Converters.Add(new JsonNameConverter());
+			options.Converters.Add(new JsonRigidBodyConverter());
+			options.Converters.Add(new JsonGameServerIDConverter());
+			options.Converters.Add(new JsonGameModeConverter());
+			options.Converters.Add(new JsonStructConverter(options));
 
-			return JsonConvert.SerializeObject(obj, prettyPrint ? Formatting.Indented : Formatting.None, converters);
+			return JsonSerializer.Serialize(replay, options);
 		}
 
 		public Replay Deserialize(string json)
 		{
-			var converters = new JsonConverter[]{
-				new ActorUpdateJsonConverter(),
-				new DataTypesJsonConverter(),
-				new StringEnumConverter(),
-				new ReplayJsonConverter(),
-			};
+			var options = new JsonSerializerOptions();
+			options.Converters.Add(new JsonStringEnumConverter());
+			options.Converters.Add(new JsonActorUpdateConverter());
+			options.Converters.Add(new JsonNameConverter());
+			options.Converters.Add(new JsonGameServerIDConverter());
+			options.Converters.Add(new JsonGameModeConverter());
+			//options.Converters.Add(new JsonRigidBodyConverter());
+			//options.Converters.Add(new JsonStructConverter(options));
 
-			var replay = JsonConvert.DeserializeObject<Replay>(json, converters) ?? throw new JsonException("Replay JSON deserialization failed");
+			var replay = JsonSerializer.Deserialize<Replay>(json, options) ?? throw new JsonException("Replay JSON deserialization failed");
 
 			foreach (var classNetCache in replay.ClassNetCaches)
 			{
@@ -57,7 +62,7 @@ namespace RocketRP.Serializers
 				{
 					if (actorUpdate.SetPropertyNames is null) continue;
 					actorUpdate.ClassNetCache = replay.ClassNetCaches.FirstOrDefault(c => c.ClassType == actorUpdate.ObjectType)
-						?? throw new JsonException($"ClassNetCache for ObjectId {actorUpdate.ObjectId} not found in replay.");
+						?? throw new System.Text.Json.JsonException($"ClassNetCache for ObjectId {actorUpdate.ObjectId} not found in replay.");
 					actorUpdate.SetProperties = actorUpdate.SetPropertyNames!.SelectMany(name =>
 					{
 						var prop = actorUpdate.ClassNetCache.GetPropertyByName(name);

@@ -1,21 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RocketRP.DataTypes
+﻿namespace RocketRP.DataTypes
 {
 	public struct SceNpOnlineId
 	{
 		[FixedArraySize(2)]
-		public ulong?[]? Data { get; set; }
-		public byte? Term { get; set; }
+		public ulong[] Data { get; set; }
+		public byte Term { get; set; }
 		[FixedArraySize(3)]
-		public byte?[]? Dummy { get; set; }
+		public byte[] Dummy { get; set; }
 
-		public SceNpOnlineId(ulong?[]? data, byte? temp, byte?[]? dummy)
+		public SceNpOnlineId(ulong[] data, byte temp, byte[] dummy)
 		{
 			Data = data;
 			Term = temp;
@@ -24,18 +17,17 @@ namespace RocketRP.DataTypes
 
 		public static SceNpOnlineId Deserialize(BitReader br, Replay replay)
 		{
-			ulong?[] data = [
+			ulong[] data = [
 				br.ReadUInt64(),
 				br.ReadUInt64()
 			];
-
-			return new SceNpOnlineId(data, null, null);
+			return new SceNpOnlineId(data, default, new byte[3]);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
-			bw.Write(Data![0]);
-			bw.Write(Data![1]);
+			bw.Write(Data[0]);
+			bw.Write(Data[1]);
 		}
 	}
 }

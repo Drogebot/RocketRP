@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RocketRP.DataTypes
+﻿namespace RocketRP.DataTypes
 {
 	/// This class hasn't been encountered in any replays yet, so I'm sure it's entirely accurate
 	public struct CustomMatchTeamSettings
 	{
 		public string? Name { get; set; }
-		public ClubColorSet? Colors { get; set; }
-		//public int? GameScore { get; set; }	//This seems to go unused
+		public ClubColorSet Colors { get; set; }
+		//public int GameScore { get; set; }	//This seems to go unused
 
-		public CustomMatchTeamSettings(string? name, ClubColorSet? colors)
+		public CustomMatchTeamSettings(string? name, ClubColorSet colors)
 		{
 			Name = name;
 			Colors = colors;
@@ -27,10 +21,10 @@ namespace RocketRP.DataTypes
 			return new CustomMatchTeamSettings(name, colors);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(Name);
-			Colors!.Value.Serialize(bw, replay);
+			Colors.Serialize(bw, replay);
 		}
 	}
 }
