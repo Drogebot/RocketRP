@@ -21,9 +21,9 @@ namespace RocketRP.DataTypes
 
 		public static DemolishDataGoalExplosion Deserialize(BitReader br, Replay replay)
 		{
-			var goalExplosionOwner = ObjectTarget<PRI_TA>.Deserialize(br);
-			var attacker = ObjectTarget<RBActor_TA>.Deserialize(br);
-			var victim = ObjectTarget<Car_TA>.Deserialize(br);
+			var goalExplosionOwner = ObjectTarget<PRI_TA>.Deserialize(br, replay);
+			var attacker = ObjectTarget<RBActor_TA>.Deserialize(br, replay);
+			var victim = ObjectTarget<Car_TA>.Deserialize(br, replay);
 			var attackerVelocity = Vector.Deserialize(br, replay);
 			var victimVelocity = Vector.Deserialize(br, replay);
 
@@ -32,9 +32,9 @@ namespace RocketRP.DataTypes
 
 		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
-			GoalExplosionOwner.Serialize(bw);
-			Attacker.Serialize(bw);
-			Victim.Serialize(bw);
+			GoalExplosionOwner.Serialize(bw, replay);
+			Attacker.Serialize(bw, replay);
+			Victim.Serialize(bw, replay);
 			AttackerVelocity.Serialize(bw, replay);
 			VictimVelocity.Serialize(bw, replay);
 		}

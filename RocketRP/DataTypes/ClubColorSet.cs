@@ -16,7 +16,7 @@
 			CustomColorID = customColorID;
 		}
 
-		public static ClubColorSet Deserialize(BitReader br)
+		public static ClubColorSet Deserialize(BitReader br, Replay replay)
 		{
 			bool bTeamColorSet = br.ReadBit();
 			byte TeamColorID = br.ReadByte();
@@ -26,7 +26,7 @@
 			return new ClubColorSet(bTeamColorSet, TeamColorID, bCustomColorSet, CustomColorID);
 		}
 
-		public readonly void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(bTeamColorSet);
 			bw.Write(TeamColorID);

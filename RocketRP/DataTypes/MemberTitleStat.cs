@@ -20,24 +20,24 @@ namespace RocketRP.DataTypes
 			MemberPRI = memberPRI;
 		}
 
-		public static MemberTitleStat Deserialize(BitReader br)
+		public static MemberTitleStat Deserialize(BitReader br, Replay replay)
 		{
-			var category = ObjectTarget<ClassObject>.Deserialize(br);
-			var title = ObjectTarget<ClassObject>.Deserialize(br);
+			var category = ObjectTarget<ClassObject>.Deserialize(br, replay);
+			var title = ObjectTarget<ClassObject>.Deserialize(br, replay);
 			var pointsEarned = br.ReadInt32();
 			var statCount = br.ReadInt32();
-			var memberPRI = ObjectTarget<PRI_TA>.Deserialize(br);
+			var memberPRI = ObjectTarget<PRI_TA>.Deserialize(br, replay);
 
 			return new MemberTitleStat(category, title, pointsEarned, statCount, memberPRI);
 		}
 
-		public readonly void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
-			Category.Serialize(bw);
-			Title.Serialize(bw);
+			Category.Serialize(bw, replay);
+			Title.Serialize(bw, replay);
 			bw.Write(PointsEarned);
 			bw.Write(StatCount);
-			MemberPRI.Serialize(bw);
+			MemberPRI.Serialize(bw, replay);
 		}
 	}
 }

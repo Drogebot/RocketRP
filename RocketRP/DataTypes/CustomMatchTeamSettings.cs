@@ -13,18 +13,18 @@
 			Colors = colors;
 		}
 
-		public static CustomMatchTeamSettings Deserialize(BitReader br)
+		public static CustomMatchTeamSettings Deserialize(BitReader br, Replay replay)
 		{
 			var name = br.ReadString();
-			var colors = ClubColorSet.Deserialize(br);
+			var colors = ClubColorSet.Deserialize(br, replay);
 
 			return new CustomMatchTeamSettings(name, colors);
 		}
 
-		public readonly void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(Name);
-			Colors.Serialize(bw);
+			Colors.Serialize(bw, replay);
 		}
 	}
 }

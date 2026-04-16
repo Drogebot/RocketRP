@@ -82,7 +82,7 @@ namespace RocketRP.DataTypes
 			missing = MathF.Sqrt(1.0f - (a * a) - (b * b) - (c * c));
 		}
 
-		public static Quat Deserialize(BitReader br)
+		public static Quat Deserialize(BitReader br, Replay replay)
 		{
 			var largestComponent = (Component)br.ReadInt32((byte)Component.Num);
 
@@ -123,7 +123,7 @@ namespace RocketRP.DataTypes
 			bw.Write(CompressComponent(c), MAX_VALUE + 1);
 		}
 
-		public void Serialize(BitWriter bw)
+		public void Serialize(BitWriter bw, Replay replay)
 		{
 			Normalize();
 

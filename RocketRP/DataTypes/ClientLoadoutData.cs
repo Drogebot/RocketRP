@@ -154,7 +154,7 @@ namespace RocketRP.DataTypes
 			_ => throw new ArgumentOutOfRangeException(nameof(count), "Loadout Item Count must be one of [7,8,11,12,13,16]"),
 		};
 
-		public static ClientLoadoutData Deserialize(BitReader br)
+		public static ClientLoadoutData Deserialize(BitReader br, Replay replay)
 		{
 			byte version = br.ReadByte();
 			var products = new int[VersionToItemCount(version)];
@@ -166,7 +166,7 @@ namespace RocketRP.DataTypes
 			return new ClientLoadoutData(products);
 		}
 
-		public readonly void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(Version);
 			for (int i = 0; i < VersionToItemCount(Version); i++)

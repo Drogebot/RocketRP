@@ -38,17 +38,17 @@ namespace RocketRP.DataTypes
 					uid = br.ReadUInt64();
 					break;
 				case OnlinePlatform.OnlinePlatform_PS4:
-					npId = SceNpId.Deserialize(br);
+					npId = SceNpId.Deserialize(br, replay);
 					if (replay.NetVersion >= 1) uid = br.ReadUInt64();
 					break;
 				case OnlinePlatform.OnlinePlatform_OldNNX:
-					npId = SceNpId.Deserialize(br);
+					npId = SceNpId.Deserialize(br, replay);
 					break;
 				case OnlinePlatform.OnlinePlatform_NNX:
 					if (replay.NetVersion >= 10) uid = br.ReadUInt64();
 					// I don't know if this ever happens, but better safe than sorry.
 					// It's the same as the old NNX format, so I think new NNX was made at the same time they changed the format.
-					else npId = SceNpId.Deserialize(br);
+					else npId = SceNpId.Deserialize(br, replay);
 					break;
 				case OnlinePlatform.OnlinePlatform_Epic:
 					epicAccountId = br.ReadString();
@@ -75,15 +75,15 @@ namespace RocketRP.DataTypes
 					bw.Write(Uid);
 					break;
 				case OnlinePlatform.OnlinePlatform_PS4:
-					NpId.Serialize(bw);
+					NpId.Serialize(bw, replay);
 					if (replay.NetVersion >= 1) bw.Write(Uid);
 					break;
 				case OnlinePlatform.OnlinePlatform_OldNNX:
-					NpId.Serialize(bw);
+					NpId.Serialize(bw, replay);
 					break;
 				case OnlinePlatform.OnlinePlatform_NNX:
 					if (replay.NetVersion >= 10) bw.Write(Uid);
-					else NpId.Serialize(bw);
+					else NpId.Serialize(bw, replay);
 					break;
 				case OnlinePlatform.OnlinePlatform_Epic:
 					bw.Write(EpicAccountId);

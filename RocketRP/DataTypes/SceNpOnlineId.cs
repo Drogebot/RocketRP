@@ -15,7 +15,7 @@
 			Dummy = dummy;
 		}
 
-		public static SceNpOnlineId Deserialize(BitReader br)
+		public static SceNpOnlineId Deserialize(BitReader br, Replay replay)
 		{
 			ulong[] data = [
 				br.ReadUInt64(),
@@ -24,7 +24,7 @@
 			return new SceNpOnlineId(data, default, new byte[3]);
 		}
 
-		public readonly void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(Data[0]);
 			bw.Write(Data[1]);

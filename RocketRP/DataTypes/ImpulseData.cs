@@ -11,7 +11,7 @@
 			ImpulseSpeed = impulseSpeed;
 		}
 
-		public static ImpulseData Deserialize(BitReader br)
+		public static ImpulseData Deserialize(BitReader br, Replay replay)
 		{
 			var compressedRotation = br.ReadInt32();
 			var impulseSpeed = br.ReadSingle();
@@ -19,7 +19,7 @@
 			return new ImpulseData(compressedRotation, impulseSpeed);
 		}
 
-		public readonly void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(CompressedRotation);
 			bw.Write(ImpulseSpeed);

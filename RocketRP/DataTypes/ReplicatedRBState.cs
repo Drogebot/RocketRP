@@ -32,8 +32,8 @@
 			if (replay.NetVersion >= 5) position /= 100f;
 
 			Quat rotation = replay.NetVersion >= 7
-				? Quat.Deserialize(br)
-				: new Quat(Rotator.DeserializeUncompressed(br));
+				? Quat.Deserialize(br, replay)
+				: new Quat(Rotator.DeserializeUncompressed(br, replay));
 
 			if(sleeping) return new ReplicatedRBState(sleeping, position, rotation);
 
@@ -52,8 +52,8 @@
 			if (replay.NetVersion >= 5) position *= 100;
 			position.Serialize(bw, replay);
 
-			if (replay.NetVersion >= 7) Rotation.Serialize(bw);
-			else (new Rotator(Rotation)).SerializeUncompressed(bw);
+			if (replay.NetVersion >= 7) Rotation.Serialize(bw, replay);
+			else (new Rotator(Rotation)).SerializeUncompressed(bw, replay);
 
 			if (!Sleeping)
 			{

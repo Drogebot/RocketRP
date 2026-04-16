@@ -19,20 +19,20 @@ namespace RocketRP.DataTypes
 
 		public static WeldingInfo Deserialize(BitReader br, Replay replay)
 		{
-			var rbActor = ObjectTarget<RBActor_TA>.Deserialize(br);
+			var rbActor = ObjectTarget<RBActor_TA>.Deserialize(br, replay);
 			var offset = Vector.Deserialize(br, replay);
 			var mass = br.ReadSingle();
-			var rotation = Rotator.Deserialize(br);
+			var rotation = Rotator.Deserialize(br, replay);
 
 			return new WeldingInfo(rbActor, offset, mass, rotation);
 		}
 
 		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
-			RBActor.Serialize(bw);
+			RBActor.Serialize(bw, replay);
 			Offset.Serialize(bw, replay);
 			bw.Write(Mass);
-			Rotation.Serialize(bw);
+			Rotation.Serialize(bw, replay);
 		}
 	}
 }

@@ -11,7 +11,7 @@
 			this.bSwapColors = bSwapColors;
 		}
 
-		public static ReplicatedLogoData Deserialize(BitReader br)
+		public static ReplicatedLogoData Deserialize(BitReader br, Replay replay)
 		{
 			var logoID = br.ReadInt32();
 			var bSwapColors = br.ReadBit();
@@ -19,7 +19,7 @@
 			return new ReplicatedLogoData(logoID, bSwapColors);
 		}
 
-		public readonly void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(LogoID);
 			bw.Write(bSwapColors);

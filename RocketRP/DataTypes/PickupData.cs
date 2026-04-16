@@ -13,17 +13,17 @@ namespace RocketRP.DataTypes
 			this.bPickedUp = bPickedUp;
 		}
 
-		public static PickupData Deserialize(BitReader br)
+		public static PickupData Deserialize(BitReader br, Replay replay)
 		{
-			var Insigator = ObjectTarget<Car_TA>.Deserialize(br);
+			var Insigator = ObjectTarget<Car_TA>.Deserialize(br, replay);
 			var bPickedUp = br.ReadBit();
 
 			return new PickupData(Insigator, bPickedUp);
 		}
 
-		public readonly void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
-			Insigator.Serialize(bw);
+			Insigator.Serialize(bw, replay);
 			bw.Write(bPickedUp);
 		}
 	}

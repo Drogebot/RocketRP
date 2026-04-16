@@ -15,7 +15,7 @@
 			Unused2 = unused2;
 		}
 
-		public static ReplicatedBoostData Deserialize(BitReader br)
+		public static ReplicatedBoostData Deserialize(BitReader br, Replay replay)
 		{
 			var grantCount = br.ReadByte();
 			var boostAmount = br.ReadByte();
@@ -25,7 +25,7 @@
 			return new ReplicatedBoostData(grantCount, boostAmount, unused1, unused2);
 		}
 
-		public readonly void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(GrantCount);
 			bw.Write(BoostAmount);

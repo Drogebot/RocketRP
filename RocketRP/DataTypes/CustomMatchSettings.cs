@@ -47,8 +47,8 @@
 			{
 				teamSettings =
 				[
-					CustomMatchTeamSettings.Deserialize(br),
-					CustomMatchTeamSettings.Deserialize(br),
+					CustomMatchTeamSettings.Deserialize(br, replay),
+					CustomMatchTeamSettings.Deserialize(br, replay),
 				];
 			}
 
@@ -69,8 +69,8 @@
 			bw.Write(bPublic);
 			if (false)	// Find the correct condition
 			{
-				TeamSettings[0].Serialize(bw);
-				TeamSettings[1].Serialize(bw);
+				TeamSettings[0].Serialize(bw, replay);
+				TeamSettings[1].Serialize(bw, replay);
 			}
 		}
 	}
