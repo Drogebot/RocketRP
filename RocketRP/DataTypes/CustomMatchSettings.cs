@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace RocketRP.DataTypes
+﻿namespace RocketRP.DataTypes
 {
 	public struct CustomMatchSettings
 	{
 		public string? GameTags { get; set; }
-		public Name? MapName { get; set; }
-		public byte? GameMode { get; set; }
-		public int? MaxPlayerCount { get; set; }
+		public Name MapName { get; set; }
+		public byte GameMode { get; set; }
+		public int MaxPlayerCount { get; set; }
 		public string? ServerName { get; set; }
 		public string? Password { get; set; }
-		public bool? bPublic { get; set; }
+		public bool bPublic { get; set; }
 		[FixedArraySize(2)]
-		public CustomMatchTeamSettings?[]? TeamSettings { get; set; }
-		//public bool? bClubServer { get; set; }  //This seems to go unused
+		public CustomMatchTeamSettings[] TeamSettings { get; set; }
+		//public bool bClubServer { get; set; }  //This seems to go unused
 
-		public CustomMatchSettings(string? gameTags, Name? mapName, byte? gameMode, int? maxPlayerCount, string? serverName, string? password, bool? bPublic, CustomMatchTeamSettings?[]? teamSettings)
+		public CustomMatchSettings(string? gameTags, Name mapName, byte gameMode, int maxPlayerCount, string? serverName, string? password, bool bPublic, CustomMatchTeamSettings[] teamSettings)
 		{
 			GameTags = gameTags;
 			MapName = mapName;
@@ -49,7 +42,7 @@ namespace RocketRP.DataTypes
 			var serverName = br.ReadString();
 			var password = br.ReadString();
 			var bPublic = br.ReadBit();
-			CustomMatchTeamSettings?[]? teamSettings = null;
+			CustomMatchTeamSettings[] teamSettings = new CustomMatchTeamSettings[2];
 			if (false)  // Find the correct condition
 			{
 				teamSettings =
@@ -62,10 +55,10 @@ namespace RocketRP.DataTypes
 			return new CustomMatchSettings(gameTags, mapName, gameMode, maxPlayerCount, serverName, password, bPublic, teamSettings);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(GameTags);
-			MapName!.Value.Serialize(bw, replay);
+			MapName.Serialize(bw, replay);
 			if (false)	// Find the correct condition
 			{
 				bw.Write(GameMode);
@@ -76,8 +69,8 @@ namespace RocketRP.DataTypes
 			bw.Write(bPublic);
 			if (false)	// Find the correct condition
 			{
-				TeamSettings![0]!.Value.Serialize(bw);
-				TeamSettings![1]!.Value.Serialize(bw);
+				TeamSettings[0].Serialize(bw);
+				TeamSettings[1].Serialize(bw);
 			}
 		}
 	}

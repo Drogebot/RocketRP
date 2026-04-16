@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RocketRP.DataTypes
+﻿namespace RocketRP.DataTypes
 {
 	public struct AppliedBreakoutDamage
 	{
-		public byte? Id { get; set; }
-		public Vector? Location { get; set; }
-		public int? DamageIndex { get; set; }
-		public int? TotalDamage { get; set; }
+		public byte Id { get; set; }
+		public Vector Location { get; set; }
+		public int DamageIndex { get; set; }
+		public int TotalDamage { get; set; }
 
-		public AppliedBreakoutDamage(byte? id, Vector? location, int? damageIndex, int? totalDamage)
+		public AppliedBreakoutDamage(byte id, Vector location, int damageIndex, int totalDamage)
 		{
 			Id = id;
 			Location = location;
@@ -31,10 +25,10 @@ namespace RocketRP.DataTypes
 			return new AppliedBreakoutDamage(id, location, damageIndex, totalDamage);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(Id);
-			Location!.Value.Serialize(bw, replay);
+			Location.Serialize(bw, replay);
 			bw.Write(DamageIndex);
 			bw.Write(TotalDamage);
 		}

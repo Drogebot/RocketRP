@@ -1,23 +1,17 @@
-﻿using Newtonsoft.Json;
-using RocketRP.DataTypes.Enums;
+﻿using RocketRP.DataTypes.Enums;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
-    public struct UniqueNetId
+	public struct UniqueNetId
 	{
-		public ulong? Uid { get; set; }
-		public SceNpId? NpId { get; set; }
+		public ulong Uid { get; set; }
+		public SceNpId NpId { get; set; }
 		public string? EpicAccountId { get; set; }
-		public OnlinePlatform? Platform { get; set; }
-		public byte? SplitscreenID { get; set; }
+		public OnlinePlatform Platform { get; set; }
+		public byte SplitscreenID { get; set; }
 
-		public UniqueNetId(OnlinePlatform platform, ulong uid, SceNpId? npId, string? epicAccountId, byte splitscreenId)
+		public UniqueNetId(OnlinePlatform platform, ulong uid, SceNpId npId, string? epicAccountId, byte splitscreenId)
 		{
 			Uid = uid;
 			NpId = npId;
@@ -26,16 +20,11 @@ namespace RocketRP.DataTypes
 			SplitscreenID = splitscreenId;
 		}
 
-		public static UniqueNetId Deserialize(BinaryReader br)
-		{
-			return new UniqueNetId();
-		}
-
 		public static UniqueNetId Deserialize(BitReader br, Replay replay)
 		{
 			var platform = (OnlinePlatform)br.ReadByte();
 			ulong uid = 0;
-			SceNpId? npId = null;
+			SceNpId npId = default;
 			string? epicAccountId = null;
 			byte splitscreenId = 0;
 
@@ -73,10 +62,10 @@ namespace RocketRP.DataTypes
 			return new UniqueNetId(platform, uid, npId, epicAccountId, splitscreenId);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
-			bw.Write((byte?)Platform);
-			switch ((OnlinePlatform)Platform)
+			bw.Write((byte)Platform);
+			switch (Platform)
 			{
 				case OnlinePlatform.OnlinePlatform_Unknown:
 					break;
@@ -86,15 +75,15 @@ namespace RocketRP.DataTypes
 					bw.Write(Uid);
 					break;
 				case OnlinePlatform.OnlinePlatform_PS4:
-					NpId!.Value.Serialize(bw);
+					NpId.Serialize(bw);
 					if (replay.NetVersion >= 1) bw.Write(Uid);
 					break;
 				case OnlinePlatform.OnlinePlatform_OldNNX:
-					NpId!.Value.Serialize(bw);
+					NpId.Serialize(bw);
 					break;
 				case OnlinePlatform.OnlinePlatform_NNX:
 					if (replay.NetVersion >= 10) bw.Write(Uid);
-					else NpId!.Value.Serialize(bw);
+					else NpId.Serialize(bw);
 					break;
 				case OnlinePlatform.OnlinePlatform_Epic:
 					bw.Write(EpicAccountId);

@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RocketRP.DataTypes
+﻿namespace RocketRP.DataTypes
 {
 	public struct ProfileCameraSettings
 	{
-		public float? FOV { get; set; }
-		public float? Height { get; set; }
-		public float? Pitch { get; set; }
-		public float? Distance { get; set; }
-		public float? Stiffness { get; set; }
-		public float? SwivelSpeed { get; set; }
-		public float? TransitionSpeed { get; set; }
+		public float FOV { get; set; }
+		public float Height { get; set; }
+		public float Pitch { get; set; }
+		public float Distance { get; set; }
+		public float Stiffness { get; set; }
+		public float SwivelSpeed { get; set; }
+		public float TransitionSpeed { get; set; }
 
-		public ProfileCameraSettings(float? fov, float? height, float? pitch, float? distance, float? stiffness, float? swivelSpeed, float? transitionSpeed)
+		public ProfileCameraSettings(float fov, float height, float pitch, float distance, float stiffness, float swivelSpeed, float transitionSpeed)
 		{
 			FOV = fov;
 			Height = height;
@@ -37,12 +31,12 @@ namespace RocketRP.DataTypes
 			var swivelSpeed = br.ReadSingle();
 
 			float transitionSpeed = default;
-			if (replay.EngineVersion >= 868 && replay.LicenseeVersion >= 20) transitionSpeed = br.ReadSingle();
+			if (replay.LicenseeVersion >= 20) transitionSpeed = br.ReadSingle();
 
 			return new ProfileCameraSettings(fov, height, pitch, distance, stiffness, swivelSpeed, transitionSpeed);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
 			bw.Write(FOV);
 			bw.Write(Height);
@@ -51,7 +45,7 @@ namespace RocketRP.DataTypes
 			bw.Write(Stiffness);
 			bw.Write(SwivelSpeed);
 
-			if(replay.EngineVersion >= 868 && replay.LicenseeVersion >= 20) bw.Write(TransitionSpeed);
+			if (replay.LicenseeVersion >= 20) bw.Write(TransitionSpeed);
 		}
 	}
 }

@@ -1,19 +1,14 @@
 ﻿using RocketRP.Actors.TAGame;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
 	public struct PickupInfo_TA
 	{
 		[FixedArraySize(3)]
-		public ObjectTarget<SpecialPickup_TA>?[]? AvailablePickups { get; set; }
-		public bool? bItemsArePreview { get; set; }
+		public ObjectTarget<SpecialPickup_TA>[] AvailablePickups { get; set; }
+		public bool bItemsArePreview { get; set; }
 
-		public PickupInfo_TA(ObjectTarget<SpecialPickup_TA>?[]? availablePickups, bool? bItemsArePreview)
+		public PickupInfo_TA(ObjectTarget<SpecialPickup_TA>[] availablePickups, bool bItemsArePreview)
 		{
 			AvailablePickups = availablePickups;
 			this.bItemsArePreview = bItemsArePreview;
@@ -21,7 +16,7 @@ namespace RocketRP.DataTypes
 
 		public static PickupInfo_TA Deserialize(BitReader br)
 		{
-			var availablePickups = new ObjectTarget<SpecialPickup_TA>?[3]
+			var availablePickups = new ObjectTarget<SpecialPickup_TA>[3]
 			{
 				ObjectTarget<SpecialPickup_TA>.Deserialize(br),
 				ObjectTarget<SpecialPickup_TA>.Deserialize(br),
@@ -32,11 +27,11 @@ namespace RocketRP.DataTypes
 			return new PickupInfo_TA(availablePickups, bItemsArePreview);
 		}
 
-		public void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw)
 		{
-			AvailablePickups![0]!.Value.Serialize(bw);
-			AvailablePickups![1]!.Value.Serialize(bw);
-			AvailablePickups![2]!.Value.Serialize(bw);
+			AvailablePickups![0].Serialize(bw);
+			AvailablePickups![1].Serialize(bw);
+			AvailablePickups![2].Serialize(bw);
 			bw.Write(bItemsArePreview);
 		}
 	}

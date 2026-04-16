@@ -1,18 +1,13 @@
 ﻿using RocketRP.Actors.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
 	public struct ExplosionData
 	{
-		public ObjectTarget<ClassObject>? Goal { get; set; }
-		public Vector? Location { get; set; }
+		public ObjectTarget<ClassObject> Goal { get; set; }
+		public Vector Location { get; set; }
 
-		public ExplosionData(ObjectTarget<ClassObject>? goal, Vector? location)
+		public ExplosionData(ObjectTarget<ClassObject> goal, Vector location)
 		{
 			Goal = goal;
 			Location = location;
@@ -26,10 +21,10 @@ namespace RocketRP.DataTypes
 			return new ExplosionData(goal, location);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
-			Goal!.Value.Serialize(bw);
-			Location!.Value.Serialize(bw, replay);
+			Goal.Serialize(bw);
+			Location.Serialize(bw, replay);
 		}
 	}
 }

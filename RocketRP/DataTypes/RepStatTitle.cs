@@ -1,21 +1,16 @@
 ﻿using RocketRP.Actors.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
 	/// This type no longer exists inside Rocket League, so I have no clue what the official names are
 	public struct RepStatTitle
 	{
-		public bool? Unknown1 { get; set; }
+		public bool Unknown1 { get; set; }
 		public string? Name { get; set; }
-		public ObjectTarget<ClassObject>? ObjectTarget { get; set; }
-		public uint? Value { get; set; }
+		public ObjectTarget<ClassObject> ObjectTarget { get; set; }
+		public uint Value { get; set; }
 
-		public RepStatTitle(bool? unknown1, string? name, ObjectTarget<ClassObject>? objectTarget, uint? value)
+		public RepStatTitle(bool unknown1, string? name, ObjectTarget<ClassObject> objectTarget, uint value)
 		{
 			Unknown1 = unknown1;
 			Name = name;
@@ -33,11 +28,11 @@ namespace RocketRP.DataTypes
 			return new RepStatTitle(unknown1, name, objectTarget, value);
 		}
 
-		public void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw)
 		{
 			bw.Write(Unknown1);
 			bw.Write(Name);
-			ObjectTarget!.Value.Serialize(bw);
+			ObjectTarget.Serialize(bw);
 			bw.Write(Value);
 		}
 	}

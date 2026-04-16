@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP
 {
@@ -84,77 +80,62 @@ namespace RocketRP
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public bool Write([NotNull] Boolean? value)
+		public bool Write(Boolean value)
 		{
-			ArgumentNullException.ThrowIfNull(value);
 			if (Pos + 1 >= Max) Grow(Pos + 1);
 
-			if ((Boolean)value) Buffer[Pos >> 3] |= GShift[Pos & 7];
+			if (value) Buffer[Pos >> 3] |= GShift[Pos & 7];
 			Pos++;
 
-			return value.Value;
+			return value;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public unsafe void Write([NotNull] Byte? value)
+		public unsafe void Write(Byte value)
 		{
-			ArgumentNullException.ThrowIfNull(value);
-			var val = (Byte)value;
-			SerializeBits(&val, sizeof(Byte) << 3);
+			SerializeBits(&value, sizeof(Byte) << 3);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void Write([NotNull] Int32? value, UInt32 valueMax)
+		public unsafe void Write(Int32 value, UInt32 valueMax)
 		{
-			ArgumentNullException.ThrowIfNull(value);
 			SerializeInt((UInt32)value, valueMax);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void Write([NotNull] UInt32? value, UInt32 valueMax)
+		public void Write(UInt32 value, UInt32 valueMax)
 		{
-			ArgumentNullException.ThrowIfNull(value);
-			SerializeInt((UInt32)value, valueMax);
+			SerializeInt(value, valueMax);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public unsafe void Write([NotNull] Int32? value)
+		public unsafe void Write(Int32 value)
 		{
-			ArgumentNullException.ThrowIfNull(value);
-			var val = (Int32)value;
-			SerializeBits(&val, sizeof(Int32) << 3);
+			SerializeBits(&value, sizeof(Int32) << 3);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public unsafe void Write([NotNull] UInt32? value)
+		public unsafe void Write(UInt32 value)
 		{
-			ArgumentNullException.ThrowIfNull(value);
-			var val = (UInt32)value;
-			SerializeBits(&val, sizeof(UInt32) << 3);
+			SerializeBits(&value, sizeof(UInt32) << 3);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public unsafe void Write([NotNull] Int64? value)
+		public unsafe void Write(Int64 value)
 		{
-			ArgumentNullException.ThrowIfNull(value);
-			var val = (Int64)value;
-			SerializeBits(&val, sizeof(Int64) << 3);
+			SerializeBits(&value, sizeof(Int64) << 3);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public unsafe void Write([NotNull] UInt64? value)
+		public unsafe void Write(UInt64 value)
 		{
-			ArgumentNullException.ThrowIfNull(value);
-			var val = (UInt64)value;
-			SerializeBits(&val, sizeof(UInt64) << 3);
+			SerializeBits(&value, sizeof(UInt64) << 3);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public unsafe void Write([NotNull] Single? value)
+		public unsafe void Write(Single value)
 		{
-			ArgumentNullException.ThrowIfNull(value);
-			var val = (Single)value;
-			SerializeBits(&val, sizeof(Single) << 3);
+			SerializeBits(&value, sizeof(Single) << 3);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

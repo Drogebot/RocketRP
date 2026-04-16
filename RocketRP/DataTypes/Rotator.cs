@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
@@ -48,7 +44,7 @@ namespace RocketRP.DataTypes
 			Roll = br.ReadSingle();
 		}
 
-		public void Serialize(BinaryWriter bw, IFileVersionInfo versionInfo)
+		public readonly void Serialize(BinaryWriter bw, IFileVersionInfo versionInfo)
 		{
 			bw.Write(Pitch);
 			bw.Write(Yaw);
@@ -85,7 +81,7 @@ namespace RocketRP.DataTypes
 			return (byte)(Normalize(axis) * (128f / 180f));
 		}
 
-		public void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw)
 		{
 			byte b = AxisToByte(Pitch);
 			if (bw.Write(b != 0))
@@ -107,7 +103,7 @@ namespace RocketRP.DataTypes
 			return new Rotator(pitch, yaw, roll);
 		}
 
-		public void SerializeUncompressed(BitWriter bw)
+		public readonly void SerializeUncompressed(BitWriter bw)
 		{
 			bw.Write((int)(Pitch * (32768f / 180f)), 1U << 16);
 			bw.Write((int)(Yaw * (32768f / 180f)), 1U << 16);

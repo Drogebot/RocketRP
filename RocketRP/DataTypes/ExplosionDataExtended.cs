@@ -1,20 +1,15 @@
 ﻿using RocketRP.Actors.Core;
 using RocketRP.Actors.TAGame;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
 	public struct ExplosionDataExtended
 	{
-		public ObjectTarget<ClassObject>? Goal { get; set; }
-		public Vector? Location { get; set; }
-		public ObjectTarget<PRI_TA>? Scorer { get; set; }
+		public ObjectTarget<ClassObject> Goal { get; set; }
+		public Vector Location { get; set; }
+		public ObjectTarget<PRI_TA> Scorer { get; set; }
 
-		public ExplosionDataExtended(ObjectTarget<ClassObject>? goal, Vector? location, ObjectTarget<PRI_TA>? scorer)
+		public ExplosionDataExtended(ObjectTarget<ClassObject> goal, Vector location, ObjectTarget<PRI_TA> scorer)
 		{
 			Goal = goal;
 			Location = location;
@@ -30,11 +25,11 @@ namespace RocketRP.DataTypes
 			return new ExplosionDataExtended(goal, location, scorer);
 		}
 
-		public void Serialize(BitWriter bw, Replay replay)
+		public readonly void Serialize(BitWriter bw, Replay replay)
 		{
-			Goal!.Value.Serialize(bw);
-			Location!.Value.Serialize(bw, replay);
-			Scorer!.Value.Serialize(bw);
+			Goal.Serialize(bw);
+			Location.Serialize(bw, replay);
+			Scorer.Serialize(bw);
 		}
 	}
 }

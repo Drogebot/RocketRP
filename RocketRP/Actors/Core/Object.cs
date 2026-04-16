@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
-using RocketRP.DataTypes;
+﻿using RocketRP.DataTypes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace RocketRP.Actors.Core
 {
@@ -25,8 +22,21 @@ namespace RocketRP.Actors.Core
 		private static readonly string STRUCT_PROPERTY = "StructProperty";
 		private static readonly string ARRAY_PROPERTY = "ArrayProperty";
 
-		[JsonProperty(Order = -2)]
+		[JsonPropertyOrder(-2)]
 		protected string ObjectTypeName => GetType().Name;
+
+		public Dictionary<string, object> ToDictionary()
+		{
+			var props = new Dictionary<string, object>() { { "ObjectName", GetType().FullName!.Replace("RocketRP.Actors.", "") } };
+			foreach (var propInfo in GetType().GetProperties())
+			{
+				var value = propInfo.GetValue(this);
+				var @default = propInfo.PropertyType.IsClass ? null : Activator.CreateInstance(propInfo.PropertyType);
+				if (value == null || value.Equals(@default)) continue;
+				props.Add(propInfo.Name, value);
+			}
+			return props;
+		}
 
 		private static int RecalculateValueSizeFromType(int valueSize, object? value, string? type)
 		{
@@ -53,14 +63,13 @@ namespace RocketRP.Actors.Core
 			var valueLength = br.ReadInt32();
 			var valueIndex = br.ReadInt32();
 
-			var propertyInfo = obj.GetType().GetProperty(propName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
-			if (propertyInfo == null) throw new Exception($"Property {propName} not found in {obj.GetType().Name}");
+			var propertyInfo = obj.GetType().GetProperty(propName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public) ?? throw new Exception($"Property {propName} not found in {obj.GetType().Name}");
 			var propertyType = propertyInfo.PropertyType;
 			propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
 
-			object? value = null;
+			object? value;
 			var curPos = br.BaseStream.Position;
-			int valueSize = 0;
+			int valueSize;
 
 			if (!propertyType.IsArray)
 			{
@@ -163,7 +172,7 @@ namespace RocketRP.Actors.Core
 				if (type != ARRAY_PROPERTY) typeName = br.ReadString();
 				else if (!propertyType.IsValueType)
 				{
-					typeName = br.ReadString().Split('.', 2).Last();
+					typeName = br.ReadString()!.Split('.', 2).Last();
 					var objHeader = br.ReadUInt32(); // 0xFFFFFFFF
 					if (objHeader != 0xFFFFFFFF) throw new InvalidDataException($"objHeader({objHeader:X8}) is not correct!");
 				}
@@ -239,7 +248,7 @@ namespace RocketRP.Actors.Core
 			{
 				value = arr.GetValue(vi);
 				if (value is null) throw new NullReferenceException($"Array value at index {vi} was null");
-				SerializePropertyValue(pbw, versionInfo, value, true, out type);
+				SerializePropertyValue(pbw, versionInfo, value, true, out _);
 			}
 
 			numBytes = (int)pbw.BaseStream.Position;

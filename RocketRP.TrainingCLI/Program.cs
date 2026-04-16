@@ -77,7 +77,7 @@ static void ParseTraining(string trainingPath, string outputPath, bool enforceCR
 			//if (File.Exists(outputFilePath)) return;
 			Console.WriteLine($"Parsing training: {trainingPath}...");
 			var training = SaveData<SaveData_GameEditor_Training_TA>.Deserialize(trainingPath, true, enforceCRC);
-			var trainingData = training.Properties.TrainingData?.GetObject(training.Objects);
+			var trainingData = training.Properties.TrainingData.GetObject(training.Objects);
 			if(trainingData is not null)
 			{
 				Console.WriteLine($"Training Name: {trainingData.TM_Name}");

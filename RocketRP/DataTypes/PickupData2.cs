@@ -1,18 +1,13 @@
 ﻿using RocketRP.Actors.TAGame;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.DataTypes
 {
 	public struct PickupData2
 	{
-		public ObjectTarget<Car_TA>? Instigator { get; set; }
-		public byte? PickedUp { get; set; }
+		public ObjectTarget<Car_TA> Instigator { get; set; }
+		public byte PickedUp { get; set; }
 
-		public PickupData2(ObjectTarget<Car_TA>? instigator, byte? pickedUp)
+		public PickupData2(ObjectTarget<Car_TA> instigator, byte pickedUp)
 		{
 			Instigator = instigator;
 			PickedUp = pickedUp;
@@ -26,9 +21,9 @@ namespace RocketRP.DataTypes
 			return new PickupData2(instigator, pickedUp);
 		}
 
-		public void Serialize(BitWriter bw)
+		public readonly void Serialize(BitWriter bw)
 		{
-			Instigator!.Value.Serialize(bw);
+			Instigator.Serialize(bw);
 			bw.Write(PickedUp);
 		}
 	}

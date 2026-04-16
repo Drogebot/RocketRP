@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.Actors.TAGame
 {
 	public class ProductAttribute_Certified_TA : ProductAttribute_TA
 	{
-		public CertificationType? StatId { get; set; }
-		public int? StatValue { get; set; }
+		public CertificationType StatId { get; set; }
+		public int StatValue { get; set; }
 
 		public ProductAttribute_Certified_TA() { }
 
@@ -35,25 +30,25 @@ namespace RocketRP.Actors.TAGame
 	public enum CertificationType : uint
 	{
 		None,
-		Aviator,      //AerialGoals
-		Playmaker,    //Assists
-		ShowOff,      //BackwardsGoals
-		Acrobat,      //BicycleGoals
-		Tactician,    //Centers
-		Sweeper,      //Clears
-		Guardian,     //EpicSaves
-		Scorer,       //Goals
-		Juggler,      //Juggles
-		Sniper,       //LongGoals
-		Paragon,      //MVPs
-		Goalkeeper,   //Saves
-		Striker,      //ShotsOnGoal
-		Turtle,       //TurtleGoals
-		Victor,       //Wins
-		Silencer,     //InfectedPlayersDefeated
-		Reverberator, //PlayersInfected
-		Underdog,     //Losses
-		Exploder,     //Demolished
+		Aviator,		//AerialGoals
+		Playmaker,		//Assists
+		ShowOff,		//BackwardsGoals
+		Acrobat,		//BicycleGoals
+		Tactician,		//Centers
+		Sweeper,		//Clears
+		Guardian,		//EpicSaves
+		Scorer,			//Goals
+		Juggler,		//Juggles
+		Sniper,			//LongGoals
+		Paragon,		//MVPs
+		Goalkeeper,		//Saves
+		Striker,		//ShotsOnGoal
+		Turtle,			//TurtleGoals
+		Victor,			//Wins
+		Silencer,		//InfectedPlayersDefeated
+		Reverberator,	//PlayersInfected
+		Underdog,		//Losses
+		Exploder,		//Demolished
 		MAX,
 	}
 }

@@ -8,8 +8,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP.Actors.Engine
 {
@@ -40,7 +38,7 @@ namespace RocketRP.Actors.Engine
 		public Rotator Rotation { get; set; }
 		public Vector Location { get; set; }
 
-		public static Dictionary<Type, Func<Actor>>? InstanceCreatorCache;
+		private static Dictionary<Type, Func<Actor>>? InstanceCreatorCache;
 		[MethodImpl(MethodImplOptions.Synchronized), MemberNotNull(nameof(InstanceCreatorCache))]
 		public static void GenerateActorInstanceCreatorCache()
 		{

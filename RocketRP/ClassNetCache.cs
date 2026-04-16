@@ -1,18 +1,18 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace RocketRP
 {
 	public class ClassNetCache
 	{
+		[JsonIgnore(Condition = JsonIgnoreCondition.Never)]
 		public int ObjectIndex { get; set; }
+		[JsonIgnore(Condition = JsonIgnoreCondition.Never)]
 		public int MinPropertyId { get; set; }
+		[JsonIgnore(Condition = JsonIgnoreCondition.Never)]
 		public int MaxPropertyId { get; set; }
 		public List<ClassNetCacheProperty> Properties { get; set; } = null!;
 		[JsonIgnore]
@@ -67,7 +67,7 @@ namespace RocketRP
 			ClassType = System.Type.GetType($"RocketRP.Actors.{objects[ObjectIndex]}") ?? throw new TypeLoadException($"The type {objects[ObjectIndex]} was not found");
 			for (int i = 0; i < Properties.Count; i++)
 			{
-				ClassNetCacheProperty? property = Properties[i];
+				ClassNetCacheProperty property = Properties[i];
 				if (property.PropertyId < MinPropertyId) throw new ArgumentOutOfRangeException(nameof(property.PropertyId), $"PropertyId {property.PropertyId} is less than MinPropertyId {MinPropertyId}");
 				if (property.PropertyId > NumProperties - 1) throw new ArgumentOutOfRangeException(nameof(property.PropertyId), $"PropertyId {property.PropertyId} is greater than NumProperties {NumProperties}");
 				
@@ -123,7 +123,9 @@ namespace RocketRP
 
 	public class ClassNetCacheProperty
 	{
+		[JsonIgnore(Condition = JsonIgnoreCondition.Never)]
 		public int ObjectIndex { get; set; }
+		[JsonIgnore(Condition = JsonIgnoreCondition.Never)]
 		public int PropertyId { get; set; }
 		[JsonIgnore]
 		public PropertyInfo PropertyInfo = null!;

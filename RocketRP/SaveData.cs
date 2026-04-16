@@ -1,10 +1,6 @@
-﻿using RocketRP.Actors.TAGame;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RocketRP
 {
@@ -106,7 +102,7 @@ namespace RocketRP
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
-			savedata.Properties = (T?)Activator.CreateInstance(typeof(T)) ?? throw new MissingMethodException($"{typeof(T).Name} does not have a parameterless constructor");
+			savedata.Properties = Activator.CreateInstance<T>();
 			Actors.Core.Object.Deserialize(savedata.Properties, br, savedata.VersionInfo);
 
 			savedata.Objects = new List<Actors.Core.Object>(numObjectTypes);
@@ -199,21 +195,21 @@ namespace RocketRP
 
 	public struct SaveDataVersionInfo : IFileVersionInfo
 	{
-		public uint EngineVersion { get; set; }
-		public uint LicenseeVersion { get; set; }
-		public uint TypeVersion { get; set; }
+		public int EngineVersion { get; set; }
+		public int LicenseeVersion { get; set; }
+		public int TypeVersion { get; set; }
 
 		public static SaveDataVersionInfo Deserialize(BinaryReader br)
 		{
 			return new SaveDataVersionInfo
 			{
-				EngineVersion = br.ReadUInt32(),
-				LicenseeVersion = br.ReadUInt32(),
-				TypeVersion = br.ReadUInt32()
+				EngineVersion = br.ReadInt32(),
+				LicenseeVersion = br.ReadInt32(),
+				TypeVersion = br.ReadInt32()
 			};
 		}
 
-		public void Serialize(BinaryWriter bw)
+		public readonly void Serialize(BinaryWriter bw)
 		{
 			bw.Write(EngineVersion);
 			bw.Write(LicenseeVersion);
