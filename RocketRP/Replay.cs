@@ -4,24 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace RocketRP
 {
 	public class Replay
 	{
 		private const uint CRC_SEED = 0xEFCBF201;
-		private byte[] NetStreamData = [];
 
-		public uint Part1Length;
-		public uint Part1CRC;
-		public ReplayVersionInfo VersionInfo = new() { EngineVersion = 868, LicenseeVersion = 32, NetVersion = 10 };
-		public int EngineVersion { get => VersionInfo.EngineVersion; set => VersionInfo.EngineVersion = value; }
-		public int LicenseeVersion { get => VersionInfo.LicenseeVersion; set => VersionInfo.LicenseeVersion = value; }
-		public int NetVersion { get => VersionInfo.NetVersion; set => VersionInfo.NetVersion = value; }
-		public string ReplayClass { get; set; } = "TAGame.Replay_Soccar_TA";
-		public Replay_Soccar_TA Properties { get; set; } = null!;
-		public uint Part2Length;
-		public uint Part2CRC;
+		public ReplayVersionInfo VersionInfo { get; set; } = new() { EngineVersion = 868, LicenseeVersion = 32, NetVersion = 10 };
+		[JsonIgnore]
+		public int EngineVersion { get => VersionInfo.EngineVersion; set => VersionInfo = new(value, VersionInfo.LicenseeVersion, VersionInfo.NetVersion); }
+		[JsonIgnore]
+		public int LicenseeVersion { get => VersionInfo.LicenseeVersion; set => VersionInfo = new(VersionInfo.EngineVersion, value, VersionInfo.NetVersion); }
+		[JsonIgnore]
+		public int NetVersion { get => VersionInfo.NetVersion; set => VersionInfo = new(VersionInfo.EngineVersion, VersionInfo.LicenseeVersion, value); }
+		public required Replay_TA Properties { get; set; }
 		public List<Name> Levels { get; set; } = [];
 		public List<ReplayKeyframe> KeyFrames { get; set; } = [];
 		public List<Frame> Frames { get; set; } = [];
@@ -32,11 +30,12 @@ namespace RocketRP
 		public List<Name> Names { get; set; } = [];
 		public Dictionary<int, string> ClassIndexes { get; set; } = [];
 		public List<ClassNetCache> ClassNetCaches { get; set; } = [];
-		public string? CameraTrackClass { get; set; } = null;
-		public CameraTrack_TA? CameraTrack { get; set; } = null;
+		public CameraTrack_TA? CameraTrack { get; set; }
 
 		public Dictionary<int, ActorUpdate> CurrentOpenChannels = [];
 		public Dictionary<int, ClassNetCache> TypeIdToClassNetCache = [];
+
+		private byte[] NetStreamData = [];
 
 		public static Replay Deserialize(string filePath, bool parseNetstream = true, bool enforeCRC = false)
 		{
@@ -53,35 +52,40 @@ namespace RocketRP
 
 		public static Replay Deserialize(BinaryReader br, bool parseNetstream = true, bool enforeCRC = false)
 		{
-			var replay = new Replay();
 
-			replay.Part1Length = br.ReadUInt32();
-			replay.Part1CRC = br.ReadUInt32();
+			var part1Length = br.ReadUInt32();
+			var part1CRC = br.ReadUInt32();
 			var part1Pos = (uint)br.BaseStream.Position;
 
-			replay.VersionInfo = ReplayVersionInfo.Deserialize(br);
-			replay.ReplayClass = br.ReadString()!;
+			var versionInfo = ReplayVersionInfo.Deserialize(br);
 
-			var replayType = Type.GetType($"RocketRP.Actors.{replay.ReplayClass}") ?? throw new NullReferenceException($"Replay Class Type {replay.ReplayClass} does not exist");
-			replay.Properties = (Replay_Soccar_TA?)Activator.CreateInstance(replayType) ?? throw new MissingMethodException($"{replayType.Name} does not have a parameterless constructor");
-			Actors.Core.Object.Deserialize(replay.Properties, br, replay.VersionInfo);
+			var replayClass = br.ReadString();
+			var replayType = Type.GetType($"RocketRP.Actors.{replayClass}") ?? throw new NullReferenceException($"Replay Class Type {replayClass} does not exist");
+			var properties = (Replay_TA?)Activator.CreateInstance(replayType) ?? throw new MissingMethodException($"{replayType.Name} does not have a parameterless constructor");
+			Actors.Core.Object.Deserialize(properties, br, versionInfo);
 
-			if(part1Pos + replay.Part1Length != br.BaseStream.Position)
+			var replay = new Replay()
 			{
-				var message = $"Part1Length({replay.Part1Length}) is not equal to the current position({br.BaseStream.Position - part1Pos})";
+				VersionInfo = versionInfo,
+				Properties = properties,
+			};
+
+			if (part1Pos + part1Length != br.BaseStream.Position)
+			{
+				var message = $"Part1Length({part1Length}) is not equal to the current position({br.BaseStream.Position - part1Pos})";
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
-			var calculatedPart1CRC = CalculateCRC(br, part1Pos, part1Pos + replay.Part1Length);
-			if (replay.Part1CRC != calculatedPart1CRC)
+			var calculatedPart1CRC = CalculateCRC(br, part1Pos, part1Pos + part1Length);
+			if (part1CRC != calculatedPart1CRC)
 			{
-				var message = $"Part1CRC({replay.Part1CRC:X8}) does not match data({calculatedPart1CRC:X8})";
+				var message = $"Part1CRC({part1CRC:X8}) does not match data({calculatedPart1CRC:X8})";
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
 
-			replay.Part2Length = br.ReadUInt32();
-			replay.Part2CRC = br.ReadUInt32();
+			var part2Length = br.ReadUInt32();
+			var part2CRC = br.ReadUInt32();
 			var part2Pos = (uint)br.BaseStream.Position;
 
 			var numLevels = br.ReadInt32();
@@ -93,12 +97,11 @@ namespace RocketRP
 
 			var numKeyFrames = br.ReadInt32();
 			replay.KeyFrames = new List<ReplayKeyframe>(numKeyFrames);
-			for(int i = 0; i < numKeyFrames; i++)
+			for (int i = 0; i < numKeyFrames; i++)
 			{
 				replay.KeyFrames.Add(ReplayKeyframe.Deserialize(br));
 			}
 
-			// Skip the NetworkStream for now because we require the data after it to parse the NetworkStream
 			var netStreamLength = br.ReadInt32();
 			replay.NetStreamData = br.ReadBytes(netStreamLength);
 
@@ -158,7 +161,7 @@ namespace RocketRP
 				{
 					var realObjectName = replay.ClassIndexes[classNetCache.ObjectIndex];
 					replay.Objects[classNetCache.ObjectIndex] = realObjectName;
-					foreach(var prop in classNetCache.Properties)
+					foreach (var prop in classNetCache.Properties)
 					{
 						replay.Objects[prop.ObjectIndex] = $"{realObjectName}:{replay.Objects[prop.ObjectIndex].Split(":").Last()}";
 					}
@@ -168,21 +171,21 @@ namespace RocketRP
 				replay.ClassNetCaches.Add(classNetCache);
 			}
 
-			if(replay.VersionInfo.NetVersion >= 10)
+			if (replay.NetVersion >= 10)
 			{
 				replay.DeserializeCameraTrack(br);
 			}
 
-			if (part2Pos + replay.Part2Length != br.BaseStream.Position)
+			if (part2Pos + part2Length != br.BaseStream.Position)
 			{
-				var message = $"Part2Length({replay.Part2Length}) is not equal to the current position({br.BaseStream.Position - part2Pos})";
+				var message = $"Part2Length({part2Length}) is not equal to the current position({br.BaseStream.Position - part2Pos})";
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
-			var calculatedPart2CRC = CalculateCRC(br, part2Pos, part2Pos + replay.Part2Length);
-			if (replay.Part2CRC != calculatedPart2CRC)
+			var calculatedPart2CRC = CalculateCRC(br, part2Pos, part2Pos + part2Length);
+			if (part2CRC != calculatedPart2CRC)
 			{
-				var message = $"Part2CRC({replay.Part2CRC:X8}) does not match data({calculatedPart2CRC:X8})";
+				var message = $"Part2CRC({part2CRC:X8}) does not match data({calculatedPart2CRC:X8})";
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
@@ -196,16 +199,16 @@ namespace RocketRP
 
 		public void DeserializeCameraTrack(BinaryReader br)
 		{
-			CameraTrackClass = br.ReadString();
-			if (CameraTrackClass == null) return;
+			var cameraTrackClass = br.ReadString();
+			if (cameraTrackClass == null) return;
 
 			var objHeader = br.ReadUInt32();  // 0xFFFFFFFF
-			if(objHeader != 0xFFFFFFFF)
+			if (objHeader != 0xFFFFFFFF)
 			{
 				var message = $"objHeader({objHeader:X8}) is not correct!";
 				Console.WriteLine($"Warning: {message}!");
 			}
-			var objType = Type.GetType($"RocketRP.Actors.{CameraTrackClass}") ?? throw new NullReferenceException($"SaveData Object Class Type {CameraTrackClass} does not exist");
+			var objType = Type.GetType($"RocketRP.Actors.{cameraTrackClass}") ?? throw new NullReferenceException($"SaveData Object Class Type {cameraTrackClass} does not exist");
 			CameraTrack = (CameraTrack_TA?)Activator.CreateInstance(objType) ?? throw new MissingMethodException($"{objType.Name} does not have a parameterless constructor");
 			Actors.Core.Object.Deserialize(CameraTrack, br, VersionInfo);
 		}
@@ -258,7 +261,7 @@ namespace RocketRP
 			var stream = new MemoryStream();
 			Serialize(stream);
 			var dirName = Path.GetDirectoryName(filePath);
-			if(!string.IsNullOrEmpty(dirName)) Directory.CreateDirectory(dirName);
+			if (!string.IsNullOrEmpty(dirName)) Directory.CreateDirectory(dirName);
 			var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
 			fs.Write(stream.ToArray());
 			fs.Close();
@@ -282,17 +285,17 @@ namespace RocketRP
 			var part1Pos = (uint)bw.BaseStream.Position;
 
 			VersionInfo.Serialize(bw);
-			bw.Write(ReplayClass);
+			bw.Write(Properties.GetType().FullName!.Replace("RocketRP.Actors.", ""));
 			Actors.Core.Object.Serialize(Properties, bw, VersionInfo);
 
 			// Overwrite Part1Length and Part1CRC
 			var curPos = bw.BaseStream.Position;
-			Part1Length = (uint)(curPos - part1Pos);
+			var part1Length = (uint)(curPos - part1Pos);
 			bw.BaseStream.Seek(part1Pos - 2 * sizeof(uint), SeekOrigin.Begin);
-			bw.Write(Part1Length);
-			Part1CRC = CalculateCRC(bw, part1Pos, part1Pos + Part1Length);
-			bw.Write(Part1CRC);
-			bw.BaseStream.Seek(Part1Length, SeekOrigin.Current);
+			bw.Write(part1Length);
+			var part1CRC = CalculateCRC(bw, part1Pos, part1Pos + part1Length);
+			bw.Write(part1CRC);
+			bw.BaseStream.Seek(part1Length, SeekOrigin.Current);
 
 			// These will be overwritten once we know their values
 			bw.Write(0U);   // Part2Length
@@ -368,17 +371,17 @@ namespace RocketRP
 
 			// Overwrite Part2Length and Part2CRC
 			curPos = bw.BaseStream.Position;
-			Part2Length = (uint)(curPos - part2Pos);
+			var part2Length = (uint)(curPos - part2Pos);
 			bw.BaseStream.Seek(part2Pos - 2 * sizeof(uint), SeekOrigin.Begin);
-			bw.Write(Part2Length);
-			Part2CRC = CalculateCRC(bw, part2Pos, part2Pos + Part2Length);
-			bw.Write(Part2CRC);
-			bw.BaseStream.Seek(Part2Length, SeekOrigin.Current);
+			bw.Write(part2Length);
+			var part2CRC = CalculateCRC(bw, part2Pos, part2Pos + part2Length);
+			bw.Write(part2CRC);
+			bw.BaseStream.Seek(part2Length, SeekOrigin.Current);
 		}
 
 		public void SerializeCameraTrack(BinaryWriter bw)
 		{
-			bw.Write(CameraTrackClass);
+			bw.Write(CameraTrack?.GetType().FullName!.Replace("RocketRP.Actors.", ""));
 			if (CameraTrack == null) return;
 
 			bw.Write(0xFFFFFFFF);   // ObjHeader
@@ -404,7 +407,7 @@ namespace RocketRP
 			for (int frameNum = 0; frameNum < Frames.Count; frameNum++)
 			{
 				Frame? frame = Frames[frameNum];
-				if(frameNum == KeyFrames[keyFrameNum].frame)
+				if (frameNum == KeyFrames[keyFrameNum].frame)
 				{
 					if (KeyFrames[keyFrameNum].Time != frame.Time)
 					{
@@ -462,6 +465,7 @@ namespace RocketRP
 	{
 		public int EngineVersion { get; set; }
 		public int LicenseeVersion { get; set; }
+		[JsonIgnore]
 		public int TypeVersion { get; set; }
 		public int NetVersion { readonly get => TypeVersion; set => TypeVersion = value; }
 

@@ -196,7 +196,8 @@ namespace RocketRP.Actors.Core
 		private static void SerializeProperty(object obj, BinaryWriter bw, IFileVersionInfo versionInfo, PropertyInfo propertyInfo)
 		{
 			var value = propertyInfo.GetValue(obj);
-			if (value == null) return;
+			var @default = propertyInfo.PropertyType.IsClass ? null : Activator.CreateInstance(propertyInfo.PropertyType);
+			if (value == null || value.Equals(@default)) return;
 
 			var propertyType = propertyInfo.PropertyType;
 			propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;

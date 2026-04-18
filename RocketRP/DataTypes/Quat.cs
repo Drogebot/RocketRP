@@ -116,7 +116,7 @@ namespace RocketRP.DataTypes
 			return (uint)MathF.Round(positiveRangedValue * MAX_VALUE);
 		}
 
-		private void CompressComponents(BitWriter bw, ref float a, ref float b, ref float c)
+		private static void CompressComponents(BitWriter bw, ref float a, ref float b, ref float c)
 		{
 			bw.Write(CompressComponent(a), MAX_VALUE + 1);
 			bw.Write(CompressComponent(b), MAX_VALUE + 1);

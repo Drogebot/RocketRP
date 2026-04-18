@@ -1,7 +1,10 @@
 ﻿using RocketRP.DataTypes;
+using System.Text.Json.Serialization;
 
 namespace RocketRP.Actors.TAGame
 {
+	[JsonPolymorphic(TypeDiscriminatorPropertyName = "ReplayClass")]
+	[JsonDerivedType(typeof(Replay_Soccar_TA), $"{nameof(TAGame)}.{nameof(Replay_Soccar_TA)}")]
 	public class Replay_TA : Core.Object
 	{
 		public string? ReplayName { get; set; }
