@@ -1,0 +1,262 @@
+[
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_0",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -2175.9998,
+            "Y": 2944,
+            "Z": 72.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_1",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 2176,
+            "Y": -2943.9995,
+            "Z": 72.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_15",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1536,
+            "Y": -1024,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_16",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1280,
+            "Y": -2304,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_2",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -2176,
+            "Y": -2943.999,
+            "Z": 72.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_24",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -2816,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_25",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1536,
+            "Y": -1024,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_27",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1280,
+            "Y": -2304,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_46",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -511.99994,
+            "Y": 512,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_47",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1536,
+            "Y": 1024,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_49",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1536,
+            "Y": 1024,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_5",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1280,
+            "Y": 2303.9998,
+            "Z": 63.999992
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_50",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1280,
+            "Y": 2304,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_54",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 2816,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_59",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 512,
+            "Y": 511.99994,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_6",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -2432,
+            "Y": 0,
+            "Z": 72.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_60",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 511.99994,
+            "Y": -512,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_61",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -512,
+            "Y": -511.99994,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_8",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 2432,
+            "Y": 0,
+            "Z": 72.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "HoopsStadium_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_9",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 2175.9922,
+            "Y": 2944,
+            "Z": 72.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    }
+]

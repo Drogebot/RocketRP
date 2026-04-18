@@ -1,0 +1,444 @@
+[
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_0",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3072,
+            "Y": 4096,
+            "Z": 72
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_1",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3072,
+            "Y": -4096,
+            "Z": 72
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_15",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2048,
+            "Y": -1036,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_16",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1788,
+            "Y": -2302,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_2",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3072,
+            "Y": -4096,
+            "Z": 72
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_24",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -2816,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_25",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2048,
+            "Y": -1036,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_26",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3584,
+            "Y": -2484,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_27",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1788,
+            "Y": -2302,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_29",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1792,
+            "Y": -4184,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_30",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1792,
+            "Y": -4184,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_37",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -940,
+            "Y": -3308,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_44",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 940,
+            "Y": -3308,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_45",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3584,
+            "Y": -2484,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_46",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 1024,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_47",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2048,
+            "Y": 1036,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_48",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1788,
+            "Y": 2302,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_49",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2048,
+            "Y": 1036,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_50",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1788,
+            "Y": 2302,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_51",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3584,
+            "Y": 2484,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_52",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1792,
+            "Y": 4184,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_53",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1792,
+            "Y": 4184,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_54",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 2816,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_55",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -940,
+            "Y": 3308,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_56",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3584,
+            "Y": 2484,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_57",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 940,
+            "Y": 3308,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_58",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 4240,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_59",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1024,
+            "Y": 0,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_6",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3584,
+            "Y": 0,
+            "Z": 72
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_60",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -1024,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_61",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1024,
+            "Y": 0,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_62",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -4240,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_8",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3584,
+            "Y": 0,
+            "Z": 72
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Stadium_Race_Day_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_9",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3072,
+            "Y": 4096,
+            "Z": 72
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    }
+]

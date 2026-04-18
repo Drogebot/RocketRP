@@ -1,0 +1,444 @@
+[
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_0",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2048.0002,
+            "Y": -1036.0001,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_1",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1788.0002,
+            "Y": -2302.0002,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_10",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3584.0005,
+            "Y": 0,
+            "Z": 75.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_11",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3072.0005,
+            "Y": 4096.0005,
+            "Z": 75.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_12",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1792.0002,
+            "Y": -4184.0005,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_13",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1792.0002,
+            "Y": -4184.0005,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_14",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -940.0001,
+            "Y": -3308.0005,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_15",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 940.0001,
+            "Y": -3308.0005,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_16",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3584.0005,
+            "Y": -2484.0002,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_17",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 1024.0001,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_18",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2048.0002,
+            "Y": 1036.0001,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_19",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1788.0002,
+            "Y": 2302.0002,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_2",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -2816.0002,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_20",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2048.0002,
+            "Y": 1036.0001,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_21",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1788.0002,
+            "Y": 2302.0002,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_22",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3584.0005,
+            "Y": 2484.0002,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_23",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1792.0002,
+            "Y": 4184.0005,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_24",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1792.0002,
+            "Y": 4184.0005,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_25",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 2816.0002,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_26",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -940.0001,
+            "Y": 3308.0005,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_27",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3584.0005,
+            "Y": 2484.0002,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_28",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 940.0001,
+            "Y": 3308.0005,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_29",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 4240.0005,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_3",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2048.0002,
+            "Y": -1036.0001,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_30",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1024.0001,
+            "Y": 0,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_31",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -1024.0001,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_32",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1024.0001,
+            "Y": 0,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_33",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -4240.0005,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_4",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3584.0005,
+            "Y": -2484.0002,
+            "Z": 70.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_5",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1788.0002,
+            "Y": -2302.0002,
+            "Z": 72.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_6",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3072.0005,
+            "Y": 4096.0005,
+            "Z": 75.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_7",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3072.0005,
+            "Y": -4096.0005,
+            "Z": 75.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_8",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3072.0005,
+            "Y": -4096.0005,
+            "Z": 75.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "woods_p.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_9",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3584.0005,
+            "Y": 0,
+            "Z": 75.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    }
+]

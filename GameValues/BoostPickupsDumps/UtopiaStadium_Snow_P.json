@@ -1,0 +1,444 @@
+[
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_10",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3584,
+            "Y": -2484,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_11",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1788,
+            "Y": -2302,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_12",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1791.9998,
+            "Y": -4183.9995,
+            "Z": 70.29457
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_13",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1791.9998,
+            "Y": -4183.9995,
+            "Z": 70.06539
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_14",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -939.9999,
+            "Y": -3307.9995,
+            "Z": 70.14457
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_17",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 939.9999,
+            "Y": -3307.9995,
+            "Z": 70.07549
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_18",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3583.9995,
+            "Y": -2483.9998,
+            "Z": 65.52607
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_19",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 1023.9999,
+            "Z": 69.61513
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_20",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2047.9998,
+            "Y": 1035.9999,
+            "Z": 69.62935
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_21",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1788,
+            "Y": 2302,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_23",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2047.9998,
+            "Y": 1035.9999,
+            "Z": 70.137146
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_28",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1788,
+            "Y": 2302,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_3",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2047.9998,
+            "Y": -1035.9999,
+            "Z": 70.21875
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_31",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3583.9995,
+            "Y": 2483.9998,
+            "Z": 64.57772
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_32",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1791.9998,
+            "Y": 4183.9995,
+            "Z": 69.656555
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_33",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1791.9998,
+            "Y": 4183.9995,
+            "Z": 70.08773
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_34",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 2816,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_35",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -939.9999,
+            "Y": 3307.9995,
+            "Z": 69.93896
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_36",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3584,
+            "Y": 2484,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_38",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 939.9999,
+            "Y": 3307.9995,
+            "Z": 69.974884
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_39",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 4239.9995,
+            "Z": 69.68661
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_4",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1788,
+            "Y": -2302,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_40",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1024,
+            "Y": 0,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_41",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -1023.9999,
+            "Z": 69.971375
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_42",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1024,
+            "Y": 0,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_43",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -4239.9995,
+            "Z": 70.25112
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_5",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -2816,
+            "Z": 69.96471
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_63",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3583.9995,
+            "Y": 0,
+            "Z": 70.40602
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_64",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3583.9995,
+            "Y": 0,
+            "Z": 70.40602
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_65",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3071.9995,
+            "Y": 4095.9995,
+            "Z": 70.40602
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_66",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3071.9995,
+            "Y": -4095.9995,
+            "Z": 70.40602
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_67",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3071.9995,
+            "Y": -4095.9995,
+            "Z": 70.40602
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_68",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3071.9995,
+            "Y": 4095.9995,
+            "Z": 70.40602
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "UtopiaStadium_Snow_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_7",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2047.9998,
+            "Y": -1035.9999,
+            "Z": 70.32491
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    }
+]

@@ -1,0 +1,496 @@
+[
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_0",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 1536,
+            "Y": 3072,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_1",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -1536,
+            "Y": 3072,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_2",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 1600,
+            "Y": 0,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_3",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -1600,
+            "Y": 0,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_62",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1408,
+            "Y": -4350,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_63",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1040,
+            "Y": -1280,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_64",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 772,
+            "Y": 0,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_65",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 512,
+            "Y": -2300,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_66",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1024,
+            "Y": -3326,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_67",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1024,
+            "Y": -3326,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_68",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1040,
+            "Y": -5372,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_69",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1040,
+            "Y": -5372,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_70",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -6272,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_71",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1408,
+            "Y": 4350,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_72",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1040,
+            "Y": 1280,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_73",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1040,
+            "Y": 1280,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_74",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 512,
+            "Y": 2300,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_75",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1024,
+            "Y": 3326,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_76",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1024,
+            "Y": 3326,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_77",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1040,
+            "Y": 5372,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_78",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1040,
+            "Y": 5372,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_79",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 6272,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_80",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -1280,
+            "Y": -6654,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_81",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 1280,
+            "Y": -6656,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_82",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -1536,
+            "Y": -3072,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_83",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -1279.9999,
+            "Y": 6656,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_84",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -512,
+            "Y": 2300,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_85",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -512,
+            "Y": -2300,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_86",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 1280,
+            "Y": 6654,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_87",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 1536,
+            "Y": -3072,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_88",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -4350,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_89",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1408.0002,
+            "Y": -4350,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_90",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 4350,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_91",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1408,
+            "Y": 4350,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_92",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1040,
+            "Y": -1280,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_93",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -768,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_94",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 768,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Corridor_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_95",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -772,
+            "Y": 0,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    }
+]

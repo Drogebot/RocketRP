@@ -1,0 +1,574 @@
+[
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_100",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2048,
+            "Y": -1036,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_101",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2.0e-6,
+            "Y": -2816,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_102",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1788,
+            "Y": -2302.2478,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_103",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2048,
+            "Y": -1036,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_104",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2.0e-6,
+            "Y": -4240,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_137",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3072,
+            "Y": -4096,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_2",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -4240,
+            "Y": 2.0e-6,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_3",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -4736,
+            "Y": 2048,
+            "Z": 736
+        },
+        "CollisionHeight": 160,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_4",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -4736,
+            "Y": -2048,
+            "Z": 736
+        },
+        "CollisionHeight": 160,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_5",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 4736,
+            "Y": -2048,
+            "Z": 736
+        },
+        "CollisionHeight": 160,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_57",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3736,
+            "Y": 4851.9873,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_58",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3736,
+            "Y": 4851.9873,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_6",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 4736,
+            "Y": 2048,
+            "Z": 736
+        },
+        "CollisionHeight": 160,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_64",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 4240,
+            "Y": 2.0e-6,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_65",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3072,
+            "Y": 4096,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_67",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3072,
+            "Y": -4096,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_68",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3072,
+            "Y": 4096,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_72",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3736,
+            "Y": -4851.9873,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_73",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3736,
+            "Y": -4851.9873,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_75",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3584,
+            "Y": 0,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_76",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3584,
+            "Y": 0,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_77",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1024,
+            "Y": 2.0e-6,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_78",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2.0e-6,
+            "Y": -1024,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_79",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1024,
+            "Y": 2.0e-6,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_80",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2.0e-6,
+            "Y": 4240,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_81",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 940,
+            "Y": 3308,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_82",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3584,
+            "Y": 2484,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_83",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -939.9994,
+            "Y": 3309.9998,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_84",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2.0e-6,
+            "Y": 2816,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_85",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1792,
+            "Y": 4184,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_86",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1792,
+            "Y": 4184,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_87",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3584,
+            "Y": 2484,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_88",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1788,
+            "Y": 2300,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_89",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2048,
+            "Y": 1036,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_90",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1788,
+            "Y": 2300,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_91",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2048,
+            "Y": 1036,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_92",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2.0e-6,
+            "Y": 1024,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_93",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3584,
+            "Y": -2484,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_94",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 940,
+            "Y": -3308,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_95",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -940,
+            "Y": -3308,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_96",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1792,
+            "Y": -4184,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_97",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1792,
+            "Y": -4184,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_98",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1788,
+            "Y": -2302.2478,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Labs_4v4_Arena15_EuroStadium_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_99",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3584,
+            "Y": -2484,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    }
+]

@@ -1,0 +1,444 @@
+[
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_0",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -778.78613,
+            "Y": 3760.0378,
+            "Z": 382.62622
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_1",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -3208,
+            "Z": 232
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_10",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1534,
+            "Y": -4656,
+            "Z": 362
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_11",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0.00015258789,
+            "Y": 1072.0378,
+            "Z": 63.058372
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_12",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1024,
+            "Y": 0,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_13",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1772,
+            "Y": 2272,
+            "Z": 67
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_14",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2.0801218e-7,
+            "Y": 5040.0376,
+            "Z": 382.56436
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_15",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1534.9978,
+            "Y": -4656.014,
+            "Z": 360.93066
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_16",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0.00039672852,
+            "Y": -1072.0378,
+            "Z": 63.369465
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_18",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1772,
+            "Y": -2272,
+            "Z": 67
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_2",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3712,
+            "Y": 0,
+            "Z": 76.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_20",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2048,
+            "Y": -1056.0378,
+            "Z": 62.60337
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_21",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1772,
+            "Y": -2272,
+            "Z": 67
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_22",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 2672,
+            "Y": -3940,
+            "Z": 230
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_23",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2048,
+            "Y": -1056.0378,
+            "Z": 63.43436
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_26",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1024,
+            "Y": 0,
+            "Z": 64
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_27",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -778.786,
+            "Y": -3760.0378,
+            "Z": 382.8437
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_29",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3375.9998,
+            "Y": -2224.0378,
+            "Z": 63.000244
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_3",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 3208,
+            "Z": 232
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_30",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2048,
+            "Y": 1056.0376,
+            "Z": 62.939247
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_31",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -2672,
+            "Y": -3940,
+            "Z": 230
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_32",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3375.9998,
+            "Y": -2224.0378,
+            "Z": 63.279995
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_37",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -2672,
+            "Y": 3940,
+            "Z": 230
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_38",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3375.9998,
+            "Y": 2224.0378,
+            "Z": 62.140816
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_39",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 2672,
+            "Y": 3940,
+            "Z": 230
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_4",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3712,
+            "Y": 0,
+            "Z": 76.00001
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_40",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3375.9998,
+            "Y": 2224.0378,
+            "Z": 62.83241
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_41",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 778.7861,
+            "Y": -3760.0378,
+            "Z": 382.8437
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_42",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1534,
+            "Y": 4656,
+            "Z": 362
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_5",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 4.695728e-6,
+            "Y": -5040.0376,
+            "Z": 382.18576
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_6",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1535.0264,
+            "Y": 4656.039,
+            "Z": 361.3796
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_7",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2048,
+            "Y": 1056.0378,
+            "Z": 63.68405
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_8",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1772,
+            "Y": 2272,
+            "Z": 67
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    },
+    {
+        "Name": "Labs_Cosmic_V4_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_9",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 778.78815,
+            "Y": 3760.0378,
+            "Z": 382.8437
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 96
+    }
+]

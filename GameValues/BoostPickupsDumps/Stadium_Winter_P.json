@@ -1,0 +1,444 @@
+[
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_0",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3071.9995,
+            "Y": 4095.9995,
+            "Z": 71.99999
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_1",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3071.9995,
+            "Y": -4095.9995,
+            "Z": 71.99999
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_15",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2047.9998,
+            "Y": -1035.9999,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_16",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1787.9998,
+            "Y": -2301.9998,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_2",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3071.9995,
+            "Y": -4095.9995,
+            "Z": 71.99999
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_24",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -2815.9998,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_25",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2047.9998,
+            "Y": -1035.9999,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_26",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3583.9995,
+            "Y": -2483.9998,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_27",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1787.9998,
+            "Y": -2301.9998,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_29",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1791.9998,
+            "Y": -4183.9995,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_30",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1791.9998,
+            "Y": -4183.9995,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_37",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -939.9999,
+            "Y": -3307.9995,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_44",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 939.9999,
+            "Y": -3307.9995,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_45",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3583.9995,
+            "Y": -2483.9998,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_46",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 1023.9999,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_47",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2047.9998,
+            "Y": 1035.9999,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_48",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1787.9998,
+            "Y": 2301.9998,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_49",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2047.9998,
+            "Y": 1035.9999,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_50",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1787.9998,
+            "Y": 2301.9998,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_51",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3583.9995,
+            "Y": 2483.9998,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_52",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1791.9998,
+            "Y": 4183.9995,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_53",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1791.9998,
+            "Y": 4183.9995,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_54",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 2815.9998,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_55",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -939.9999,
+            "Y": 3307.9995,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_56",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3583.9995,
+            "Y": 2483.9998,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_57",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 939.9999,
+            "Y": 3307.9995,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_58",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 4239.9995,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_59",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1023.9999,
+            "Y": 0,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_6",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3583.9995,
+            "Y": 0,
+            "Z": 71.99999
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_60",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -1023.9999,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_61",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1023.9999,
+            "Y": 0,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_62",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -4239.9995,
+            "Z": 63.45872
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_8",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3583.9995,
+            "Y": 0,
+            "Z": 71.99999
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "Stadium_Winter_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_9",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3071.9995,
+            "Y": 4095.9995,
+            "Z": 71.99999
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    }
+]
