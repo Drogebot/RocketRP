@@ -5,7 +5,7 @@ namespace RocketRP.Serializers
 {
 	public class SaveDataJsonSerializer
 	{
-		public string Serialize<T>(SaveData<T> obj, bool prettyPrint = true) where T : Actors.Core.Object
+		public string Serialize<T>(SaveData<T> obj, bool prettyPrint = true) where T : Actors.Core.Object, new()
 		{
 			var options = new JsonSerializerOptions()
 			{
@@ -20,7 +20,7 @@ namespace RocketRP.Serializers
 			return JsonSerializer.Serialize(obj, options);
 		}
 
-		public SaveData<T> Deserialize<T>(string json) where T : Actors.Core.Object
+		public SaveData<T> Deserialize<T>(string json) where T : Actors.Core.Object, new()
 		{
 
 			var options = new JsonSerializerOptions();

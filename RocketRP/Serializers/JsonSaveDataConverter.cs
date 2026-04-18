@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace RocketRP.Serializers
 {
-	public class JsonSaveDataConverter<T> : JsonConverter<SaveData<T>> where T : Actors.Core.Object
+	public class JsonSaveDataConverter<T> : JsonConverter<SaveData<T>> where T : Actors.Core.Object, new()
 	{
 		public override SaveData<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 		{
@@ -14,7 +14,7 @@ namespace RocketRP.Serializers
 				return null;
 
 			if (reader.TokenType != JsonTokenType.StartObject) throw new JsonException("Expected StartObject token!");
-			var saveData = new SaveData<T>();
+			var saveData = new SaveData<T>() { Properties = new T() };
 
 			while (reader.Read())
 			{
@@ -69,12 +69,6 @@ namespace RocketRP.Serializers
 			}
 
 			writer.WriteStartObject();
-
-			//writer.WriteNumber("Part1Length", savedata.Part1Length);
-			//writer.WriteNumber("Part1CRC", savedata.Part1CRC);
-			//
-			//writer.WriteNumber("Foosball", savedata.Foosball);
-			//writer.WriteNumber("Magic", savedata.Magic);
 
 			writer.WritePropertyName("VersionInfo");
 			JsonSerializer.Serialize(writer, savedata.VersionInfo, options);

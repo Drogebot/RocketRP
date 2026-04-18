@@ -4,22 +4,19 @@ using System.IO;
 
 namespace RocketRP
 {
-	public class SaveData<T> where T : Actors.Core.Object
+	public class SaveData<T> where T : Actors.Core.Object, new()
 	{
 		private const uint FOOSBALL = 0xF005BA11U;
 		private const uint MAGIC = 0x7FFFFFFFU;
 		private const uint OBJHEADER = 0xFFFFFFFFU;
 		private const uint CRC_SEED = 0xEFCBF201;
-		private byte[]? Data;
 
-		public uint Part1Length { get; set; }
-		public uint Part1CRC { get; set; }
-		public uint Foosball { get; set; } = FOOSBALL;
-		public uint Magic { get; set; } = MAGIC;
 		public SaveDataVersionInfo VersionInfo { get; set; } = new SaveDataVersionInfo { EngineVersion = 868, LicenseeVersion = 32, TypeVersion = 0 };
-		public T Properties { get; set; } = null!;
+		public required T Properties { get; set; }
 		public List<Actors.Core.Object> Objects { get; set; } = [];
 		public List<ObjectType> ObjectTypes { get; set; } = [];
+
+		private byte[] SaveDataData = [];
 
 		public static SaveData<T> Deserialize(string filePath, bool isEncrypted = true, bool enforeCRC = false)
 		{
@@ -36,64 +33,61 @@ namespace RocketRP
 
 		public static SaveData<T> Deserialize(BinaryReader br, bool isEncrypted = true, bool enforeCRC = false)
 		{
-			var savedata = new SaveData<T>();
-
-			savedata.Part1Length = (uint)br.BaseStream.Length;
+			var part1Length = (uint)br.BaseStream.Length;
+			var part1CRC = 0U;
 			if (isEncrypted)
 			{
-				savedata.Part1Length = br.ReadUInt32();
-				savedata.Part1CRC = br.ReadUInt32();
+				part1Length = br.ReadUInt32();
+				part1CRC = br.ReadUInt32();
 			}
 
 			var part1Pos = (uint)br.BaseStream.Position;
 
-			savedata.Data = br.ReadBytes((int)savedata.Part1Length);
+			var data = br.ReadBytes((int)part1Length);
 
-			if (part1Pos + savedata.Part1Length != br.BaseStream.Position)
+			if (part1Pos + part1Length != br.BaseStream.Position)
 			{
-				var message = $"Part1Length({savedata.Part1Length}) is not equal to the current position({br.BaseStream.Position - part1Pos})";
+				var message = $"Part1Length({part1Length}) is not equal to the current position({br.BaseStream.Position - part1Pos})";
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
-			var calculatedPart1CRC = isEncrypted ? Crc32.CalculateCRC(savedata.Data, CRC_SEED) : 0;
-			if (savedata.Part1CRC != calculatedPart1CRC)
+			var calculatedPart1CRC = isEncrypted ? Crc32.CalculateCRC(data, CRC_SEED) : 0;
+			if (part1CRC != calculatedPart1CRC)
 			{
-				var message = $"Part1CRC({savedata.Part1CRC:X8}) does not match data({calculatedPart1CRC:X8})";
+				var message = $"Part1CRC({part1CRC:X8}) does not match data({calculatedPart1CRC:X8})";
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
 
-			if(isEncrypted) AES.DecryptData(ref savedata.Data, savedata.Part1Length);
-			Console.WriteLine($"Data length: {savedata.Data.Length}");
+			if(isEncrypted) AES.DecryptData(ref data, part1Length);
+			Console.WriteLine($"Data length: {data.Length}");
 
-			br = new BinaryReader(new MemoryStream(savedata.Data));
+			// Start reading the decrypted data
+			br = new BinaryReader(new MemoryStream(data));
 
-			savedata.Foosball = br.ReadUInt32();	// 0xF005BA11
-			savedata.Magic = br.ReadUInt32();	// 0x7FFFFFFF
-			if (savedata.Foosball != FOOSBALL || savedata.Magic != MAGIC)
+			var foosball = br.ReadUInt32();	// 0xF005BA11
+			var magic = br.ReadUInt32();	// 0x7FFFFFFF
+			if (foosball != FOOSBALL || magic != MAGIC)
 			{
-				var message = $"Foosball({savedata.Foosball:X8}) or Magic({savedata.Magic:X8}) is not correct!";
+				var message = $"Foosball({foosball:X8}) or Magic({magic:X8}) is not correct!";
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
-			savedata.VersionInfo = SaveDataVersionInfo.Deserialize(br);
+			var versionInfo = SaveDataVersionInfo.Deserialize(br);
 
-			var part2Pos = (uint)br.BaseStream.Position;
 			var savedataLength = br.ReadInt32();
+			var savedata = br.ReadBytes(savedataLength - sizeof(int));
 			Console.WriteLine($"SaveData Length: {savedataLength}");
 
-			// Skip all the object data for now
-			br.BaseStream.Seek(part2Pos + savedataLength, SeekOrigin.Begin);
-
 			var numObjectTypes = br.ReadInt32();
-			savedata.ObjectTypes = new List<ObjectType>(numObjectTypes);
+			var objectTypes = new List<ObjectType>(numObjectTypes);
 			for (var i = 0; i < numObjectTypes; i++)
 			{
-				savedata.ObjectTypes.Add(ObjectType.Deserialize(br));
+				objectTypes.Add(ObjectType.Deserialize(br));
 			}
 
-			// Go back to the object data and parse it
-			br.BaseStream.Seek(part2Pos + sizeof(uint), SeekOrigin.Begin);
+			// Start reading the savedata
+			br = new BinaryReader(new MemoryStream(savedata));
 
 			var objHeader = br.ReadUInt32();  // 0xFFFFFFFF
 			if (objHeader != OBJHEADER)
@@ -102,13 +96,21 @@ namespace RocketRP
 				if (enforeCRC) throw new Exception(message);
 				Console.WriteLine($"Warning: {message}!");
 			}
-			savedata.Properties = Activator.CreateInstance<T>();
-			Actors.Core.Object.Deserialize(savedata.Properties, br, savedata.VersionInfo);
+			var properties = new T();
+			Actors.Core.Object.Deserialize(properties, br, versionInfo);
 
-			savedata.Objects = new List<Actors.Core.Object>(numObjectTypes);
+			var saveData = new SaveData<T>()
+			{
+				VersionInfo = versionInfo,
+				Properties = properties,
+				SaveDataData = savedata,
+				Objects = new List<Actors.Core.Object>(numObjectTypes),
+				ObjectTypes = objectTypes,
+			};
+
 			for (var i = 0; i < numObjectTypes; i++)
 			{
-				br.BaseStream.Seek(part2Pos + savedata.ObjectTypes[i].FilePosition, SeekOrigin.Begin);
+				br.BaseStream.Seek(saveData.ObjectTypes[i].FilePosition - sizeof(int), SeekOrigin.Begin);
 				objHeader = br.ReadUInt32();  // 0xFFFFFFFF
 				if (objHeader != OBJHEADER)
 				{
@@ -116,13 +118,13 @@ namespace RocketRP
 					if (enforeCRC) throw new Exception(message);
 					Console.WriteLine($"Warning: {message}!");
 				}
-				var objType = Type.GetType($"RocketRP.Actors.{savedata.ObjectTypes[i].Type}") ?? throw new NullReferenceException($"SaveData Object Class Type {savedata.ObjectTypes[i].Type} does not exist");
+				var objType = Type.GetType($"RocketRP.Actors.{saveData.ObjectTypes[i].Type}") ?? throw new NullReferenceException($"SaveData Object Class Type {saveData.ObjectTypes[i].Type} does not exist");
 				var obj = (Actors.Core.Object?)Activator.CreateInstance(objType) ?? throw new MissingMethodException($"{objType.Name} does not have a parameterless constructor");
-				Actors.Core.Object.Deserialize(obj, br, savedata.VersionInfo);
-				savedata.Objects.Add(obj);
+				Actors.Core.Object.Deserialize(obj, br, saveData.VersionInfo);
+				saveData.Objects.Add(obj);
 			}
 
-			return savedata;
+			return saveData;
 		}
 
 		public void Serialize(string filePath, bool encrypt = true)
@@ -145,8 +147,8 @@ namespace RocketRP
 		{
 			var bw = new BinaryWriter(new MemoryStream());
 
-			bw.Write(Foosball);
-			bw.Write(Magic);
+			bw.Write(FOOSBALL);
+			bw.Write(MAGIC);
 			VersionInfo.Serialize(bw);
 
 			var part2Pos = bw.BaseStream.Position;
@@ -180,16 +182,16 @@ namespace RocketRP
 				objType.Serialize(bw);
 			}
 
-			Data = ((MemoryStream)bw.BaseStream).ToArray();
+			var data = ((MemoryStream)bw.BaseStream).ToArray();
 
 			if (encrypt)
 			{
-				AES.EncryptData(ref Data, (uint)Data.Length);
-				outWriter.Write((uint)Data.Length);
-				outWriter.Write(Crc32.CalculateCRC(Data, CRC_SEED));
+				AES.EncryptData(ref data, (uint)data.Length);
+				outWriter.Write((uint)data.Length);
+				outWriter.Write(Crc32.CalculateCRC(data, CRC_SEED));
 			}
 
-			outWriter.Write(Data);
+			outWriter.Write(data);
 		}
 	}
 

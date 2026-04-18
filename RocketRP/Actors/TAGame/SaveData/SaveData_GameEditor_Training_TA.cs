@@ -1,6 +1,8 @@
-﻿namespace RocketRP.Actors.TAGame
+﻿using RocketRP.Actors.TAGame.SaveData;
+
+namespace RocketRP.Actors.TAGame
 {
-	public class SaveData_GameEditor_Training_TA : Core.Object
+	public class SaveData_GameEditor_Training_TA : SaveData_GameEditor_TA
 	{
 		public ObjectTarget<TrainingEditorData_TA> TrainingData { get; set; }
 		public int PlayerTeamNumber { get; set; }
