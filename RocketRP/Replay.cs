@@ -364,7 +364,7 @@ namespace RocketRP
 				classNetCache.Serialize(bw);
 			}
 
-			if (VersionInfo.NetVersion >= 10)
+			if (NetVersion >= 10)
 			{
 				SerializeCameraTrack(bw);
 			}

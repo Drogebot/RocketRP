@@ -9,7 +9,7 @@ namespace RocketRP.DataTypes
 		private float _x;
 		private float _y;
 		private float _z;
-		private float _w;
+		private float _w = 1;
 		public float X { readonly get => _x; set => _x = value; }
 		public float Y { readonly get => _y; set => _y = value; }
 		public float Z { readonly get => _z; set => _z = value; }
@@ -50,6 +50,8 @@ namespace RocketRP.DataTypes
 			X = sr * cp * cy - cr * sp * sy;
 			Y = cr * sp * cy + sr * cp * sy;
 			Z = cr * cp * sy - sr * sp * cy;
+
+			Normalize();
 		}
 
 		public static Quat operator /(Quat quat, float scalar)
@@ -160,6 +162,11 @@ namespace RocketRP.DataTypes
 					CompressComponents(bw, ref _x, ref _y, ref _z);
 					break;
 			}
+		}
+
+		public override string ToString()
+		{
+			return $"({X}, {Y}, {Z}, {W})";
 		}
 	}
 }

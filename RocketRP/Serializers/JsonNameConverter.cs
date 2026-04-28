@@ -9,7 +9,7 @@ namespace RocketRP.Serializers
 	{
 		public override Name Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 		{
-			return reader.GetString() ?? throw new JsonException("Unable to convert null to Name.");
+			return reader.GetString() ?? new Name();
 		}
 
 		public override void Write(Utf8JsonWriter writer, Name nameValue, JsonSerializerOptions options)

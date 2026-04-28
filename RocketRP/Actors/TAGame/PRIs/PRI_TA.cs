@@ -7,6 +7,7 @@ namespace RocketRP.Actors.TAGame
 {
 	public class PRI_TA : PRI_X
 	{
+		public string EpicPUID { get; set; }
 		public int KeepUpPossessions { get; set; }
 		public int KeepUpClears { get; set; }
 		public int KeepUpDenials { get; set; }

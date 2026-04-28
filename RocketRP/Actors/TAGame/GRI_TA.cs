@@ -4,6 +4,7 @@ namespace RocketRP.Actors.TAGame
 {
 	public class GRI_TA : GRI_X
 	{
+		public string LanMatchGUID { get; set; }
 		public bool bAllowTargetFind { get; set; }
 
 

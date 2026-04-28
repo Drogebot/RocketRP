@@ -35,6 +35,10 @@ namespace RocketRP.DataTypes
 			Pitch *= 180 / MathF.PI;
 			Yaw *= 180 / MathF.PI;
 			Roll *= 180 / MathF.PI;
+
+			Pitch = Normalize(Pitch);
+			Yaw = Normalize(Yaw);
+			Roll = Normalize(Roll);
 		}
 
 		public void Deserialize(BinaryReader br, IFileVersionInfo versionInfo)
@@ -108,6 +112,11 @@ namespace RocketRP.DataTypes
 			bw.Write((int)(Pitch * (32768f / 180f)), 1U << 16);
 			bw.Write((int)(Yaw * (32768f / 180f)), 1U << 16);
 			bw.Write((int)(Roll * (32768f / 180f)), 1U << 16);
+		}
+
+		public override string ToString()
+		{
+			return $"({Pitch}, {Yaw}, {Roll})";
 		}
 	}
 }
