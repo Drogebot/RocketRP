@@ -7,7 +7,7 @@
         "Location": {
             "X": 2048,
             "Y": -1036,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -20,7 +20,7 @@
         "Location": {
             "X": -1788,
             "Y": -2302,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -33,7 +33,7 @@
         "Location": {
             "X": 0,
             "Y": -2816,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -46,7 +46,7 @@
         "Location": {
             "X": -2048,
             "Y": -1036,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -59,7 +59,7 @@
         "Location": {
             "X": -3584,
             "Y": -2484,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -72,7 +72,7 @@
         "Location": {
             "X": 1788,
             "Y": -2302,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -85,7 +85,7 @@
         "Location": {
             "X": -1792,
             "Y": -4184,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -98,7 +98,7 @@
         "Location": {
             "X": 1792,
             "Y": -4184,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -111,7 +111,7 @@
         "Location": {
             "X": -940,
             "Y": -3308,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -124,7 +124,7 @@
         "Location": {
             "X": 940,
             "Y": -3308,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -163,7 +163,7 @@
         "Location": {
             "X": -2048,
             "Y": 1036,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -176,7 +176,7 @@
         "Location": {
             "X": -1788,
             "Y": 2302,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -189,7 +189,7 @@
         "Location": {
             "X": 2048,
             "Y": 1036,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -202,7 +202,7 @@
         "Location": {
             "X": 1788,
             "Y": 2302,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -228,7 +228,7 @@
         "Location": {
             "X": 1792,
             "Y": 4184,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -241,7 +241,7 @@
         "Location": {
             "X": -1792,
             "Y": 4184,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -254,7 +254,7 @@
         "Location": {
             "X": 0,
             "Y": 2816,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -267,7 +267,7 @@
         "Location": {
             "X": -940,
             "Y": 3308,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -280,7 +280,7 @@
         "Location": {
             "X": -3584,
             "Y": 2484,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -293,7 +293,7 @@
         "Location": {
             "X": 940,
             "Y": 3308,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -319,7 +319,7 @@
         "Location": {
             "X": 1024,
             "Y": 0,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
@@ -358,7 +358,7 @@
         "Location": {
             "X": -1024,
             "Y": 0,
-            "Z": 69.96471
+            "Z": 64.082016
         },
         "CollisionHeight": 64,
         "CollisionRadius": 128
