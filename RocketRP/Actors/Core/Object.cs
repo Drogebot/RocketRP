@@ -197,7 +197,7 @@ namespace RocketRP.Actors.Core
 		{
 			var value = propertyInfo.GetValue(obj);
 			var @default = propertyInfo.PropertyType.IsClass ? null : Activator.CreateInstance(propertyInfo.PropertyType);
-			if (value == null || value.Equals(@default)) return;
+			if ((value == null || value.Equals(@default)) && value is not IObjectTarget) return;
 
 			var propertyType = propertyInfo.PropertyType;
 			propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
