@@ -19,6 +19,7 @@ namespace RocketRP.Actors.TAGame
 		public LoadoutTeamPaint TeamPaint { get; set; }
 		public int MaxNumJumps { get; set; }
 		public float MaxTimeForDodge { get; set; }
+		public bool bConstrained3D { get; set; }
 		public bool bOverrideBoostOn { get; set; }
 		public bool bOverrideHandbrakeOn { get; set; }
 		public bool bUnlimitedJumps { get; set; }

@@ -1,0 +1,444 @@
+[
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_102",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2048,
+            "Y": -1036,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_103",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1788,
+            "Y": -2302,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_104",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -2816,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_105",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2048,
+            "Y": -1036,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_106",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3584,
+            "Y": -2484,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_107",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1788,
+            "Y": -2302,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_108",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3072,
+            "Y": 4096,
+            "Z": 74
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_109",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3072,
+            "Y": -4096,
+            "Z": 74
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_110",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3072,
+            "Y": -4096,
+            "Z": 74
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_111",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": -3584,
+            "Y": 0,
+            "Z": 74
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_112",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3584,
+            "Y": 0,
+            "Z": 74
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_113",
+        "BoostType": "BoostType_Pill",
+        "BoostAmount": 9999,
+        "RespawnDelay": 10,
+        "Location": {
+            "X": 3072,
+            "Y": 4096,
+            "Z": 74
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 160
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_114",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1792,
+            "Y": -4184,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_115",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1792,
+            "Y": -4184,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_116",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -940,
+            "Y": -3308,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_117",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 940,
+            "Y": -3308,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_118",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3584,
+            "Y": -2484,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_119",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 1024,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_120",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -2048,
+            "Y": 1036,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_121",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1788,
+            "Y": 2302,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_122",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 2048,
+            "Y": 1036,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_123",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1788,
+            "Y": 2302,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_124",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 3584,
+            "Y": 2484,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_125",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1792,
+            "Y": 4184,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_126",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1792,
+            "Y": 4184,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_127",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 2816,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_128",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -940,
+            "Y": 3308,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_129",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -3584,
+            "Y": 2484,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_130",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 940,
+            "Y": 3308,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_131",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": 4240,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_132",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 1024,
+            "Y": 0,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_133",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -1024,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_134",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": -1024,
+            "Y": 0,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    },
+    {
+        "Name": "UF_Night_P.TheWorld:PersistentLevel.VehiclePickup_Boost_TA_135",
+        "BoostType": "BoostType_Pad",
+        "BoostAmount": 0.12,
+        "RespawnDelay": 4,
+        "Location": {
+            "X": 0,
+            "Y": -4240,
+            "Z": 70
+        },
+        "CollisionHeight": 64,
+        "CollisionRadius": 128
+    }
+]

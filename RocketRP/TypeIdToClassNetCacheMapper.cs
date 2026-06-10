@@ -68,7 +68,7 @@ namespace RocketRP
 					return classNetCacheByName["TAGame.Car_Season_TA"];
 
 				case "Archetypes.Ball.Ball_Basketball":
-				case "Archetypes.Ball.Ball_BasketBall":		//Removed in v2.66
+				case "Archetypes.Ball.Ball_BasketBall":
 				case "Archetypes.Ball.Ball_BasketBall_Mutator":
 				case "Archetypes.Ball.ball_luminousairplane":
 				case "Archetypes.Ball.Ball_Default":
@@ -84,6 +84,7 @@ namespace RocketRP
 				case "Archetypes.Ball.Ball_Shoe":
 				case "Archetypes.Ball.Ball_SpookyBalloon":
 				case "Archetypes.Ball.Ball_Strike":
+				case "Archetypes.Ball.Ball_WorldCup":
 					return classNetCacheByName["TAGame.Ball_TA"];
 				case "Archetypes.Ball.Ball_Breakout":
 				case "Archetypes.Ball.Ball_Score":

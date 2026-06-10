@@ -8,6 +8,7 @@ namespace RocketRP.Actors.TAGame
 
 		public byte CameraYaw { get; set; }
 		public byte CameraPitch { get; set; }
+		public bool bLookingAtBall { get; set; }
 		public bool bUsingFreecam { get; set; }
 		public bool bUsingBehindView { get; set; }
 		public bool bUsingSecondaryCamera { get; set; }

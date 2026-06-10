@@ -7,6 +7,8 @@ namespace RocketRP.Actors.TAGame
 {
 	public class PRI_TA : PRI_X
 	{
+		public string AnonymizedName { get; set; }
+		public DemoSpawnSelectionData DemoSelectionData { get; set; }
 		public string EpicPUID { get; set; }
 		public int KeepUpPossessions { get; set; }
 		public int KeepUpClears { get; set; }
@@ -47,6 +49,9 @@ namespace RocketRP.Actors.TAGame
 		public ClientLoadoutOnlineData ClientLoadoutOnline { get; set; }
 		public ClientLoadoutData ClientLoadout { get; set; }
 		public ObjectTarget<GameEvent_TA> ReplicatedGameEvent { get; set; }
+		public bool bReceivedAnonymizationSettings { get; set; }
+		public bool bAnonymizeToOpponents { get; set; }
+		public bool bAnonymizeToTeammates { get; set; }
 		public bool bAbleToStart { get; set; }
 		public bool bIdleBanned { get; set; }
 		public bool bUsingItems { get; set; }
