@@ -5,7 +5,7 @@ A Rocket League Replay parser written in C#. Replay files are converted to an ob
 
 RocketRP can also convert the object or generated JSON file back into a replay file. This functionality hasn't been extensively tested and might not always work.
 
-Supports all Rocket League versions up to at least [v2.70](https://www.rocketleague.com/news/rocket-league-patch-notes-v270-season-23-live/) (2026-06-10). Newer versions will likely also work because the replay format doesn't change often.
+Supports all Rocket League versions up to at least [v2.72](https://www.rocketleague.com/news/rocket-league-patch-notes-v2-72) (2026-08-04). Newer versions will likely also work because the replay format doesn't change often.
 RocketRP successfully parses all my 900+ replays dating back to early 2016. If you find a replay that fails to get parsed, please create an issue so I can look into fixing it.
 
 RocketRP can also be used to convert custom training files to and from objects and JSON.

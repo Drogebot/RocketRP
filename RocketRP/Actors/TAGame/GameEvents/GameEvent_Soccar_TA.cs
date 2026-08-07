@@ -24,6 +24,7 @@ namespace RocketRP.Actors.TAGame
 		public int GameTime { get; set; }
 		public int SeriesLength { get; set; }
 		public bool bThistleMatch { get; set; }
+		public bool bHonorDuelAccepted { get; set; }
 		public bool bAllowHonorDuels { get; set; }
 		public bool bCanDropOnlineRewards { get; set; }
 		public bool bMatchCreatorAdminEnabled { get; set; }
