@@ -7,6 +7,7 @@ namespace RocketRP.Actors.TAGame
 {
 	public class GameEvent_Soccar_TA : GameEvent_Team_TA
 	{
+		public HonorDuelChallenge AcceptedHonorDuel { get; set; }
 		public ObjectTarget<ClassObject> ReplicatedStatEvent { get; set; }
 		public ObjectTarget<ClassObject> SubRulesArchetype { get; set; }
 		public int RoundNum { get; set; }
@@ -24,7 +25,6 @@ namespace RocketRP.Actors.TAGame
 		public int GameTime { get; set; }
 		public int SeriesLength { get; set; }
 		public bool bThistleMatch { get; set; }
-		public bool bHonorDuelAccepted { get; set; }
 		public bool bAllowHonorDuels { get; set; }
 		public bool bCanDropOnlineRewards { get; set; }
 		public bool bMatchCreatorAdminEnabled { get; set; }
@@ -46,5 +46,6 @@ namespace RocketRP.Actors.TAGame
 
 		// These are old properties that were removed
 		public ReplicatedMusicStinger ReplicatedMusicStinger { get; set; }
+		public bool bHonorDuelAccepted { get; set; }	// v2.76
 	}
 }

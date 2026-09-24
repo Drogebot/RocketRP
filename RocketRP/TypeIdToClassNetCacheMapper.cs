@@ -59,6 +59,8 @@ namespace RocketRP
 				case "Archetypes.Car.Car_Default":
 					return classNetCacheByName["TAGame.Car_TA"];
 				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype":
+				case "Archetypes.Knockout.GameEvent_Knockout:CarArchetype":
+				case "GameInfo_BladeBall.GameInfo.GameInfo_BladeBall:Archetype.CarArchetype":
 					return classNetCacheByName["TAGame.Car_KnockOut_TA"];
 				case "Archetypes.Car.Car_PostGameLobby":
 				case "Mutators.Mutators.Mutators.FreePlay:CarArchetype":
@@ -96,6 +98,8 @@ namespace RocketRP
 				case "Archetypes.Ball.Ball_Fire":
 				case "Archetypes.Ball.Ball_Fire_Obstacle":
 					return classNetCacheByName["TAGame.Ball_Fire_TA"];
+				case "Archetypes.Ball.Ball_Blade":
+					return classNetCacheByName["TAGame.Ball_Blade_TA"];
 				case "Archetypes.Ball.Ball_NoVibrate":
 				case "Archetypes.Ball.Ball_Training":
 				case "Archetypes.Ball.Ball_Tutorial":
@@ -104,6 +108,7 @@ namespace RocketRP
 					return classNetCacheByName["TAGame.Ball_Trajectory_TA"];
 
 				case "Archetypes.Ball.Ball_RingSpawner":
+				case "Archetypes.Ball.BallSpawner_Blade":
 					return classNetCacheByName["TAGame.Ball_Spawner_TA"];
 				case "Archetypes.Ball.BallComponent_KeepUp":
 				case "Archetypes.Ball.BallComponent_KeepUp_Stage":
@@ -118,26 +123,39 @@ namespace RocketRP
 				case "Archetypes.CarComponents.CarComponent_DoubleJump":
 					return classNetCacheByName["TAGame.CarComponent_DoubleJump_TA"];
 				case "Archetypes.CarComponents.CarComponent_FlipCar":
+				case "Archetypes.Mutators.Mutator_Robin:AutoFlip":
 				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.Flip":
+				case "Archetypes.Knockout.GameEvent_Knockout:CarArchetype.Flip":
+				case "GameInfo_BladeBall.GameInfo.GameInfo_BladeBall:Archetype.CarArchetype.Flip":
 					return classNetCacheByName["TAGame.CarComponent_FlipCar_TA"];
 				case "Archetypes.CarComponents.CarComponent_Jump":
 				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.Jump":
+				case "Archetypes.Knockout.GameEvent_Knockout:CarArchetype.Jump":
+				case "GameInfo_BladeBall.GameInfo.GameInfo_BladeBall:Archetype.CarArchetype.Jump":
 					return classNetCacheByName["TAGame.CarComponent_Jump_TA"];
-				case "Archetypes.Mutators.Mutator_Robin:AutoFlip":
-					return classNetCacheByName["TAGame.CarComponent_FlipCar_TA"];
 				case "Archetypes.Mutators.Mutator_Robin:DoubleJump":
 					return classNetCacheByName["TAGame.CarComponent_DoubleJump_Robin_TA"];
 				case "Archetypes.Mutators.Mutator_Robin:Jump":
 					return classNetCacheByName["TAGame.CarComponent_Jump_Robin_TA"];
 				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.Boost":
+				case "Archetypes.Knockout.GameEvent_Knockout:CarArchetype.Boost":
+				case "GameInfo_BladeBall.GameInfo.GameInfo_BladeBall:Archetype.CarArchetype.Boost":
 					return classNetCacheByName["TAGame.CarComponent_Boost_KO_TA"];
 				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.Dodge":
+				case "Archetypes.Knockout.GameEvent_Knockout:CarArchetype.Dodge":
+				case "GameInfo_BladeBall.GameInfo.GameInfo_BladeBall:Archetype.CarArchetype.Dodge":
 					return classNetCacheByName["TAGame.CarComponent_Dodge_KO_TA"];
 				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.DoubleJump":
+				case "Archetypes.Knockout.GameEvent_Knockout:CarArchetype.DoubleJump":
+				case "GameInfo_BladeBall.GameInfo.GameInfo_BladeBall:Archetype.CarArchetype.DoubleJump":
 					return classNetCacheByName["TAGame.CarComponent_DoubleJump_KO_TA"];
 				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.StunlockArchetype":
+				case "Archetypes.Knockout.GameEvent_Knockout:CarArchetype.StunlockArchetype":
+				case "GameInfo_BladeBall.GameInfo.GameInfo_BladeBall:Archetype.CarArchetype.StunlockArchetype":
 					return classNetCacheByName["TAGame.Stunlock_TA"];
 				case "Archetypes.KnockOut.GameEvent_Knockout:CarArchetype.Torque":
+				case "Archetypes.Knockout.GameEvent_Knockout:CarArchetype.Torque":
+				case "GameInfo_BladeBall.GameInfo.GameInfo_BladeBall:Archetype.CarArchetype.Torque":
 					return classNetCacheByName["TAGame.CarComponent_Torque_TA"];
 				case "Archetypes.CarComponents.CarComponent_TerritoryDemolish":
 					return classNetCacheByName["TAGame.CarComponent_TerritoryDemolish_TA"];
@@ -193,6 +211,8 @@ namespace RocketRP
 				case "Archetypes.GameEvent.GameEvent_FTE_Part1_Prime":
 					return classNetCacheByName["TAGame.GameEvent_FTE_TA"];
 				case "Archetypes.KnockOut.GameEvent_Knockout":
+				case "Archetypes.Knockout.GameEvent_Knockout":
+				case "GameInfo_BladeBall.GameInfo.GameInfo_BladeBall:Archetype":
 					return classNetCacheByName["TAGame.GameEvent_KnockOut_TA"];
 				case "gameinfo_godball.GameInfo.gameinfo_godball:Archetype":
 				case "GameInfo_GodBall.GameInfo.GameInfo_GodBall:Archetype":
@@ -274,6 +294,7 @@ namespace RocketRP
 				case "GameInfo_FootBall.GameInfo.GameInfo_FootBall:GameReplicationInfoArchetype":
 				case "GameInfo_FTE.GameInfo.GameInfo_FTE:GameReplicationInfoArchetype":
 				case "GameInfo_KnockOut.KnockOut.GameInfo_KnockOut:GameReplicationInfoArchetype":
+				case "GameInfo_Knockout.KnockOut.GameInfo_KnockOut:GameReplicationInfoArchetype":
 				case "GameInfo_Tutorial.GameInfo.GameInfo_Tutorial:GameReplicationInfoArchetype":
 				case "GameInfo_Territory.GameInfo.GameInfo_Territory:GameReplicationInfoArchetype":
 				case "GameInfo_HeatseekerTerritory.GameInfo.GameInfo_HeatseekerTerritory:GameReplicationInfoArchetype":
@@ -287,6 +308,7 @@ namespace RocketRP
 				case "GameInfo_MultiHeatseeker.GameInfo.GameInfo_MultiHeatseeker:GameReplicationInfoArchetype":
 				case "GameInfo_Possession.GameInfo.GameInfo_Possession:GameReplicationInfoArchetype":
 				case "GameInfo_TargetAcquired.GameInfo.GameInfo_TargetAcquired:GameReplicationInfoArchetype":
+				case "GameInfo_BladeBall.GameInfo.GameInfo_BladeBall:GameReplicationInfoArchetype":
 				case "GameInfo_LTM_AprilFool.GameInfo.GameInfo_LTM_AprilFool:GameReplicationInfoArchetype":
 				case "GameInfo_LTM_BeachBall.GameInfo.GameInfo_LTM_BeachBall:GameReplicationInfoArchetype":
 				case "GameInfo_LTM_BoomerBall.GameInfo.GameInfo_LTM_BoomerBall:GameReplicationInfoArchetype":

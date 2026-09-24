@@ -7,9 +7,22 @@ namespace RocketRP.Actors.TAGame
 {
 	public class PRI_TA : PRI_X
 	{
-		public string AnonymizedName { get; set; }
+		public int MatchCrossbarHits { get; set; }
+		public int MatchTimesDemolished { get; set; }
+		public int MatchFlipResets { get; set; }
+		public int MatchHighFives { get; set; }
+		public int MatchLowFives { get; set; }
+		public int MatchPoolShots { get; set; }
+		public int MatchFirstTouches { get; set; }
+		public int MatchJuggleHits { get; set; }
+		public int MatchBicycleHits { get; set; }
+		public int MatchAerialHits { get; set; }
+		public int MatchClears { get; set; }
+		public int MatchCenters { get; set; }
+		public int MatchEpicSaves { get; set; }
+		public string? AnonymizedName { get; set; }
 		public DemoSpawnSelectionData DemoSelectionData { get; set; }
-		public string EpicPUID { get; set; }
+		public string? EpicPUID { get; set; }
 		public int KeepUpPossessions { get; set; }
 		public int KeepUpClears { get; set; }
 		public int KeepUpDenials { get; set; }
@@ -33,10 +46,17 @@ namespace RocketRP.Actors.TAGame
 		public MemberTitleStat SecondaryTitle { get; set; }
 		public MemberTitleStat PrimaryTitle { get; set; }
 		public ObjectTarget<PRI_TA> ReplacingBotPRI { get; set; }
+		public int CarTouches { get; set; }
+		public int BallTouches { get; set; }
+		public int PowerUpsUsed { get; set; }
+		public int Dodges { get; set; }
+		public int BoostPickups { get; set; }
 		public float SteeringSensitivity { get; set; }
 		public SkillTierData SkillTier { get; set; }
+		public int EquippedTitleStatValue { get; set; }
 		public Name Title { get; set; }
 		public UniqueNetId PartyLeader { get; set; }
+		public EPlayerStatusType PlayerStatus { get; set; }
 		public ESeverityType QuitSeverity { get; set; }
 		public EConnectionQualityState ReplicatedWorstNetQualityBeyondLatency { get; set; }
 		[FixedArraySize(0x40)]
@@ -49,6 +69,8 @@ namespace RocketRP.Actors.TAGame
 		public ClientLoadoutOnlineData ClientLoadoutOnline { get; set; }
 		public ClientLoadoutData ClientLoadout { get; set; }
 		public ObjectTarget<GameEvent_TA> ReplicatedGameEvent { get; set; }
+		public bool bEligibleForHonorDuels { get; set; }
+		public bool bIssuedMaxChallenges { get; set; }
 		public bool bReceivedAnonymizationSettings { get; set; }
 		public bool bAnonymizeToOpponents { get; set; }
 		public bool bAnonymizeToTeammates { get; set; }

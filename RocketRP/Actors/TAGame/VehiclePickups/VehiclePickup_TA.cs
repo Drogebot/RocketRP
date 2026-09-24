@@ -5,6 +5,7 @@ namespace RocketRP.Actors.TAGame
 {
 	public class VehiclePickup_TA : Actor
 	{
+		public float RespawnDelayScale { get; set; }
 		public bool bNoPickup { get; set; }
 		public PickupData2 NewReplicatedPickupData { get; set; }
 		public PickupData ReplicatedPickupData { get; set; }
