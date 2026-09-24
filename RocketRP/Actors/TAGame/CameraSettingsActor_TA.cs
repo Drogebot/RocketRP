@@ -5,7 +5,8 @@ namespace RocketRP.Actors.TAGame
 {
 	public class CameraSettingsActor_TA : ReplicationInfo
 	{
-
+		public byte FreeLookAnchorYaw { get; set; }
+		public byte FreeLookAnchorPitch { get; set; }
 		public byte CameraYaw { get; set; }
 		public byte CameraPitch { get; set; }
 		public bool bUsingFreecam { get; set; }
