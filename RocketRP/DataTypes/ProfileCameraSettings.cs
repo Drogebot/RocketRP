@@ -46,11 +46,11 @@
 			bool bUnconstrainRotation = default; bool bFreeLookSmoothing = default; float cameraAccelRate = default; float cameraDecelRate = default; float freeLookSpeed = default;
 			if (replay.LicenseeVersion >= 34)
 			{
-				bUnconstrainRotation = br.ReadBit();
-				bFreeLookSmoothing = br.ReadBit();
 				cameraAccelRate = br.ReadSingle();
 				cameraDecelRate = br.ReadSingle();
 				freeLookSpeed = br.ReadSingle();
+				bUnconstrainRotation = br.ReadBit();
+				bFreeLookSmoothing = br.ReadBit();
 			}
 
 			return new ProfileCameraSettings(fov, height, pitch, distance, stiffness, swivelSpeed, transitionSpeed, bUnconstrainRotation, bFreeLookSmoothing, cameraAccelRate, cameraDecelRate, freeLookSpeed);
@@ -69,11 +69,11 @@
 
 			if(replay.LicenseeVersion >= 34)
 			{
-				bw.Write(bUnconstrainRotation);
-				bw.Write(bFreeLookSmoothing);
 				bw.Write(CameraAccelRate);
 				bw.Write(CameraDecelRate);
 				bw.Write(FreeLookSpeed);
+				bw.Write(bUnconstrainRotation);
+				bw.Write(bFreeLookSmoothing);
 			}
 		}
 	}
