@@ -9,21 +9,31 @@ namespace RocketRP.Actors.TAGame
 
 		public ProductAttribute_Certified_TA() { }
 
-		public ProductAttribute_Certified_TA(CertificationType statId)
+		public ProductAttribute_Certified_TA(CertificationType statId, int value)
 		{
 			StatId = statId;
+			StatValue = value;
 		}
 
 		public static ProductAttribute_Certified_TA DeserializeType(BitReader br, Replay replay)
 		{
-			throw new NotImplementedException();
+			CertificationType statId;
+			if (replay.LicenseeVersion >= 18) statId = (CertificationType)br.ReadUInt32(1U << 31);
+			else statId = (CertificationType)br.ReadUInt32((uint)CertificationType.Silencer);
+
+			var value = br.ReadInt32();
+
+			return new ProductAttribute_Certified_TA(statId, value);
 		}
 
 		public override void Serialize(BitWriter bw, Replay replay)
 		{
 			base.Serialize(bw, replay);
 
-			throw new NotImplementedException();
+			if (replay.LicenseeVersion >= 18) bw.Write((uint)StatId, 1U << 31);
+			else bw.Write((uint)StatId, (uint)CertificationType.Silencer);
+
+			bw.Write(StatValue);
 		}
 	}
 
@@ -48,7 +58,13 @@ namespace RocketRP.Actors.TAGame
 		Silencer,		//InfectedPlayersDefeated
 		Reverberator,	//PlayersInfected
 		Underdog,		//Losses
-		Exploder,		//Demolished
+		Exploder,       //Demolished
+		Title_S24_MVPs, //Title_S24_MVPs
+		Title_S24_Wins, //Title_S24_Wins
+		Title_S24_ShotsOnTarget,    //Title_S24_ShotsOnTarget
+		Title_S24_ShotsAlmostOnTarget,  //Title_S24_ShotsAlmostOnTarget
+		Underdog2,		//Losses2
+		Exploder2,		//Demolished2
 		MAX,
 	}
 }
